@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">		
+			
+	
+	<!--  Bloco IV (K e L) -->
+	
+	
+	<p:panel id="basic4" style="margin-bottom:20px" 
+				header="Bloco IV - Serviço Especializado em Abordagem Social.">
+			
+				<p:panelGrid id="blocoK" columns="2" style="width: 100%">
+				    <f:facet name="header">
+				        <h:outputText value="K. Quantidade e perfil das pessoas abordadas pela equipe do Serviço de Abordagem, no mês de referência." />
+				    </f:facet>				    
+		
+					<h:outputText value="K.1. Quantidade e perfil das pessoas abordadas pela equipe do Serviço de Abordagem, no mês de referência." />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1}" />  				
+					
+					<h:panelGroup>
+					    <p:panelGrid>
+						    <f:facet name="header">			           
+				            <p:row>
+				                <p:column>Sexo</p:column>
+				                <p:column>0 a 12</p:column>
+				                <p:column>13 a 17</p:column>
+				                <p:column>18 a 59</p:column>
+				                <p:column>60 ou mais</p:column>
+				            </p:row>			
+					        </f:facet>
+					        <p:row>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasFem.sexo}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasFem.idade0a12}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasFem.idade13a17}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasFem.idade18a59}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasFem.idade60mais}"/></p:column>
+					        </p:row>
+					        <p:row>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasMasc.sexo}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasMasc.idade0a12}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasMasc.idade13a17}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasMasc.idade18a59}"/></p:column>
+						        <p:column><h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e1vitimasMasc.idade60mais}"/></p:column>
+					        </p:row>	
+					    </p:panelGrid>
+					    
+					 </h:panelGroup>
+					 <h:outputText value=""/>
+				</p:panelGrid>
+				
+				<h:outputText value=""/>
+				<h:outputText value="Atenção: Em K1 cada pessoa deve ser contada uma única vez em cada mês, 
+										 mesmo que tenha sido abordada várias vezes durante o mesmo mês." />
+				
+				<p:panelGrid id="blocoKK" columns="2" style="width: 100%">
+				    <f:facet name="header">
+				        <h:outputText value="Situações identificadas pelo Serviço Especializado em Abordagem Social, no mês de referência." />
+				    </f:facet>
+				     
+				    <h:outputText value="K.2. Crianças ou adolescentes em situação de trabalho infantil (até 15 anos)" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e2}" />
+				    
+				    <h:outputText value="K.3. Crianças ou adolescentes em situação de exploração sexual" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e3}" />
+				    
+				    <h:outputText value="K.4. Crianças ou adolescentes usuárias de crack ou outras drogras" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e4}" />
+				    
+				    <h:outputText value="K.5. Pessoas adultas usuárias de crack ou outras drogas ilícitas" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e5}" />
+				    
+				    <h:outputText value="K.6. Migrantes" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e6}" />
+				    
+				    <h:outputText value="K.7. Usuárias de alcool" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.e7}" />					
+				</p:panelGrid>
+				
+				<h:outputText value=""/>
+				<h:outputText value="Atenção: Os itens K2 a K6 buscam identificar apenas alguns 'perfis/condições' das pessoas abordadas, 
+									portanto é normal que algumas pesoas contadas no item E1 não se enquadrem em nenhum dos 'perfis/condições' 
+									descritos, enquanto outras pessoas podem se enquadrar simultaneamente em mais de um, portanto, 
+									a soma de K2 a K6 não terá, necessariamente, o mesmo valor relatado no total de K1." />
+						
+				
+				<p:panelGrid id="blocoL" columns="2" style="width: 100%">
+				    <f:facet name="header">
+				        <h:outputText value="L. Volume de abordagens realizadas." />
+				    </f:facet>
+				     
+				    <h:outputText value="L.1. Quantidade total de abordagens realizadas (compreendida como o número de pessoas abordadas, 
+				    					multiplicado pelo número de vezes em que foram abordadas durante o mês)" />
+				    <h:outputText value="#{relatorioRMACreasBean.rma.bloco4.f1}" />							    
+				</p:panelGrid>
+				
+				<h:outputText value="Atenção: Quando a abordagem é feita a um grupo, cada pessoa do grupo é contada como uma abordagem." />
+			
+			</p:panel>			
+			
+			
+</ui:composition>

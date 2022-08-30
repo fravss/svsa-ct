@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: /target
+    destination: /usr/share/tomcat/webapps/
+hooks:
+  BeforeInstall:
+    - location: stop-tomcat.sh
+      timeout: 180
+      runas: root
+  AfterInstall:
+    - location: stop-tomcat.sh
+      timeout: 180
+      runas: root
+  
+  
