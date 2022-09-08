@@ -19,7 +19,7 @@
 	
 
 	<build>
-		<finalName>svsa-web</finalName>
+		<finalName>svsa-ct</finalName>
 		<plugins>
 			<plugin>
 				<!-- para compilar o codigo java -->
