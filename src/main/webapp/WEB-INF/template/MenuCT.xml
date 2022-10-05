@@ -3,7 +3,12 @@
 
 	<submenu label="Denúncia" icon="pi pi-clock">
 		<grupo value="COORDENADORES"></grupo>
-		<menuitem value="registroDenuncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml"></menuitem>		
+		<menuitem value="Registrar Denúncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml"></menuitem>		
+	</submenu>
+	
+	<submenu label="Atendimento" icon="pi pi-check-circle">
+		<grupo value="COORDENADORES"></grupo>
+		<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>		
 	</submenu>	
 	
 </menu>
