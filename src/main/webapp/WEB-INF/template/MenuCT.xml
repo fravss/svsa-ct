@@ -1,14 +1,38 @@
 <!DOCTYPE xml>
 <menu>
 
-	<submenu label="Denúncia" icon="pi pi-clock">
-		<grupo value="COORDENADORES"></grupo>
-		<menuitem value="Registrar Denúncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml"></menuitem>		
+	<submenu label="Agendamento" icon="pi pi-clock">
+	<menuitem value="Registrar Denúncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml"></menuitem>
+		<grupo value="ADMINISTRATIVOS">
+			<menuitem value="Individualizado" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
+		</grupo>	
 	</submenu>
 	
 	<submenu label="Atendimento" icon="pi pi-check-circle">
 		<grupo value="COORDENADORES"></grupo>
-		<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>		
+			<menuitem value="Indiv. Com Agendamento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
+			<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>		
+		<grupo value="ADMINISTRATIVOS"></grupo>
+			<menuitem value="Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>	
 	</submenu>	
+	
+	<submenu label="Encaminhamento" icon="pi pi-arrow-circle-right">
+		<grupo value="COORDENADORES"></grupo>
+		<menuitem value="Externo" outcome="/restricted/encaminhamento/EncaminhamentoExterno.xhtml"></menuitem>
+		<menuitem value="Cadastrar Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
+		<submenu2 label="Gestão de Ofícios">
+			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml"></menuitem2>
+			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml"></menuitem2>	
+		</submenu2>	
+	</submenu>
+	
+	<submenu label="Prontuário" icon="pi pi-book">		
+		<grupo value="ADMINISTRATIVOS">
+			<menuitem value="Capa Prontuario" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>	
+			<menuitem value="Pesquisa Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
+		</grupo>
+		<grupo value="COORDENADORES"></grupo>
+			<menuitem value="Composição Familiar" outcome="/restricted/agenda/ManterProntuario.xhtml"></menuitem>
+	</submenu>
 	
 </menu>
