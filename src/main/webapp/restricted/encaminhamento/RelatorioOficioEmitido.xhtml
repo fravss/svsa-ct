@@ -73,16 +73,6 @@
 		            	ajax="false">
 		            	<p:dataExporter type="xls" target="oficioEmitidoTable" fileName="Relatorio_oficio_emitido" />
 		            </p:commandButton>
-		            
-		            <p:spacer width="5px" />
-	            	
-	            	<p:commandButton id="bar" title="Obter Gráfico de Ofícios Emitidos" value="Gráfico de Ofícios Emitidos" icon="pi pi-chart-bar"
-	            		actionListener="#{relatorioOficioEmitidoBean.initGraficoBarras}"
-		            	oncomplete="PF('ofDialogWidgetVar').show()"
-		            	update="ofDialog toolbar" 
-		            	process="@this">
-		            	<p:resetInput target="ofDialog" />		            	
-	            	</p:commandButton>	
 					
 				</f:facet>
 			</p:toolbar>
@@ -107,11 +97,6 @@
 	    				<f:convertDateTime pattern="dd/MM/yyyy" />
 	    			</h:outputText>
 	    		</p:column> 		
-	    			            
-	     		
-	    		<p:column headerText="Cod. Encaminhamento" style="width: 80px; text-align: center">
-	    			<h:outputText value="#{oficioEmitido.codigoEncaminhamento}" />
-	    		</p:column>
 	    		
 	    		<p:column headerText="Tecnico" style="width: 80px; text-align: left"
 	    			filterBy="#{oficioEmitido.tecnico.nome}" >
@@ -183,14 +168,7 @@
 	                
 	            </p:panelGrid>
     		</p:dialog> 
-    		
-    		<p:dialog id="ofDialog" header="Ofícios Emitidos" widgetVar="ofDialogWidgetVar"
-				modal="true" resizable="false" closeOnEscape="true">			
-        										
-				<p:chart type="bar" model="#{relatorioOficioEmitidoBean.barModel}"
-				style="width:600px;height:400px" />
-				
-			</p:dialog>		
+    			
 	    		
     	</h:form>
     </ui:define>

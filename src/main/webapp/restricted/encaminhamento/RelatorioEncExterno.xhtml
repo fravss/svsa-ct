@@ -72,17 +72,7 @@
 		            	ajax="false">
 		            	<p:dataExporter type="xls" target="encamTable" fileName="Relatorio_Encaminhamentos_Outros" />
 		            </p:commandButton>
-		            
-		            <p:spacer width="5px" />
-	            	
-	            	<p:commandButton id="bar" title="Obter Gráfico de Barras" value="Gráfico Encaminhamento Externo" icon="pi pi-chart-bar"
-	            		actionListener="#{relatorioEncExternoBean.initGraficoBarras}"
-		            	oncomplete="PF('encDialogWidgetVar').show()"
-		            	update="encDialog toolbar" 
-		            	process="@this">
-		            	<p:resetInput target="encDialog" />		            	
-	            	</p:commandButton>
-					
+
 				</f:facet>
 			</p:toolbar>
 	    	
@@ -105,11 +95,7 @@
 	    		<p:column headerText="Pessoa" style="width: 100px; text-align: center"
 	    			sortBy="#{encam.pessoa.nome}" >
 	    			<h:outputText value="#{encam.pessoa.codigo} - #{encam.pessoa.nome}" />
-	    		</p:column>	
-	    		
-	    		<p:column headerText="Código Encaminhamento" style="width: 60px; text-align: center">
-	    			<h:outputText value="#{encam.codigoEncaminhamento}" />
-	    		</p:column>    		
+	    		</p:column>	    		
 	    		
 	    		<p:column headerText="Unidade Destino" style="width: 40px; text-align: center">
 	    			<h:outputText value="#{encam.orgaoUnidadeDestino}" />
@@ -170,15 +156,7 @@
 	                <h:outputText id="enc2" value="#{relatorioEncExternoBean.encaminhamento.anotacaoComplementar}"/>		                
 	                
 	            </p:panelGrid>
-    		</p:dialog>  
-    		
-    		<p:dialog id="encDialog" header="Encaminhamentos" widgetVar="encDialogWidgetVar"
-				modal="true" resizable="false" closeOnEscape="true">			
-        										
-				<p:chart type="bar" model="#{relatorioEncExternoBean.barModel}"
-				style="width:600px;height:400px" />
-				
-			</p:dialog>			
+    		</p:dialog>  		
 	    	
 	    	<!--  Migração do encaminhamento -->
 	    	

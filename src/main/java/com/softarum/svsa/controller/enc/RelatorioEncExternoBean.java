@@ -10,16 +10,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.HorizontalBarChartModel;
-
 import com.softarum.svsa.controller.LoginBean;
 import com.softarum.svsa.modelo.Encaminhamento;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.service.EncaminhamentoService;
 import com.softarum.svsa.service.PessoaService;
 import com.softarum.svsa.service.UnidadeService;
@@ -44,7 +38,6 @@ public class RelatorioEncExternoBean implements Serializable {
 
 	private int qdeTotal = 0;
 	private List<Encaminhamento> listaEncaminhamentos = new ArrayList<>();
-	private List<Encaminhamento> listaGrafico = new ArrayList<>();
 	private List<Unidade> unidades = new ArrayList<>();	
 	private Encaminhamento encaminhamento;
 	private Encaminhamento itemMigrar;
@@ -55,8 +48,6 @@ public class RelatorioEncExternoBean implements Serializable {
 	private Unidade unidade;	
 	private Date dataInicio;
 	private Date dataFim;
-	
-	private HorizontalBarChartModel barModel;
 	
 	
 	@Inject
@@ -71,10 +62,8 @@ public class RelatorioEncExternoBean implements Serializable {
 	
 	@PostConstruct
 	public void inicializar() {	
-		barModel = new HorizontalBarChartModel();
 		unidades = unidadeService.buscarTodos(loginBean.getTenantId());
 		this.unidade = loginBean.getUsuario().getUnidade();
-		//consultarEncaminhamentos();
 	}	
 
 	public void consultarEncaminhamentos() {
@@ -132,63 +121,6 @@ public class RelatorioEncExternoBean implements Serializable {
 			MessageUtil.erro("Essa PESSOA não existe ou é de outra unidade!");
 		}
 	}
-	
-	
-	/*Métodos gráficos */
-	
-	public void initGraficoBarras() {
-		
-		listaGrafico = encaminhamentoService.buscarEncaminhamentosGrafico(unidade, dataInicio, dataFim, loginBean.getTenantId());
-		//log.info("Qde encOutros: " + listaGrafico.size());
-		createBarModel();
-	}
-	private void createBarModel() {
-        barModel = initBarModel();
- 
-        barModel.setTitle("Encaminhamentos por Código");
-        barModel.setLegendPosition("n");
-        barModel.setShowPointLabels(true);
-        
-        Axis xAxis = barModel.getAxis(AxisType.X);
-        xAxis.setLabel("Qde");
-        xAxis.setMin(0);
-        xAxis.setMax(50);  
- 
-        Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Código Encaminhamento"); 
-        
-    }
-	private HorizontalBarChartModel initBarModel() {
-	       
-		HorizontalBarChartModel model = new HorizontalBarChartModel();
-		ChartSeries orgaos = new ChartSeries();
-		orgaos.setLabel("quantidades");
-        
-        if(listaGrafico != null && listaGrafico.size() > 0) {
-        	
-        	int qde = 0;
-        	CodigoEncaminhamento codigo = listaGrafico.get(0).getCodigoEncaminhamento();
-   	
-        	for(Encaminhamento e: listaGrafico) {   
-        		
-        		if(e.getCodigoEncaminhamento().equals(codigo)) {        			
-        			qde++;
-        		}
-        		else {
-        			log.info(codigo + " : "  + qde);
-        			orgaos.set(codigo, qde);
-        			codigo = e.getCodigoEncaminhamento();        			
-        			qde = 1;
-        		}        		
-        		orgaos.set(codigo, qde);
-	        }  
-        }
-        else
-        	MessageUtil.alerta("Não existe encaminhamentos.");
- 
-        model.addSeries(orgaos);         
-        return model;
-    }
 	
 	//Teste para saber se a unidade selecionada é a mesma do técnico para permitir ou não a migração
 	public boolean isMesmaUnidade() {

@@ -86,10 +86,6 @@
 	    			footerText="contains" filterMatchMode="contains">
 	    			<h:outputText value="#{oficio.nrProcesso}" />
 	    		</p:column>
-	    		
-	    		<p:column headerText="Cod. Encaminhamento" style="width: 70px; text-align: center">
-	    			<h:outputText value="#{oficio.codigoEncaminhamento}" />
-	    		</p:column>	
 	    		 				    		
 	    		<p:column headerText="Pessoa" style="width: 80px; text-align: center"
 	    			filterBy="#{oficio.pessoa.nome}"
@@ -256,22 +252,9 @@
 	    			<p:inputText id="nrpro" 	    								
 		    			value="#{receberOficioBean.oficio.nrProcesso}"/>
 		    			
-		    		<p:outputLabel value="Cod. Encaminhamento" for="codigoEncaminhamento"/>
-	    			<p:selectOneMenu id="codigoEncaminhamento" 	    				
-	    				value="#{receberOficioBean.oficio.codigoEncaminhamento}" 		    			
-	    				required="true" 	    				
-		    			validatorMessage="O código de encaminhamentor é obrigatório."  >
-		    			<f:selectItem itemLabel="Selecione o codigo de encaminhamento" />
-		    			<f:selectItems value="#{receberOficioBean.codigoEncaminhamento}" var="codenc"
-							itemLabel="#{codenc}" itemValue="#{codenc}" />
-								
-						<p:ajax listener="#{receberOficioBean.carregarOrgaos}"
-							update="orgaos" process="codigoEncaminhamento" />			
-	    			</p:selectOneMenu>
 
 					<p:outputLabel value="Orgão Externo" for="orgaos" />
 					<p:selectOneMenu id="orgaos"
-						disabled="#{receberOficioBean.orgaos eq null}"
 						value="#{receberOficioBean.orgao}">
 						<f:selectItem itemLabel="Selecione o orgão" />
 						<f:selectItems value="#{receberOficioBean.orgaos}"

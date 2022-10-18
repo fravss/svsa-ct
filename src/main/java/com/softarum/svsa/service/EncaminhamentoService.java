@@ -12,7 +12,7 @@ import com.softarum.svsa.modelo.Encaminhamento;
 import com.softarum.svsa.modelo.Orgao;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
+//import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.util.NegocioException;
 
 
@@ -43,8 +43,9 @@ public class EncaminhamentoService implements Serializable {
 		encaminhamentoDAO.excluir(encaminhamento);		
 	}
 	
-	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId){
-		return orgaoDAO.buscarCodigosEncaminhamento(codigosEncaminhamento,tenantId);
+	
+	public List<Orgao> buscarTodos(Long tenantId){
+		return orgaoDAO.buscarTodos(tenantId);
 	}
 	
 	/*

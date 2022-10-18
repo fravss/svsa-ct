@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,6 @@ import com.softarum.svsa.modelo.Orgao;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.modelo.enums.TipoUnidade;
 import com.softarum.svsa.modelo.to.PessoaDTO;
 import com.softarum.svsa.service.OficioService;
@@ -67,7 +65,6 @@ public class ReceberOficioBean implements Serializable {
 	private Boolean todos = false;
 	
 	private List<Usuario> tecnicos;
-	private List<CodigoEncaminhamento> codigoEncaminhamento;
 	
 	private Usuario usuarioLogado;
 	private Unidade unidade;
@@ -95,8 +92,8 @@ public class ReceberOficioBean implements Serializable {
 		usuarioLogado = loginBean.getUsuario();
 		unidade = usuarioLogado.getUnidade();
 		unidades = unidadeService.buscarTodos(loginBean.getTenantId());
-		this.codigoEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
 		
+		carregarOrgaos();
 		carregarOficios();
 		
 		tecnicos = usuarioService.buscarTecnicos(unidade, loginBean.getTenantId());
@@ -261,7 +258,7 @@ public class ReceberOficioBean implements Serializable {
 	}
 	
 	public void carregarOrgaos() {
-		this.orgaos = oficioService.buscarCodigosEncaminhamento(oficio.getCodigoEncaminhamento(), loginBean.getTenantId());
+		this.orgaos = oficioService.buscarTodos(loginBean.getTenantId());
 	}
 	
 	public void selecionarOrgao() {

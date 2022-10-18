@@ -13,7 +13,7 @@ import com.softarum.svsa.modelo.OficioEmitido;
 import com.softarum.svsa.modelo.Orgao;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
+//import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -53,10 +53,9 @@ public class OficioService implements Serializable {
 		oficioDAO.excluir(oficio);		
 	}
 
-	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId){
-		return orgaoDAO.buscarCodigosEncaminhamento(codigosEncaminhamento, tenantId);
-	}
-	
+	public List<Orgao> buscarTodos(Long tenantId){
+		return orgaoDAO.buscarTodos(tenantId);
+	}	
 	
 	/*
 	 * RelatorioOficios
