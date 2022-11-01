@@ -68,7 +68,7 @@ public class RegistrarDenunciaBean implements Serializable {
 				this.origens = Arrays.asList(OrigemDenuncia.values());
 				this.sexos = Arrays.asList(Sexo.values());
 				
-				denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+				denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 				limpar();
 			}
 		
@@ -90,14 +90,14 @@ public class RegistrarDenunciaBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 		
-		denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+		denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 		this.limpar();
 	}
 	
 	public void excluir() {
 		try {
 			this.denunciaService.excluir(denuncia);
-			denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+			denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 			MessageUtil.sucesso("Denuncia" + denuncia.getCodigo() + " excluída com sucesso.");
 			
 			limpar();

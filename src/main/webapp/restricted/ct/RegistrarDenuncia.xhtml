@@ -75,6 +75,12 @@
 	    		
 	    		<p:column headerText="Operações" style="width: 25px; text-align: center" >		    		
 		    		
+		    		<p:commandButton 
+		    		 icon="pi pi-plus" title="Novo Cadastro" id="botaoNovo"
+						action="/restricted/agenda/CadastroCapaProntuario.xhtml"
+						process="@this">
+					</p:commandButton>
+		    		
 		    		<p:commandButton icon="pi pi-pencil" title="Editar Denúncia"
 		    			oncomplete="PF('denDialogWidgetVar').show();"
 		    			update="frmDenuncia:addGrid frmDenuncia:toolbar frmDenuncia:growl listaDataTable" 
@@ -93,7 +99,6 @@
 		    	</p:column>
     		
 		   	</p:dataTable>
-		   	
 		   	
 	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"				
 	   			modal="true" resizable="true" closeOnEscape="true" 
