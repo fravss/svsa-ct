@@ -86,11 +86,6 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Codigo Encaminhamento"
-					style="width: 80px; text-align: center">
-					<h:outputText value="#{encaminhamento.codigoEncaminhamento}" />
-				</p:column>
-
 				<p:column headerText="Orgão unidade destino"
 					style="width: 60px; text-align: center"
 					filterBy="#{encaminhamento.orgaoUnidadeDestino}" >
@@ -178,25 +173,9 @@
 							update="growl nomeSocial" process="nomeSocial"/>
 					</h:selectOneRadio>
 
-					<p:outputLabel value="Código Encaminhamento"
-						for="codigoEncaminhamento" />
-					<p:selectOneMenu id="codigoEncaminhamento"
-						value="#{encaminhamentoExternoBean.encaminhamento.codigoEncaminhamento}"
-						required="true"
-						validatorMessage="O codigo de encaminhamento é obrigatório.">
-						<f:selectItem itemLabel="Selecione o codigo" />
-						<f:selectItems
-							value="#{encaminhamentoExternoBean.codigosEncaminhamento}"
-							var="codigoEncaminhamento" itemLabel="#{codigoEncaminhamento}"
-							itemValue="#{codigoEncaminhamento}" />
-
-						<p:ajax listener="#{encaminhamentoExternoBean.carregarOrgaos}"
-							update="orgaos" process="codigoEncaminhamento" />
-					</p:selectOneMenu>
 
 					<p:outputLabel value="Orgão Externo" for="orgaos" />
 					<p:selectOneMenu id="orgaos"
-						disabled="#{encaminhamentoExternoBean.orgaos eq null}"
 						value="#{encaminhamentoExternoBean.orgao}">
 						<f:selectItem itemLabel="Selecione o orgão" />
 						<f:selectItems value="#{encaminhamentoExternoBean.orgaos}"

@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +17,6 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
-
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,10 +34,10 @@ import lombok.ToString;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Orgao.buscarTodos", query="select o from Orgao o where o.tenant_id = :tenantId"),
-	@NamedQuery(name="Orgao.buscarNomesOrgaos", query="select o.nome from Orgao o where o.tenant_id = :tenantId"),
-	@NamedQuery(name="Orgao.buscarCodigosEncaminhamento", query="select  o from Orgao o "
-				+ "where o.codigoEncaminhamento = :codigosEncaminhamento "
-				+ "and o.tenant_id = :tenantId")
+	@NamedQuery(name="Orgao.buscarNomesOrgaos", query="select o.nome from Orgao o where o.tenant_id = :tenantId")
+//	@NamedQuery(name="Orgao.buscarCodigosEncaminhamento", query="select  o from Orgao o "
+//				+ "where o.codigoEncaminhamento = :codigosEncaminhamento "
+//				+ "and o.tenant_id = :tenantId")
 	
 })
 public class Orgao implements Serializable {
@@ -56,8 +52,8 @@ public class Orgao implements Serializable {
 	
 	private Long tenant_id;
 	
-	@Enumerated(EnumType.STRING)
-	private CodigoEncaminhamento codigoEncaminhamento;
+//	@Enumerated(EnumType.STRING)
+//	private CodigoEncaminhamento codigoEncaminhamento;
 	
 	@NotBlank(message="O nome do Orgão é obrigatório.")
 	private String nome;

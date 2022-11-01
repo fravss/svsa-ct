@@ -11,7 +11,6 @@ import javax.inject.Named;
 
 import com.softarum.svsa.modelo.Endereco;
 import com.softarum.svsa.modelo.Orgao;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.modelo.enums.Uf;
 import com.softarum.svsa.modelo.to.EnderecoTO;
 import com.softarum.svsa.service.OrgaoService;
@@ -37,7 +36,7 @@ public class CadastroOrgaoBean implements Serializable {
 	private Orgao orgao;
 	private List<Uf> ufs;
 	private EnderecoTO enderecoTO;
-	private List<CodigoEncaminhamento> codigos;
+//	private List<CodigoEncaminhamento> codigos;
 	
 	@Inject
 	private OrgaoService orgaoService;
@@ -50,7 +49,7 @@ public class CadastroOrgaoBean implements Serializable {
 	public void inicializar() {
 		this.limpar();
 		this.ufs = Arrays.asList(Uf.values());
-		this.codigos = Arrays.asList(CodigoEncaminhamento.values());
+//		this.codigos = Arrays.asList(CodigoEncaminhamento.values());
 	}
 	
 	public void salvar() {

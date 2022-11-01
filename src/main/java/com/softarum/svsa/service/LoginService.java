@@ -282,7 +282,7 @@ public class LoginService implements Serializable {
 			inStream = externalContext.getResourceAsStream("/WEB-INF/template/MenuGestor.xml");
 		}
 		else {
-			inStream = externalContext.getResourceAsStream("/WEB-INF/template/Menu.xml");
+			inStream = externalContext.getResourceAsStream("/WEB-INF/template/MenuCT.xml");
 		}
 		
 		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

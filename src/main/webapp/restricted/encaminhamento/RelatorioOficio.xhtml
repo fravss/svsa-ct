@@ -76,16 +76,6 @@
 		            	ajax="false">
 		            	<p:dataExporter type="xls" target="oficioTable" fileName="Relatorio_oficio" />
 		            </p:commandButton>
-		            
-		            <p:spacer width="5px" />
-	            	
-	            	<p:commandButton id="bar" title="Obter Gráfico de Ofícios Recebidos" value="Gráfico de Ofícios Recebidos" icon="pi pi-chart-bar"
-	            		actionListener="#{relatorioOficioBean.initGraficoBarras}"
-		            	oncomplete="PF('ofDialogWidgetVar').show()"
-		            	update="ofDialog toolbar" 
-		            	process="@this">
-		            	<p:resetInput target="ofDialog" />		            	
-	            	</p:commandButton>	
 					
 				</f:facet>
 			</p:toolbar>
@@ -181,9 +171,6 @@
 		   		
 	            <p:panelGrid id="detalheGrid" columns="2" columnClasses="label,value">
 	            
-					<h:outputLabel value="Codigo Encaminhamento: " style="font-weight:bold"/>
-	    			<h:outputText value="#{relatorioOficioBean.oficio.codigoEncaminhamento}" />
-	            
 					<h:outputLabel value="Órgão: " style="font-weight:bold"/>
 	    			<h:outputText value="#{relatorioOficioBean.oficio.nomeOrgao}" />
 	    		
@@ -203,15 +190,7 @@
 	            	
 	                
 	            </p:panelGrid>
-    		</p:dialog> 
-    		
-    		<p:dialog id="ofDialog" header="Ofícios" widgetVar="ofDialogWidgetVar"
-				modal="true" resizable="false" closeOnEscape="true">			
-        										
-				<p:chart type="bar" model="#{relatorioOficioBean.barModel}"
-				style="width:600px;height:400px" />
-				
-			</p:dialog>		
+    		</p:dialog> 	
 	    		
     	</h:form>
     </ui:define>

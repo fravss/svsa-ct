@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import com.softarum.svsa.modelo.Orgao;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
-import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 import com.softarum.svsa.modelo.to.PessoaDTO;
 import com.softarum.svsa.service.OficioEmitidoService;
 import com.softarum.svsa.service.PessoaService;
@@ -60,7 +58,7 @@ public class EmitirOficioBean implements Serializable {
 	private Orgao orgao;
 
 	private List<Usuario> tecnicos;
-	private List<CodigoEncaminhamento> codigosEncaminhamento;
+//	private List<CodigoEncaminhamento> codigosEncaminhamento;
 	
 	private Unidade unidade;
 	private boolean pessoaSelecionada = false;
@@ -79,9 +77,8 @@ public class EmitirOficioBean implements Serializable {
 		
 		unidade = loginBean.getUsuario().getUnidade();
 		
-		this.codigosEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
-		
 		listaOficiosEmitidos = oficioEmitidoService.buscarOficiosEmitidos(unidade, loginBean.getTenantId());
+		carregarOrgaos();
 		
 		limpar();	
 	}
@@ -271,7 +268,7 @@ public class EmitirOficioBean implements Serializable {
 	}
 
 	public void carregarOrgaos() {
-		this.orgaos = oficioEmitidoService.buscarCodigosEncaminhamento(oficioEmitido.getCodigoEncaminhamento(), loginBean.getTenantId());
+		this.orgaos = oficioEmitidoService.buscarTodos(loginBean.getTenantId());
 	}
 	
 	public void selecionarOrgao() {
@@ -292,9 +289,11 @@ public class EmitirOficioBean implements Serializable {
 	public List<OficioEmitido> getListaOficios() {
 		return listaOficiosEmitidos;
 	}
-	
+
+/*
 	public List<CodigoEncaminhamento> getcodigoEncaminhamento() {
 		return codigosEncaminhamento;
 	}
+*/
 	
 }
