@@ -1,5 +1,9 @@
 package com.softarum.svsa.controller.ct;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,10 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.softarum.svsa.controller.LoginBean;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.ct.PessoaDenuncia;
@@ -22,6 +30,7 @@ import com.softarum.svsa.modelo.enums.ct.Status;
 import com.softarum.svsa.service.ct.DenunciaService;
 import com.softarum.svsa.util.MessageUtil;
 import com.softarum.svsa.util.NegocioException;
+import com.softarum.svsa.service.pdf.ct.AtestadoPDFService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +48,7 @@ import lombok.extern.log4j.Log4j;
 public class RegistrarDenunciaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Denuncia denuncia;
 	private List<Denuncia> denuncias = new ArrayList<>();
 	private List<AgenteViolador> agentes;
@@ -52,6 +61,9 @@ public class RegistrarDenunciaBean implements Serializable {
 	
 	@Inject
 	private DenunciaService denunciaService;
+	
+	@Inject
+	private AtestadoPDFService atestadopdfService;
 	
 	@Inject
 	private LoginBean loginBean;
@@ -117,5 +129,64 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setStatus(Status.EM_AVERIGUACAO);
 		this.denuncia.setUnidade(loginBean.getUsuario().getUnidade());
 		this.denuncia.setTenant_id(loginBean.getTenantId());
+	}
+	
+	public void showPDF() {
+
+		try {
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-disposition", "inline=filename=file.pdf");
+
+		
+			
+			// Emissão em nome de quem está imprimindo
+			denuncia.setTecnico(loginBean.getUsuario());
+			// Creating a PdfWriter
+			log.info(denuncia);
+			log.info(loginBean.getUsuario().getTenant().getS3Key());
+			log.info(loginBean.getUsuario().getTenant().getSecretaria());
+			ByteArrayOutputStream baos = atestadopdfService.generateStream(denuncia,
+					loginBean.getUsuario().getTenant().getS3Key(),
+					loginBean.getUsuario().getTenant().getSecretaria());
+					
+
+			// setting some response headers
+			response.setHeader("Expires", "0");
+			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+			response.setHeader("Pragma", "public");
+			// setting the content type
+			response.setContentType("application/pdf");
+			// the contentlength
+			response.setContentLength(baos.size());
+			// write ByteArrayOutputStream to the ServletOutputStream
+			ServletOutputStream os = response.getOutputStream();
+
+			baos.writeTo(os);
+			os.flush();
+			os.close();
+			context.responseComplete();
+		} catch (NegocioException ne) {
+			ne.printStackTrace();
+			MessageUtil.erro(ne.getMessage());
+		}catch (IOException e) {
+			e.printStackTrace();
+			MessageUtil.erro("Problema na escrita do PDF.");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			MessageUtil.erro("Problema na geração do PDF.");
+		}
+		
+		log.info("PDF gerado!");
+	}
+	
+	public boolean isAtestadoSelecionado() {
+        return denuncia != null && denuncia.getCodigo() != null;
+    }
+
+	public List<Denuncia> getListaAtestados() {
+		return denuncias;
 	}
 }
