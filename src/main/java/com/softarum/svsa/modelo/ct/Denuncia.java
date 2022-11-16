@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.softarum.svsa.modelo.Prontuario;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.enums.ct.AgenteViolador;
@@ -88,5 +89,9 @@ public class Denuncia implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="codigo_unidade")
 	private Unidade unidade;
+	
+	@ManyToOne
+	@JoinColumn(name="prontuario")
+	private Prontuario prontuario;
 	
 }

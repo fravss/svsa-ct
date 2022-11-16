@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TemporalType;
 
+import com.softarum.svsa.modelo.PessoaReferencia;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.ct.PessoaDenuncia;
@@ -86,19 +87,10 @@ public class DenunciaDAO implements Serializable {
 		return manager.find(Denuncia.class, codigo);
 	}
 	
-	public PessoaDenuncia buscarPeloNome(String nome) {
-		return manager.createNamedQuery("PessoaDenuncia.buscarPeloNome", PessoaDenuncia.class)
+	public PessoaReferencia buscarPeloNome(String nome) {
+		return manager.createNamedQuery("PessoaReferencia.buscarPeloNome", PessoaReferencia.class)
 				.setParameter("nome", nome)
 				.getSingleResult();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<String> buscarNomes(String query, Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("PessoaDenuncia.buscarNomes")
-				.setParameter("tenantId", tenantId)
-				.setParameter("unidade", unidade)
-				.setParameter("nomeCrianca", "%" + query + "%")
-				.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -120,4 +112,11 @@ public class DenunciaDAO implements Serializable {
 				.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<String> buscarNomes(String query, Long tenantId) {
+		return manager.createNamedQuery("PessoaReferencia.buscarNomes")
+				.setParameter("tenantId", tenantId)
+				.setParameter("nome", query + "%")
+				.getResultList();
+	}
 }
