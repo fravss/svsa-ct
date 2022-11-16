@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.softarum.svsa.controller.LoginBean;
+import com.softarum.svsa.modelo.PessoaReferencia;
+import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.ct.PessoaDenuncia;
 import com.softarum.svsa.modelo.enums.ct.AgenteViolador;
@@ -49,6 +51,7 @@ public class RegistrarDenunciaBean implements Serializable {
 	private List<Sexo> sexos;
 	
 	private Integer ano;
+	private String nome;
 	
 	@Inject
 	private DenunciaService denunciaService;
@@ -117,5 +120,30 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setStatus(Status.EM_AVERIGUACAO);
 		this.denuncia.setUnidade(loginBean.getUsuario().getUnidade());
 		this.denuncia.setTenant_id(loginBean.getTenantId());
+	}
+	
+	public List<String> buscarNomes(String query) {
+        List<String> results = new ArrayList<>();
+        
+        try {
+			results = denunciaService.buscarNomes(query, loginBean.getTenantId());		
+		
+			
+		} catch(Exception e) {
+			MessageUtil.alerta("Não existe PESSOA com esse nome!");
+		}        
+       
+        return results;
+    }
+	
+	public void buscarPessoa() {
+	       
+        try {
+        	PessoaReferencia p = denunciaService.buscarPeloNome(getNome());
+        	denuncia.setProntuario(p.getFamilia().getProntuario());
+			
+		} catch(Exception e) {
+			MessageUtil.alerta("Não existe PESSOA com esse nome!");
+		}        
 	}
 }

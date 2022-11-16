@@ -7,9 +7,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.softarum.svsa.dao.ct.DenunciaDAO;
+import com.softarum.svsa.modelo.PessoaReferencia;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.ct.Denuncia;
-import com.softarum.svsa.modelo.ct.PessoaDenuncia;
 import com.softarum.svsa.util.DateUtils;
 import com.softarum.svsa.util.NegocioException;
 
@@ -60,8 +60,8 @@ public class DenunciaService implements Serializable {
 /* Buscas */
 	
 	
-	public List<String> buscarNomes(String query, Unidade unidade, Long tenantId) {		
-		return denunciaDAO.buscarNomes(query, unidade, tenantId);
+	public List<String> buscarNomes(String query, Long tenantId) {		
+		return denunciaDAO.buscarNomes(query, tenantId);
 	}
 
 	public Denuncia buscarPeloCodigo(long codigo) {
@@ -69,10 +69,9 @@ public class DenunciaService implements Serializable {
 	}
 	
 	// buscar pessoa pelo nome
-	public PessoaDenuncia buscarPeloNome(String nome) {
+	public PessoaReferencia buscarPeloNome(String nome) {
 		return denunciaDAO.buscarPeloNome(nome);
 	}
-	
 
 	public List<Denuncia> buscarTodos(Long tenantId) {
 		return denunciaDAO.buscarTodos(tenantId);
