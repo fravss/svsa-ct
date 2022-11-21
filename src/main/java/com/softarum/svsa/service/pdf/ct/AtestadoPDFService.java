@@ -1,27 +1,20 @@
 package com.softarum.svsa.service.pdf.ct;
 
 import java.io.Serializable;
-import java.net.URL;
 
 import org.apache.log4j.Logger;
 
 import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
-import com.softarum.svsa.modelo.enums.Grupo;
 import com.softarum.svsa.modelo.ct.Denuncia;
-
+import com.softarum.svsa.modelo.enums.Grupo;
 import com.softarum.svsa.util.DateUtils;
 import com.softarum.svsa.util.NegocioException;
 

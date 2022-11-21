@@ -1,8 +1,5 @@
 package com.softarum.svsa.controller.ct;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.softarum.svsa.controller.LoginBean;
 import com.softarum.svsa.modelo.PessoaReferencia;
-import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.ct.PessoaDenuncia;
 import com.softarum.svsa.modelo.enums.ct.AgenteViolador;
@@ -30,9 +26,9 @@ import com.softarum.svsa.modelo.enums.ct.OrigemDenuncia;
 import com.softarum.svsa.modelo.enums.ct.Sexo;
 import com.softarum.svsa.modelo.enums.ct.Status;
 import com.softarum.svsa.service.ct.DenunciaService;
+import com.softarum.svsa.service.pdf.ct.AtestadoPDFService;
 import com.softarum.svsa.util.MessageUtil;
 import com.softarum.svsa.util.NegocioException;
-import com.softarum.svsa.service.pdf.ct.AtestadoPDFService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -192,7 +188,7 @@ public class RegistrarDenunciaBean implements Serializable {
 	public List<Denuncia> getListaAtestados() {
 		return denuncias;
 	}
-}
+
 
 	public List<String> buscarNomes(String query) {
         List<String> results = new ArrayList<>();
