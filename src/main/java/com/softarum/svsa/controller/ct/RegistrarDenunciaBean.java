@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.softarum.svsa.controller.LoginBean;
+import com.softarum.svsa.modelo.PessoaReferencia;
+import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.ct.PessoaDenuncia;
 import com.softarum.svsa.modelo.enums.ct.AgenteViolador;
@@ -58,6 +60,7 @@ public class RegistrarDenunciaBean implements Serializable {
 	private List<Sexo> sexos;
 	
 	private Integer ano;
+	private String nome;
 	
 	@Inject
 	private DenunciaService denunciaService;
@@ -80,7 +83,7 @@ public class RegistrarDenunciaBean implements Serializable {
 				this.origens = Arrays.asList(OrigemDenuncia.values());
 				this.sexos = Arrays.asList(Sexo.values());
 				
-				denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+				denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 				limpar();
 			}
 		
@@ -102,14 +105,14 @@ public class RegistrarDenunciaBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 		
-		denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+		denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 		this.limpar();
 	}
 	
 	public void excluir() {
 		try {
 			this.denunciaService.excluir(denuncia);
-			denuncias = denunciaService.buscarTodosDia(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+			denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 			MessageUtil.sucesso("Denuncia" + denuncia.getCodigo() + " excluída com sucesso.");
 			
 			limpar();
@@ -129,8 +132,8 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setStatus(Status.EM_AVERIGUACAO);
 		this.denuncia.setUnidade(loginBean.getUsuario().getUnidade());
 		this.denuncia.setTenant_id(loginBean.getTenantId());
-	}
-	
+	}	
+
 	public void showPDF() {
 
 		try {
@@ -190,3 +193,30 @@ public class RegistrarDenunciaBean implements Serializable {
 		return denuncias;
 	}
 }
+
+	public List<String> buscarNomes(String query) {
+        List<String> results = new ArrayList<>();
+        
+        try {
+			results = denunciaService.buscarNomes(query, loginBean.getTenantId());		
+		
+			
+		} catch(Exception e) {
+			MessageUtil.alerta("Não existe PESSOA com esse nome!");
+		}        
+       
+        return results;
+    }
+	
+	public void buscarPessoa() {
+	       
+        try {
+        	PessoaReferencia p = denunciaService.buscarPeloNome(getNome());
+        	denuncia.setProntuario(p.getFamilia().getProntuario());
+			
+		} catch(Exception e) {
+			MessageUtil.alerta("Não existe PESSOA com esse nome!");
+		}        
+	}
+}
+

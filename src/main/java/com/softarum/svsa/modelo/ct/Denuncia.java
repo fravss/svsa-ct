@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.softarum.svsa.modelo.Prontuario;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
@@ -104,7 +105,7 @@ public class Denuncia implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="codigo_unidade")
 	private Unidade unidade;
-	
+
 	@ToString.Include
 	private String endereco;
 	
@@ -131,5 +132,9 @@ public class Denuncia implements Serializable {
 			this.setDataCriacao( new Date() );
 		}		
 	}
+
+	@ManyToOne
+	@JoinColumn(name="prontuario")
+	private Prontuario prontuario;
 	
 }

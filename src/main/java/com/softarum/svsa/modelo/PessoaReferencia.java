@@ -16,7 +16,10 @@ import javax.persistence.NamedQuery;
 @DiscriminatorValue("PESSOA_REFERENCIA")
 @NamedQueries({
 	@NamedQuery(name="PessoaReferencia.buscarTodos", query="select p from PessoaReferencia p where p.excluida = :exc "
-			+ "and p.tenant_id = :tenantId ")	
+			+ "and p.tenant_id = :tenantId "),
+	@NamedQuery(name="PessoaReferencia.buscarPeloNome", query="select p from PessoaReferencia p where p.nome = :nome "),
+	@NamedQuery(name="PessoaReferencia.buscarNomes", query="select p.nome from PessoaReferencia p where p.tenant_id = :tenantId "
+			+ "and p.nome LIKE :nome")	
 })
 public class PessoaReferencia extends Pessoa implements Cloneable, Serializable{
 

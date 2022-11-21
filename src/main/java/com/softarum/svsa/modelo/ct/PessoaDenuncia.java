@@ -38,12 +38,7 @@ import lombok.extern.log4j.Log4j;
 @Entity
 @Log4j
 @NamedQueries({
-	@NamedQuery(name="PessoaDenuncia.buscarTodos", query="select pd from PessoaDenuncia pd where pd.tenant_id = :tenantId"),
-	@NamedQuery(name="PessoaDenuncia.buscarPeloNome", query="select pd from PessoaDenuncia pd where pd.nomeCrianca = :nomeCrianca "),
-	@NamedQuery(name="PessoaDenuncia.buscarNomes", query="select pd from PessoaDenuncia pd where pd.tenant_id = :tenantId "
-			+ "and pd.unidade = :unidade "
-			+ "and pd.nomeCrianca LIKE :nomeCrianca")	
-	
+	@NamedQuery(name="PessoaDenuncia.buscarTodos", query="select pd from PessoaDenuncia pd where pd.tenant_id = :tenantId")
 })
 
 public class PessoaDenuncia implements Cloneable, Serializable {/**

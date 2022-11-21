@@ -71,11 +71,27 @@
 	    		
 	    		<p:column headerText="Status" style="width: 80px; text-align: center">		
 	    			<h:outputText value="#{denuncia.status}" />
-	    		</p:column> 
+	    		</p:column>
+	    		
+	    		<p:column headerText="RD Vinculado" style="width: 80px; text-align: center">		
+	    			<h:outputText value="#{denuncia.prontuario.familia.pessoaReferencia.codigo}" />
+	    		</p:column>  
 	    		
 	    		<p:column headerText="Operações" style="width: 25px; text-align: center" >		    		
+					
+					<p:commandButton icon="pi pi-user-plus" title="Vincular Denúncia" 	
+							disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"            	
+	            			actionListener="#{registrarDenunciaBean.limpar}" 	            
+	            			oncomplete="PF('vinDialogWidgetVar').show()"
+	            			update="listaDataTable frmDenuncia:growl frmDenuncia:vinDialog frmDenuncia:toolbar" 
+	            			process="@this">
+	            		
+	            		<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
+							value="#{denuncia}" />
+            		</p:commandButton>
 		    		
 		    		<p:commandButton icon="pi pi-pencil" title="Editar Denúncia"
+		    			disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
 		    			oncomplete="PF('denDialogWidgetVar').show();"
 		    			update="frmDenuncia:addGrid frmDenuncia:toolbar frmDenuncia:growl listaDataTable" 
 		            	process="@this">
@@ -84,6 +100,7 @@
 					</p:commandButton>									    		
 
 		    		<p:commandButton icon="pi pi-trash" title="Excluir Denúncia"
+		    			disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
 		    			oncomplete="PF('confirmacaoExclusaoWidgetVar').show()"		            	
 		            	update="listaDataTable frmDenuncia:toolbar frmDenuncia:growl"
 		            	process="@this">
@@ -101,7 +118,6 @@
 		    	</p:column>
     		
 		   	</p:dataTable>
-		   	
 		   	
 	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"				
 	   			modal="true" resizable="true" closeOnEscape="true" 
@@ -233,6 +249,41 @@
 					
 			</p:confirmDialog>
 	    	
+	    	<p:dialog id="vinDialog" header="Vincular denúncia" widgetVar="vinDialogWidgetVar"				
+	   			modal="true" resizable="true" closeOnEscape="true" 
+				showEffect="explode" hideEffect="explode" 
+				style="max-height:600px;overflow:scroll" position="center top">
+				
+		    	<p:panelGrid id="vinGrid" columns="2" 
+		    		columnClasses="rotulo, campo">	
+						
+		    		<p:outputLabel value="Nome" for="nomePessoa"/>
+		    		<p:autoComplete id="nomePessoa" value="#{registrarDenunciaBean.nome}" 
+		    			size="60" maxlength="80" 
+		    			required="true" 
+        				effect="blind"  
+		    			completeMethod="#{registrarDenunciaBean.buscarNomes}">
+		    			
+		    			<p:ajax partialSubmit="nomePessoa" 
+		    				event="itemSelect" listener="#{registrarDenunciaBean.buscarPessoa}" update= "codigoPessoa nomeMae2"/>  
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Codigo da Pessoa" for="codigoPessoa"/>
+					<h:outputText id="codigoPessoa" value="#{registrarDenunciaBean.denuncia.prontuario.familia.pessoaReferencia.codigo}" />
+					
+					<p:outputLabel value="Nome Mãe" for="nomeMae2"/>
+					<h:outputText id="nomeMae2" value="#{registrarDenunciaBean.denuncia.prontuario.familia.pessoaReferencia.nomeMae}" />
+		    		
+		    		<p:commandButton icon="pi pi-save" id="vincular" value="Vincular RD" 
+						title="Vincular a RD"
+						actionListener="#{registrarDenunciaBean.salvar}"
+						oncomplete="if (!args.validationFailed) PF('vinDialogWidgetVar').hide()" 			
+						update="vinGrid frmDenuncia:listaDataTable frmDenuncia:growl"								
+						process="vinGrid">
+					</p:commandButton>
+
+		    	</p:panelGrid>
+	    	</p:dialog>	
 	    	
     	</h:form>
     </ui:define>
