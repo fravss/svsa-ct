@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 
 import com.softarum.svsa.modelo.enums.CodigoEncaminhamento;
 
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

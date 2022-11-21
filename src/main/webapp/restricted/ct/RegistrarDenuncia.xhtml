@@ -106,7 +106,15 @@
 		            	process="@this">
 						<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
 							value="#{denuncia}" />
-					</p:commandButton>					
+					</p:commandButton>
+					
+					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
+						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
+						action="#{registrarDenunciaBean.showPDF}"
+						process="show" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+					
 		    	</p:column>
     		
 		   	</p:dataTable>
