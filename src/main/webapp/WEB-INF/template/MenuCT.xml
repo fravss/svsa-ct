@@ -38,9 +38,9 @@
 		</submenu2>	
 	</submenu>
 	
-	<submenu label="Prontuário" icon="pi pi-book">		
+	<submenu label="RD-Registro" icon="pi pi-book">		
 		<grupo value="ADMINISTRATIVOS"></grupo>
-			<menuitem value="Capa Prontuario" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>	
+			<menuitem value="Capa RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>	
 			<menuitem value="Pesquisa Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
 	</submenu>
 	

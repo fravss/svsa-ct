@@ -12,7 +12,8 @@
     
     	<h2>Registrar Denúncia</h2>
     	
-    	<h:form id="frmDenuncia">
+    	<h:form id="frmDenuncia"
+    	target="_blank">
     	
     		<p:growl id="growl" showDetail="false"> 
     			<p:autoUpdate />
@@ -63,9 +64,9 @@
 	    		
 	    		<p:column headerText="Nome Mãe" style="width: 80px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.pessoa.nomeMae}" />
-	    		</p:column> 
-	    		
-	    		<p:column headerText="Relato" style="width: 80px; text-align: center">	    			
+	    		</p:column>
+				
+				<p:column headerText="Relato" style="width: 80px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.relato}" />
 	    		</p:column> 
 	    		
@@ -163,16 +164,30 @@
  		    		<p:outputLabel value="Nome Mãe" for="nomeMae"/>
 		    		<p:autoComplete id="nomeMae" value="#{registrarDenunciaBean.denuncia.pessoa.nomeMae}" 
 		    			size="60" maxlength="80" 
-		    			required="true" 
+		    			required="false" 
         				effect="blind">  
 		    		</p:autoComplete>
 		    		
 		    		<p:outputLabel value="Nome Pai" for="nomePai"/>
 		    		<p:autoComplete id="nomePai" value="#{registrarDenunciaBean.denuncia.pessoa.nomePai}" 
 		    			size="60" maxlength="80" 
-		    			required="true" 
+		    			required="false" 
         				effect="blind">  
-		    		</p:autoComplete>		    			    	
+		    		</p:autoComplete>	
+		    		
+		    		<p:outputLabel value="Nome de Terceiro" for="nomeTerceiro"/>
+		    		<p:autoComplete id="nomeTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.nomeTerceiro}" 
+		    			size="60" maxlength="80" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
+		    		
+		    		<p:outputLabel value="RG" for="rg"/>
+		    		<p:autoComplete id="rg" value="#{registrarDenunciaBean.denuncia.pessoa.rg}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>			    	
 		    		
 	    			<p:outputLabel value="Origem Denúncia" for="orig" />
 		    		<p:selectOneMenu id="orig" 

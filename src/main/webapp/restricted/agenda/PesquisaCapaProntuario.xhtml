@@ -6,10 +6,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Capa Prontuário</ui:define>
+    <ui:define name="titulo">Capa RD</ui:define>
     
     <ui:define name="corpo">
-    	<h2>Capa Prontuário</h2>
+    	<h2>Capa RD</h2>
     	
     	<h:form id="frmPesquisa" enctype="multipart/form-data" target="_blank">
     	
@@ -37,7 +37,7 @@
 	    			</h:outputText>
 	    		</p:column> 
 				
-	    		<p:column headerText="Pront. Código" style="width: 9px; text-align: center"
+	    		<p:column headerText="RD Código" style="width: 9px; text-align: center"
 	    			filterBy="#{prontuario.codigo}">
 	    			<h:outputText value="#{prontuario.codigo}" />
 	    		</p:column>    		
@@ -47,11 +47,11 @@
 					<h:outputText value="#{prontuario.programa}" />
 				</p:column>
 	    			    		
-	    		<p:column headerText="Pront. Físico" style="width: 10px; text-align: center">
+	    		<p:column headerText="RD Físico" style="width: 10px; text-align: center">
 	    			<h:outputText value="#{prontuario.prontuario}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Pront. Vinculado" style="width: 20px; text-align: center">
+	    		<p:column headerText="RD Vinculado" style="width: 20px; text-align: center">
 	    			<h:outputText value="#{prontuario.prontuarioVinculado.codigo}#{prontuario.prontuarioVinculado.programa} #{prontuario.prontuarioVinculado.unidade.nome}" />
 	    		</p:column>	
 	    		
@@ -76,18 +76,18 @@
 	    		
 	    		<p:column headerText="Operações" style="width: 80px; text-align: left">
 	    		
-	    			<p:button outcome="CadastroCapaProntuario" icon="pi pi-pencil" title="Editar Prontuário">
+	    			<p:button outcome="CadastroCapaProntuario" icon="pi pi-pencil" title="Editar RD">
 		    			<f:param name="prontuario" value="#{prontuario.codigo}"/>
 		    		</p:button>		    		
 		    		
-					<p:commandButton icon="pi pi-thumbs-up" title="Ativar Prontuário"
+					<p:commandButton icon="pi pi-thumbs-up" title="Ativar RD"
 						rendered="#{prontuario.status eq 'INATIVO'}"
 						onclick="PF('confirmacaoAtivacao').show();"
 		        		process="@this">		        		
 		        		<f:setPropertyActionListener target="#{pesquisaProntuarioBean.prontuarioSelecionado}" 
 							value="#{prontuario}" />
 					</p:commandButton>					
-					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Prontuário"
+					<p:commandButton icon="pi pi-thumbs-down" title="Inativar RD"
 						rendered="#{prontuario.status eq 'ATIVO'}"					
 						onclick="PF('confirmacaoInativacao').show();"
 		        		process="@this">		        		
@@ -95,7 +95,7 @@
 							value="#{prontuario}" />
 					</p:commandButton>
 					
-					<p:commandButton icon="pi pi-trash" title="Excluir Prontuário"
+					<p:commandButton icon="pi pi-trash" title="Excluir RD"
 		    			rendered="#{pesquisaProntuarioBean.coordenador}"
 		    			onclick="PF('confirmacaoExclusao').show();"
 						process="@this">
@@ -125,7 +125,7 @@
 		            	<p:resetInput target="frmPesquisa:transfDialog" />			            	
 	            	</p:commandButton>
 	    			  					
-					<p:commandButton icon="pi pi-user" title="Informações do prontuario" 
+					<p:commandButton icon="pi pi-user" title="Informações do RD" 
 						update="frmPesquisa:infoGrid" 		    		
   						onclick="PF('infoDialog').show()"  						
   						process="@this"> 

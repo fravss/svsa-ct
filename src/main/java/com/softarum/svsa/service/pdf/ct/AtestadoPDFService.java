@@ -85,58 +85,58 @@ public class AtestadoPDFService implements Serializable {
 		headerAtestado(document, denuncia.getTecnico().getUnidade().getNome(), denuncia, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 		
-		Paragraph line7 = new Paragraph("\nAtestado");
-		line7.setFontSize(24);
-		line7.setFont(font);
-		line7.setTextAlignment(TextAlignment.CENTER);
-		document.add(line7);
-		
-		Paragraph line = new Paragraph("\nO Conselho Tutelar por seu Conselheiro abaixo assinado atesta para os devidos fins que:");
-		line.setFontSize(16);
+		Paragraph line = new Paragraph("\nAtestado");
+		line.setFontSize(24);
 		line.setFont(font);
-		line.setTextAlignment(align);
+		line.setTextAlignment(TextAlignment.CENTER);
 		document.add(line);
 		
-		Paragraph line2 = new Paragraph(denuncia.getPessoa().getNomeMae() + "\n ");
+		Paragraph line1 = new Paragraph("\nO Conselho Tutelar por seu Conselheiro abaixo assinado atesta para os devidos fins que:");
+		line1.setFontSize(16);
+		line1.setFont(font);
+		line1.setTextAlignment(align);
+		document.add(line1);
+		
+		Paragraph line2 = new Paragraph(denuncia.getPessoa().getNomeMae() + "\n " +"Portadora do RG:" + denuncia.getPessoa().getRg());
 		line2.setFontSize(16);
 		line2.setFont(font);
 		line2.setTextAlignment(align);
 		document.add(line2);
 		
-		Paragraph line5 = new Paragraph("Esteve presente neste órgão cumprindo assim a notificação recebida de acordo com o " +
+		Paragraph line3 = new Paragraph("Esteve presente neste órgão cumprindo assim a notificação recebida de acordo com o " +
 		"Estatuto da Criança e do Adolescente ECA - Lei Federal Nº 8.069, nos termos do inciso VII, do Artigo 136 e sobe pena do art." +
 		"236 da mesma lei mencionada acima.");
-		line5.setFontSize(16);
-		line5.setFont(font);
-		line5.setTextAlignment(align);
-		document.add(line5);	
-		
-		Paragraph line3 = new Paragraph("\nSalto: " + DateUtils.parseDateToString(denuncia.getDataEmissao()) );
 		line3.setFontSize(16);
 		line3.setFont(font);
 		line3.setTextAlignment(align);
-		document.add(line3);
+		document.add(line3);	
 		
-		Paragraph line6 = new Paragraph("\n		Permaneceu Neste lugar: " + 
+	//	Paragraph line4 = new Paragraph("\nSalto: " + DateUtils.parseDateToString(denuncia.getDataEmissao()) );
+	//	line4.setFontSize(16);
+	//	line4.setFont(font);
+	//	line4.setTextAlignment(align);
+	//	document.add(line4);
+		
+		Paragraph line5 = new Paragraph("\n		Permaneceu Neste lugar: " + 
 		"\nDia: " + "______" + " de" + "_________________" + "de 20" + "_____," + "das" + "_______" + "ás" + "______" + "Horas.");
-		line6.setFontSize(16);
-		line6.setFont(font);
-		line6.setTextAlignment(align);
-		document.add(line6);
+		line5.setFontSize(16);
+		line5.setFont(font);
+		line5.setTextAlignment(align);
+		document.add(line5);
 		
-		Paragraph line4 = null;
+		Paragraph line6 = null;
 		
 		
 		if(denuncia.getTecnico().getGrupo() == Grupo.COORDENADORES) {
 			if(denuncia.getTecnico().getRegistroProfissional() != null && !denuncia.getTecnico().getRegistroProfissional().isEmpty() ) {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
+				line6 = new Paragraph("\n\n_________________________________________\n" 
 					+ denuncia.getTecnico().getNome() + "\n"
 					+ denuncia.getTecnico().getRole() + " - Coordenador(a) "
 					+ denuncia.getTecnico().getUnidade().getNome() + "\n" 
 					+ denuncia.getTecnico().getRegistroProfissional());
 			}
 			else {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
+				line6 = new Paragraph("\n\n_________________________________________\n" 
 						+ denuncia.getTecnico().getNome() + "\n"
 						+ denuncia.getTecnico().getRole() + " - Coordenador(a) "
 						+ denuncia.getTecnico().getUnidade().getNome());
@@ -145,23 +145,23 @@ public class AtestadoPDFService implements Serializable {
 		}
 		else {
 			if(denuncia.getTecnico().getRegistroProfissional() != null && !denuncia.getTecnico().getRegistroProfissional().isEmpty() ) {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
+				line6 = new Paragraph("\n\n_________________________________________\n" 
 					+ denuncia.getTecnico().getNome() + "\n" 
 					+ denuncia.getTecnico().getRole() + "\n" 
 					+ denuncia.getTecnico().getRegistroProfissional());
 			}
 			else {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
+				line6 = new Paragraph("\n\n_________________________________________\n" 
 						+ denuncia.getTecnico().getNome() + "\n" 
 						+ denuncia.getTecnico().getRole()); 
 			}
 		}	
 		
 		
-		line4.setFontSize(12);
-		line4.setFont(font);
-		line4.setTextAlignment(TextAlignment.CENTER);
-		document.add(line4);
+		line6.setFontSize(12);
+		line6.setFont(font);
+		line6.setTextAlignment(TextAlignment.CENTER);
+		document.add(line6);
 
 		document.close();		
 	}
