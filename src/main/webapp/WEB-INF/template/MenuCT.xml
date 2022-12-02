@@ -11,7 +11,10 @@
 	<submenu label="Atendimento" icon="pi pi-check-circle">
 		<grupo value="COORDENADORES"></grupo>
 			<menuitem value="Indiv. Com Agendamento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
-			<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>		
+			<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>	
+			<submenu2 label="Relatórios">
+				<menuitem2 value="de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml"></menuitem2>	
+		</submenu2>	
 		<grupo value="ADMINISTRATIVOS"></grupo>
 			<menuitem value="Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>	
 	</submenu>	

@@ -70,7 +70,13 @@ public class PessoaDenuncia implements Cloneable, Serializable {/**
 	
 	private String endereco;
 	
+	private String enderecoPai;
+	
 	private String telefone;
+	
+	private String telefonePai;
+	
+	private String telefoneTerceiro;
 	
 	private String escola;
 	
