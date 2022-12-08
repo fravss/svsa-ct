@@ -6,6 +6,11 @@ package com.softarum.svsa.modelo.enums;
  */
 public enum CodigoAuxiliarAtendimento {
 	
+	
+	/* para o CT corresponde ao Tipo de Atendimento */
+	ESPONTANEO,
+	NOTIFICACAO,
+	
 	/* ao alterar algum  código verificar aderência as consultas em: 
 	 * CapaProntuarioDAO metodo qdeProntuariosNovos() 
 	 * AgendamentoIndividualDAO dashboardQdesCodAuxIndiv()

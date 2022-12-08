@@ -54,7 +54,7 @@
 	    		</p:column>	    				    		
 
 
-				<p:column headerText="Código" style="width: 15px; text-align: center">	    			
+				<p:column headerText="Código" style="width: 10px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.codigo}"/>
 	    		</p:column>
 	    		
@@ -70,15 +70,15 @@
 	    			<h:outputText value="#{denuncia.relato}" />
 	    		</p:column> 
 	    		
-	    		<p:column headerText="Status" style="width: 80px; text-align: center">		
+	    		<p:column headerText="Status" style="width: 30px; text-align: center">		
 	    			<h:outputText value="#{denuncia.status}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="RD Vinculado" style="width: 80px; text-align: center">		
+	    		<p:column headerText="RD Vinculado" style="width: 15px; text-align: center">		
 	    			<h:outputText value="#{denuncia.prontuario.familia.pessoaReferencia.codigo}" />
 	    		</p:column>  
 	    		
-	    		<p:column headerText="Operações" style="width: 25px; text-align: center" >		    		
+	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >		    		
 					
 					<p:commandButton icon="pi pi-user-plus" title="Vincular Denúncia" 	
 							disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"            	
@@ -116,7 +116,7 @@
 						update="frmPesquisa:addGrowl">
 					</p:commandButton>
 					
-					<p:commandButton id="showDenuncia" icon="pi pi-file-o" title="Gerar Denúncia"
+					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
 						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
 						action="#{registrarDenunciaBean.showPDFDenuncia}"
 						process="showDenuncia" immediate="true" ajax="false"
@@ -127,12 +127,14 @@
     		
 		   	</p:dataTable>
 		   	
-	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"				
-	   			modal="true" resizable="true" closeOnEscape="true" 
+	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"
+	   		modal="true" resizable="true" closeOnEscape="true" 
 				showEffect="explode" hideEffect="explode" 
-				style="max-height:600px;overflow:scroll" position="center top">
+				width="100%" position="center top" maximizable="true"
+				height="70%" fitViewport="true" responsive="true">	
 				
-		    	<p:panelGrid id="addGrid" columns="2" 
+				
+		    	<p:panelGrid id="addGrid" columns="2" styleClass="showcase-text-align-center"
 		    		columnClasses="rotulo, campo">
 		    		
 		    		<p:outputLabel value="Data " for="data" size="30"/>

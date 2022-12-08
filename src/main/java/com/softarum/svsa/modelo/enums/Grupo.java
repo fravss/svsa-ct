@@ -7,7 +7,7 @@ package com.softarum.svsa.modelo.enums;
 public enum Grupo {
 	
 	ADMINISTRATIVOS,
-	//CADASTRADORES,
+	CADASTRADORES,
 	TECNICOS,
 	COORDENADORES,
 	GESTORES

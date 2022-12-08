@@ -12,6 +12,7 @@ import javax.persistence.PersistenceException;
 
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
+import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.modelo.enums.Grupo;
 import com.softarum.svsa.modelo.enums.Role;
 import com.softarum.svsa.modelo.enums.Status;
@@ -58,8 +59,9 @@ public class CadastroUsuarioBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {		
 		
-		this.grupos = Arrays.asList(Grupo.values());
-		this.roles = Arrays.asList(Role.values());
+		this.grupos = EnumUtil.getGruposCt();
+		this.roles = EnumUtil.getRolesCt();
+		
 		this.status = Arrays.asList(Status.values());
 		this.unidade = loginBean.getUsuario().getUnidade();
 		this.unidades = this.unidadeService.buscarTodos(loginBean.getTenantId());

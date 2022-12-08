@@ -1,28 +1,26 @@
 <!DOCTYPE xml>
 <menu>
 
-	<submenu label="Agendamento" icon="pi pi-clock">
-	<menuitem value="Registrar Denúncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml"></menuitem>
-		<grupo value="ADMINISTRATIVOS">
-			<menuitem value="Individualizado" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
-		</grupo>	
+	<submenu label="Recepção" icon="pi pi-clock">	
+		<grupo value="ADMINISTRATIVOS"></grupo>
+		<menuitem value="Agendamento" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>	
+		<menuitem value="Atendimento Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>
+		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
+		<menuitem value="Criar Capa RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
 	</submenu>
 	
-	<submenu label="Atendimento" icon="pi pi-check-circle">
-		<grupo value="COORDENADORES"></grupo>
-			<menuitem value="Indiv. Com Agendamento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
-			<menuitem value="Realizar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>	
-			<submenu2 label="Relatórios">
-				<menuitem2 value="de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml"></menuitem2>	
-		</submenu2>	
-		<grupo value="ADMINISTRATIVOS"></grupo>
-			<menuitem value="Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>	
-	</submenu>	
+	<submenu label="Ações" icon="pi pi-book">		
+		<grupo value="TECNICOS"></grupo>
+		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
+		<menuitem value="Registrar de Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>				
+		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml"></menuitem>	
+	</submenu>
+		
 	
-	<submenu label="Encaminhamento" icon="pi pi-arrow-circle-right">
-		<grupo value="COORDENADORES"></grupo>
-		<menuitem value="Externo" outcome="/restricted/encaminhamento/EncaminhamentoExterno.xhtml"></menuitem>
-		<menuitem value="Cadastrar Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
+	<submenu label="Encaminhamentos" icon="pi pi-arrow-circle-right">
+		<grupo value="TECNICOS"></grupo>
+		<menuitem value="Encaminhamento Externo" outcome="/restricted/encaminhamento/EncaminhamentoExterno.xhtml"></menuitem>
+		<menuitem value="Cadastro Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
 		<submenu2 label="Gestão de Ofícios">
 			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml"></menuitem2>
 			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml"></menuitem2>	
@@ -41,10 +39,9 @@
 		</submenu2>	
 	</submenu>
 	
-	<submenu label="RD-Registro" icon="pi pi-book">		
-		<grupo value="ADMINISTRATIVOS"></grupo>
-			<menuitem value="Capa RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>	
-			<menuitem value="Pesquisa Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
+	<submenu label="Coordenação" icon="pi pi-th-large">
+		<grupo value="COORDENADORES"></grupo>
+		<menuitem value="Alterar Unidade" outcome="/restricted/unidade/AlterarUnidade.xhtml"></menuitem>
+		<menuitem value="Cadastro de Usuarios" outcome="/restricted/usuario/PesquisaUsuario.xhtml"></menuitem>
 	</submenu>
-	
 </menu>

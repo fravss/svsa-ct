@@ -22,6 +22,7 @@ import com.softarum.svsa.modelo.ListaAtendimento;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.Usuario;
+import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.modelo.enums.Role;
 import com.softarum.svsa.modelo.to.PessoaDTO;
 import com.softarum.svsa.service.AgendamentoIndividualService;
@@ -88,8 +89,8 @@ public class AgendamentoIndividualBean implements Serializable {
 		log.debug(mesAno);
 		
 		buscarListaAtendimento(unidade);
-		
-		this.roles = Arrays.asList(Role.values());	
+
+		this.roles = EnumUtil.getRolesCt();
 		limpar();	
 	}	
 	

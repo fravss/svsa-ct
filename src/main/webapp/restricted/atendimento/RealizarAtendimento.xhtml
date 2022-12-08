@@ -24,7 +24,7 @@
 		            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
 		            	actionListener="#{realizarAtendimentoBean.startPoll}"
 		            	oncomplete="PF('atendDialogWidgetVar').show()"
-		            	update="atendDialog toolbar toolbar2" 
+		            	update="atendDialog toolbar" 
 		            	process="@this">
 		            	<p:resetInput target="atendDialog" />	
 	            	</p:commandButton>	
@@ -113,34 +113,7 @@
 				      
     			<p:growl id="atendGrowl" showDetail="true" />    
     						
-    			<p:toolbar id="toolbar2">
-					<f:facet name="left">	
-			            
-			            <p:commandButton icon="pi pi-user" value="Situação de Violência" title="Registrar Situação de Violência"
-			            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
-			            	actionListener="#{realizarAtendimentoBean.carregarSituacoesViolencia}"
-			            	oncomplete="PF('violenciaWidgetDialog').show()"
-			            	update="frmPesquisa:violenciaDialog frmPesquisa:listaDataTable" 
-			            	process="@this">
-			            	<p:resetInput target="frmPesquisa:violenciaDialog" />	
-		            	</p:commandButton>
-		            	
-		            	<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			            </span>
-			            
-			            <p:commandButton icon="pi pi-chart-line" value="Indicador de Proteção" title="Indicadores de proteção e desproteção social"
-			            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
-			            	actionListener="#{realizarAtendimentoBean.carregarIndicadores}"
-			            	oncomplete="PF('indWidgetDialog').show()"
-			            	update="frmPesquisa:indDialog" 
-			            	process="@this">
-			            	<p:resetInput target="frmPesquisa:indDialog" />	
-		            	</p:commandButton>	            	
-	 	            	
-					</f:facet>
-				</p:toolbar>
-				
+    			
 				<p:spacer width="10px"/>
 						
 				<!--  Atendimento -->

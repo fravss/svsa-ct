@@ -26,7 +26,6 @@ import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.enums.CodigoAuxiliarAtendimento;
 import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.modelo.enums.Grupo;
-import com.softarum.svsa.modelo.enums.TipoUnidade;
 import com.softarum.svsa.service.AgendamentoIndividualService;
 import com.softarum.svsa.service.UsuarioService;
 import com.softarum.svsa.util.DateUtils;
@@ -113,16 +112,9 @@ public class RealizarAtendimentoBean implements Serializable {
 			if(usuarioLogado.getGrupo() == Grupo.COORDENADORES
 					|| usuarioLogado.getGrupo() == Grupo.TECNICOS) {
 				setCadastrador(false);
-				this.codigosAuxiliares = EnumUtil.getCodigosAtendIndividualizado();
-				// se for CREAS acrescentar codigos de abordagem
-				if(usuarioLogado.getUnidade().getTipo() == TipoUnidade.CREAS) {
-					this.codigosAuxiliares = EnumUtil.getCodigosAtendAbordagem();
-				}
+				this.codigosAuxiliares = EnumUtil.getTiposAtendimento();				
 			}			
-			else if (usuarioLogado.getGrupo() == Grupo.ADMINISTRATIVOS) {	
-				setCadastrador(true);
-				this.codigosAuxiliares = EnumUtil.getCodigosAtendCadunico();
-			}
+			
 		}
 		catch(Exception e){
 			log.error("Erro carregarCodAux() do RealizarAtendimento");

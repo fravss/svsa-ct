@@ -265,7 +265,7 @@ public class AgendamentoIndividualService implements Serializable {
 		//log.info(usuario.getRole().name());
 		
 		if(usuario.getRole() == Role.ADVOGADO ||
-				usuario.getRole() == Role.ASSISTENTE_SOCIAL ||
+				usuario.getRole() == Role.CONSELHEIRO ||
 				usuario.getRole() == Role.PSICOLOGO ||
 				usuario.getRole() == Role.ORIENTADOR_SOCIAL) {
 			return listaDAO.buscarAtendimentosTecnicos(usuario.getUnidade(), tenantId);
