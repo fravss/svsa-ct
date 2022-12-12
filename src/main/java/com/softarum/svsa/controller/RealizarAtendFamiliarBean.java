@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,13 +14,10 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import com.softarum.svsa.modelo.AgendamentoFamiliar;
-import com.softarum.svsa.modelo.IndProtecao;
-import com.softarum.svsa.modelo.SituacaoProtecao;
 import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.enums.CodigoAuxiliarAtendimento;
 import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.service.AgendamentoFamiliarService;
-import com.softarum.svsa.service.IndicadoresService;
 import com.softarum.svsa.service.UsuarioService;
 import com.softarum.svsa.util.MessageUtil;
 import com.softarum.svsa.util.NegocioException;
@@ -53,14 +49,9 @@ public class RealizarAtendFamiliarBean implements Serializable {
 	private boolean statusPoll = true;
 	
 	@Inject
-	private IndicadoresHelper helper;
-	
-	@Inject
 	AgendamentoFamiliarService agendamentoFamiliarService;
 	@Inject 
 	UsuarioService usuarioService;
-	@Inject
-	IndicadoresService indicadoresService;
 	@Inject
 	LoginBean loginBean;
 
@@ -158,48 +149,6 @@ public class RealizarAtendFamiliarBean implements Serializable {
 		
         return item != null && item.getCodigo() != null;
     }	
-	
-	/* 
-	 * Indicadores
-	 */
-	public void carregarIndicadores() {
-		
-		helper.carregarIndicadores(item, loginBean.getTenantId());
-	}
-	
-	public void carregarSelectedIndicadores() {
-		
-		helper.carregarSelectedIndicadores(item, loginBean.getTenantId());		
-	}
-	
-	public void gravarIndicadores() {	
-		
-		try {
-			helper.gravarIndicadores(item);
-		}
-		catch(NegocioException ne) {			
-			MessageUtil.info(ne.getMessage());
-		}
-		catch(Exception e) {			
-			MessageUtil.info(e.getMessage());
-		}
-	}
-	
-	public List<SelectItem> getProtecoes() {
-		return helper.getProtecoes();
-	}
-	public List<SituacaoProtecao> getSituacoes() {
-		return helper.getSituacoes();
-	}	
-	public List<IndProtecao> getSelectedIndicadores() {
-        return helper.getSelectedIndicadores();
-    }
-    public void setSelectedIndicadores(List<IndProtecao> selectedIndicadores) {
-        helper.setSelectedIndicadores(selectedIndicadores);
-    }
-    /* 
-	 * Indicadores fim
-	 */
 	
     public void stopPoll() {
 		log.info("true");

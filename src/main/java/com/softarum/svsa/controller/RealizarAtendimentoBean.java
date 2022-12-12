@@ -2,13 +2,11 @@ package com.softarum.svsa.controller;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,19 +14,15 @@ import javax.inject.Named;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
-import com.softarum.svsa.controller.pront.ind.SituacaoViolenciaBean;
 import com.softarum.svsa.modelo.Acao;
 import com.softarum.svsa.modelo.BeneficioEventual;
-import com.softarum.svsa.modelo.IndProtecao;
 import com.softarum.svsa.modelo.ListaAtendimento;
-import com.softarum.svsa.modelo.SituacaoProtecao;
 import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.enums.CodigoAuxiliarAtendimento;
 import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.modelo.enums.Grupo;
 import com.softarum.svsa.service.AgendamentoIndividualService;
 import com.softarum.svsa.service.UsuarioService;
-import com.softarum.svsa.util.DateUtils;
 import com.softarum.svsa.util.MessageUtil;
 import com.softarum.svsa.util.NegocioException;
 
@@ -67,15 +61,10 @@ public class RealizarAtendimentoBean implements Serializable {
 	private boolean cadastrador;
 	private boolean statusPoll = true;
 	
-	@Inject
-	private IndicadoresHelper helper;
-	
 	@Inject 
 	UsuarioService usuarioService;
 	@Inject
 	AgendamentoIndividualService listaAtendimentoService;
-	@Inject 
-	SituacaoViolenciaBean violenciaBean;
 	@Inject
 	LoginBean loginBean;
 
@@ -263,66 +252,6 @@ public class RealizarAtendimentoBean implements Serializable {
 		
         return item != null && item.getCodigo() != null;
     }	
-	
-	/* 
-	 * Indicadores
-	 */
-	
-	public void carregarIndicadores() {
-		
-		helper.carregarIndicadores(item, loginBean.getTenantId());
-	}
-	
-	public void carregarSelectedIndicadores() {
-		
-		helper.carregarSelectedIndicadores(item, loginBean.getTenantId());		
-	}
-	
-	public void gravarIndicadores() {	
-		
-		try {
-			helper.gravarIndicadores(item);
-		}
-		catch(NegocioException ne) {			
-			MessageUtil.info(ne.getMessage());
-		}
-		catch(Exception e) {			
-			MessageUtil.info(e.getMessage());
-		}
-	}
-	
-	public List<SelectItem> getProtecoes() {
-		return helper.getProtecoes();
-	}
-	public List<SituacaoProtecao> getSituacoes() {
-		return helper.getSituacoes();
-	}	
-	public List<IndProtecao> getSelectedIndicadores() {
-        return helper.getSelectedIndicadores();
-    }
-    public void setSelectedIndicadores(List<IndProtecao> selectedIndicadores) {
-        helper.setSelectedIndicadores(selectedIndicadores);
-    }
-    /* 
-	 * Indicadores fim
-	 */
-    
-    
-    /*
-     * Situação de Violencia
-     */
-    public void salvarSituacaoViolencia() {    	
-    	violenciaBean.getSituacaoViolencia().setData(DateUtils.asDate(LocalDateTime.now()));
-    	log.debug(item.getPessoa());
-    	violenciaBean.setPessoa(item.getPessoa());
-    	violenciaBean.salvar();    	
-    }
-    public void carregarSituacoesViolencia() {    	
-    	log.debug(item.getPessoa());
-    	violenciaBean.setPessoa(item.getPessoa());
-    	violenciaBean.carregarSituacoesViolencia();    
-    	violenciaBean.limpar();
-    }
     
     
     public void atualizarDataTable() {
