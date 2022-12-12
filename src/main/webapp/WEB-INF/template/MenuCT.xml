@@ -1,21 +1,25 @@
 <!DOCTYPE xml>
 <menu>
 
-	<submenu label="Recepção" icon="pi pi-clock">	
+	<submenu label="Agendamento" icon="pi pi-clock">	
 		<grupo value="ADMINISTRATIVOS"></grupo>
-		<menuitem value="Agendamento" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>	
-		<menuitem value="Atendimento Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>
-		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
-		<menuitem value="Criar Capa RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
+		<menuitem value="Agendamento" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
+		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>	
+		<menuitem value="Atendimento Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 		<menuitem value="Ver Agenda" outcome="/restricted/agenda/AgendaSchedule.xhtml"></menuitem>
 		<menuitem value="Ver Calendario" outcome="/restricted/agenda/CalendarSchedule.xhtml"></menuitem>	
 	</submenu>
 	
-	<submenu label="Ações" icon="pi pi-book">		
+	<submenu label="Atendimento" icon="pi pi-book">		
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
-		<menuitem value="Registrar de Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>				
+		<menuitem value="Registrar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>				
 		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml"></menuitem>	
+	</submenu>
+	
+	<submenu label="Denuncia" icon="pi pi-book">		
+		<grupo value="TECNICOS"></grupo>
+		<menuitem value="Registro RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
 	</submenu>
 		
 	
