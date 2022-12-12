@@ -18,6 +18,7 @@ public class EnumUtil {
 	
 	private static final List<Grupo> GRUPOS_CT;
 	private static final List<Role> ROLES_CT;
+	private static final List<TipoUnidade> TIPO_UNIDADE_CT;
 	
 
 	static {
@@ -33,6 +34,10 @@ public class EnumUtil {
 		ROLES_CT = Arrays.asList(
 				Role.ADMINISTRATIVO,
 				Role.CONSELHEIRO);
+		
+		TIPO_UNIDADE_CT = Arrays.asList(
+				TipoUnidade.SASC,
+				TipoUnidade.CT);
 		
 		CODIGOS_ATEND_INDIVIDUALIZADO = Arrays.asList(
 				CodigoAuxiliarAtendimento.ATENDIMENTO_SOCIAL,
@@ -155,5 +160,9 @@ public class EnumUtil {
 
 	public static List<Role> getRolesCt() {
 		return ROLES_CT;
+	}
+
+	public static List<TipoUnidade> getTipoUnidadeCt() {
+		return TIPO_UNIDADE_CT;
 	}
 }

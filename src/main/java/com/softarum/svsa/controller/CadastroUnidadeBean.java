@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import com.softarum.svsa.modelo.Endereco;
 import com.softarum.svsa.modelo.Unidade;
+import com.softarum.svsa.modelo.enums.EnumUtil;
 import com.softarum.svsa.modelo.enums.TipoUnidade;
 import com.softarum.svsa.modelo.enums.Uf;
 import com.softarum.svsa.modelo.to.EnderecoTO;
@@ -64,7 +65,7 @@ public class CadastroUnidadeBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
-		this.tipos = Arrays.asList(TipoUnidade.values());
+		this.tipos = EnumUtil.getTipoUnidadeCt();
 		this.ufs = Arrays.asList(Uf.values());
 	}
 	/*
