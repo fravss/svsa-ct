@@ -15,7 +15,6 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.softarum.svsa.modelo.ct.Denuncia;
 import com.softarum.svsa.modelo.enums.Grupo;
-import com.softarum.svsa.util.DateUtils;
 import com.softarum.svsa.util.NegocioException;
 
 public class AtestadoPDFService implements Serializable {
