@@ -18,7 +18,6 @@ import com.softarum.svsa.controller.LoginBean;
 import com.softarum.svsa.controller.pront.ind.CondicaoEducacionalBean;
 import com.softarum.svsa.controller.pront.ind.CondicaoSaudeBean;
 import com.softarum.svsa.controller.pront.ind.CondicaoTrabalhoBean;
-import com.softarum.svsa.controller.pront.ind.SituacaoViolenciaBean;
 import com.softarum.svsa.modelo.Pessoa;
 import com.softarum.svsa.modelo.Usuario;
 import com.softarum.svsa.modelo.to.PessoaDTO;
@@ -55,8 +54,6 @@ public class CondicaoIndividualBean implements Serializable {
 	private CondicaoSaudeBean saudeBean;
 	@Inject
 	private CondicaoTrabalhoBean trabalhoBean;
-	@Inject
-	private SituacaoViolenciaBean violenciaBean;
 	
 	@PostConstruct
 	public void inicializar() {		
@@ -74,7 +71,6 @@ public class CondicaoIndividualBean implements Serializable {
 		educacionalBean.setPessoa(this.pessoa);
 		saudeBean.setPessoa(this.pessoa);
 		trabalhoBean.setPessoa(this.pessoa);
-		violenciaBean.setPessoa(this.pessoa);
 		
 		MessageUtil.sucesso("Pessoa Selecionada: " + this.pessoa.getNome());		
 	}

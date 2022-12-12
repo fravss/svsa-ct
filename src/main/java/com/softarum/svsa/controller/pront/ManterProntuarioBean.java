@@ -63,8 +63,6 @@ public class ManterProntuarioBean implements Serializable {
 	private MPConvivenciaFamiliarBean mpConvivenciaBean;
 	/* Membros */
 	@Inject
-	private MPSituacaoViolenciaBean mpViolenciaBean;
-	@Inject
 	private MPCondicaoSaudeBean mpSaudeBean;
 	@Inject
 	private MPCondicaoTrabalhoBean mpTrabalhoBean;
@@ -132,7 +130,6 @@ public class ManterProntuarioBean implements Serializable {
 		mpConvivenciaBean.setPessoaReferencia(this.pessoaReferencia);
 		
 		/* dados de membros */
-		mpViolenciaBean.setMembros(mpComposicaoBean.getPessoas());
 		mpSaudeBean.setMembros(mpComposicaoBean.getPessoas());
 		mpTrabalhoBean.setMembros(mpComposicaoBean.getPessoas());
 		mpEducacionalBean.setMembros(mpComposicaoBean.getPessoas());

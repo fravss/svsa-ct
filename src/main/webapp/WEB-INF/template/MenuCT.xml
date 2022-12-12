@@ -7,6 +7,8 @@
 		<menuitem value="Atendimento Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>
 		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>
 		<menuitem value="Criar Capa RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
+		<menuitem value="Ver Agenda" outcome="/restricted/agenda/AgendaSchedule.xhtml"></menuitem>
+		<menuitem value="Ver Calendario" outcome="/restricted/agenda/CalendarSchedule.xhtml"></menuitem>	
 	</submenu>
 	
 	<submenu label="Ações" icon="pi pi-book">		
