@@ -10,21 +10,21 @@
 		
 		<!-- ################ PRODUÇÃO  ###################-->
 							
-			<!-- SALTO svsa-ct 	-->
+			<!-- SALTO svsa-ct 	
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://database-1.csmrh3howepe.us-east-1.rds.amazonaws.com/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="svsact"/>
 			<property name="javax.persistence.jdbc.password" value="Svsact;.22**"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		
-			
+			-->
 		
 			<!-- ################ DESENVOLVIMENTO  ################### -->
 							
-			<!-- SALTO svsa-ct 	
+			<!-- SALTO svsa-ct 	-->
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.password" value="ifsp"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-			-->
+			
 			
 			<!--################### TODOS ###################-->	
 						

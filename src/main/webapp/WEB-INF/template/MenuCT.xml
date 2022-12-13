@@ -5,33 +5,45 @@
 		<grupo value="ADMINISTRATIVOS"></grupo>
 		<menuitem value="Agendamento" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
 		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>	
-		<menuitem value="Atendimento Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 		<menuitem value="Ver Agenda" outcome="/restricted/agenda/AgendaSchedule.xhtml"></menuitem>
 		<menuitem value="Ver Calendario" outcome="/restricted/agenda/CalendarSchedule.xhtml"></menuitem>	
 	</submenu>
 	
-	<submenu label="Atendimento" icon="pi pi-book">		
+	<submenu label="Atendimento" icon="pi pi-check-circle">	
+		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
-		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml"></menuitem>	
-		<menuitem value="Registrar Ação" outcome="/restricted/ct/RealizarAcao.xhtml"></menuitem>				
-		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml"></menuitem>	
+		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>	
+		<menuitem value="Registrar Ação" outcome="/restricted/ct/RealizarAcao.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>				
+		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>
+		<menuitem value="Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 	</submenu>
 	
-	<submenu label="Denuncia" icon="pi pi-book">		
-		<grupo value="TECNICOS"></grupo>
+	<submenu label="Denuncia" icon="pi pi-book">
+		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<menuitem value="Registro RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
-	</submenu>
-		
+	</submenu>		
 	
 	<submenu label="Encaminhamentos" icon="pi pi-arrow-circle-right">
+		<grupo value="ADMINISTRATIVOS"></grupo>
 		<grupo value="TECNICOS"></grupo>
-		<menuitem value="Encaminhamento Externo" outcome="/restricted/encaminhamento/EncaminhamentoExterno.xhtml"></menuitem>
+		<menuitem value="Encaminhamento Externo" outcome="/restricted/encaminhamento/EncaminhamentoExterno.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>
 		<menuitem value="Cadastro Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
 		<submenu2 label="Gestão de Ofícios">
-			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml"></menuitem2>
-			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml"></menuitem2>	
-		</submenu2>	
-	
+			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>
+			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>	
+		</submenu2>		
 		<submenu2 label="Relatórios">
 			<menuitem2 value="Encam. Interno(*)" outcome="/restricted/encaminhamento/RelatorioEncExterno.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
