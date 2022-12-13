@@ -130,37 +130,13 @@
 		    		<p:selectOneMenu id="aux" 
 		    			required="true" 
 		    			value="#{realizarAtendimentoBean.item.codigoAuxiliar}"
-		    		    validatorMessage="O código auxiliar de atendimento é obrigatório.">
-		    		    <p:ajax event="valueChange" process="@this"
-							update="af20 af21 an20 an21"
-							listener="#{realizarAtendimentoBean.verificaAuxilio}" />
+		    		    validatorMessage="O código auxiliar de atendimento é obrigatório.">		    		    
 		    			<f:selectItem itemLabel="Selecione o código auxiliar" />
 		    			<f:selectItems value="#{realizarAtendimentoBean.codigosAuxiliares}" var="codAux" 
 							itemLabel="#{codAux}" itemValue="#{codAux}"/>
 		    		</p:selectOneMenu>
 					
-			    	<h:panelGroup>
-			    		<p:outputLabel value="(Em caso de benefício)" 
-			    			disabled="#{not realizarAtendimentoBean.auxilioFuneral}"/><p:spacer width="10px" />	
-			    		<p:outputLabel id="af20" value="CPF do falecido" for="af21"
-							disabled="#{not realizarAtendimentoBean.auxilioFuneral}"/><p:spacer width="10px" />							
-						<p:inputMask id="af21" size="18" maxlength="14"
-							mask="999.999.999-99"
-							disabled="#{not realizarAtendimentoBean.auxilioFuneral}"
-							value="#{realizarAtendimentoBean.beneficio.cpfFalecido}"/>
-							
-						<p:spacer width="10px" /> 
-				
-						<p:outputLabel id="an20" value="Nr Registro de Nascimento" for="an21"
-							disabled="#{not realizarAtendimentoBean.auxilioNatalidade}" />
-						<p:spacer width="10px" />
-						<p:inputText id="an21" size="18" maxlength="20"
-							disabled="#{not realizarAtendimentoBean.auxilioNatalidade}"
-							value="#{realizarAtendimentoBean.beneficio.registroNascimento}"/>
-		    		
-		    		</h:panelGroup>
-		    		
-		    		<p:spacer height="3px" />		    		
+			    	<p:spacer height="3px" />		    		
 		    		
 	    			<p:outputLabel value="DATA PARA O ATENDIMENTO" for="dataAtendimento" />
 					<p:calendar id="dataAtendimento" size="30"	

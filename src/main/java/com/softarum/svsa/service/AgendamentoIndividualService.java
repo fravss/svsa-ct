@@ -262,7 +262,7 @@ public class AgendamentoIndividualService implements Serializable {
 		
 	public List<ListaAtendimento> buscarAtendimentosRole(Usuario usuario, Long tenantId) {
 		
-		//log.info(usuario.getRole().name());
+		log.info(usuario.getRole().name());
 		
 		if(usuario.getRole() == Role.ADVOGADO ||
 				usuario.getRole() == Role.CONSELHEIRO ||

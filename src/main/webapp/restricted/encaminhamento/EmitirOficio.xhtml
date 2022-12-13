@@ -104,19 +104,12 @@
 							value="#{oficioEmitido}" />
 					</p:commandButton>	
 					
-					<p:commandButton id="show" icon="pi pi-print" title="Imprimir PDF"
+					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar PDF"
 						disabled="#{not emitirOficioBean.oficioSelecionado}"
 						action="#{emitirOficioBean.showPDF(oficioEmitido)}"
 						process="show" immediate="true" ajax="false"
 						update="frmPesquisa:addGrowl">
-					</p:commandButton>
-					
-					<p:commandButton id="download" icon="pi pi-file-o" title="Download PDF"
-						disabled="#{not emitirOficioBean.oficioSelecionado}"           			
-            			action="#{emitirOficioBean.downloadPDF(oficioEmitido)}" 
-            			process="download" immediate="true" ajax="false"
-            			update="frmPesquisa:addGrowl">
-            		</p:commandButton>
+					</p:commandButton>				
 					
 										
 		    	</p:column>    		

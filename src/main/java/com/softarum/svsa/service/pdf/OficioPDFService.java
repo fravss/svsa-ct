@@ -18,7 +18,6 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.softarum.svsa.modelo.OficioEmitido;
-import com.softarum.svsa.modelo.enums.Grupo;
 import com.softarum.svsa.util.DateUtils;
 import com.softarum.svsa.util.NegocioException;
 
@@ -119,39 +118,8 @@ public class OficioPDFService implements Serializable {
 		line3.setTextAlignment(align);
 		document.add(line3);
 		
-		Paragraph line4 = null;
-		
-		if(oficioEmitido.getTecnico().getGrupo() == Grupo.COORDENADORES) {
-			if(oficioEmitido.getTecnico().getRegistroProfissional() != null && !oficioEmitido.getTecnico().getRegistroProfissional().isEmpty() ) {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
-					+ oficioEmitido.getTecnico().getNome() + "\n"
-					+ oficioEmitido.getTecnico().getRole() + " - Coordenador(a) "
-					+ oficioEmitido.getTecnico().getUnidade().getNome() + "\n" 
-					+ oficioEmitido.getTecnico().getRegistroProfissional());
-			}
-			else {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
-						+ oficioEmitido.getTecnico().getNome() + "\n"
-						+ oficioEmitido.getTecnico().getRole() + " - Coordenador(a) "
-						+ oficioEmitido.getTecnico().getUnidade().getNome());
-						
-			}
-		}
-		else {
-			if(oficioEmitido.getTecnico().getRegistroProfissional() != null && !oficioEmitido.getTecnico().getRegistroProfissional().isEmpty() ) {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
-					+ oficioEmitido.getTecnico().getNome() + "\n" 
-					+ oficioEmitido.getTecnico().getRole() + "\n" 
-					+ oficioEmitido.getTecnico().getRegistroProfissional());
-			}
-			else {
-				line4 = new Paragraph("\n\n_________________________________________\n" 
-						+ oficioEmitido.getTecnico().getNome() + "\n" 
-						+ oficioEmitido.getTecnico().getRole()); 
-			}
-		}	
-		
-		
+			
+		Paragraph line4 = new Paragraph("\n\n CONSELHEIROS") ;
 		line4.setFontSize(12);
 		line4.setFont(font);
 		line4.setTextAlignment(TextAlignment.CENTER);
@@ -170,7 +138,7 @@ public class OficioPDFService implements Serializable {
 			ImageData data = ImageDataFactory.create(url);
 			// Creating an Image object 
 			Image img = new Image(data);
-			document.add(img);	
+			//document.add(img);	
 
 		} catch (Exception e) {
 			throw new NegocioException("Logotipo da unidade não encontrado.");

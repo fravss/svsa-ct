@@ -13,6 +13,7 @@
 		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
+		<menuitem value="Atend. Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	
 		<menuitem value="Registrar Ação" outcome="/restricted/ct/RealizarAcao.xhtml">
@@ -20,8 +21,7 @@
 		</menuitem>				
 		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>
-		<menuitem value="Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
+		</menuitem>		
 	</submenu>
 	
 	<submenu label="Denuncia" icon="pi pi-book">
@@ -31,6 +31,9 @@
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>
 		<menuitem value="Capa de Prontuario" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
+		<menuitem value="Manter Prontuario" outcome="/restricted/agenda/ManterProntuario.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>
 	</submenu>		
 	
 	<submenu label="Encaminhamentos" icon="pi pi-arrow-circle-right">
