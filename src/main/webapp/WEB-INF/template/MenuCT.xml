@@ -25,8 +25,12 @@
 	</submenu>
 	
 	<submenu label="Denuncia" icon="pi pi-book">
-		<grupo value="ADMINISTRATIVOS"></grupo>	
-		<menuitem value="Registro RD" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
+		<grupo value="ADMINISTRATIVOS"></grupo>
+		<grupo value="TECNICOS"></grupo>		
+		<menuitem value="Registrar Denuncia" outcome="/restricted/ct/RegistrarDenuncia.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>
+		<menuitem value="Capa de Prontuario" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
 	</submenu>		
 	
 	<submenu label="Encaminhamentos" icon="pi pi-arrow-circle-right">
