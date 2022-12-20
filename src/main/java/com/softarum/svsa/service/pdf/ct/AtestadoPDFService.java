@@ -96,12 +96,27 @@ public class AtestadoPDFService implements Serializable {
 		line1.setTextAlignment(align);
 		document.add(line1);
 		
-		Paragraph line2 = new Paragraph(denuncia.getPessoa().getNomeMae() + "\n " +"Portadora do RG:" + denuncia.getPessoa().getRg());
-		line2.setFontSize(16);
-		line2.setFont(font);
-		line2.setTextAlignment(align);
-		document.add(line2);
-		
+		if (denuncia.getPessoa().getNomeMae().isEmpty() && denuncia.getPessoa().getNomePai().isEmpty()) {
+			Paragraph line2 = new Paragraph(denuncia.getPessoa().getNomeTerceiro() + "\n ");
+			line2.setFontSize(16);
+			line2.setFont(font);
+			line2.setTextAlignment(align);
+			document.add(line2);
+		} else if (denuncia.getPessoa().getNomeMae().isEmpty() && denuncia.getPessoa().getNomePai().isEmpty() == false) {
+			Paragraph line2 = new Paragraph(
+			denuncia.getPessoa().getNomePai() + "\n ");
+			line2.setFontSize(16);
+			line2.setFont(font);
+			line2.setTextAlignment(align);
+			document.add(line2);
+		} else {
+			Paragraph line2 = new Paragraph(
+					denuncia.getPessoa().getNomeMae() + "\n " + "Portador(a) do RG:" + denuncia.getPessoa().getRg());
+			line2.setFontSize(16);
+			line2.setFont(font);
+			line2.setTextAlignment(align);
+			document.add(line2);
+		}
 		Paragraph line3 = new Paragraph("Esteve presente neste órgão cumprindo assim a notificação recebida de acordo com o " +
 		"Estatuto da Criança e do Adolescente ECA - Lei Federal Nº 8.069, nos termos do inciso VII, do Artigo 136 e sobe pena do art." +
 		"236 da mesma lei mencionada acima.");
