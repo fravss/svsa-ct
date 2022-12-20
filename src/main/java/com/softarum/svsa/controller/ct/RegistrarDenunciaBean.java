@@ -28,6 +28,7 @@ import com.softarum.svsa.modelo.enums.ct.Status;
 import com.softarum.svsa.service.ct.DenunciaService;
 import com.softarum.svsa.service.pdf.ct.AtestadoPDFService;
 import com.softarum.svsa.service.pdf.ct.DenunciaPDFService;
+import com.softarum.svsa.service.pdf.ct.NotificacaoPDFService;
 import com.softarum.svsa.util.MessageUtil;
 import com.softarum.svsa.util.NegocioException;
 
@@ -66,6 +67,8 @@ public class RegistrarDenunciaBean implements Serializable {
 	private AtestadoPDFService atestadopdfService;
 	@Inject
 	private DenunciaPDFService denunciapdfService;
+	@Inject
+	private NotificacaoPDFService notificacaopdfService;
 	
 	@Inject
 	private LoginBean loginBean;
@@ -133,6 +136,7 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setTenant_id(loginBean.getTenantId());
 	}	
 
+	//Atestado
 	public void showPDF() {
 
 		try {
@@ -184,6 +188,7 @@ public class RegistrarDenunciaBean implements Serializable {
 		log.info("PDF gerado!");
 	}
 	
+	//Relatório de Denuncia
 	public void showPDFDenuncia() {
 
 		try {
@@ -234,6 +239,58 @@ public class RegistrarDenunciaBean implements Serializable {
 		
 		log.info("PDF gerado!");
 	}
+	
+	//Notificação
+	public void showPDFNotificacao() {
+
+		try {
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-disposition", "inline=filename=file.pdf");
+
+		
+			
+			// Emissão em nome de quem está imprimindo
+			denuncia.setTecnico(loginBean.getUsuario());
+			// Creating a PdfWriter
+			log.info(denuncia);
+			log.info(loginBean.getUsuario().getTenant().getS3Key());
+			log.info(loginBean.getUsuario().getTenant().getSecretaria());
+			ByteArrayOutputStream baos = notificacaopdfService.generateStream(denuncia,
+					loginBean.getUsuario().getTenant().getS3Key(),
+					loginBean.getUsuario().getTenant().getSecretaria());
+					
+
+			// setting some response headers
+			response.setHeader("Expires", "0");
+			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+			response.setHeader("Pragma", "public");
+			// setting the content type
+			response.setContentType("application/pdf");
+			// the contentlength
+			response.setContentLength(baos.size());
+			// write ByteArrayOutputStream to the ServletOutputStream
+			ServletOutputStream os = response.getOutputStream();
+
+			baos.writeTo(os);
+			os.flush();
+			os.close();
+			context.responseComplete();
+		} catch (NegocioException ne) {
+			ne.printStackTrace();
+			MessageUtil.erro(ne.getMessage());
+		}catch (IOException e) {
+			e.printStackTrace();
+			MessageUtil.erro("Problema na escrita do PDF.");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			MessageUtil.erro("Problema na geração do PDF.");
+		}
+		
+		log.info("PDF gerado!");
+	} 
 	
 	public boolean isAtestadoSelecionado() {
         return denuncia != null && denuncia.getCodigo() != null;

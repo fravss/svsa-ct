@@ -116,6 +116,13 @@
 						update="frmPesquisa:addGrowl">
 					</p:commandButton>
 					
+					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
+						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
+						action="#{registrarDenunciaBean.showPDFNotificacao}"
+						process="showNotificacao" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+					
 					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
 						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
 						action="#{registrarDenunciaBean.showPDFDenuncia}"
