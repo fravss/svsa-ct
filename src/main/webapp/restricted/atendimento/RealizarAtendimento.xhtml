@@ -24,7 +24,7 @@
 		            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
 		            	actionListener="#{realizarAtendimentoBean.startPoll}"
 		            	oncomplete="PF('atendDialogWidgetVar').show()"
-		            	update="atendDialog toolbar toolbar2" 
+		            	update="atendDialog toolbar" 
 		            	process="@this">
 		            	<p:resetInput target="atendDialog" />	
 	            	</p:commandButton>	
@@ -113,34 +113,7 @@
 				      
     			<p:growl id="atendGrowl" showDetail="true" />    
     						
-    			<p:toolbar id="toolbar2">
-					<f:facet name="left">	
-			            
-			            <p:commandButton icon="pi pi-user" value="Situação de Violência" title="Registrar Situação de Violência"
-			            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
-			            	actionListener="#{realizarAtendimentoBean.carregarSituacoesViolencia}"
-			            	oncomplete="PF('violenciaWidgetDialog').show()"
-			            	update="frmPesquisa:violenciaDialog frmPesquisa:listaDataTable" 
-			            	process="@this">
-			            	<p:resetInput target="frmPesquisa:violenciaDialog" />	
-		            	</p:commandButton>
-		            	
-		            	<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			            </span>
-			            
-			            <p:commandButton icon="pi pi-chart-line" value="Indicador de Proteção" title="Indicadores de proteção e desproteção social"
-			            	disabled="#{not realizarAtendimentoBean.itemSelecionado}"
-			            	actionListener="#{realizarAtendimentoBean.carregarIndicadores}"
-			            	oncomplete="PF('indWidgetDialog').show()"
-			            	update="frmPesquisa:indDialog" 
-			            	process="@this">
-			            	<p:resetInput target="frmPesquisa:indDialog" />	
-		            	</p:commandButton>	            	
-	 	            	
-					</f:facet>
-				</p:toolbar>
-				
+    			
 				<p:spacer width="10px"/>
 						
 				<!--  Atendimento -->
@@ -157,37 +130,13 @@
 		    		<p:selectOneMenu id="aux" 
 		    			required="true" 
 		    			value="#{realizarAtendimentoBean.item.codigoAuxiliar}"
-		    		    validatorMessage="O código auxiliar de atendimento é obrigatório.">
-		    		    <p:ajax event="valueChange" process="@this"
-							update="af20 af21 an20 an21"
-							listener="#{realizarAtendimentoBean.verificaAuxilio}" />
+		    		    validatorMessage="O código auxiliar de atendimento é obrigatório.">		    		    
 		    			<f:selectItem itemLabel="Selecione o código auxiliar" />
 		    			<f:selectItems value="#{realizarAtendimentoBean.codigosAuxiliares}" var="codAux" 
 							itemLabel="#{codAux}" itemValue="#{codAux}"/>
 		    		</p:selectOneMenu>
 					
-			    	<h:panelGroup>
-			    		<p:outputLabel value="(Em caso de benefício)" 
-			    			disabled="#{not realizarAtendimentoBean.auxilioFuneral}"/><p:spacer width="10px" />	
-			    		<p:outputLabel id="af20" value="CPF do falecido" for="af21"
-							disabled="#{not realizarAtendimentoBean.auxilioFuneral}"/><p:spacer width="10px" />							
-						<p:inputMask id="af21" size="18" maxlength="14"
-							mask="999.999.999-99"
-							disabled="#{not realizarAtendimentoBean.auxilioFuneral}"
-							value="#{realizarAtendimentoBean.beneficio.cpfFalecido}"/>
-							
-						<p:spacer width="10px" /> 
-				
-						<p:outputLabel id="an20" value="Nr Registro de Nascimento" for="an21"
-							disabled="#{not realizarAtendimentoBean.auxilioNatalidade}" />
-						<p:spacer width="10px" />
-						<p:inputText id="an21" size="18" maxlength="20"
-							disabled="#{not realizarAtendimentoBean.auxilioNatalidade}"
-							value="#{realizarAtendimentoBean.beneficio.registroNascimento}"/>
-		    		
-		    		</h:panelGroup>
-		    		
-		    		<p:spacer height="3px" />		    		
+			    	<p:spacer height="3px" />		    		
 		    		
 	    			<p:outputLabel value="DATA PARA O ATENDIMENTO" for="dataAtendimento" />
 					<p:calendar id="dataAtendimento" size="30"	
@@ -336,8 +285,7 @@
 			<ui:include src="/compositions/EvolucaoUI.xhtml">
                 <ui:param name="pessoa" value="#{evolucaoUIBean.pessoa}" />                
             </ui:include>
-			<ui:include  src="/compositions/IndProtecaoDesprotecao.xhtml"/>
-			<ui:include  src="/compositions/IndSituacaoViolencia.xhtml"/>
+			
 			
 			
 			

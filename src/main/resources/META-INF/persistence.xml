@@ -6,12 +6,21 @@
              
 	<persistence-unit name="svsaPU" transaction-type="RESOURCE_LOCAL">
 
-		<properties> 		
+		<properties> 
 		
-			<!-- ################ DESENVOLVIMENTO  ###################-->
+		<!-- ################ PRODUÇÃO  ###################-->
+							
+			<!-- SALTO svsa-ct 	
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://database-1.csmrh3howepe.us-east-1.rds.amazonaws.com/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="svsact"/>
+			<property name="javax.persistence.jdbc.password" value="Svsact;.22**"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		
+			-->
+		
+			<!-- ################ DESENVOLVIMENTO  ################### -->
 							
 			<!-- SALTO svsa-ct 	-->
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/svsaweb?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.password" value="ifsp"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -29,16 +38,24 @@
 			
 			<property name="hibernate.c3p0.minPoolSize" value="5" />
 			<property name="hibernate.c3p0.maxPoolSize" value="50" />
-			<property name="hibernate.c3p0.maxIdleTime" value="3600" />
-			<property name="hibernate.c3p0.max_statements" value="100" />
+			<property name="hibernate.c3p0.maxIdleTime" value="3600" />					
 			<property name="hibernate.c3p0.testConnectionOnCheckout" value="false" />
 			<property name="hibernate.c3p0.testConnectionOnCheckin" value="true" />
 			<property name="hibernate.c3p0.idleConnectionTestPeriod" value="60" />
 			
+			<!-- Pool de instruções preparadas JDBC 
+				(é preciso analisar a media de preparedstatements 
+				 usados pela aplicação para dimensionar. Preferencialmente usar por conexão)
+			<property name="hibernate.c3p0.max_statements" value="0" />
+			<property name="hibernate.c3p0.maxStatementsPerConnection" value="5" />	
+			<property name="hibernate.c3p0.statementCacheNumDeferredCloseThreads" value="1" />
+			-->
+			
 			<!--  minPoolSize: tamanho minimo do pool -->
 			<!--  maxPoolSize: tamanho maximo do pool -->
 			<!--  maxIdleTime: tempo em segundos antes de uma conexão não usada ser retirada do pool 3600 = 1h -->
-			<!--  maxStatements: numero de instruções/transações preparadas mantidas em cache -->				
+			<!--  maxStatements: numero de instruções/transações preparadas mantidas em cache para todas as conexões do pool -->	
+			<!--  maxStatementsPerConnection: numero de instruções/transações preparadas mantidas em cache por conexão no pool -->
 			<!--  1.Performance:
 					testConnectionOnCheckout=false
 					testConnectionOnCheckin=true

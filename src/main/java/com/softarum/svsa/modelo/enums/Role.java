@@ -12,7 +12,7 @@ public enum Role {
 	AGENTE_SOCIAL,
 	
 	// técnicos / coordenadores
-	ASSISTENTE_SOCIAL,
+	CONSELHEIRO,
 	PSICOLOGO,
 	ADVOGADO,
 	ORIENTADOR_SOCIAL,

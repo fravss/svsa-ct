@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EnumUtil {
+	// ct
+	private static final List<CodigoAuxiliarAtendimento> TIPOS_ATENDIMENTO;
+	
 	
 	private static final List<CodigoAuxiliarAtendimento> CODIGOS_ATEND_INDIVIDUALIZADO;
 	private static final List<CodigoAuxiliarAtendimento> CODIGOS_ATEND_CADUNICO;
@@ -13,8 +16,29 @@ public class EnumUtil {
 	
 	private static final List<Parentesco> CODIGOS_PARENTESCO_MEMBROS;
 	
+	private static final List<Grupo> GRUPOS_CT;
+	private static final List<Role> ROLES_CT;
+	private static final List<TipoUnidade> TIPO_UNIDADE_CT;
+	
 
 	static {
+		TIPOS_ATENDIMENTO = Arrays.asList(
+				CodigoAuxiliarAtendimento.ESPONTANEO,
+				CodigoAuxiliarAtendimento.NOTIFICACAO);
+		
+		GRUPOS_CT = Arrays.asList(
+				Grupo.ADMINISTRATIVOS,
+				Grupo.TECNICOS,
+				Grupo.COORDENADORES);
+		
+		ROLES_CT = Arrays.asList(
+				Role.ADMINISTRATIVO,
+				Role.CONSELHEIRO);
+		
+		TIPO_UNIDADE_CT = Arrays.asList(
+				TipoUnidade.SASC,
+				TipoUnidade.CT);
+		
 		CODIGOS_ATEND_INDIVIDUALIZADO = Arrays.asList(
 				CodigoAuxiliarAtendimento.ATENDIMENTO_SOCIAL,
 				CodigoAuxiliarAtendimento.ATENDIMENTO_PSICOLOGICO,
@@ -102,7 +126,6 @@ public class EnumUtil {
 		
 	}
 
-
 	public static List<CodigoAuxiliarAtendimento> getCodigosAtendIndividualizado() {
 		return CODIGOS_ATEND_INDIVIDUALIZADO;
 	}
@@ -125,5 +148,21 @@ public class EnumUtil {
 	
 	public static List<Parentesco> getCodigosParentescoMembro() {
 		return CODIGOS_PARENTESCO_MEMBROS;
+	}
+
+	public static List<CodigoAuxiliarAtendimento> getTiposAtendimento() {
+		return TIPOS_ATENDIMENTO;
+	}
+
+	public static List<Grupo> getGruposCt() {
+		return GRUPOS_CT;
+	}
+
+	public static List<Role> getRolesCt() {
+		return ROLES_CT;
+	}
+
+	public static List<TipoUnidade> getTipoUnidadeCt() {
+		return TIPO_UNIDADE_CT;
 	}
 }

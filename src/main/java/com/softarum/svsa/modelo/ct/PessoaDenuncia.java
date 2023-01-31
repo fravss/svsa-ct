@@ -58,7 +58,11 @@ public class PessoaDenuncia implements Cloneable, Serializable {/**
 	
 	private String nomePai;
 	
+	private String nomeTerceiro;
+	
 	private Long tenant_id;
+	
+	private String rg;
 	
 	@ToString.Include
 	@Temporal(TemporalType.TIMESTAMP)
@@ -66,7 +70,13 @@ public class PessoaDenuncia implements Cloneable, Serializable {/**
 	
 	private String endereco;
 	
+	private String enderecoPai;
+	
 	private String telefone;
+	
+	private String telefonePai;
+	
+	private String telefoneTerceiro;
 	
 	private String escola;
 	

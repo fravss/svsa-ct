@@ -14,7 +14,7 @@
 			<o:viewParam name="prontuario" value="#{cadastroProntuarioBean.prontuario}" />
 		</f:metadata>
 		    
-    	<h2>Capa de Prontuário</h2>
+    	<h2>Capa de RD</h2>
     	     
     	<h:form id="frmProntuario" enctype="multipart/form-data" target="_blank">
     	
@@ -76,59 +76,17 @@
 	    	<p:panelGrid id="prontuarioPanelGrid" columns="2" 
 	    		rendered ="#{not cadastroProntuarioBean.composicao}"
 	    		columnClasses="rotulo, campo" style="width: 100%" >    		
-	    		
-	    		
-	    		<p:outputLabel value="Código Prontuário" for="codigo"/>
-	    		<p:inputText id="codigo" size="20" maxlength="20" 
-		    		value="#{cadastroProntuarioBean.prontuario.codigo}" readonly="true"/>	
-	    		
-	    		<p:outputLabel value="Prontuario Físico" for="prontuario"/>
+	    			    		
+	    		<p:outputLabel value="RD Físico" for="prontuario"/>
 	    		<h:panelGroup >
 		    		<p:inputText id="prontuario" size="10" maxlength="12" 
 		    			value="#{cadastroProntuarioBean.prontuario.prontuario}">
 				    </p:inputText>
 				    
 					<p:spacer width="10px" />					
-					<p:outputLabel value=" (Usado para referenciar a pasta física do prontuário. Se não existir, deixe em branco.)"/>					
+					<p:outputLabel value=" (Usado para referenciar a pasta física do RD Se não existir, deixe em branco.)"/>					
 				</h:panelGroup>	
-		 			 		
 		 		
-		 		<p:outputLabel value="Vincular Prontuário"/>		 				    
-    			<h:panelGroup>    				
-		    		
-    				<p:inputText id="prontVinculado" size="10" maxlength="12"
-		    			value="#{cadastroProntuarioBean.prontuarioVinculado}"
-		    			rendered="#{cadastroProntuarioBean.creas}"
-		    			update="nomePr"
-	    				process="@this"
-	    				imadiate="true">
-		    		</p:inputText>
-		    		<p:spacer width="10px" />
-		    		
-					<p:commandButton value="Buscar"
-		    			rendered="#{cadastroProntuarioBean.creas}"
-	    				action="#{cadastroProntuarioBean.buscarNomePessoa}" 
-	    				update="nomePr"
-	    				process="@this prontVinculado"
-	    				imadiate="true"/>		    		
-		    		<p:spacer width="10px" />
-		    		
-		    		<h:outputText id="nomePr" value="#{cadastroProntuarioBean.nomePessoaRef}"/>
-		    		<p:spacer width="10px" />
-		    		
-					<p:commandButton value="Vincular"
-		    			rendered="#{cadastroProntuarioBean.creas}"
-	    				action="#{cadastroProntuarioBean.vincularProntuario}" 
-	    				update="codVinc"
-	    				process="@this"
-	    				imadiate="true"/>
-				</h:panelGroup>	
-				
-				<p:outputLabel value="Vínculo" for="codVinc"/>				
-   				<p:inputText id="codVinc" size="60" maxlength="80" 
-    					readonly="true"
-    					value="#{cadastroProntuarioBean.prontuario.prontuarioVinculado.codigo} - #{cadastroProntuarioBean.prontuario.prontuarioVinculado.familia.pessoaReferencia.nome}  [#{cadastroProntuarioBean.prontuario.prontuarioVinculado.unidade.nome}]"/>
- 		 		
 	    		<p:outputLabel value="Data da entrada" for="dataEntrada" />
 				<p:calendar id="dataEntrada" size="20"
 					value="#{cadastroProntuarioBean.prontuario.dataEntrada}"
@@ -146,7 +104,7 @@
 	    		
 	    		
 	    		
-	    		<h4>Pessoa de Referência</h4>
+	    		<h4>Responsável</h4>
 				
 				
 				<p:outputLabel value="Nome" for="nome"/>
@@ -180,7 +138,7 @@
 						itemLabel="#{pais.pais}" itemValue="#{pais}"/>
 	    		</p:selectOneMenu>	
 	    		
-			    <p:outputLabel value="Telefone Pessoa de Referência" for="phone"/>
+			    <p:outputLabel value="Telefone Pessoa Responsável" for="phone"/>
 	    		<p:inputText id="phone" size="20" maxlength="20"
 	    			required="true"
 	    			validatorMessage="O telefone de contato é obrigatório." 
@@ -289,21 +247,6 @@
 						showOn="button" 
 						mask="99/99/9999"/>	
 					
-					<p:spacer width="10px" /> 
-	    			<p:commandButton value="Upload pdf" title="Upload pdf CadÚnico" icon="pi pi-upload"            		
-		            	onclick="PF('pdfDialogWidgetVar').show()"
-		            	immediate="true"
-		            	process="@this">		            	
-	            	</p:commandButton>
-	            	
-					<p:spacer width="10px" /> 
-	            	<p:commandButton value="Download pdf" title="Download pdf CadÚnico" icon="pi pi-download"  
-			        	rendered="#{cadastroProntuarioBean.prontuario.s3Key != null}"	
-		            	ajax="false"
-		            	process="@this"
-		            	immediate="true"
-		            	action="#{cadastroProntuarioBean.redirectPdf}">            	
-	            	</p:commandButton>
 	    		</h:panelGroup>	
 	    		
 	    		
@@ -448,31 +391,8 @@
 	    		<p:commandButton value="Salvar"  icon="pi pi-save"
 	    				action="#{cadastroProntuarioBean.salvar}" update="frmProntuario growl"/>
 				 		
-	    	</p:panelGrid>
+	    	</p:panelGrid>	    	
 	    	
-	    	<p:dialog id="pdfDialog" header="Upload pdf CadÚnico" 
-	    		widgetVar="pdfDialogWidgetVar" 
-				modal="true" resizable="false" closeOnEscape="true">
-    			
-				<p:defaultCommand target="salvarPdf" scope="pdfDialog" />		
-				
-				<p:panelGrid columns="1" columnClasses="rotulo, campo">
-				
-					<h:outputText value="Se já existir o arquivo ele será substituído." />
-					<p:outputLabel value="Upload pdf CadÚnico" for="file" icon="pi pi-upload"/>					
-					<h:inputFile id="file" value="#{cadastroProntuarioBean.file}">
-			            	<f:validator validatorId="fileUploadValidator"/>
-			        </h:inputFile>			        
-		        	
-			        <h:commandButton id="salvarPdf" value="Salvar"
-			        	action="#{cadastroProntuarioBean.gravarPdf}"
-			        	update="messages"
-			        	process="@this file"
-						onclick="if (!args.validationFailed) PF('pdfDialogWidgetVar').hide()" />
-		
-				</p:panelGrid>
-				
-			</p:dialog>     
 			
     	</h:form>
     </ui:define>

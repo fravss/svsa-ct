@@ -3,6 +3,8 @@ package com.softarum.svsa.modelo.enums;
 public enum Themes {
 	
 	cupertino,
+	
+	/*
     afternoon,     
     humanity,
      
@@ -11,5 +13,5 @@ public enum Themes {
     casablanca,
     sam,
     smoothness
-
+	*/
 }

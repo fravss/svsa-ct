@@ -1,3 +1,14 @@
 /target/
 /.apt_generated/
 /.apt_generated_tests/
+/.classpath
+/.idea/
+/.metadata/
+/.settings/
+/.vscode/
+/.metadata
+/.settings
+
+/bin/
+/*.project
+/*.project

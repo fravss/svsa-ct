@@ -84,7 +84,6 @@ import lombok.ToString;
 			+ "where la.statusAtendimento = :status "
 			+ "and la.unidade = :unidade "
 			+ "and la.tenant_id = :tenantId "
-			//+ "and la.role in ('ADVOGADO', 'ASSISTENTE_SOCIAL', 'PSICOLOGO', 'ORIENTADOR_SOCIAL') "  /* cuidado */
 			+ "order by la.dataAgendamento"),
 	@NamedQuery(name="ListaAtendimento.buscarAtendimentosRecepcao", query="select la from ListaAtendimento la "
 			+ "where la.statusAtendimento = :status "

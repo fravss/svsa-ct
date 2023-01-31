@@ -232,15 +232,15 @@ public class LoginService implements Serializable {
 			if (grupoSubmenu.getAttribute("value").equals(grupo.name())
 					// || (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS") &&
 					// grupo.name().equals("CADASTRADORES"))
-					|| (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS") && grupo.name().equals("TECNICOS"))
+					|| (grupoSubmenu.getAttribute("value").equals(Grupo.ADMINISTRATIVOS.name()) && grupo.name().equals(Grupo.TECNICOS.name()))
 					// || (grupoSubmenu.getAttribute("value").equals("CADASTRADORES") &&
 					// grupo.name().equals("TECNICOS"))
-					|| (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS")
-							&& grupo.name().equals("COORDENADORES"))
+					|| (grupoSubmenu.getAttribute("value").equals(Grupo.ADMINISTRATIVOS.name())
+							&& grupo.name().equals(Grupo.COORDENADORES.name()))
 					// || (grupoSubmenu.getAttribute("value").equals("CADASTRADORES") &&
 					// grupo.name().equals("COORDENADORES"))
-					|| (grupoSubmenu.getAttribute("value").equals("TECNICOS")
-							&& grupo.name().equals("COORDENADORES"))) {
+					|| (grupoSubmenu.getAttribute("value").equals(Grupo.TECNICOS.name())
+							&& grupo.name().equals(Grupo.COORDENADORES.name()))) {
 				temPermissao = true;
 				break;
 			}

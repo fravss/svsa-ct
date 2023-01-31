@@ -7,6 +7,8 @@ package com.softarum.svsa.modelo.enums;
 public enum TipoUnidade {
 
 	SASC,
+	CT,
+	// abaixo os não usados pelo CT
 	CRAS,
 	CREAS,
 	SCFV

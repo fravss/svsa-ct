@@ -9,7 +9,6 @@ import com.softarum.svsa.dao.AgendamentoColetivoDAO;
 import com.softarum.svsa.dao.AgendamentoFamiliarDAO;
 import com.softarum.svsa.dao.DashBoardDAO;
 import com.softarum.svsa.dao.PlanoAcompanhamentoDAO;
-import com.softarum.svsa.dao.ServicoDAO;
 import com.softarum.svsa.modelo.Unidade;
 import com.softarum.svsa.modelo.to.AtendimentoTO;
 import com.softarum.svsa.modelo.to.PerfilFamiliaTO;
@@ -35,8 +34,6 @@ public class DashBoardService implements Serializable {
 	AgendamentoIndividualService listaAtendimentoService;
 	@Inject
 	private PlanoAcompanhamentoDAO planoDAO;
-	@Inject
-	private ServicoDAO servicoDAO;
 	
 	
 	/*
@@ -94,11 +91,6 @@ public class DashBoardService implements Serializable {
 	
 	public Long dashboardPaif(Unidade unidade, Long tenantId) {
 		return planoDAO.buscarQdeAcompanhamento(unidade, DateUtils.getDataIMesCorrente(), 
-				DateUtils.getDataFMesCorrente(), tenantId);
-	}
-	
-	public Long dashboardScfv(Unidade unidade, Long tenantId) {
-		return servicoDAO.buscarQdeSCFV(unidade, DateUtils.getDataIMesCorrente(), 
 				DateUtils.getDataFMesCorrente(), tenantId);
 	}
 

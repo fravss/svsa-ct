@@ -12,7 +12,8 @@
     
     	<h2>Registrar Denúncia</h2>
     	
-    	<h:form id="frmDenuncia">
+    	<h:form id="frmDenuncia"
+    	target="_blank">
     	
     		<p:growl id="growl" showDetail="false"> 
     			<p:autoUpdate />
@@ -53,7 +54,7 @@
 	    		</p:column>	    				    		
 
 
-				<p:column headerText="Código" style="width: 15px; text-align: center">	    			
+				<p:column headerText="Código" style="width: 10px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.codigo}"/>
 	    		</p:column>
 	    		
@@ -63,21 +64,21 @@
 	    		
 	    		<p:column headerText="Nome Mãe" style="width: 80px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.pessoa.nomeMae}" />
-	    		</p:column> 
-	    		
-	    		<p:column headerText="Relato" style="width: 80px; text-align: center">	    			
+	    		</p:column>
+				
+				<p:column headerText="Relato" style="width: 80px; text-align: center">	    			
 	    			<h:outputText value="#{denuncia.relato}" />
 	    		</p:column> 
 	    		
-	    		<p:column headerText="Status" style="width: 80px; text-align: center">		
+	    		<p:column headerText="Status" style="width: 30px; text-align: center">		
 	    			<h:outputText value="#{denuncia.status}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="RD Vinculado" style="width: 80px; text-align: center">		
+	    		<p:column headerText="RD Vinculado" style="width: 15px; text-align: center">		
 	    			<h:outputText value="#{denuncia.prontuario.familia.pessoaReferencia.codigo}" />
 	    		</p:column>  
 	    		
-	    		<p:column headerText="Operações" style="width: 25px; text-align: center" >		    		
+	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >		    		
 					
 					<p:commandButton icon="pi pi-user-plus" title="Vincular Denúncia" 	
 							disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"            	
@@ -106,17 +107,41 @@
 		            	process="@this">
 						<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
 							value="#{denuncia}" />
-					</p:commandButton>					
+					</p:commandButton>
+					
+					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
+						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
+						action="#{registrarDenunciaBean.showPDF}"
+						process="show" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+					
+					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
+						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
+						action="#{registrarDenunciaBean.showPDFNotificacao}"
+						process="showNotificacao" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+					
+					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
+						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
+						action="#{registrarDenunciaBean.showPDFDenuncia}"
+						process="showDenuncia" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+					
 		    	</p:column>
     		
 		   	</p:dataTable>
 		   	
-	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"				
-	   			modal="true" resizable="true" closeOnEscape="true" 
+	   		<p:dialog id="denDialog" header="Denuncia" widgetVar="denDialogWidgetVar"
+	   		modal="true" resizable="true" closeOnEscape="true" 
 				showEffect="explode" hideEffect="explode" 
-				style="max-height:600px;overflow:scroll" position="center top">
+				width="100%" position="center top" maximizable="true"
+				height="70%" fitViewport="true" responsive="true">	
 				
-		    	<p:panelGrid id="addGrid" columns="2" 
+				
+		    	<p:panelGrid id="addGrid" columns="2" styleClass="showcase-text-align-center"
 		    		columnClasses="rotulo, campo">
 		    		
 		    		<p:outputLabel value="Data " for="data" size="30"/>
@@ -142,6 +167,20 @@
 			    		showOn="button" 
 				    	pattern="dd/MM/yyyy"
 						mask="99/99/9999"/>
+						
+					<p:outputLabel value="Escola" for="escola"/>
+		    		<p:autoComplete id="escola" value="#{registrarDenunciaBean.denuncia.pessoa.escola}" 
+		    			size="60" maxlength="80" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Serie" for="serie"/>
+		    		<p:autoComplete id="serie" value="#{registrarDenunciaBean.denuncia.pessoa.serie}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
  		    					    	
  		    		<p:outputLabel value="Sexo" for="sex" />
 		    		<p:selectOneMenu id="sex" 
@@ -155,16 +194,65 @@
  		    		<p:outputLabel value="Nome Mãe" for="nomeMae"/>
 		    		<p:autoComplete id="nomeMae" value="#{registrarDenunciaBean.denuncia.pessoa.nomeMae}" 
 		    			size="60" maxlength="80" 
-		    			required="true" 
+		    			required="false" 
         				effect="blind">  
 		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="RG da Mãe" for="rg"/>
+		    		<p:autoComplete id="rg" value="#{registrarDenunciaBean.denuncia.pessoa.rg}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Endereço Mãe" for="endMae"/>
+		    		<p:autoComplete id="endMae" value="#{registrarDenunciaBean.denuncia.pessoa.endereco}" 
+		    			size="60" maxlength="80" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Telefone Mãe" for="telMae"/>
+		    		<p:autoComplete id="telMae" value="#{registrarDenunciaBean.denuncia.pessoa.telefone}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
 		    		
 		    		<p:outputLabel value="Nome Pai" for="nomePai"/>
 		    		<p:autoComplete id="nomePai" value="#{registrarDenunciaBean.denuncia.pessoa.nomePai}" 
 		    			size="60" maxlength="80" 
-		    			required="true" 
+		    			required="false" 
         				effect="blind">  
-		    		</p:autoComplete>		    			    	
+		    		</p:autoComplete>	
+		    		
+		    		<p:outputLabel value="Endereço Pai" for="endPai"/>
+		    		<p:autoComplete id="endPai" value="#{registrarDenunciaBean.denuncia.pessoa.enderecoPai}" 
+		    			size="60" maxlength="80" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Telefone Pai" for="telPai"/>
+		    		<p:autoComplete id="telPai" value="#{registrarDenunciaBean.denuncia.pessoa.telefonePai}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
+		    		
+		    		<p:outputLabel value="Nome de Terceiro" for="nomeTerceiro"/>
+		    		<p:autoComplete id="nomeTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.nomeTerceiro}" 
+		    			size="60" maxlength="80" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
+		    					    
+		  			<p:outputLabel value="Telefone terceiro" for="telTerceiro"/>
+		    		<p:autoComplete id="telTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.telefoneTerceiro}" 
+		    			size="15" maxlength="15" 
+		    			required="false" 
+        				effect="blind">  
+		    		</p:autoComplete>	
 		    		
 	    			<p:outputLabel value="Origem Denúncia" for="orig" />
 		    		<p:selectOneMenu id="orig" 

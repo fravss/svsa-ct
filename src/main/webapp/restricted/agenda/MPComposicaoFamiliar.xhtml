@@ -86,15 +86,12 @@
 	    		<p:column headerText="Código" style="width: 10px; text-align: center">	    		
 	    			<h:outputText value="#{pessoa.codigo}" />
 	    		</p:column>
-	    		<p:column style="width: 3px; text-align: center">	    		
-	    			<h:outputText value="#{pessoa.mse}" />
-	    		</p:column>
-	    		
-	    		<p:column headerText="Nome" style="width: 65px; text-align: center">	    		
+	    			    		
+	    		<p:column headerText="Nome" style="width: 80px; text-align: center">	    		
 	    			<h:outputText value="#{pessoa.nome}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Nome Social" style="width: 55px; text-align: center">
+	    		<p:column headerText="Nome Social" style="width: 70px; text-align: center">
 	    			<h:outputText value="#{pessoa.nomeSocial}" />
 	    		</p:column>
 	    		
@@ -103,19 +100,16 @@
 	    				rendered="#{pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoaReferencia.codigo}"/>
 	    		</p:column> 
 	    		
-	    		<p:column headerText="Parentesco" style="width: 30px; text-align: center">
+	    		<p:column headerText="Parentesco" style="width: 40px; text-align: center">
 	    			<h:outputText value="#{pessoa.parentescoPessoaReferencia}" />
 	    		</p:column>  
 	    		
-	    		<p:column headerText="Idade" style="width: 8px; text-align: center">
+	    		<p:column headerText="Idade" style="width: 5px; text-align: center">
 	    			<h:outputText value="#{pessoa.idade}" />
 	    		</p:column>	    		
 	    		
-	    		<p:column headerText="Programa Social" style="width: 25px; text-align: center">
-	    			<h:outputText value="#{pessoa.formaIngresso.programaSocial}" />
-	    		</p:column>
 	    		
-	    		<p:column id="coluna_Op" headerText="Operações" style="width: 70px; text-align: center">	    					    		
+	    		<p:column id="coluna_Op" headerText="Operações" style="width: 60px; text-align: center">	    					    		
 		    							
 					<p:commandButton id="bt_2" title="Editar" icon="pi pi-pencil" 
 		            	rendered="#{(pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoa.codigo 
@@ -164,7 +158,7 @@
 					
 					
 					<p:spacer width="2px" /> 
-	            	<p:commandButton id="bt_1" icon="pi pi-star" title="Alterar Pessoa de Referência"	
+	            	<p:commandButton id="bt_1" icon="pi pi-star" title="Alterar Pessoa Responsável"	
 		    			rendered="#{manterProntuarioBean.mpComposicaoBean.unidadeDoUsuario and pessoa.status eq 'ATIVO'}"
 		    			disabled="#{pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoaReferencia.codigo}"	    			
 	    				onclick="PF('confirmaTroca').show();"
@@ -212,7 +206,7 @@
 		   	
 		   	<p:confirmDialog id="confirmaTrocaDialog" 
 	   			widgetVar="confirmaTroca"
-        		message="Confirma troca de Pessoa de Referência? Será necessário ALTERAR o parentesco."  
+        		message="Confirma troca de Pessoa Responsável Será necessário ALTERAR o parentesco."  
                 header="Alteração de Pessoa de Referência" severity="alert"
                 showEffect="explode" hideEffect="explode">
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
@@ -227,7 +221,7 @@
 	    	
 	    	<p:confirmDialog id="criaNovoProntuarioDialog" 
 	   			widgetVar="criaNovoProntuario"
-        		message="Confirma a criação de um prontuário novo para esta pessoa? Todas as evoluções serão mantidas."  
+        		message="Confirma a criação de um RD novo para esta pessoa? Todas as evoluções serão mantidas."  
                 header="Excluir membro e criar novo prontuário" severity="alert"
                 showEffect="explode" hideEffect="explode">
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
@@ -267,7 +261,7 @@
 					<h:outputLabel value="#{manterProntuarioBean.mpComposicaoBean.pessoa.nome}"
 						style="font-weight:bold"/>					
 					
-					<p:outputLabel value="Prontuário Destino: " for="prontuario"/>		    		
+					<p:outputLabel value="RD Destino: " for="prontuario"/>		    		
 	   				<p:inputText id="prontuario" size="10" maxlength="12" alt="Prontuário destino"
 		    			value="#{manterProntuarioBean.mpComposicaoBean.prontuarioDestino}"
 		    			update="nomePr"
@@ -277,7 +271,7 @@
 		    				update="nomePr" />		    			
 		    		</p:inputText>
 		    		    		
-		    		<p:outputLabel value="Pessoa de Referência: " for="nomePr"/>
+		    		<p:outputLabel value="Pessoa Responsável " for="nomePr"/>
 		    		<h:outputText id="nomePr" 
 		    			value="#{manterProntuarioBean.mpComposicaoBean.nomePessoaRef}"
 		    			style="font-weight:bold"/>				
@@ -553,36 +547,7 @@
 							counterTemplate="{0} caracteres restantes" />
 						<h:outputText id="display" />
 			    		<p:watermark for="observacao" value="Máximo 200 caracteres." />
-		    		</h:panelGroup>	
-		    		
-		    		
-		    		<p:outputLabel value="Documentos a providenciar"/>
-		    		<h:panelGroup>
-			    		<p:outputLabel value="CN" for="cnt"/> <p:spacer width="10px" /> 
-			    		<p:selectBooleanCheckbox id="cnt" 
-			    			title="Certidão de nascimento"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.tipoDocumento.cn}" />
-			    		<p:spacer width="10px" /> 
-			    		<p:outputLabel value="RG" for="rgt"/> <p:spacer width="10px" /> 
-			    		<p:selectBooleanCheckbox id="rgt" 
-			    			title="Carteira de Identidade"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.tipoDocumento.rg}" />
-		    			<p:spacer width="10px" /> 
-			    		<p:outputLabel value="CTPS" for="ctpst"/> <p:spacer width="10px" /> 
-			    		<p:selectBooleanCheckbox id="ctpst" 
-			    			title="Carteira de Trabalho"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.tipoDocumento.ctps}" />
-			    		<p:spacer width="10px" /> 
-			    		<p:outputLabel value="CPF" for="cpft"/> <p:spacer width="10px" /> 
-			    		<p:selectBooleanCheckbox id="cpft" 
-			    			title="CPF"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.tipoDocumento.cpf}" />
-		    			<p:spacer width="10px" /> 
-			    		<p:outputLabel value="TE" for="tet"/> <p:spacer width="10px" /> 
-			    		<p:selectBooleanCheckbox id="tet" 
-			    			title="Título de Eleitor"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.tipoDocumento.te}" />			    		
-		    		</h:panelGroup>
+		    		</h:panelGroup>	    		
 		    		
 		    		
 		    		<p:outputLabel value="Endereço" />
@@ -669,53 +634,7 @@
 			    		</p:panelGrid>
 		    		</h:panelGroup>
 		    		
-		    		
-
-					<p:outputLabel value="ACOLHIDA: De que forma acessou a unidade no primeiro atendimento?" 
-						for="formasAcesso"/>	    		
-		    		<p:selectOneMenu id="formasAcesso" 
-		    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.formaIngresso.formaAcesso}"
-		    			required="true" 
-				    	validatorMessage="A forma de acesso é obrigatória.">
-		    			<f:selectItem itemLabel="Selecione a forma de acesso" />
-		    			<f:selectItems value="#{manterProntuarioBean.mpComposicaoBean.formasAcesso}" var="formaAcesso" 
-							itemLabel="#{formaAcesso.descricao}" itemValue="#{formaAcesso}"/>
-		    		</p:selectOneMenu>	
-					
-					
-					<p:outputLabel value="Contato do Orgão/Unidade que encaminhou a pessoa" for="contato"/>
-		    		<h:panelGroup>
-			    		<p:inputTextarea id="contato" size="500" rows="5" cols="50" style="height: 100px; overflow:auto;"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.formaIngresso.contatoOrgao}" 
-			    			counter="display1"
-							maxlength="200" 
-							counterTemplate="{0} caracteres restantes" />
-						<h:outputText id="display1" />
-			    		<p:watermark for="contato" value="Identifique detalhadamente o nome e contato do órgão/unidade que encaminhou a pessoa." />
-		    		</h:panelGroup>	
-		    		
-		    		<p:outputLabel value="Razões que motivaram o primeiro atendimento" for="razao"/>
-		    		<h:panelGroup>
-			    		<p:inputTextarea id="razao" size="500" rows="5" cols="50" style="height: 100px; overflow:auto;"
-			    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.formaIngresso.motivacaoAtendimento}" 
-			    			counter="display2"
-							maxlength="200" 
-							counterTemplate="{0} caracteres restantes" />
-						<h:outputText id="display2" />
-			    		<p:watermark for="razao" value="Descreva as razões. demandas ou necessidades que motivaram o primeiro atendimento." />
-		    		</h:panelGroup>					
-					
-					
-					<p:outputLabel value="Qual programa ou benefício?" 
-						for="programasSociais"/>	    		
-		    		<p:selectOneMenu id="programasSociais" 
-		    			value="#{manterProntuarioBean.mpComposicaoBean.pessoa.formaIngresso.programaSocial}">
-		    			<f:selectItem itemLabel="Selecione o programa caso seja beneficiário" />
-		    			<f:selectItems value="#{manterProntuarioBean.mpComposicaoBean.programasSociais}" var="programaSocial" 
-							itemLabel="#{programaSocial}" itemValue="#{programaSocial}"/>
-		    		</p:selectOneMenu>
-
-					
+		    							
 					<p:outputLabel/>
 					<p:commandButton icon="pi pi-save" id="salvarCommandButton" value="Salvar" 
 						actionListener="#{manterProntuarioBean.mpComposicaoBean.salvarMembro}"

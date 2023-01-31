@@ -26,7 +26,8 @@
 			            		<br/><br/><br/><br/>
 			            		<h:graphicImage library="imagens" name="logo_Gaian_baixa_RGB.png" width="150"/>
 				           		<br/><br/><br/>
-							    <h2>Bem-vindo!</h2>					    
+							    <h2>Bem-vindo!</h2>
+							    <h2>Conselho Tutelar</h2>				    
 							    <br/>
 							    <h:outputText id="user" value="#{loginBean.usuario.nome}" style="font-weight:bold"/>
 							    <br/>
@@ -50,9 +51,9 @@
 					            </h:panelGroup>
 					            
 					            
-				            <!--  CAPTCHA só funciona em produção 				            
+				            <!--  CAPTCHA só funciona em produção 	-->						            
 					           <p:captcha id="captcha" label="Captcha" rendered="#{not loginBean.autenticado}"/>
-							-->											            
+															            
 					           				            
 				            <p:commandButton id="bt1" value="Ok"
 					                rendered="#{not loginBean.autenticado}"
