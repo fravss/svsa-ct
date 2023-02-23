@@ -28,7 +28,6 @@ public class EnumUtil {
 		
 		GRUPOS_CT = Arrays.asList(
 				Grupo.ADMINISTRATIVOS,
-				Grupo.TECNICOS,
 				Grupo.COORDENADORES);
 		
 		ROLES_CT = Arrays.asList(

@@ -45,7 +45,6 @@
 		<menuitem value="Cadastro Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
 		<submenu2 label="Gestão de Ofícios">
 			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml">
-				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>
 			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
