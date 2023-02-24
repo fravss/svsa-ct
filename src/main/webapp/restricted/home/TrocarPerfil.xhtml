@@ -57,19 +57,7 @@
 					</p:inputText>
 					<p:watermark for="email" value="O e-mail deve ser PESSOAL e não do CARGO/FUNÇÃO." />
 				</h:panelGroup>	   			    
-			    		
-				<p:outputLabel value="Tema" for="theme"/>
-	            <p:selectOneMenu id="theme" value="#{alterarPerfilBean.theme}" style="width:165px" effect="fade" var="t">
-	    			<f:selectItem itemLabel="Escolha o tema" />
-                	<f:selectItems value="#{alterarPerfilBean.themes}" var="theme" 
-                		itemLabel="#{theme.displayName}" itemValue="#{theme}"/>
-						<p:column>
-	                    <h:graphicImage name="/imagens/themes/#{t.name}.png" alt="#{t.name}" styleClass="ui-theme"/>
-		                </p:column>	
-		                <p:column>
-		                    #{t.displayName}
-		                </p:column>	                					
-    			</p:selectOneMenu>
+			   
 	    	</p:panelGrid>
     	</h:form>
     </ui:define>

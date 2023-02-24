@@ -78,13 +78,7 @@
 	    		<p:column headerText="Pront. Código" style="width: 10px; text-align: center">
 	    			<h:outputText value="#{item.pessoa.familia.prontuario.codigo}" />
 	    		</p:column>
-	    		
-	    		
-	    		
-	    		<p:column headerText="Prog." style="width: 10px; text-align: center">
-	    			<h:outputText value="#{item.pessoa.familia.prontuario.programa} #{item.pessoa.mse}" />
-	    		</p:column>
-		    	
+	    				    	
 	    		<p:column headerText="Codigo Pessoa" style="width: 10px; text-align: center"
 	    			sortBy="#{item.pessoa.codigo}">
 	    			<h:outputText value="#{item.pessoa.codigo}" />
@@ -100,7 +94,7 @@
 	    			<h:outputText value="#{item.pessoa.telefone}" />
 	    		</p:column>    			
 	    		
-	    		<p:column headerText="Técnico destinado" style="width: 80px; text-align: center"
+	    		<p:column headerText="Conselheiro destinado" style="width: 80px; text-align: center"
 	    			filterBy="#{item.tecnico.nome}"
 	    			footerText="contains" filterMatchMode="contains">	    			
 	    			<h:outputText value="#{item.tecnico.nome}" />
@@ -205,11 +199,11 @@
 							update="tecnico" process="role"/>									
 	    			</p:selectOneMenu>	    			
 	    			
-	    			<p:outputLabel value="Técnico Responsável" for="tecnico"/>	
+	    			<p:outputLabel value="Conselheiro Responsável" for="tecnico"/>	
 	    			<h:panelGroup>	    			
 		    			<p:selectOneMenu id="tecnico" 
 			    			value="#{agendamentoIndividualBean.item.tecnico}" >
-			    			<f:selectItem itemLabel="Selecione o técnico" />
+			    			<f:selectItem itemLabel="Selecione o conselheiro" />
 			    			<f:selectItems value="#{agendamentoIndividualBean.tecnicos}" var="tec" 
 								itemLabel="#{tec.nome}" itemValue="#{tec}" />
 							
