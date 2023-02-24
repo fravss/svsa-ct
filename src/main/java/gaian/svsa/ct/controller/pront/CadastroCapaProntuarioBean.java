@@ -34,7 +34,6 @@ import gaian.svsa.ct.modelo.enums.Genero;
 import gaian.svsa.ct.modelo.enums.Parentesco;
 import gaian.svsa.ct.modelo.enums.Sexo;
 import gaian.svsa.ct.modelo.enums.Status;
-import gaian.svsa.ct.modelo.enums.StatusRD;
 import gaian.svsa.ct.modelo.enums.TipoPcD;
 import gaian.svsa.ct.modelo.enums.TipoUnidade;
 import gaian.svsa.ct.modelo.enums.Uf;
@@ -77,7 +76,7 @@ public class CadastroCapaProntuarioBean implements Serializable {
 	private List<CorRaca> corRacas;
 	private List<Uf> ufs;
 	private List<MunicipioTO> municipioList;
-	private List<StatusRD> status;
+	private List<Status> status;
 	private EnderecoTO enderecoTO;
 	private Unidade unidade;
 	private List<Pais> paises;
@@ -128,7 +127,7 @@ public class CadastroCapaProntuarioBean implements Serializable {
 		this.tiposPcD = Arrays.asList(TipoPcD.values());
 		this.corRacas = Arrays.asList(CorRaca.values());
 		this.ufs = Arrays.asList(Uf.values());		
-		this.status = Arrays.asList(StatusRD.values());
+		this.status = Arrays.asList(Status.values());
 		this.unidade = loginBean.getUsuario().getUnidade();
 		
 	}

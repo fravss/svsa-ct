@@ -19,7 +19,7 @@
 		<menuitem value="Registrar Ação" outcome="/restricted/atendimento/RealizarAcao.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>				
-		<menuitem value="Relatório de Ações" outcome="/restricted/relatorio/RelatorioAcoes.xhtml">
+		<menuitem value="Relatório de Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>		
 	</submenu>

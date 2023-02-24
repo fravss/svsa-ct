@@ -164,13 +164,11 @@ public class CalendarioDAO implements Serializable {
 	 */
 	public void verificaAgendaTecnico(Date data, Usuario tecnico, Long tenantId) throws NegocioException {	
 		
-		Long qde = manager.createQuery("SELECT count(l) FROM ListaAtendimento l "
-					+ "INNER JOIN AgendamentoColetivo c ON l.tecnico = c.tecnico "
-					+ "INNER JOIN AgendamentoFamiliar f ON l.tecnico = f.tecnico "
-				+ "WHERE (l.dataAgendamento = :data or c.dataAgendamento = :data or f.dataAgendamento = :data) "
-					+ "and (l.tecnico = :tecnico or c.tecnico = :tecnico or f.tecnico = :tecnico) "
+		Long qde = manager.createQuery("SELECT count(l) FROM ListaAtendimento l "				
+				+ "WHERE l.dataAgendamento = :data "
+					+ "and l.tecnico = :tecnico "
 					+ "and l.tenant_id = :tenantId "
-					+ "and (l.statusAtendimento = 'AGENDADO' or c.statusAtendimento = 'AGENDADO' or f.statusAtendimento = 'AGENDADO') ", Long.class)
+					+ "and l.statusAtendimento = 'AGENDADO' ", Long.class)
 		.setParameter("data", data, TemporalType.TIMESTAMP)
 		.setParameter("tecnico", tecnico)
 		.setParameter("tenantId", tenantId)

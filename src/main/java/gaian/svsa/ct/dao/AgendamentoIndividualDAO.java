@@ -380,7 +380,7 @@ public class AgendamentoIndividualDAO implements Serializable {
             and (a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') or a.codigoAuxiliar is null)
 			and (a.statusAtendimento = "ATENDIDO" or a.statusAtendimento = "FALTOU")
 		 */
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "a.dataAtendimento, "
 				+ "a.resumoAtendimento, "
 				+ "c.nome, "

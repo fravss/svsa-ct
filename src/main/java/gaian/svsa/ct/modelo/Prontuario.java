@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Persistence;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -30,9 +27,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
-import gaian.svsa.ct.modelo.enums.Programa;
 import gaian.svsa.ct.modelo.enums.Status;
-import gaian.svsa.ct.modelo.enums.TipoUnidade;
 import gaian.svsa.ct.service.s3.AmazonS3Keys;
 import lombok.Getter;
 import lombok.Setter;;
@@ -100,9 +95,6 @@ public class Prontuario implements Cloneable, Serializable {
 	
 	private static final long serialVersionUID = -3495721768377035814L;	
 	
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("svsaPU");	
-	private static EntityManager manager = factory.createEntityManager();
-	
 	/*
 	 * RELACIONAMENTOS
 	 * 
@@ -161,28 +153,6 @@ public class Prontuario implements Cloneable, Serializable {
 		return (Prontuario) super.clone();
 	}
 	
-	
-	@Transient
-	public Programa getPrograma() {		
-		
-		Long codigo = manager.createQuery("SELECT count(p) FROM PlanoAcompanhamento p "
-				+ "INNER JOIN Prontuario po ON po.codigo = p.prontuario.codigo "
-					+ "WHERE p.dataDesligamento is null "
-					+ "and p.tenant_id = :tenantId "
-					+ "and po.codigo = :prontuario "
-					+ "and po.status = :status ", Long.class)
-					.setParameter("prontuario", this.getCodigo())
-					.setParameter("status", Status.ATIVO)
-					.setParameter("tenantId", this.getTenant_id())					
-					.getSingleResult();
-		
-		if(codigo != 0) {
-			if(this.unidade.getTipo() == TipoUnidade.CRAS)
-				return Programa.PAIF;
-			return Programa.PAEFI;
-		}
-		return null;
-	}
 	
 	
 	/*

@@ -3,7 +3,7 @@ package gaian.svsa.ct.modelo.to;
 import java.io.Serializable;
 import java.util.Date;
 
-import gaian.svsa.ct.modelo.enums.StatusRD;
+import gaian.svsa.ct.modelo.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,15 +24,15 @@ public class PessoaDTO implements Serializable{
 	private String nomeSocial = "";
 	private Date dataNascimento = null;
 	private String unidade = "";
-	private StatusRD statusPessoa = null;
-	private StatusRD statusProntuario = null;
+	private Status statusPessoa = null;
+	private Status statusProntuario = null;
 	private String nomeMae = "";
 	
 	public PessoaDTO() {}
 	
 	// selecionaPessoa
 	public PessoaDTO(Long codigo, Long codigoProntuario, String prontuarioFisico, String nome, String nomeSocial, Date dataNascimento, 
-			String unidade, StatusRD statusPessoa, StatusRD statusProntuario) {
+			String unidade, Status statusPessoa, Status statusProntuario) {
 		
 		this.codigo = codigo;
 		this.codigoProntuario = codigoProntuario;
@@ -47,7 +47,7 @@ public class PessoaDTO implements Serializable{
 	
 	// selecionaPessoaReferencia
 	public PessoaDTO(Long codigo, Long codigoProntuario, String prontuarioFisico, String nome, String nomeSocial, Date dataNascimento, 
-			String unidade, StatusRD statusPessoa, StatusRD statusProntuario, String nomeMae) {
+			String unidade, Status statusPessoa, Status statusProntuario, String nomeMae) {
 		
 		this.codigo = codigo;
 		this.codigoProntuario = codigoProntuario;

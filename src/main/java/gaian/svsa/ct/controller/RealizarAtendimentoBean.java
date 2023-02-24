@@ -127,7 +127,7 @@ public class RealizarAtendimentoBean implements Serializable {
 
         for(Object tecnico : event.getItems()) {
         	log.info("Tecnico selecionado: " + ((Usuario) tecnico).getNome());
-        	MessageUtil.sucesso("Técnico " + ((Usuario) tecnico).getNome() + " selecionado.");
+        	MessageUtil.sucesso("Conselheiro " + ((Usuario) tecnico).getNome() + " selecionado.");
         }         
     }
 	

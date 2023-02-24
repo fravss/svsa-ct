@@ -15,7 +15,6 @@ import org.primefaces.model.chart.PieChartModel;
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Acao;
 import gaian.svsa.ct.modelo.FormaIngresso;
-import gaian.svsa.ct.modelo.HistPessoaUV;
 import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.ObsComposicaoFamiliar;
 import gaian.svsa.ct.modelo.Pais;
@@ -32,14 +31,12 @@ import gaian.svsa.ct.modelo.enums.Parentesco;
 import gaian.svsa.ct.modelo.enums.ProgramaSocial;
 import gaian.svsa.ct.modelo.enums.Role;
 import gaian.svsa.ct.modelo.enums.Sexo;
-import gaian.svsa.ct.modelo.enums.StatusRD;
+import gaian.svsa.ct.modelo.enums.Status;
 import gaian.svsa.ct.modelo.enums.TipoPcD;
-import gaian.svsa.ct.modelo.enums.TipoUnidade;
 import gaian.svsa.ct.modelo.enums.Uf;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.modelo.to.PerfilEtarioTO;
-import gaian.svsa.ct.service.HistoricoUVService;
 import gaian.svsa.ct.service.MPComposicaoService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.service.rest.BuscaCEPService;
@@ -91,7 +88,6 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	
 	private Usuario usuarioLogado;
 	private boolean administrativo;
-	private boolean tipoSCFV = false;
 	private boolean unidadeDoUsuario = false;
 	private Long prontuarioDestino;	
 	private String nomePessoaRef;
@@ -101,7 +97,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	// Enuns
 	private List<Sexo> sexos;
 	private List<Genero> generos;
-	private List<StatusRD> status;
+	private List<Status> status;
 	private List<TipoPcD> tiposPcD;
 	private List<CorRaca> corRacas;
 	private List<Parentesco> parentescos;
@@ -119,10 +115,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	private PessoaService pessoaService;
 	@Inject
 	private BuscaCEPService buscaCEPService;
-	@Inject
-	private HistoricoUVService uvService;
-	
-			
+				
 	
 	@PostConstruct
 	public void inicializar() {
@@ -135,11 +128,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 				|| usuarioLogado.getRole() == Role.CADASTRADOR
 				|| usuarioLogado.getRole() == Role.AGENTE_SOCIAL) {
 			setAdministrativo(true);
-		}
-		else if(usuarioLogado.getUnidade().getTipo() == TipoUnidade.SCFV) {
-			setAdministrativo(true);
-			setTipoSCFV(true);
-		}
+		}		
 		else {
 			setAdministrativo(false);
 		}
@@ -150,7 +139,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		this.sexos = Arrays.asList(Sexo.values());
 		this.tiposPcD = Arrays.asList(TipoPcD.values());
 		this.generos = Arrays.asList(Genero.values());
-		this.status = Arrays.asList(StatusRD.values());
+		this.status = Arrays.asList(Status.values());
 		this.setCorRacas(Arrays.asList(CorRaca.values()));
 		this.parentescos = EnumUtil.getCodigosParentescoMembro();		
 		this.formasAcesso = Arrays.asList(FormaAcesso.values());
@@ -209,7 +198,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	 */
 	public void salvarMembro() {
 		try {	
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");			
 			
 			// novo membro - se é alteração não seta a familia novamente
@@ -220,18 +209,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			pessoa.getFamilia().getEndereco().setMunicipio(pessoa.getFamilia().getEndereco().getMunicipio());
 			pessoa.setMunicipioNascimento(pessoa.getMunicipioNascimento());
 			
-			if(pessoa.getCodigo() == null && isTipoSCFV()) {				
-				Pessoa p = this.composicaoService.salvar(pessoa);
-				HistPessoaUV hist = new HistPessoaUV();
-				hist.setPessoa(p);
-				hist.setTenant_id(p.getTenant_id());
-				hist.setUnidade(loginBean.getUsuario().getUnidade());
-				hist.setUsuario(loginBean.getUsuario());				
-				uvService.salvar(hist);				
-			}
-			else {
-				this.composicaoService.salvar(pessoa);
-			}
+			this.composicaoService.salvar(pessoa);
 			
 			MessageUtil.sucesso("Membro " + pessoa.getNome() + " incluído/alterado com sucesso.");
 			pesquisarMembros();
@@ -251,7 +229,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	public void criarProntuario() {
 		try {
 			
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
 			log.info("criando prontuario novo: " + pessoa.getNome());
@@ -271,7 +249,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	public void excluirMembro() {
 		try {
 			
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 		
 			composicaoService.excluirMembro(pessoa);
@@ -288,7 +266,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	public void inativarMembro() {
 		try {
 			
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
 			composicaoService.inativarMembro(pessoa);
@@ -399,7 +377,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	public void salvarObservacao() {
 		try {	
 			
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
 			obsComposicaoFamiliar.setUsuario(usuarioLogado);	
@@ -433,7 +411,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	
 	public void limparObservacao() {
 		try {
-			if(!isUnidadeDoUsuario() && !isTipoSCFV())
+			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
 			this.obsComposicaoFamiliar = new ObsComposicaoFamiliar();

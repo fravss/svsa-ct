@@ -57,22 +57,11 @@ public class CalendarioService implements Serializable {
 		Calendario calendario = calendarioDAO.buscarPeloCodigo( ((Calendario)event.getData()).getCodigo() );
 		
 		if(((Calendario)event.getData()).getTecnico() != null) {
-			
-			/*
-			try {
-				// pega só o título, sem o nome do técnico
-				String[] valorComSplit = event.getTitle().split("#", 2);
-				calendario.setTitle(valorComSplit[1]); 
-			}
-			catch(ArrayIndexOutOfBoundsException e) {
-				throw new NegocioException("Não é permitido técnico em feriado!");
-			}
-			*/
-			
+					
 			
 			calendario.setTecnico( ((Calendario)event.getData()).getTecnico() );
 			
-			log.info("event.getData() tecnico = " + ((Calendario)event.getData()).getTecnico().getNome()); 
+			log.info("event.getData() conselheiro = " + ((Calendario)event.getData()).getTecnico().getNome()); 
 		}
 		else {
 			if(calendario.getTecnico() != null) {

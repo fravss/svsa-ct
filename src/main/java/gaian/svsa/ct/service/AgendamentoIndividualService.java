@@ -138,7 +138,7 @@ public class AgendamentoIndividualService implements Serializable {
 			}
 		}
 		else {
-			throw new NegocioException("Somente o técnico que atendeu pode alterar o atendimento! E isso só pode ser feito antes de 7 dias do registro.");
+			throw new NegocioException("Somente o conselheiro que atendeu pode alterar o atendimento! E isso só pode ser feito antes de 7 dias do registro.");
 		}
 		
 	}

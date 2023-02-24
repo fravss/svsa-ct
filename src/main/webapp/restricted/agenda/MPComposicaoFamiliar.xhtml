@@ -11,8 +11,7 @@
 		            <p:commandButton title="Incluir novo membro" icon="pi pi-user-plus"
 		            	value="Criar Membro" 
 		            	disabled="#{not manterProntuarioBean.mpComposicaoBean.pessoaReferenciaSelecionada}"
-		            	rendered="#{manterProntuarioBean.mpComposicaoBean.unidadeDoUsuario
-		            		or manterProntuarioBean.mpComposicaoBean.tipoSCFV}"
+		            	rendered="#{manterProntuarioBean.mpComposicaoBean.unidadeDoUsuario}"
 		            	actionListener="#{manterProntuarioBean.mpComposicaoBean.limpar}"
 		            	oncomplete="PF('pessoaDialogWidgetVar').show()"
 		            	update="toolbar pessoaDialog"
@@ -56,17 +55,7 @@
 		            	update="perfilDialog toolbar" 
 		            	process="@this">
 		            	<p:resetInput target="perfilDialog" />	
-	            	</p:commandButton>	
-	            	
-	            	<p:commandButton title="Histórico de Transferências" icon="pi pi-angle-double-right"
-	            	 	value="Transferências"
-	            	 	rendered="#{manterProntuarioBean.mpComposicaoBean.pessoaSelecionada}"		            	
-		            	actionListener="#{manterProntuarioBean.mpComposicaoBean.consultaTransferencias}"
-		            	oncomplete="PF('transfDialogWidgetVar').show()"
-		            	update="transfDialog toolbar" 
-		            	process="@this">
-		            	<p:resetInput target="transfDialog" />	
-	            	</p:commandButton>	             	
+	            	</p:commandButton>	            	          	
 	            	
 				</f:facet>
 			</p:toolbar>
@@ -114,8 +103,7 @@
 					<p:commandButton id="bt_2" title="Editar" icon="pi pi-pencil" 
 		            	rendered="#{(pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoa.codigo 
 		    						and manterProntuarioBean.mpComposicaoBean.unidadeDoUsuario)
-		    						or (pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoa.codigo 
-		    						and manterProntuarioBean.mpComposicaoBean.tipoSCFV)}"
+		    						or (pessoa.codigo eq manterProntuarioBean.mpComposicaoBean.pessoa.codigo)}"
 		            	oncomplete="PF('pessoaDialogWidgetVar').show()"
 		            	update=":frmProntuario:tab1:pessoaDialog" 
 		            	process="@this">
@@ -763,40 +751,6 @@
 			   	</p:dataTable>
 		   	
 			</p:dialog>	
-			
-			<p:dialog id="transfDialog" header="Transferencias" widgetVar="transfDialogWidgetVar"
-				modal="true" resizable="true" closeOnEscape="true"
-				showEffect="explode" hideEffect="explode" 
-				style="max-height:600px;overflow:scroll"
-				position="center top">	
-			
-				<p:dataTable id="listaTransferencias"  value="#{manterProntuarioBean.mpComposicaoBean.listaTransferencias}"
-					allowUnsorting="true" sortMode="single"
-					var="historico"
-		    		style="margin-top: 20px" emptyMessage="Nenhuma transferência realizada.">
-		    		
-		    		<f:facet name="header">
-			            Histórico de Transferências
-			        </f:facet>
-		    					    		
-			    	<p:column headerText="Data da Transferência" sortBy="#{historico.nome}" style="width: 30px; text-align: left">
-					<h:outputText value="#{historico.dataTransferencia}">
-	    				<f:convertDateTime pattern="dd/MM/yyyy" />
-    				</h:outputText>	 
-					</p:column>				
-					<p:column headerText="Motivo da Transferência" style="width: 100px; text-align: left">
-						<h:outputText value="#{historico.motivo}" />
-					</p:column>
-					<p:column headerText="Unidade Anterior" style="width: 50px; text-align: center">
-						<h:outputText value="#{historico.unidade.nome}" />
-					</p:column>
-					<p:column headerText="Responsável pela Transferência" style="width: 50px; text-align: center">
-						<h:outputText value="#{historico.usuario.nome}" />
-					</p:column>	
-		    		
-			   	</p:dataTable>
-		   	
-			</p:dialog>		
 			
 			
 			<!-- Reuso de componente -->

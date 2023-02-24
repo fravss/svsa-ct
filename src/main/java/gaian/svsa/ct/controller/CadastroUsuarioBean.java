@@ -16,7 +16,6 @@ import gaian.svsa.ct.modelo.enums.EnumUtil;
 import gaian.svsa.ct.modelo.enums.Grupo;
 import gaian.svsa.ct.modelo.enums.Role;
 import gaian.svsa.ct.modelo.enums.Status;
-import gaian.svsa.ct.modelo.enums.StatusRD;
 import gaian.svsa.ct.service.UnidadeService;
 import gaian.svsa.ct.service.UsuarioService;
 import gaian.svsa.ct.util.MessageUtil;
@@ -41,7 +40,7 @@ public class CadastroUsuarioBean implements Serializable {
 	private Usuario usuario;
 	private Unidade unidade;
 	private List<Role> roles;
-	private List<StatusRD> status;
+	private List<Status> status;
 	
 	
 	private List<Grupo> grupos;
@@ -62,7 +61,7 @@ public class CadastroUsuarioBean implements Serializable {
 		this.grupos = EnumUtil.getGruposCt();
 		this.roles = EnumUtil.getRolesCt();
 		
-		this.status = Arrays.asList(StatusRD.values());
+		this.status = Arrays.asList(Status.values());
 		this.unidade = loginBean.getUsuario().getUnidade();
 		this.unidades = this.unidadeService.buscarTodos(loginBean.getTenantId());
 		

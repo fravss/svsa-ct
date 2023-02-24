@@ -35,20 +35,7 @@
 							itemLabel="#{unidade.nome}" itemValue="#{unidade}"/>
 	    			</p:selectOneMenu>	
 	  
-	    			<p:spacer width="20px" />
-				
-					<p:selectBooleanCheckbox value="#{relatorioOficioBean.sasc}" 
-	    			itemLabel="Ofícios SASC"/>
-					
-					<p:outputLabel value="Data Início" for="datai" />
-					<p:spacer width="5px" />
-					<p:calendar id="datai" size="12"
-						value="#{relatorioOficioBean.dataInicio}"
-						showOn="button" 
-						pattern="dd/MM/yyyy" 
-						mask="99/99/9999"/>	
-					
-					<p:spacer width="10px" />
+	    			<p:spacer width="20px" />					
 					
 					<p:outputLabel value="Data Fim" for="dataf" />
 					<p:spacer width="5px" />

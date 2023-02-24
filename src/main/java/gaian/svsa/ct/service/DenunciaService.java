@@ -47,7 +47,7 @@ public class DenunciaService implements Serializable {
 			}
 		}
 		else {
-			throw new NegocioException("Somente o técnico que registrou pode alterar a denuncia! E isso só pode ser feito antes de 7 dias do registro.");
+			throw new NegocioException("Somente o conselheiro que registrou pode alterar a denuncia! E isso só pode ser feito antes de 7 dias do registro.");
 		}	
 	}
 	

@@ -92,15 +92,7 @@
 						process="@this">
 						<f:setPropertyActionListener target="#{pesquisaProntuarioBean.prontuarioSelecionado}" 
 							value="#{prontuario}" />
-					</p:commandButton>					
-	    		
-	    			<p:commandButton title="Histórico de Transferências" icon="pi pi-angle-double-right"	
-	    				actionListener="#{pesquisaProntuarioBean.consultaTransferencias(prontuario)}"	            	
-		            	oncomplete="PF('transfDialogWidgetVar').show()"
-		            	update="frmPesquisa:transfDialog" 
-		            	process="@this">
-		            	<p:resetInput target="frmPesquisa:transfDialog" />			            	
-	            	</p:commandButton>
+					</p:commandButton>	    			
 	    			  					
 					<p:commandButton icon="pi pi-user" title="Informações do RD" 
 						update="frmPesquisa:infoGrid" 		    		
@@ -163,42 +155,6 @@
 	    	</p:confirmDialog>  
 	    	
 	    	
-			
-			<p:dialog id="transfDialog" header="Transferências" widgetVar="transfDialogWidgetVar"
-				modal="true" resizable="true" closeOnEscape="true"
-				showEffect="explode" hideEffect="explode" 
-				style="max-height:600px;overflow:scroll"
-				position="center top">	
-				
-				
-				<p:dataTable id="listaTransferencias"  value="#{pesquisaProntuarioBean.listaTransferencias}" 
-					var="historico"
-					allowUnsorting="true" sortMode="single"
-		    		style="margin-top: 20px" emptyMessage="Nenhuma transferência realizada.">
-		    		
-		    		<f:facet name="header">
-			            Histórico de Transferências
-			        </f:facet>
-		    					    		
-			    	<p:column headerText="Data da Transferência" sortBy="#{historico.nome}" style="width: 30px; text-align: left">
-					<h:outputText value="#{historico.dataTransferencia}">
-	    				<f:convertDateTime pattern="dd/MM/yyyy" />
-    				</h:outputText>	 
-					</p:column>				
-					<p:column headerText="Motivo da Transferência" style="width: 100px; text-align: left">
-						<h:outputText value="#{historico.motivo}" />
-					</p:column>
-					<p:column headerText="Unidade Anterior" style="width: 50px; text-align: center">
-						<h:outputText value="#{historico.unidade.nome}" />
-					</p:column>
-					<p:column headerText="Responsável pela Transferência" style="width: 50px; text-align: center">
-						<h:outputText value="#{historico.usuario.nome}" />
-					</p:column>	
-		    		
-			   	</p:dataTable>
-		   	
-			</p:dialog>	
-			
 			<p:dialog header="Informações sobre o RD" widgetVar="infoDialog" modal="true" showEffect="fade" hideEffect="fade" 
 		   		resizable="false" closeOnEscape="true" position="center top">
 	        	<p:outputPanel id="criador" style="text-align:left;">
@@ -211,7 +167,7 @@
 		   				
 		   				<p:outputLabel value=""/><p:outputLabel value=""/>
 		   				
-		            	<p:outputLabel value="Técnico que criou o RD "/>
+		            	<p:outputLabel value="Conselheiro que criou o RD "/>
 		   				<h:outputText value="#{pesquisaProntuarioBean.prontuarioSelecionado.criador}" style="font-weight:bold"/>		   				
 		   				<p:outputLabel value="Data criação: "/>
 		   				<h:outputText value="#{pesquisaProntuarioBean.prontuarioSelecionado.dataCriacao}" style="font-weight:bold">

@@ -101,7 +101,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPessoaDTO(String termo, Unidade unidade, Long tenantId) {
 		log.info("TermoPesquisa por nome na DAO = " + termo);
 
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -143,7 +143,7 @@ public class PessoaDAO implements Serializable {
 		return query.getResultList();
 	}
 	*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -181,7 +181,7 @@ public class PessoaDAO implements Serializable {
 
 		return query.getResultList();
 		 */
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -221,7 +221,7 @@ public class PessoaDAO implements Serializable {
 
 		return query.getResultList();
 		*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -254,7 +254,7 @@ public class PessoaDAO implements Serializable {
 		String jpql = "from Pessoa p where p.nome LIKE :termo " + "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -284,7 +284,7 @@ public class PessoaDAO implements Serializable {
 		String jpql = "from Pessoa p where p.familia.endereco.endereco LIKE :termo " + "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -311,7 +311,7 @@ public class PessoaDAO implements Serializable {
 		String jpql = "from Pessoa p where p.nomeSocial LIKE :termo " + "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -339,7 +339,7 @@ public class PessoaDAO implements Serializable {
 		String jpql = "from Pessoa p where p.familia.prontuario.codigo = :termo " + "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		*/
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -373,7 +373,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorNome(String termo, Unidade unidade, Long tenantId) {
 		log.info("TermoPesquisa PR por nome na DAO = " + termo);		
 		
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -402,7 +402,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorNome(String termo, Long tenantId) {
 		log.info("TermoPesquisa por pessoaReferencia/geral na DAO = " + termo);
 
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -429,7 +429,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorEndereco(String termo, Unidade unidade, Long tenantId) {
 		log.info("TermoPesquisa por endereco/unidade na DAO = " + termo);
 		
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -459,7 +459,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorEndereco(String termo, Long tenantId) {
 		log.info("TermoPesquisa por endereco/geral na DAO = " + termo);
 	
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -486,7 +486,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorNomeSocial(String termo, Unidade unidade, Long tenantId) {
 		log.info("TermoPesquisa por nome social/unidade na DAO = " + termo);
 		
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -515,7 +515,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorNomeSocial(String termo, Long tenantId) {
 		log.info("TermoPesquisa por nome social/geral na DAO = " + termo);
 		
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -542,7 +542,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorProntuario(String termo, Unidade unidade, Long tenantId) {
 		log.info("TermoPesquisa por prontuario/unidade na DAO = " + termo + " unidade = " + unidade.getCodigo());
 				
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -570,7 +570,7 @@ public class PessoaDAO implements Serializable {
 	public List<PessoaDTO> pesquisarPorProntuario(Long termo, Long tenantId) {
 		log.info("TermoPesquisa por prontuario/geral na DAO = " + termo);	
 
-		String jpql = "SELECT new com.softarum.svsa.modelo.to.PessoaDTO( "
+		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
 				+ "p.familia.prontuario.codigo, "
 				+ "p.familia.prontuario.prontuario, " 
@@ -1186,32 +1186,15 @@ public class PessoaDAO implements Serializable {
 		/*  tabelas que afetam dados pessoais das pessoas
 		 
 			#  ManyToMany (pessoas)
-			SELECT * FROM svsa.pessoaAcao where codigo_pessoa_acao = 15715;
-			
-			#  ManyToMany (pessoas/pessoasFaltosas)
-			SELECT * FROM svsa.PessoaAgendada where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.PessoaAgendadaFaltosa where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.PessoaAgendadaFamiliar where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.PessoaAgendadaFamiliarFaltosa where codigo_pessoa = 15715   ;
-			
+			SELECT * FROM svsa.pessoaAcao where codigo_pessoa_acao = 15715;			
+					
 			#  ManyToOne (pessoa)
 			SELECT * FROM svsa.Acao where codigo_pessoa = 15715; 
 			SELECT * FROM svsa.ListaAtendimento where codigo_pessoa = 15715     ;
-			SELECT * FROM svsa.encaminhamento where codigo_pessoa = 15715   ;
+			
 			SELECT * FROM svsa.oficio where codigo_pessoa = 15715   ;
 			SELECT * FROM svsa.oficioemitido where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.situacaoviolencia where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.inscricao where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.frequencia where codigo_pessoa = 15715   ;
-			SELECT * FROM svsa.histpessoauv where codigo_pessoa = 15715   ;  // NAO
 			
-			#  ManyToOne (adolescente)		
-			SELECT * FROM svsa.pia where codigo_pessoa = 15715   ;
-			
-			#  OneToOne (pessoa) Não é possível migrar, o técnico tem que relançar // NAO
-			SELECT * FROM svsa.condicaosaude where pessoa_codigo = 15715   ;
-			SELECT * FROM svsa.condicaotrabalho where pessoa_codigo = 15715   ;
-			SELECT * FROM svsa.condicaoeducacional where pessoa_codigo = 15715   ;
 		 */
 
 		Query query;
@@ -1224,6 +1207,7 @@ public class PessoaDAO implements Serializable {
 		query.setParameter( "pessoa", pessoa.getCodigo() );
 		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
         query.executeUpdate();
+        
 		query = manager.createNativeQuery( 
 				"UPDATE PessoaAcao "
 				+ "SET codigo_pessoa_acao = :pessoaNova "
@@ -1232,38 +1216,7 @@ public class PessoaDAO implements Serializable {
 		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
         query.executeUpdate();
         
-        /* AgendamentoColetivo */
-		query = manager.createNativeQuery( 
-				"UPDATE PessoaAgendada "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        query = manager.createNativeQuery( 
-				"UPDATE PessoaAgendadaFaltosa "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        
-        /* AgendamentoFamiliar */
-		query = manager.createNativeQuery( 
-				"UPDATE PessoaAgendadaFamiliar "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        query = manager.createNativeQuery( 
-				"UPDATE PessoaAgendadaFamiliarFaltosa "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        
+       
         /* ListaAtendimento */
 		query = manager.createNativeQuery( 
 				"UPDATE ListaAtendimento "
@@ -1294,50 +1247,6 @@ public class PessoaDAO implements Serializable {
         /* OficioEmitido */
 		query = manager.createNativeQuery( 
 				"UPDATE OficioEmitido "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        
-        /* SituacaoViolencia */
-		query = manager.createNativeQuery( 
-				"UPDATE SituacaoViolencia "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        
-        /* Inscricao */
-		query = manager.createNativeQuery( 
-				"UPDATE Inscricao "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        
-        /* Frequencia */
-		query = manager.createNativeQuery( 
-				"UPDATE Frequencia "
-				+ "SET codigo_pessoa = :pessoaNova "
-				+ "WHERE codigo_pessoa = :pessoa" );
-		query.setParameter( "pessoa", pessoa.getCodigo() );
-		query.setParameter( "pessoaNova", pessoaNova.getCodigo() );
-        query.executeUpdate();
-        		
-        /* HistPessoaUV */
-		        
-        /* CondicaoSaude */
-		
-        /* CondicaoTrabalho */
-		
-        /* CondicaoEducacional */		
-        
-        /* Pia */
-		query = manager.createNativeQuery( 
-				"UPDATE Pia "
 				+ "SET codigo_pessoa = :pessoaNova "
 				+ "WHERE codigo_pessoa = :pessoa" );
 		query.setParameter( "pessoa", pessoa.getCodigo() );

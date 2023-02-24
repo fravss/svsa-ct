@@ -39,7 +39,7 @@ public class ProdutividadeDAO implements Serializable {
 			    l.codigoAuxiliar IN ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO')
 			ORDER BY u.nome;
 		 */
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
 				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
@@ -71,7 +71,7 @@ public class ProdutividadeDAO implements Serializable {
 			    l.codigoAuxiliar IN ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO')
 			ORDER BY u.nome;
 		 */
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
 				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
@@ -97,7 +97,7 @@ public class ProdutividadeDAO implements Serializable {
 	
 	public List<AtendimentoDTO> buscarTecnicoProdDTO(Unidade unidade, Long tenantId) {
 		
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
 				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
@@ -118,7 +118,7 @@ public class ProdutividadeDAO implements Serializable {
 
 	public List<AtendimentoDTO> buscarTecnicoProdDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 		
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
 				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
@@ -172,7 +172,7 @@ public class ProdutividadeDAO implements Serializable {
 	
 public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tenantId) {
 		
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM Acao a "
 				+ " INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
@@ -190,7 +190,7 @@ public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tena
 
 	public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 		
-		List<AtendimentoDTO> lista = manager.createQuery("SELECT new com.softarum.svsa.modelo.to.AtendimentoDTO( "
+		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM Acao a "
 				+ " INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "

@@ -70,8 +70,8 @@
 	    			<h:outputText value="#{denuncia.relato}" />
 	    		</p:column> 
 	    		
-	    		<p:column headerText="Status" style="width: 30px; text-align: center">		
-	    			<h:outputText value="#{denuncia.status}" />
+	    		<p:column headerText="RD Status" style="width: 30px; text-align: center">		
+	    			<h:outputText value="#{denuncia.statusRD}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="RD Vinculado" style="width: 15px; text-align: center">		
@@ -79,18 +79,7 @@
 	    		</p:column>  
 	    		
 	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >		    		
-					
-					<p:commandButton icon="pi pi-user-plus" title="Vincular Denúncia" 	
-							disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"            	
-	            			actionListener="#{registrarDenunciaBean.limpar}" 	            
-	            			oncomplete="PF('vinDialogWidgetVar').show()"
-	            			update="listaDataTable frmDenuncia:growl frmDenuncia:vinDialog frmDenuncia:toolbar" 
-	            			process="@this">
-	            		
-	            		<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
-							value="#{denuncia}" />
-            		</p:commandButton>
-		    		
+										
 		    		<p:commandButton icon="pi pi-pencil" title="Editar Denúncia"
 		    			disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
 		    			oncomplete="PF('denDialogWidgetVar').show();"
@@ -109,6 +98,18 @@
 							value="#{denuncia}" />
 					</p:commandButton>
 					
+					<p:commandButton icon="pi pi-user-plus" title="Vincular Denúncia" 	
+							disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"            	
+	            			actionListener="#{registrarDenunciaBean.limpar}" 	            
+	            			oncomplete="PF('vinDialogWidgetVar').show()"
+	            			update="listaDataTable frmDenuncia:growl frmDenuncia:vinDialog frmDenuncia:toolbar" 
+	            			process="@this">
+	            		
+	            		<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
+							value="#{denuncia}" />
+            		</p:commandButton>
+		    		
+		    		
 					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
 						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
 						action="#{registrarDenunciaBean.showPDF}"
@@ -275,7 +276,7 @@
 		    		</p:selectOneMenu>  	
 					
 					<p:outputLabel value="Status" for="status" />
-					<h:outputText id="status" value="#{registrarDenunciaBean.denuncia.status}" />
+					<h:outputText id="status" value="#{registrarDenunciaBean.denuncia.statusRD}" />
 					
 					<p:outputLabel value="Direito Violado" for="viol" />
 		    		<p:selectOneMenu id="viol" 

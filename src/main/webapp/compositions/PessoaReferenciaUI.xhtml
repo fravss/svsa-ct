@@ -12,8 +12,7 @@
 			
 		<h:outputText style="font-weight: bold;" value="Pessoa de Referência: " />
 		<h:outputText value="#{pessoaReferencia.codigo} - #{pessoaReferencia.nome}"/>		
-		<h:outputText style="font-weight: bold;" value="Serviço: " />
-        <h:outputText value="#{pessoaReferencia.familia.prontuario.programa}"/>        
+		<h:outputText style="font-weight: bold;" value="Serviço: " />        
         <h:outputText style="font-weight: bold;" value="Ver detalhe: " />
         <p:commandButton update="prontuarioPanel"
 						onclick="PF('prontuarioDialog').show()" 
