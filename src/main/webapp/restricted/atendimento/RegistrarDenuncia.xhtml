@@ -89,6 +89,13 @@
 							value="#{denuncia}" />
 					</p:commandButton>									    		
 
+				<p:commandButton icon="pi pi-plus" title="Adicionar Pessoas a Denuncia"
+						disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
+						oncomplete="PF('cadDenunciaDialogWidgetVar').show();"
+						update="frmDenuncia:addGrid frmDenuncia:toolbar frmDenuncia:growl listaDataTable" 
+		            	process="@this">
+				</p:commandButton>
+				
 		    		<p:commandButton icon="pi pi-trash" title="Excluir Denúncia"
 		    			disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
 		    			oncomplete="PF('confirmacaoExclusaoWidgetVar').show()"		            	
@@ -153,107 +160,6 @@
 				    	validatorMessage="A data é obrigatória."
 				    	pattern="dd/MM/yyyy"
 						mask="99/99/9999"/>
-						
-		    		<p:outputLabel value="Nome Crianca" for="nomeCrianca"/>
-		    		<p:autoComplete id="nomeCrianca" value="#{registrarDenunciaBean.denuncia.pessoa.nomeCrianca}" 
-		    			size="60" maxlength="80" 
-		    			required="true" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Data Nascimento " for="datan" size="30"/>
-		    		<p:calendar id="datan" 
-		    			value="#{registrarDenunciaBean.denuncia.pessoa.dataNascimento}" 
-			    		required="false"
-			    		showOn="button" 
-				    	pattern="dd/MM/yyyy"
-						mask="99/99/9999"/>
-						
-					<p:outputLabel value="Escola" for="escola"/>
-		    		<p:autoComplete id="escola" value="#{registrarDenunciaBean.denuncia.pessoa.escola}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Serie" for="serie"/>
-		    		<p:autoComplete id="serie" value="#{registrarDenunciaBean.denuncia.pessoa.serie}" 
-		    			size="15" maxlength="15" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
- 		    					    	
- 		    		<p:outputLabel value="Sexo" for="sex" />
-		    		<p:selectOneMenu id="sex" 
-		    			required="false" 
-		    			value="#{registrarDenunciaBean.denuncia.pessoa.sexo}">	    		    
-		    			<f:selectItem itemLabel="Selecione o sexo" />
-		    			<f:selectItems value="#{registrarDenunciaBean.sexos}" var="sexo" 
-							itemLabel="#{sexo}" itemValue="#{sexo}"/>
-		    		</p:selectOneMenu>			    	
- 		    					    	
- 		    		<p:outputLabel value="Nome Mãe" for="nomeMae"/>
-		    		<p:autoComplete id="nomeMae" value="#{registrarDenunciaBean.denuncia.pessoa.nomeMae}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="RG da Mãe" for="rg"/>
-		    		<p:autoComplete id="rg" value="#{registrarDenunciaBean.denuncia.pessoa.rg}" 
-		    			size="15" maxlength="15" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Endereço Mãe" for="endMae"/>
-		    		<p:autoComplete id="endMae" value="#{registrarDenunciaBean.denuncia.pessoa.endereco}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Telefone Mãe" for="telMae"/>
-		    		<p:autoComplete id="telMae" value="#{registrarDenunciaBean.denuncia.pessoa.telefone}" 
-		    			size="15" maxlength="15" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
-		    		
-		    		<p:outputLabel value="Nome Pai" for="nomePai"/>
-		    		<p:autoComplete id="nomePai" value="#{registrarDenunciaBean.denuncia.pessoa.nomePai}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
-		    		
-		    		<p:outputLabel value="Endereço Pai" for="endPai"/>
-		    		<p:autoComplete id="endPai" value="#{registrarDenunciaBean.denuncia.pessoa.enderecoPai}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Telefone Pai" for="telPai"/>
-		    		<p:autoComplete id="telPai" value="#{registrarDenunciaBean.denuncia.pessoa.telefonePai}" 
-		    			size="15" maxlength="15" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
-		    		
-		    		<p:outputLabel value="Nome de Terceiro" for="nomeTerceiro"/>
-		    		<p:autoComplete id="nomeTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.nomeTerceiro}" 
-		    			size="60" maxlength="80" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
-		    					    
-		  			<p:outputLabel value="Telefone terceiro" for="telTerceiro"/>
-		    		<p:autoComplete id="telTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.telefoneTerceiro}" 
-		    			size="15" maxlength="15" 
-		    			required="false" 
-        				effect="blind">  
-		    		</p:autoComplete>	
 		    		
 	    			<p:outputLabel value="Origem Denúncia" for="orig" />
 		    		<p:selectOneMenu id="orig" 
@@ -313,7 +219,103 @@
 		    	</p:panelGrid>
 	    	</p:dialog>	
 	    	
-	    	
+	    	<p:dialog id="cadDenunciaDialog" header="Cadastro Denuncia" widgetVar="cadDenunciaDialogWidgetVar"
+	   		modal="true" resizable="true" closeOnEscape="true" 
+				showEffect="explode" hideEffect="explode" 
+				width="100%" position="center top" maximizable="true"
+				height="70%" fitViewport="true" responsive="true">	
+				
+				<p:toolbar id="cadDenunciatoolbar">
+				<f:facet name="left">
+
+						<p:commandButton icon="pi pi-user-plus" title="Adicionar Genitora"
+							value="Adicionar Genitora" oncomplete="PF('genitoraWidgetVar').show()"
+							process="@this">
+						</p:commandButton>
+
+						<p:commandButton icon="pi pi-user-plus" title="Adicionar Genitor"
+							value="Adicionar Genitor">
+						</p:commandButton>
+
+						<p:commandButton icon="pi pi-user-plus" title="Adicionar Terceiro"
+							value="Adicionar Terceiro">
+						</p:commandButton>
+
+						<p:commandButton icon="pi pi-user-plus" title="Adicionar Criança"
+							value="Adicionar Crianca/Adolescente">
+						</p:commandButton>
+
+					</f:facet>
+				</p:toolbar>
+				
+				<p:panelGrid id="cadDenunciaGrid" columns="2" styleClass="showcase-text-align-center"
+		    		columnClasses="rotulo, campo">
+		    		
+		    		<p:outputLabel value="Nome da Genitora: " for="nomeMae3" />
+		    		<h:outputText id="nomeMae3" value="#{registrarDenunciaBean.denuncia.pessoa.nomeMae}" />
+		    		
+		    		<p:outputLabel value="Nome do Genitor: " for="nomePai" />
+		    		<h:outputText id="nomePai" value="#{registrarDenunciaBean.denuncia.pessoa.nomePai}" />
+		    		
+		    		<p:outputLabel value="Nome do Terceiro: " for="nomeTerceiro" />
+		    		<h:outputText id="nomeTerceiro" value="#{registrarDenunciaBean.denuncia.pessoa.nomeTerceiro}" />
+		    		
+		    		<p:outputLabel value="Nome da Crianca: " for="nomeCrianca" />
+		    		<h:outputText id="nomeCrianca" value="#{registrarDenunciaBean.denuncia.pessoa.nomeCrianca}" />
+		    		
+		    	</p:panelGrid>
+		    	
+		    </p:dialog>
+		    
+		    <p:dialog id="genitoraDialog" header="Dados da Genitora" widgetVar="genitoraWidgetVar"
+	   		modal="true" resizable="true" closeOnEscape="true" 
+				showEffect="explode" hideEffect="explode" 
+				width="100%" position="center top" maximizable="true"
+				height="70%" fitViewport="true" responsive="true">	
+				
+				
+				<p:panelGrid id="genitoraGrid" columns="2" styleClass="showcase-text-align-center"
+		    		columnClasses="rotulo, campo">
+		    		
+		    		<p:outputLabel value="Nome da Genitora: " for="nomedaMae" />
+		    		<p:autoComplete id="nomedaMae" value="#{registrarDenunciaBean.denuncia.pessoa.nomeMae}"
+		    			size="60" maxlength="80"
+		    			required="false"
+		    			effect="blind">
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="RG da Mãe: " for="rgMae" />
+		    		<p:autoComplete id="rgMae" value="#{registrarDenunciaBean.denuncia.pessoa.rg}"
+		    			size="30" maxlength="80"
+		    			required="false"
+		    			effect="blind">
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Endereço da Mãe: " for="enderecoMae" />
+		    		<p:autoComplete id="enderecoMae" value="#{registrarDenunciaBean.denuncia.pessoa.endereco}"
+		    			size="60" maxlength="80"
+		    			required="false"
+		    			effect="blind">
+		    		</p:autoComplete>
+		    		
+		    		<p:outputLabel value="Telefone da Mãe: " for="telefoneMae" />
+		    		<p:autoComplete id="telefoneMae" value="#{registrarDenunciaBean.denuncia.pessoa.telefone}"
+		    			size="30" maxlength="80"
+		    			required="false"
+		    			effect="blind">
+		    		</p:autoComplete>
+		    		
+		    		<h:outputLabel />		    			
+	           		<p:commandButton icon="pi pi-save" id="salvarGenitora" value="Salvar Genitora" 
+						title="Salva os dados da Genitora"
+						actionListener="#{registrarDenunciaBean.salvar}"
+						oncomplete="if (!args.validationFailed) PF('genitoraGrid').hide()" 			
+						update="genitoraGrid frmDenuncia:listaDataTable frmDenuncia:growl"								
+						process="genitoraGrid">
+					</p:commandButton>
+					
+		    	</p:panelGrid>
+			</p:dialog>
 	    	
 	    	<p:confirmDialog id="confirmacaoExclusaoDialog"
 				widgetVar="confirmacaoExclusaoWidgetVar"
