@@ -2,11 +2,15 @@ package gaian.svsa.ct.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -84,8 +88,11 @@ public class Denuncia implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private StatusRD statusRD;
 	
+	@ElementCollection(targetClass = DireitoViolado.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "DireitosViolados", joinColumns = @JoinColumn(name = "codigo_denuncia"))
+	@Column(name = "direito", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private DireitoViolado direitoViolado;
+	private List<DireitoViolado> direitosViolados;
 
 	@Enumerated(EnumType.STRING)
 	private OrigemDenuncia origemDenuncia;

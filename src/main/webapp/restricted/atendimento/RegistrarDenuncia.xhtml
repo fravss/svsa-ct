@@ -278,15 +278,16 @@
 					<p:outputLabel value="Status" for="status" />
 					<h:outputText id="status" value="#{registrarDenunciaBean.denuncia.statusRD}" />
 					
-					<p:outputLabel value="Direito Violado" for="viol" />
-		    		<p:selectOneMenu id="viol" 
-		    			required="true" 
-		    			value="#{registrarDenunciaBean.denuncia.direitoViolado}"
-		    		    validatorMessage="O tipo de direito violado é obrigatório.">		    		    
-		    			<f:selectItem itemLabel="Selecione o direito violado" />
-		    			<f:selectItems value="#{registrarDenunciaBean.direitos}" var="vio" 
-							itemLabel="#{vio}" itemValue="#{vio}"/>
-		    		</p:selectOneMenu>  
+					<p:outputLabel value="Direito Violado" for="direitos" />
+				    <p:selectManyCheckbox id="direitos" value="#{registrarDenunciaBean.denuncia.direitosViolados}" layout="grid" columns="3"
+				    	required="true" 
+		    			validatorMessage="Pelo menos um direito violado é obrigatório."
+		    			converter="direitoVioladoConverter">
+		    			<f:attribute name="collectionType" value="java.util.ArrayList"/>
+				        <f:selectItems value="#{registrarDenunciaBean.direitos}" var="vio" 
+				        	itemLabel="#{vio.descricao}" 
+				        	itemValue="#{vio}" />
+				    </p:selectManyCheckbox> 
 					
 					
 					<p:outputLabel value="Relato" for="relato"/>
