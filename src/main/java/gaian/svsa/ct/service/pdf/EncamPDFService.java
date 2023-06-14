@@ -101,7 +101,7 @@ public class EncamPDFService implements Serializable {
 	
 		
 		// Body
-		if(enc.isNomeSocial()) {
+		/*if(enc.isNomeSocial()) {
 			Paragraph line = new Paragraph("\n\nEncaminho o Sr(a) " + enc.getPessoa().getNomeSocial() + 
 					" e solicito atenção para seu atendimento, no(a) " + enc.getOrgaoUnidadeDestino() + 
 					" localizado(a) na " + enc.getEnderecoUnidadeDestino() + 
@@ -113,7 +113,7 @@ public class EncamPDFService implements Serializable {
 			line.setTextAlignment(align);
 			document.add(line);
 		}
-		else {
+		else {*/
 			Paragraph line = new Paragraph("\n\nEncaminho o Sr(a) " + enc.getPessoa().getNome() + 
 					" e solicito atenção para seu atendimento, no(a) " + enc.getOrgaoUnidadeDestino() + 
 					" localizado(a) na " + enc.getEnderecoUnidadeDestino() + 
@@ -124,7 +124,7 @@ public class EncamPDFService implements Serializable {
 			line.setFont(font);
 			line.setTextAlignment(align);
 			document.add(line);
-		}
+		//}
 		
 
 		

@@ -114,15 +114,6 @@ public class EncaminhamentoExternoBean implements Serializable {
 		this.encaminhamento.setTenant_id(loginBean.getTenantId());
 		
 	}
-	
-	public void verificaNomeSocial() throws NegocioException {
-
-		log.info("Verificando nome social");
-		if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-			encaminhamento.setNomeSocial(false);
-			MessageUtil.erro("A pessoa não possui nome social!");
-		}			
-	}	
 
 	public void carregarEncaminhamentos() {
 		listaEncaminhamentos = encaminhamentoService.buscarEncaminhamentos(pessoa, loginBean.getTenantId());
@@ -154,12 +145,6 @@ public class EncaminhamentoExternoBean implements Serializable {
 		
 
 		try {
-			// verifica se tem nomeSocial
-			if(encaminhamento.isNomeSocial()) {
-				if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-					throw new NegocioException("Pessoa não possui nome social. Altere o encaminhamento ou o cadastro da pessoa.");
-				}
-			}
 			
 			FacesContext context = FacesContext.getCurrentInstance();
 			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
@@ -204,14 +189,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 	
 	public void downloadPDF(Encaminhamento encaminhamento){
 		try {
-			// verifica se tem nomeSocial
-			if(encaminhamento.isNomeSocial()) {
-				if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-					throw new NegocioException("Pessoa não possui nome social. Altere o encaminhamento ou o cadastro da pessoa.");
-				}
-			}
-			
-			
+					
 			String nomeArquivo = "Encaminhamento ".concat(encaminhamento.getCodigo().toString().concat(".pdf"));
 			// no contexto da aplicacao
 			String caminhoWebInf = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/WEB-INF/pdfs/");

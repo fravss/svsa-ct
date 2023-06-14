@@ -1,7 +1,6 @@
 package gaian.svsa.ct.service;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -42,12 +41,9 @@ public class MPComposicaoService implements Serializable {
 
 		
 	
-	public Pessoa salvar(Pessoa pessoa) throws NegocioException {
+	public Pessoa salvar(Pessoa pessoa) throws NegocioException {		
 		
-		if (pessoa.getFormaIngresso() == null) 
-			throw new NegocioException("A forma de ingresso na unidade é obrigatória");			
-		
-		pessoa.setDataRegistroComposicaoFamiliar(Calendar.getInstance());
+		//pessoa.setDataRegistroComposicaoFamiliar(Calendar.getInstance());
 		
 		/* grava municipio em maiusculo*/
 		pessoa.getFamilia().getEndereco().setMunicipio(pessoa.getFamilia().getEndereco().getMunicipio());

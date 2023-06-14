@@ -207,7 +207,6 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			}
 			
 			pessoa.getFamilia().getEndereco().setMunicipio(pessoa.getFamilia().getEndereco().getMunicipio());
-			pessoa.setMunicipioNascimento(pessoa.getMunicipioNascimento());
 			
 			this.composicaoService.salvar(pessoa);
 			
@@ -401,11 +400,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			this.tipoDocumento.setTenant_id(loginBean.getTenantId());
 			this.formaIngresso = new FormaIngresso();
 			this.formaIngresso.setTenant_id(loginBean.getTenantId());
-			this.pessoa.setTipoDocumento(this.tipoDocumento);
-			this.pessoa.setFormaIngresso(this.formaIngresso);
 			this.pessoa.setTenant_id(loginBean.getTenantId());
-			//Pessoa pessoa = new Pessoa();
-			pessoa.setPaisOrigem(pessoaService.buscarPais(76L)); //Brazil
 			uf = null;
 	}
 	

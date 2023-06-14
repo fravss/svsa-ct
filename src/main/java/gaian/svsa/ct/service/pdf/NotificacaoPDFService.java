@@ -43,7 +43,7 @@ public class NotificacaoPDFService implements Serializable {
 
 	        
 	        // gera impressão do Atestado
-	        generateContent(document, denuncia, s3Key, secretaria);
+	        //generateContent(document, denuncia, s3Key, secretaria);
 	        
 	        return baos;
 	        
@@ -68,17 +68,16 @@ public class NotificacaoPDFService implements Serializable {
 		
 		document.setMargins(50, 50, 50, 50);		
 		
-		generateContent(document, denuncia, s3Key, secretaria);
+		//generateContent(document, denuncia, s3Key, secretaria);
 		
 	}
-private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	
+	/*private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
 		
 		PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 		TextAlignment align = TextAlignment.JUSTIFIED;
 		
-		/* 
-	     * Header 
-	     */		
+		// Header 		
 		headerAtestado(document, denuncia.getTecnico().getUnidade().getNome(), denuncia, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 		
@@ -155,7 +154,7 @@ private void generateContent(Document document, Denuncia denuncia, String s3Key,
 		
 
 		document.close();		
-	}
+	} */
 
 
 	private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {

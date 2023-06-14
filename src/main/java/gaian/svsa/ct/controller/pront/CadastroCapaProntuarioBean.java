@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,15 +22,12 @@ import com.itextpdf.io.source.ByteArrayOutputStream;
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Endereco;
 import gaian.svsa.ct.modelo.Familia;
-import gaian.svsa.ct.modelo.FormaIngresso;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Prontuario;
-import gaian.svsa.ct.modelo.TipoDocumento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.enums.CorRaca;
 import gaian.svsa.ct.modelo.enums.Genero;
-import gaian.svsa.ct.modelo.enums.Parentesco;
 import gaian.svsa.ct.modelo.enums.Sexo;
 import gaian.svsa.ct.modelo.enums.Status;
 import gaian.svsa.ct.modelo.enums.TipoPcD;
@@ -156,11 +152,6 @@ public class CadastroCapaProntuarioBean implements Serializable {
 			prontuario.getFamilia().setProntuario(prontuario);
 			//prontuario.getFamilia().getPessoaReferencia().setParentescoPessoaReferencia(Parentesco.PESSOA_REFERENCIA);
 			prontuario.getFamilia().getPessoaReferencia().setFamilia(prontuario.getFamilia());
-			if(prontuario.getFamilia().getPessoaReferencia().getTipoDocumento() == null)
-				prontuario.getFamilia().getPessoaReferencia().setTipoDocumento(new TipoDocumento());
-			if(prontuario.getFamilia().getPessoaReferencia().getFormaIngresso() == null)
-				prontuario.getFamilia().getPessoaReferencia().setFormaIngresso(new FormaIngresso());
-			prontuario.getFamilia().getPessoaReferencia().setDataRegistroComposicaoFamiliar(Calendar.getInstance());
 			
 			// registra o nome e email de quem criou o prontuário
 			String  criador = loginBean.getUsuario().getNome().concat(":").concat(loginBean.getEmail());
@@ -188,9 +179,7 @@ public class CadastroCapaProntuarioBean implements Serializable {
 		this.prontuario.setFamilia(new Familia());
 		this.prontuario.getFamilia().setTenant_id(loginBean.getTenantId());
 		PessoaReferencia pr = new PessoaReferencia();
-		pr.setParentescoPessoaReferencia(Parentesco.RESPONSAVEL_FAMILIAR);
 		pr.setTenant_id(loginBean.getTenantId());
-		pr.setPaisOrigem(pessoaService.buscarPais(76L)); //Brazil
 		this.prontuario.getFamilia().setPessoaReferencia(pr);		
 		this.prontuario.getFamilia().setEndereco(new Endereco());
 		this.prontuario.getFamilia().getEndereco().setTenant_id(loginBean.getTenantId());

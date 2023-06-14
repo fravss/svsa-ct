@@ -77,8 +77,12 @@ public class Familia implements Cloneable, Serializable {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_prontuario")
 	private Prontuario prontuario;
+	
 	private String programaTransferenciaRenda;
-
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="codigo_denuncia")
+	private Denuncia denuncia;
 	
 	@Override
 	public Familia clone() throws CloneNotSupportedException {

@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TemporalType;
 
 import gaian.svsa.ct.modelo.Denuncia;
-import gaian.svsa.ct.modelo.PessoaDenuncia;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.DateUtils;
@@ -30,22 +29,14 @@ public class DenunciaDAO implements Serializable {
 	
 	@Transactional
 	public Denuncia salvar(Denuncia denuncia) throws NegocioException {
+		
 		try {
-			// se pessoa nova
-			if(denuncia.getPessoa().getCodigo() == null) {
-				denuncia.getPessoa().setTenant_id(denuncia.getTenant_id());
-				denuncia.getPessoa().setUnidade(denuncia.getUnidade());
-				PessoaDenuncia p = manager.merge(denuncia.getPessoa());
-				denuncia.setPessoa(p);
-			}
-			else {
-				manager.merge(denuncia.getPessoa());
-			}
-			return manager.merge(denuncia);	
+			
+			return manager.merge(denuncia);
 			
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw e;
+			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");

@@ -2,21 +2,15 @@ package gaian.svsa.ct.service.pdf;
 
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
-
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.source.ByteArrayOutputStream;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
 
 import gaian.svsa.ct.modelo.Denuncia;
-import gaian.svsa.ct.modelo.enums.Grupo;
 import gaian.svsa.ct.util.NegocioException;
+
+import org.apache.log4j.Logger;
 
 public class AtestadoPDFService implements Serializable {
 	
@@ -44,7 +38,7 @@ public class AtestadoPDFService implements Serializable {
 
 	        
 	        // gera impressão do Atestado
-	        generateContent(document, denuncia, s3Key, secretaria);
+	        //generateContent(document, denuncia, s3Key, secretaria);
 	        
 	        return baos;
 	        
@@ -52,10 +46,10 @@ public class AtestadoPDFService implements Serializable {
 	    	log.error("error: " + ex.getMessage());	    	
 	    	throw new NegocioException("Erro na montagem do PDF: " + ex.getMessage());
 	    }
-	}
+	} 
 	
 	// para download de Emissão de Atestado
-	public void generatePDF(String dest, String nome, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	/* public void generatePDF(String dest, String nome, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
 		
 		// Creating a PdfWriter			  
 		PdfWriter writer = new 
@@ -71,17 +65,15 @@ public class AtestadoPDFService implements Serializable {
 		
 		generateContent(document, denuncia, s3Key, secretaria);
 		
-	}
+	} */
 
 		
-	private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	/*private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
 		
 		PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 		TextAlignment align = TextAlignment.JUSTIFIED;
 		
-		/* 
-	     * Header 
-	     */		
+		//Header 	
 		headerAtestado(document, denuncia.getTecnico().getUnidade().getNome(), denuncia, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 		
@@ -179,10 +171,10 @@ public class AtestadoPDFService implements Serializable {
 		document.add(line6);
 
 		document.close();		
-	}
+	} */
 
 
-	private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {
+	/* private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {
 		try {
 			PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 			log.info(unidade);
@@ -209,5 +201,5 @@ public class AtestadoPDFService implements Serializable {
 			e.printStackTrace();
 			throw new Exception("Não foi possivel localizar a unidade.");
 		}
-	}
+	} */
 }
