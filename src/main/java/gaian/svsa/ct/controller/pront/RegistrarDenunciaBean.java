@@ -1,4 +1,4 @@
-package gaian.svsa.ct.controller;
+package gaian.svsa.ct.controller.pront;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.io.source.ByteArrayOutputStream;
 
+import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.enums.AgenteViolador;
 import gaian.svsa.ct.modelo.enums.DireitoViolado;

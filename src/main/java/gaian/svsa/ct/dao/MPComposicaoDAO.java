@@ -10,11 +10,9 @@ import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 
-import gaian.svsa.ct.modelo.ObsComposicaoFamiliar;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Prontuario;
-import gaian.svsa.ct.modelo.TipoDocumento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
@@ -51,25 +49,7 @@ public class MPComposicaoDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
-		
-	@Transactional
-	public void salvarObservacao(ObsComposicaoFamiliar obsComposicaoFamiliar) throws NegocioException {
-		try {
-			manager.merge(obsComposicaoFamiliar);
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		}
-	}
+	
 	
 
 	public Pessoa buscarPeloCodigo(Long codigo) {
@@ -186,21 +166,7 @@ public class MPComposicaoDAO implements Serializable {
 		
 		return query.getResultList();
 	}
-	
-	public TipoDocumento buscarTipoDocumentoPeloCodigo(Long codigo) {
-		return manager.find(TipoDocumento.class, codigo);
-	}	
-	
-	public List<ObsComposicaoFamiliar> buscarTodasObservacoes(Prontuario prontuario, Long tenantId) {
-		String jpql = "from ObsComposicaoFamiliar o where o.prontuario = :prontuario "
-				+ "and o.tenant_id = :tenantId ";
 		
-		TypedQuery<ObsComposicaoFamiliar> query = manager.createQuery(jpql, ObsComposicaoFamiliar.class);
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("prontuario", prontuario);
-		
-		return query.getResultList();
-	}		
 	
 	// para fins de testes unitários
 	public void setManager(EntityManager manager) {

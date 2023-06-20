@@ -14,14 +14,11 @@ import org.primefaces.model.chart.PieChartModel;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Acao;
-import gaian.svsa.ct.modelo.FormaIngresso;
 import gaian.svsa.ct.modelo.ListaAtendimento;
-import gaian.svsa.ct.modelo.ObsComposicaoFamiliar;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Prontuario;
-import gaian.svsa.ct.modelo.TipoDocumento;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.CorRaca;
 import gaian.svsa.ct.modelo.enums.EnumUtil;
@@ -69,9 +66,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	private Long codigoPessoa;
 
 	private Pessoa pessoaSelecionada;	
-	private ObsComposicaoFamiliar obsComposicaoFamiliar;
-	private List<ObsComposicaoFamiliar> observacoes;
-	private TipoDocumento tipoDocumento;	
+	
 	private PerfilEtarioTO perfilEtarioTO;
 	private PieChartModel graficoPerfil;	
 	//private List<AtendimentoDTO> resumoAtendimentos = new ArrayList<>();
@@ -103,7 +98,6 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	private List<Parentesco> parentescos;
 	private List<FormaAcesso> formasAcesso;
 	private List<ProgramaSocial> programasSociais;
-	private FormaIngresso formaIngresso;
 	
 	@Inject
 	private MPComposicaoService composicaoService;
@@ -160,13 +154,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			MessageUtil.erro("É necessária a pessoa de referência.");
 	}
 	
-	public void pesquisarObsercacoes() {
-		if(this.pessoaReferencia != null)
-			observacoes = composicaoService.buscarTodasObservacoes(this.pessoaReferencia.getFamilia().getProntuario(), loginBean.getTenantId());
-		else
-			MessageUtil.erro("É necessária a pessoa de referência.");
-	}
-	
+		
 	/*
 	public void consultarResumoAtendimentos() {
 		
@@ -379,10 +367,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
-			obsComposicaoFamiliar.setUsuario(usuarioLogado);	
-			obsComposicaoFamiliar.setTenant_id(loginBean.getTenantId());
-			obsComposicaoFamiliar.setProntuario(pessoaReferencia.getFamilia().getProntuario());
-			this.composicaoService.salvarObservacao(obsComposicaoFamiliar);
+			
 			MessageUtil.sucesso("Observação incluída com sucesso.");
 			pesquisarMembros();
 			
@@ -395,11 +380,8 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	
 	public void limpar() {	
 			
-			this.pessoa = new Pessoa();	
-			this.tipoDocumento = new TipoDocumento();
-			this.tipoDocumento.setTenant_id(loginBean.getTenantId());
-			this.formaIngresso = new FormaIngresso();
-			this.formaIngresso.setTenant_id(loginBean.getTenantId());
+			this.pessoa = new Pessoa();		
+			
 			this.pessoa.setTenant_id(loginBean.getTenantId());
 			uf = null;
 	}
@@ -409,9 +391,6 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
-			this.obsComposicaoFamiliar = new ObsComposicaoFamiliar();
-			this.obsComposicaoFamiliar.setTenant_id(loginBean.getTenantId());
-
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());

@@ -57,7 +57,6 @@ public class ProntuarioService implements Serializable {
 			pront.setDataEntrada(new Date());
 			pront.setDataCriacao(pront.getDataCriacao());
 			pront.setStatus(Status.ATIVO);
-			pront.setObsComposicaoFamiliar(null);
 			pront.setProntuario(null);			
 			pront.setProntuarioVinculado(null);
 			

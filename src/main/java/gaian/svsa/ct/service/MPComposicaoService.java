@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import gaian.svsa.ct.dao.CapaProntuarioDAO;
 import gaian.svsa.ct.dao.MPComposicaoDAO;
 import gaian.svsa.ct.modelo.ListaAtendimento;
-import gaian.svsa.ct.modelo.ObsComposicaoFamiliar;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Prontuario;
@@ -52,14 +51,6 @@ public class MPComposicaoService implements Serializable {
 		
 	}
 
-	public void salvarObservacao(ObsComposicaoFamiliar obsComposicaoFamiliar) throws NegocioException {
-		
-		if (obsComposicaoFamiliar.getObservacao() == null)
-			throw new NegocioException("A observação é obrigatória");	
-				
-		this.composicaoDAO.salvarObservacao(obsComposicaoFamiliar);
-		
-	}
 
 	/*
 	 * MPComposicaoFamiliar
@@ -141,11 +132,6 @@ public class MPComposicaoService implements Serializable {
 	public List<Pessoa> buscarTodosMembros(Prontuario prontuario, Long tenantId) {
 		return composicaoDAO.buscarTodosMembros(prontuario, tenantId);
 	}
-
-	public List<ObsComposicaoFamiliar> buscarTodasObservacoes(Prontuario prontuario, Long tenantId) {
-		return composicaoDAO.buscarTodasObservacoes(prontuario, tenantId);
-	}
-	
 	public MPComposicaoDAO getComposicaoDAO() {
 		return composicaoDAO;
 	}
