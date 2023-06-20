@@ -113,24 +113,24 @@ public class ProntuarioPDFService implements Serializable {
 	    // pessoa referencia
 	    list.add("PESSOA DE REFERÊNCIA");
 	    list.add("Nome Pessoa de Referência: " + prontuario.getFamilia().getPessoaReferencia().getNome());
-	    list.add("Vínculo familiar: " + prontuario.getFamilia().getPessoaReferencia().getParentescoPessoaReferencia());
-	    list.add("Nome da mãe: " + prontuario.getFamilia().getPessoaReferencia().getNomeMae());
-	    list.add("Nome Social: " + prontuario.getFamilia().getPessoaReferencia().getNomeSocial());
+	    list.add("Vínculo familiar: " + prontuario.getFamilia().getPessoaReferencia().getParentesco());
+	    //list.add("Nome da mãe: " + prontuario.getFamilia().getPessoaReferencia().getNomeMae());
+	    //list.add("Nome Social: " + prontuario.getFamilia().getPessoaReferencia().getNomeSocial());
 	    list.add("Idade: " + prontuario.getFamilia().getPessoaReferencia().getIdade());
-	    if(prontuario.getFamilia().getPessoaReferencia().getPaisOrigem() != null)
-	    	list.add("País de Origem: " + prontuario.getFamilia().getPessoaReferencia().getPaisOrigem().getPais());
-	    else
-	    	list.add("País de Origem: ");
+	    //if(prontuario.getFamilia().getPessoaReferencia().getPaisOrigem() != null)
+	    	//list.add("País de Origem: " + prontuario.getFamilia().getPessoaReferencia().getPaisOrigem().getPais());
+	    //else
+	    	//list.add("País de Origem: ");
 	    list.add("Telefone: " + prontuario.getFamilia().getPessoaReferencia().getTelefone());       
 	    list.add("E-mail: " + prontuario.getFamilia().getPessoaReferencia().getEmail());  
-	    list.add("Identidade: " + prontuario.getFamilia().getPessoaReferencia().getRg() + "   UF: " + prontuario.getFamilia().getPessoaReferencia().getUfEmissao());
+	    //list.add("Identidade: " + prontuario.getFamilia().getPessoaReferencia().getRg() + "   UF: " + prontuario.getFamilia().getPessoaReferencia().getUfEmissao());
 	    list.add("Data de nascimento: " + DateUtils.parseDateToString(prontuario.getFamilia().getPessoaReferencia().getDataNascimento()));
-	    list.add("CPF: " + prontuario.getFamilia().getPessoaReferencia().getCpf());
-	    list.add("NIS: " + prontuario.getFamilia().getPessoaReferencia().getNis());
+	    //list.add("CPF: " + prontuario.getFamilia().getPessoaReferencia().getCpf());
+	    //list.add("NIS: " + prontuario.getFamilia().getPessoaReferencia().getNis());
 	    list.add("Sexo: " + prontuario.getFamilia().getPessoaReferencia().getSexo());
-	    list.add("Identidade de Gênero: " + prontuario.getFamilia().getPessoaReferencia().getIdentidadeGenero());
-	    list.add("Cor/Raça: " + prontuario.getFamilia().getPessoaReferencia().getCorRaca());
-	    list.add("Observação: " + prontuario.getFamilia().getPessoaReferencia().getObservacao());
+	    //list.add("Identidade de Gênero: " + prontuario.getFamilia().getPessoaReferencia().getIdentidadeGenero());
+	    //list.add("Cor/Raça: " + prontuario.getFamilia().getPessoaReferencia().getCorRaca());
+	    //list.add("Observação: " + prontuario.getFamilia().getPessoaReferencia().getObservacao());
 	    
 	    // endereço
 	    list.add("ENDEREÇO");

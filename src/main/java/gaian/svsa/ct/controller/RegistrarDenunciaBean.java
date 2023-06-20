@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 
 import gaian.svsa.ct.modelo.Denuncia;
-import gaian.svsa.ct.modelo.PessoaDenuncia;
-import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.enums.AgenteViolador;
 import gaian.svsa.ct.modelo.enums.DireitoViolado;
 import gaian.svsa.ct.modelo.enums.OrigemDenuncia;
@@ -128,8 +126,6 @@ public class RegistrarDenunciaBean implements Serializable {
 
 		this.denuncia = new Denuncia();
 		this.denuncia.setAno(getAno());
-		this.denuncia.setPessoa(new PessoaDenuncia());
-		this.denuncia.setTecnico(loginBean.getUsuario());
 		this.denuncia.setStatusRD(StatusRD.EM_AVERIGUACAO);
 		this.denuncia.setUnidade(loginBean.getUsuario().getUnidade());
 		this.denuncia.setTenant_id(loginBean.getTenantId());
@@ -145,10 +141,6 @@ public class RegistrarDenunciaBean implements Serializable {
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 
-		
-			
-			// Emissão em nome de quem está imprimindo
-			denuncia.setTecnico(loginBean.getUsuario());
 			// Creating a PdfWriter
 			log.info(denuncia);
 			log.info(loginBean.getUsuario().getTenant().getS3Key());
@@ -197,10 +189,6 @@ public class RegistrarDenunciaBean implements Serializable {
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 
-		
-			
-			// Emissão em nome de quem está imprimindo
-			denuncia.setTecnico(loginBean.getUsuario());
 			// Creating a PdfWriter
 			log.info(denuncia);
 			log.info(loginBean.getUsuario().getTenant().getS3Key());
@@ -249,10 +237,6 @@ public class RegistrarDenunciaBean implements Serializable {
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 
-		
-			
-			// Emissão em nome de quem está imprimindo
-			denuncia.setTecnico(loginBean.getUsuario());
 			// Creating a PdfWriter
 			log.info(denuncia);
 			log.info(loginBean.getUsuario().getTenant().getS3Key());
@@ -317,8 +301,8 @@ public class RegistrarDenunciaBean implements Serializable {
 	public void buscarPessoa() {
 	       
         try {
-        	PessoaReferencia p = denunciaService.buscarPeloNome(getNome());
-        	denuncia.setProntuario(p.getFamilia().getProntuario());
+        	//PessoaReferencia p = denunciaService.buscarPeloNome(getNome());
+        	//denuncia.setProntuario(p.getFamilia().getProntuario());
 			
 		} catch(Exception e) {
 			MessageUtil.alerta("Não existe PESSOA com esse nome!");

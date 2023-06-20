@@ -44,7 +44,7 @@ public class DenunciaPDFService implements Serializable {
 
 	        
 	        // gera impressão da Denúncia
-	        generateContent(document, denuncia, s3Key, secretaria);
+	        //generateContent(document, denuncia, s3Key, secretaria);
 	        
 	        return baos;
 	        
@@ -69,19 +69,17 @@ public class DenunciaPDFService implements Serializable {
 		
 		document.setMargins(50, 50, 50, 50);		
 		
-		generateContent(document, denuncia, s3Key, secretaria);
+		//generateContent(document, denuncia, s3Key, secretaria);
 		
 	}
 
 		
-	private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	/*private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
 		
 		PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 		TextAlignment align = TextAlignment.JUSTIFIED;
 		
-		/* 
-	     * Header 
-	     */		
+		//Header 	
 		
 		headerAtestado(document, denuncia.getTecnico().getUnidade().getNome(), denuncia, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
@@ -111,7 +109,7 @@ public class DenunciaPDFService implements Serializable {
 										+ "Nome Pai: " + denuncia.getPessoa().getNomePai() + "		Telefone: " + denuncia.getPessoa().getTelefonePai() + "\n "
 										+ "Endereço do pai: " + denuncia.getPessoa().getEnderecoPai() + "\n "
 										+ "Escola: " + denuncia.getPessoa().getEscola() + "		Série: " + denuncia.getPessoa().getSerie() 
-										/* + " Periodo: " + denuncia.getPessoa().getPeriodo() */ );
+										/* + " Periodo: " + denuncia.getPessoa().getPeriodo() */     /* );
 		line1.setFontSize(14);
 		line1.setFont(font);
 		line1.setTextAlignment(align);
@@ -139,7 +137,7 @@ public class DenunciaPDFService implements Serializable {
 		document.add(line6);	
 		
 		document.close();		
-	}
+	} */
 
 
 	private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {

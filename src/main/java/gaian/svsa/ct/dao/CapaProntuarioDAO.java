@@ -118,13 +118,13 @@ public class CapaProntuarioDAO implements Serializable {
 			for(Pessoa pe : membros) {
 				if(pe instanceof Pessoa) {
 					pe.setExcluida(true);
-					pe.setStatus(Status.INATIVO);					
-					log.info("Membro excluido: " + pe.getCodigo());
+					//pe.setStatus(Status.INATIVO);					
+					//log.info("Membro excluido: " + pe.getCodigo());
 				}
 			}
 			
 			pf.setExcluida(true);
-			pf.setStatus(Status.INATIVO);		
+			//pf.setStatus(Status.INATIVO);		
 		
 			p.setExcluido(true);
 			p.setStatus(Status.INATIVO);
@@ -154,17 +154,17 @@ public class CapaProntuarioDAO implements Serializable {
 			Prontuario p = buscarPeloCodigo(prontuario.getCodigo());
 			Familia f = p.getFamilia();
 			List<Pessoa> membros = f.getMembros();		
-			PessoaReferencia pf = f.getPessoaReferencia();
+			//PessoaReferencia pf = f.getPessoaReferencia();
 			
 			/*  membros*/
 			for(Pessoa pe : membros) {
 				if(pe instanceof Pessoa) {
-					pe.setStatus(Status.ATIVO);					
-					log.info("Membro ativado: " + pe.getCodigo());
+					//pe.setStatus(Status.ATIVO);					
+					//log.info("Membro ativado: " + pe.getCodigo());
 				}
 			}		
 		
-			pf.setStatus(Status.ATIVO);
+			//pf.setStatus(Status.ATIVO);
 			
 			p.setStatus(Status.ATIVO);
 			manager.merge(p);			
@@ -190,19 +190,19 @@ public class CapaProntuarioDAO implements Serializable {
 			Prontuario p = buscarPeloCodigo(prontuario.getCodigo());
 			Familia f = p.getFamilia();
 			List<Pessoa> membros = f.getMembros();		
-			PessoaReferencia pf = f.getPessoaReferencia();
+			//PessoaReferencia pf = f.getPessoaReferencia();
 			
 			/*  membros*/
 			log.info("tamanho membros: " + membros.size());
 			
 			for(Pessoa pe : membros) {
 				if(pe instanceof Pessoa) {					
-					pe.setStatus(Status.INATIVO);
-					log.info("Membro inativado: " + pe.getCodigo());
+					//pe.setStatus(Status.INATIVO);
+					//log.info("Membro inativado: " + pe.getCodigo());
 				}
 			}	
 						
-			pf.setStatus(Status.INATIVO);						
+			//pf.setStatus(Status.INATIVO);						
 			
 			p.setStatus(Status.INATIVO);
 			manager.merge(p);
