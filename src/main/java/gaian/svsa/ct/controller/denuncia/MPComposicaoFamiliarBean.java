@@ -1,4 +1,4 @@
-package gaian.svsa.ct.controller.pront;
+package gaian.svsa.ct.controller.denuncia;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.CorRaca;
 import gaian.svsa.ct.modelo.enums.EnumUtil;
@@ -163,6 +162,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	}
 	*/
 	
+	/*
 	public void trocarPessoaReferencia() {
 
 		try {
@@ -177,7 +177,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		}
 		//return "/restricted/agenda/ManterProntuario.xhtml?faces-redirect=true";
 		//return "/agenda/ManterProntuario.xhtml";
-	}
+	} */
 	
 	
 		
@@ -211,26 +211,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	/*
 	 * Manipulação de membros
 	 */
-	
-	/* Cria novo prontuario para a pessoa selecionada */
-	public void criarProntuario() {
-		try {
-			
-			if(!isUnidadeDoUsuario())
-				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
-			
-			log.info("criando prontuario novo: " + pessoa.getNome());
-			composicaoService.criarProntuario(pessoa, usuarioLogado, loginBean.getTenantId());
-			pesquisarMembros();
-			pessoa = null;
-			
-			MessageUtil.sucesso("Prontuário criado com sucesso!");
 
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-		}
-	}
 	
 	/* Exclui membro da familia	*/
 	public void excluirMembro() {
@@ -271,7 +252,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		}
 	}
 	
-	/* Transfere membro para outra família */
+	/* Transfere membro para outra família
 	public void transferirMembro() {
 		try {
 			
@@ -288,7 +269,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}
-	}
+	} */
 	
 	/* Migração de dados de pessoais */
 	public void migrarDadosPessoais() {
@@ -330,7 +311,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		}
 	}
 	
-	/* por prontuario */
+	/* por prontuario
 	public void buscarNomePessoa() {
 		
 		log.debug("buscar nome ");
@@ -352,7 +333,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		else {
 			MessageUtil.alerta("O Prontuário digitado é inválido ou não existe!");
 		}	
-	}
+	} */
 
 	/*
 	 * Fim manipulação de membros
@@ -414,7 +395,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	
 	public void setPessoaReferencia(PessoaReferencia pr) {		
 		
-		long codigo = pr.getFamilia().getProntuario().getUnidade().getCodigo();
+		long codigo = pr.getFamilia().getDenuncia().getUnidade().getCodigo();
 		long codigo2 = usuarioLogado.getUnidade().getCodigo();
 		
 		if( codigo == codigo2 ) {

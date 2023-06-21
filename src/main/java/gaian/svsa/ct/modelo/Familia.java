@@ -74,10 +74,6 @@ public class Familia implements Cloneable, Serializable {
 	@JoinColumn(name="codigo_pessoa_referencia")
 	private PessoaReferencia pessoaReferencia;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codigo_prontuario")
-	private Prontuario prontuario;
-	
 	private String programaTransferenciaRenda;
 	
 	@OneToOne(cascade=CascadeType.ALL)

@@ -108,8 +108,9 @@ public class Denuncia implements Serializable {
 	@Audited(targetAuditMode = RelationTargetAuditMode.AUDITED)
 	private Unidade unidade;
 	
-	
-	
+	@ManyToOne
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;

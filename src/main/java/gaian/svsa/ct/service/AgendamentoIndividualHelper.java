@@ -338,7 +338,7 @@ class AgendamentoIndividualHelper implements Serializable {
 	public List<ListaAtendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
 		
 		// faltas individualizada
-		List<ListaAtendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getProntuario().getUnidade(), pessoa, tenantId);
+		List<ListaAtendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getDenuncia().getUnidade(), pessoa, tenantId);
 	
 		return  faltas;
 	}

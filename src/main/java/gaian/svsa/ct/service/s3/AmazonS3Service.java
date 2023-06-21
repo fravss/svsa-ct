@@ -22,7 +22,6 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 
 import gaian.svsa.ct.modelo.Oficio;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.util.NegocioException;
 
 /**
@@ -81,11 +80,13 @@ public class AmazonS3Service implements Serializable {
 	 * Salva o arquivo (uploaded) no bucket do Amazon S3
 	 * ---------------------------------------------------------------- 
      */
+	
+	/*
 	public Prontuario gravaPdfCadUnico(Prontuario prontuario, Part uploadedFile) throws NegocioException{		
     		
     		log.info("Gravando pdf cadUnico... ");
 		    		
-    		/*  Define caminho e nome do pdf para armazenamento na pasta do município */
+    		// Define caminho e nome do pdf para armazenamento na pasta do município
     		String nomeArquivo = "svsa/" 
     							+ prontuario.getUnidade().getEndereco().getMunicipio() 
     							+ "/cadunico/" 
@@ -103,7 +104,7 @@ public class AmazonS3Service implements Serializable {
 			return downloadObject(prontuario.getS3Key());	
 	}
 	
-	
+	*/
 	
 	/* retorna a chave S3Key para acesso ao objeto */
 	public String gravaImagem(Part uploadedFile, String municipio) throws NegocioException {

@@ -250,8 +250,8 @@ public class ReceberOficioBean implements Serializable {
 		Pessoa p = pessoaService.buscarPeloCodigo(dto.getCodigo());
 		oficio.setPessoa(p);	
 				
-		oficio.setUnidade(oficio.getPessoa().getFamilia().getProntuario().getUnidade());
-		unidadeEncaminhada = oficio.getPessoa().getFamilia().getProntuario().getUnidade().getNome();
+		oficio.setUnidade(oficio.getPessoa().getFamilia().getDenuncia().getUnidade());
+		unidadeEncaminhada = oficio.getPessoa().getFamilia().getDenuncia().getUnidade().getNome();
 		log.debug("Pessoa selecionada: " + oficio.getPessoa().getNome() + " - " + unidadeEncaminhada);
 		MessageUtil.sucesso("Pessoa Selecionada: " + oficio.getPessoa().getNome());			
 	}

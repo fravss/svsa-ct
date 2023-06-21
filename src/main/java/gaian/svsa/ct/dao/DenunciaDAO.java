@@ -28,11 +28,11 @@ public class DenunciaDAO implements Serializable {
 	private EntityManager manager;
 	
 	@Transactional
-	public Denuncia salvar(Denuncia denuncia) throws NegocioException {
+	public void salvar(Denuncia denuncia) throws NegocioException {
 		
 		try {
 			
-			return manager.merge(denuncia);
+			manager.merge(denuncia);
 			
 		} catch (PersistenceException e) {
 			e.printStackTrace();
@@ -109,5 +109,17 @@ public class DenunciaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("nome", query + "%")
 				.getResultList();
+	}
+	
+	public Denuncia buscarDenuncia(Long codigo, Unidade unidade, Long tenantId) {
+		return manager.createQuery("select p from Denuncia p where p.codigo = :codigo "
+				+ "and p.excluido = :exc "
+				+ "and p.tenant_id = :tenantId "
+				+ "and p.unidade = :unidade", Denuncia.class)
+				.setParameter("codigo", codigo)
+				.setParameter("tenantId", tenantId)
+				.setParameter("unidade", unidade)
+				.setParameter("exc", false)
+				.getSingleResult();
 	}
 }

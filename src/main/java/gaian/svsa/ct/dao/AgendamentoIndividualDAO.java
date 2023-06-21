@@ -17,10 +17,10 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 
 import gaian.svsa.ct.modelo.Acao;
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
@@ -411,11 +411,11 @@ public class AgendamentoIndividualDAO implements Serializable {
 	 * RelatorioAtendimentoFamilia
 	 */
 	
-	public List<ListaAtendimento> buscarAtendimentoFamilia(Unidade unidade, Prontuario prontuario, Long tenantId) {
+	public List<ListaAtendimento> buscarAtendimentoFamilia(Unidade unidade, Denuncia denuncia, Long tenantId) {
 		return manager.createNamedQuery("ListaAtendimento.buscarAtendimentoFamilia", ListaAtendimento.class)
 				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
-				.setParameter("prontuario", prontuario)
+				.setParameter("denuncia", denuncia)
 				.setParameter("status", StatusAtendimento.ATENDIDO)
 				.getResultList();	
 	}

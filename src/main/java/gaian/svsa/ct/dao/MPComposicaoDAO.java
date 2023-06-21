@@ -10,9 +10,9 @@ import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
@@ -80,13 +80,13 @@ public class MPComposicaoDAO implements Serializable {
 		return query.getResultList();			
 	}
 	
-	public List<Prontuario> pesquisarExistente(String termo, Long tenantId) {
-		TypedQuery<Prontuario> q = manager.createQuery("Select p FROM Prontuario p  "
-				+ "INNER JOIN Familia f ON p.familia = f.codigo "
-				+ "INNER JOIN PessoaReferencia g ON p.familia.pessoaReferencia = g.codigo "				
+	public List<Denuncia> pesquisarExistente(String termo, Long tenantId) {
+		TypedQuery<Denuncia> q = manager.createQuery("Select p FROM Denuncia d  "
+				+ "INNER JOIN Familia f ON d.familia = f.codigo "
+				+ "INNER JOIN PessoaReferencia g ON d.familia.pessoaReferencia = g.codigo "				
 				+ "WHERE g.nome = :termo "
-				+ "and p.tenant_id = :tenantId "
-				+ "and p.excluido = :exc" , Prontuario.class);
+				+ "and d.tenant_id = :tenantId "
+				+ "and d.excluido = :exc" , Denuncia.class);
 		q.setParameter("tenantId", tenantId);
 		q.setParameter("termo", termo);
 		q.setParameter("exc", false);
@@ -154,14 +154,14 @@ public class MPComposicaoDAO implements Serializable {
 		return query.getResultList();
 	}
 	
-	public List<Pessoa> buscarTodosMembros(Prontuario prontuario, Long tenantId) {
-		String jpql = "from Pessoa p where p.familia.prontuario = :prontuario "
+	public List<Pessoa> buscarTodosMembros(Denuncia denuncia, Long tenantId) {
+		String jpql = "from Pessoa p where p.familia.denuncia = :denuncia "
 				+ "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		
 		TypedQuery<Pessoa> query = manager.createQuery(jpql, Pessoa.class);		
 		query.setParameter("tenantId", tenantId);
-		query.setParameter("prontuario", prontuario);
+		query.setParameter("denuncia", denuncia);
 		query.setParameter("exc", false);
 		
 		return query.getResultList();

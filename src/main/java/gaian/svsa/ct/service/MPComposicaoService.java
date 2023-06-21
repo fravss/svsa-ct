@@ -8,14 +8,12 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import gaian.svsa.ct.dao.CapaProntuarioDAO;
 import gaian.svsa.ct.dao.MPComposicaoDAO;
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.modelo.Unidade;
-import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.to.AtendimentoDTO;
 import gaian.svsa.ct.util.NegocioException;
 
@@ -32,13 +30,10 @@ public class MPComposicaoService implements Serializable {
 	@Inject
 	private MPComposicaoDAO composicaoDAO;
 	@Inject
-	private CapaProntuarioDAO prontuarioDAO;
-	@Inject
 	private AgendamentoIndividualService listaService;
 	@Inject
-	private ProntuarioService prontService;	
+	private DenunciaService denunciaService;
 
-		
 	
 	public Pessoa salvar(Pessoa pessoa) throws NegocioException {		
 		
@@ -51,24 +46,6 @@ public class MPComposicaoService implements Serializable {
 		
 	}
 
-
-	/*
-	 * MPComposicaoFamiliar
-	 * Criação de prontuario/familia nova com exclusão da pessoa da atual composição familiar 
-	 */
-	public void criarProntuario(Pessoa pessoa, Usuario tecnico, Long tenantId) throws NegocioException {
-		
-		if(pessoa instanceof PessoaReferencia)
-			throw new NegocioException("Pessoa de Referência não pode ser excluída da família!");	
-				
-		// validação se existe um nome igual como pessoaReferencia
-		verificarExistenciaProntuario(pessoa, pessoa.getFamilia().getProntuario().getUnidade(), tenantId);
-				 
-		log.debug("endereco da pessoa: " + pessoa.getFamilia().getEndereco().getEndereco());
-				
-		prontService.criarProntuario(pessoa, tecnico, tenantId);
-		
-	}
 	public void inativarMembro(Pessoa pessoa) throws NegocioException {
 		
 		if(pessoa instanceof PessoaReferencia)
@@ -77,13 +54,14 @@ public class MPComposicaoService implements Serializable {
 		this.composicaoDAO.salvar(pessoa);		
 	}
 	
+	/*
 	public void transferirMembro(Pessoa pessoa, Long codigoProntDestino) throws NegocioException {
 		
 		if(pessoa instanceof PessoaReferencia)
 			throw new NegocioException("Pessoa de Referência não pode ser transferida!");	
 				
 		prontService.transferirMembro(pessoa, codigoProntDestino);
-	}
+	} */
 	
 	public void excluirMembro(Pessoa pessoa) throws NegocioException {
 		
@@ -94,9 +72,9 @@ public class MPComposicaoService implements Serializable {
 		this.composicaoDAO.salvar(pessoa);
 	}
 
-	public Prontuario buscarProntuario(Long prontuarioDestino, Unidade unidade, Long tenantId) {
+	public Denuncia buscarDenuncia(Long denunciaDestino, Unidade unidade, Long tenantId) {
 		
-		return prontService.buscarProntuario(prontuarioDestino, unidade, tenantId);
+		return denunciaService.buscarDenuncia(denunciaDestino, unidade, tenantId);
 	}
 	
 	public void verificarExistenciaProntuario(Pessoa pessoa, Unidade unidade, Long tenantId) throws NegocioException {
@@ -129,8 +107,8 @@ public class MPComposicaoService implements Serializable {
 		return composicaoDAO.buscarTodosMembros(pessoaReferencia, tenantId);
 	}
 	
-	public List<Pessoa> buscarTodosMembros(Prontuario prontuario, Long tenantId) {
-		return composicaoDAO.buscarTodosMembros(prontuario, tenantId);
+	public List<Pessoa> buscarTodosMembros(Denuncia denuncia, Long tenantId) {
+		return composicaoDAO.buscarTodosMembros(denuncia, tenantId);
 	}
 	public MPComposicaoDAO getComposicaoDAO() {
 		return composicaoDAO;
@@ -147,9 +125,9 @@ public class MPComposicaoService implements Serializable {
 	}
 	public void validarCadastro(String query, Long tenantId) throws NegocioException {
 		
-		List<Prontuario> prontuarios = composicaoDAO.pesquisarExistente(query, tenantId);
-		StringJoiner message = new StringJoiner(", ").add("CUIDADO! Já existe prontuário com esse nome");
-		for(Prontuario p : prontuarios) {			
+		List<Denuncia> denuncias = composicaoDAO.pesquisarExistente(query, tenantId);
+		StringJoiner message = new StringJoiner(", ").add("CUIDADO! Já existe denuncia com esse nome");
+		for(Denuncia p : denuncias) {			
 			
 			String s = p.getCodigo() + " - " + p.getFamilia().getPessoaReferencia().getNome() + " - " + p.getUnidade().getNome();
 			log.info(s);
@@ -157,7 +135,7 @@ public class MPComposicaoService implements Serializable {
 		}
 		message.add("PORÉM, isso não impede o cadastro duplicado.");
 		
-		if(prontuarios.size() > 0) {
+		if(denuncias.size() > 0) {
 			log.info(message.toString());
 			throw new NegocioException(message.toString());
 		}
@@ -181,11 +159,12 @@ public class MPComposicaoService implements Serializable {
 		return listaService.consultaFaltas(pessoa, tenantId);
 		
 	}
-
+	
+	/*
 	public PessoaReferencia trocarPessoaReferencia(PessoaReferencia pessoaReferencia, Pessoa novaPessoaReferencia) throws NegocioException {
 		
 		
-		Prontuario prontuario = prontuarioDAO.buscarPeloCodigo(pessoaReferencia.getFamilia().getProntuario().getCodigo());
+		Denuncia prontuario = prontuarioDAO.buscarPeloCodigo(pessoaReferencia.getFamilia().getProntuario().getCodigo());
 		
 		// trocando PessoaReferencia na mesma transacao
 		log.info("trocando pessoa referencia...2");
@@ -193,6 +172,6 @@ public class MPComposicaoService implements Serializable {
 		
 		return this.composicaoDAO.buscarPFPeloCodigo(novaPessoaReferencia.getCodigo());
 		
-	}
+	} */
 	
 }

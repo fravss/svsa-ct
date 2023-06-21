@@ -13,7 +13,6 @@ import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.Pessoa;
-import gaian.svsa.ct.modelo.Prontuario;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.Role;
@@ -152,13 +151,14 @@ public class AgendamentoIndividualService implements Serializable {
 	// ----------------------------------------------------------------------------
 	// Validações
 	//
-		
+	
+	/*
 	public void verificarAgendamento(Prontuario prontuario, Long tenantId) throws NegocioException {
 		if(listaDAO.buscarPorPessoa(prontuario.getFamilia().getPessoaReferencia(), tenantId) != 0)
 			throw new NegocioException("Não é possível concluir a operação, pois há agendamento/atendimento pendente!");
 	}
 	
-	
+	*/
 	
 	
 	
@@ -237,10 +237,12 @@ public class AgendamentoIndividualService implements Serializable {
 	 * RelatorioAtendimentoFamilia  
 	 */
 	
+	/*
 	public List<ListaAtendimento> relatorioAtendimentoFamilia(Unidade unidade, Prontuario prontuario, Long tenantId) {
 		return listaDAO.buscarAtendimentoFamilia(unidade, prontuario, tenantId);
 	}
 	
+	*/
 	
 	/*
 	 * RelatorioAtendimentosG  

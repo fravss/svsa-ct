@@ -1,4 +1,4 @@
-package gaian.svsa.ct.controller.pront;
+package gaian.svsa.ct.controller.denuncia;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,15 +19,25 @@ import com.itextpdf.io.source.ByteArrayOutputStream;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.modelo.Endereco;
+import gaian.svsa.ct.modelo.Familia;
+import gaian.svsa.ct.modelo.PessoaReferencia;
+import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.enums.AgenteViolador;
 import gaian.svsa.ct.modelo.enums.DireitoViolado;
 import gaian.svsa.ct.modelo.enums.OrigemDenuncia;
+import gaian.svsa.ct.modelo.enums.Parentesco;
 import gaian.svsa.ct.modelo.enums.Sexo;
+import gaian.svsa.ct.modelo.enums.Status;
 import gaian.svsa.ct.modelo.enums.StatusRD;
+import gaian.svsa.ct.modelo.to.EnderecoTO;
+import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.service.DenunciaService;
 import gaian.svsa.ct.service.pdf.AtestadoPDFService;
 import gaian.svsa.ct.service.pdf.DenunciaPDFService;
 import gaian.svsa.ct.service.pdf.NotificacaoPDFService;
+import gaian.svsa.ct.service.rest.BuscaCEPService;
+import gaian.svsa.ct.service.rest.RestService;
 import gaian.svsa.ct.util.MessageUtil;
 import gaian.svsa.ct.util.NegocioException;
 import lombok.Getter;
@@ -48,12 +58,17 @@ public class RegistrarDenunciaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Denuncia denuncia;
+	private PessoaReferencia pessoaReferencia;
+	private Unidade unidade;
+	private EnderecoTO enderecoTO;
+	
 	private List<Denuncia> denuncias = new ArrayList<>();
 	private List<AgenteViolador> agentes;
 	private List<DireitoViolado> direitos;
 	private List<StatusRD> statusRD;
 	private List<OrigemDenuncia> origens;
 	private List<Sexo> sexos;
+	private List<MunicipioTO> municipioList;
 	
 	private Integer ano;
 	private String nome;
@@ -67,6 +82,12 @@ public class RegistrarDenunciaBean implements Serializable {
 	private DenunciaPDFService denunciapdfService;
 	@Inject
 	private NotificacaoPDFService notificacaopdfService;
+	@Inject
+	private MPComposicaoFamiliarBean mpComposicaoBean;
+	@Inject
+	private RestService restService;
+	@Inject
+	private BuscaCEPService buscaCEPService;	
 	
 	@Inject
 	private LoginBean loginBean;
@@ -82,6 +103,7 @@ public class RegistrarDenunciaBean implements Serializable {
 				this.statusRD = Arrays.asList(StatusRD.values());
 				this.origens = Arrays.asList(OrigemDenuncia.values());
 				this.sexos = Arrays.asList(Sexo.values());
+				this.unidade = loginBean.getUsuario().getUnidade();
 				
 				denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 				limpar();
@@ -94,11 +116,19 @@ public class RegistrarDenunciaBean implements Serializable {
 	}
 	
 	public void salvar() {
+		
 		try {
 			
-			denuncia = this.denunciaService.salvar(denuncia);			
+			denuncia.setUnidade(unidade);
+			denuncia.getFamilia().setDenuncia(denuncia);
+			denuncia.setConselheiro(loginBean.getUsuario());
+			denuncia.getFamilia().getPessoaReferencia().setParentesco(Parentesco.GENITORA);
+			denuncia.getFamilia().getPessoaReferencia().setFamilia(denuncia.getFamilia());
 			
-			MessageUtil.sucesso("Denuncia salva com sucesso!");			
+			this.denunciaService.salvar(denuncia);			
+			
+			MessageUtil.sucesso("Denuncia salva com sucesso!");	
+			this.limpar();
 		
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -130,7 +160,52 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setStatusRD(StatusRD.EM_AVERIGUACAO);
 		this.denuncia.setUnidade(loginBean.getUsuario().getUnidade());
 		this.denuncia.setTenant_id(loginBean.getTenantId());
-	}	
+		this.denuncia.setStatus(Status.ATIVO);
+		
+		PessoaReferencia pr = new PessoaReferencia();
+		pr.setTenant_id(loginBean.getTenantId());
+		
+		this.denuncia.setFamilia(new Familia());
+		this.denuncia.getFamilia().setTenant_id(loginBean.getTenantId());
+		this.denuncia.getFamilia().setPessoaReferencia(pr);		
+		this.denuncia.getFamilia().setEndereco(new Endereco());
+		this.denuncia.getFamilia().getEndereco().setTenant_id(loginBean.getTenantId());
+	}
+	
+	public void listarMunicipiosEnd() throws Exception {
+		
+		try {
+			setMunicipioList(restService.listarMunicipios(denuncia.getFamilia().getEndereco().getUf()));
+		}
+		catch(Exception e){
+			MessageUtil.sucesso("Problema na recuperação dos municípios.");
+		}
+	}
+	
+	public void buscaEnderecoPorCEP() {
+		
+        try {
+			enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(denuncia.getFamilia().getEndereco().getCep());
+			
+			/*
+	         * Preenche o Endereco do prontuario com os dados buscados
+	         */	 
+			
+	        denuncia.getFamilia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
+	        		                concat(" ").concat(enderecoTO.getLogradouro()));
+	        denuncia.getFamilia().getEndereco().setNumero(null);
+	        denuncia.getFamilia().getEndereco().setBairro(enderecoTO.getBairro());
+	        denuncia.getFamilia().getEndereco().setMunicipio(enderecoTO.getCidade());
+	        denuncia.getFamilia().getEndereco().setUf(enderecoTO.getEstado());
+	        
+	        if (enderecoTO.getResultado() != 1) {
+	        	MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");
+	        }
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());		            
+		}       
+	}
 
 	//Atestado
 	public void showPDF() {
@@ -309,5 +384,22 @@ public class RegistrarDenunciaBean implements Serializable {
 			MessageUtil.alerta("Não existe PESSOA com esse nome!");
 		}        
 	}
+	
+	public boolean isPessoaReferenciaSelecionada() {
+
+    	if(getPessoaReferencia() != null && getPessoaReferencia().getCodigo() != null) {    		
+    		return true;
+    	}
+        return false;
+        		
+    }	
+	
+	public void setPessoaReferencia() {
+
+    	if(getDenuncia() != null && getDenuncia().getCodigo() != null) {
+    		setPessoaReferencia(getDenuncia().getFamilia().getPessoaReferencia());
+    		mpComposicaoBean.setPessoaReferencia(getPessoaReferencia());
+    	}        		
+    }
 }
 

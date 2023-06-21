@@ -127,7 +127,7 @@ import lombok.ToString;
 			+ "where la.statusAtendimento = :status "
 			+ "and la.unidade = :unidade "
 			+ "and la.tenant_id = :tenantId "
-			+ "and la.pessoa.familia.prontuario = :prontuario "
+			+ "and la.pessoa.familia.denuncia = :denuncia "
 			+ "order by la.dataAtendimento"),
 	
 	/*

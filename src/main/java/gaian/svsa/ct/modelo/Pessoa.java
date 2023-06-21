@@ -53,7 +53,7 @@ import lombok.extern.log4j.Log4j;
 	@NamedQuery(name="Pessoa.buscarTodos", query="select p from Pessoa p where p.excluida = :exc and p.tenant_id = :tenantId"),
 	@NamedQuery(name="Pessoa.buscarPeloNome", query="select p from Pessoa p where p.nome = :nome and p.excluida = :exc"),
 	@NamedQuery(name="Pessoa.buscarNomes", query="select p.nome from Pessoa p where p.tenant_id = :tenantId "
-			+ "and p.familia.prontuario.unidade = :unidade "
+			+ "and p.familia.denuncia.unidade = :unidade "
 			+ "and p.excluida = :exc "
 			+ "and p.nome LIKE :nome")
 })
@@ -136,8 +136,8 @@ public class Pessoa implements Cloneable, Serializable {
 		if(this.getFamilia() != null) {	
 			log.info("datas Pessoa, Familia e Prontuario atualizados.");
 			this.getFamilia().setDataModificacao(this.getDataModificacao());
-			if(this.getFamilia().getProntuario() != null) {
-				this.getFamilia().getProntuario().setDataModificacao(this.getDataModificacao());	
+			if(this.getFamilia().getDenuncia() != null) {
+				this.getFamilia().getDenuncia().setDataModificacao(this.getDataModificacao());	
 			}
 		}
 	}	
