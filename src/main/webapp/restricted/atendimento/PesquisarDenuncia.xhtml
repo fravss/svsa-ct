@@ -65,10 +65,10 @@
 	    		
 	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >
 
-					<p:commandButton outcome="/restricted/agenda/CadastroDenuncia.xhtml" icon="pi pi-pencil" title="Editar Denuncia"
+					<p:button outcome="/restricted/agenda/CadastroDenuncia.xhtml" icon="pi pi-pencil" title="Editar Denuncia"
 						disabled="#{registrarDenunciaBean.denuncia.codigo eq null}">
 						<f:param name="denuncia" value="#{denuncia.codigo}" />
-					</p:commandButton>
+					</p:button>
 					
 					
 					<p:commandButton icon="pi pi-plus" title="Adicionar Pessoas"
