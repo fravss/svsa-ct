@@ -1,0 +1,241 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">>
+
+    <ui:define name="titulo">Capa de RD</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="denuncia" value="#{registrarDenunciaBean.denuncia}" />
+		</f:metadata>
+		    
+    	<h2>Capa de RD</h2>
+    	     
+    	<h:form id="frmCadDenuncia" enctype="multipart/form-data" target="_blank">
+    	
+	    	<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+    		<p:growl id="growl" showDetail="true">  
+    		  	<p:autoUpdate />
+    		</p:growl>
+    		
+    		
+	    	
+	    	<p:toolbar id="bar" style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{registrarDenunciaBean.salvar}" update="frmCadDenuncia"/>
+	    				
+		    		<p:spacer width="10px" /> 
+
+					<p:button icon="pi pi-search" value="Voltar" outcome="/restricted/atendimento/PesquisarDenuncia.xhtml"/>
+					
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+			        
+			        <p:commandButton id="botaoComp" value="Composição Familiar"  icon="pi pi-save"	
+			        	rendered ="#{registrarDenunciaBean.edicao}"
+	    				action="#{registrarDenunciaBean.setPessoaReferencia}" 
+	    				update="frmCadDenuncia"
+	    				process="@this"/>
+	    			
+	    			<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+	            		
+	            	
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:spacer height="10px" /> 
+	    	
+	    	<p:tabView id="tab1" scrollable="false"  rendered="#{registrarDenunciaBean.pessoaReferenciaSelecionada}">		    
+		        <p:tab title="Composição Familiar"		        	
+		        	rendered ="#{registrarDenunciaBean.edicao}">
+		            <ui:include src="/restricted/agenda/RDComposicaoFamiliar.xhtml"/>
+		        </p:tab>				        
+		    </p:tabView>
+		   
+		    
+	    	
+	    	<p:panelGrid id="denunciaPanelGrid" columns="2" 
+	    		rendered ="#{not registrarDenunciaBean.composicao}"
+	    		columnClasses="rotulo, campo" style="width: 100%" >    		
+				
+			<p:outputLabel value="Data da Emissao" for="dataEmissao" />
+				<p:calendar id="dataEmissao" size="20"
+					value="#{registrarDenunciaBean.denuncia.dataEmissao}"
+					pattern="dd/MM/yyyy" 
+					showOn="button" 
+					required="true" 
+					mask="99/99/9999"
+			    	validatorMessage="A data da denuncia é obrigatória."/>	
+
+				<p:outputLabel value="Unidade" for="unidade"/>	    		
+	    		<h:inputText id="unidade" size="60" maxlength="80" 
+	    			value="#{registrarDenunciaBean.unidade.nome}" disabled="true"/>
+	    			    		
+	    		<p:outputLabel/>
+	    		
+	    		
+	    		
+	    		<h4>Responsável</h4>
+				
+				
+				<p:outputLabel value="Nome" for="nome"/>
+        		<p:autoComplete id="nome" queryDelay="1000" size="60" maxlength="80"
+        			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.nome}"
+        			required="true" 
+        			effect="blind"/>      			  
+	    		
+			    <p:outputLabel value="Telefone Pessoa Responsável" for="phone"/>
+	    		<p:inputText id="phone" size="20" maxlength="20"
+	    			required="false"
+	    			validatorMessage="O telefone de contato é obrigatório." 
+	    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.telefone}"/>
+	    		
+	    		<p:outputLabel value="RG" for="rg" />
+				       <p:inputText id="rg" size="15" maxlength="15" 
+				    	value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.rg}"/>	
+				
+				<p:outputLabel value="Status" for="status" />
+				<h:outputText id="status"
+					value="#{registrarDenunciaBean.denuncia.statusRD}" />
+					
+				<p:outputLabel value="Origem Denúncia" for="orig" />
+		    		<p:selectOneMenu id="orig" 
+		    			required="true" 
+		    			value="#{registrarDenunciaBean.denuncia.origemDenuncia}"
+		    		    validatorMessage="O tipo de origem é obrigatório.">		    		    
+		    			<f:selectItem itemLabel="Selecione a origem" />
+		    			<f:selectItems value="#{registrarDenunciaBean.origens}" var="org" 
+							itemLabel="#{org}" itemValue="#{org}"/>
+		    		</p:selectOneMenu>
+		    		
+		    	<p:outputLabel value="Agente Violador" for="agente" />
+		    		<p:selectOneMenu id="agente" 
+		    			required="true" 
+		    			value="#{registrarDenunciaBean.denuncia.agenteViolador}"
+		    		    validatorMessage="O tipo de agente é obrigatório.">		    		    
+		    			<f:selectItem itemLabel="Selecione o agente" />
+		    			<f:selectItems value="#{registrarDenunciaBean.agentes}" var="agt" 
+							itemLabel="#{agt}" itemValue="#{agt}"/>
+		    		</p:selectOneMenu>      
+					
+				<p:outputLabel value="Direito Violado" for="direitos" />
+				    <p:selectManyCheckbox id="direitos" value="#{registrarDenunciaBean.denuncia.direitosViolados}" layout="grid" columns="3"
+				    	required="true" 
+		    			validatorMessage="Pelo menos um direito violado é obrigatório."
+		    			converter="direitoVioladoConverter">
+		    			<f:attribute name="collectionType" value="java.util.ArrayList"/>
+				        <f:selectItems value="#{registrarDenunciaBean.direitos}" var="vio" 
+				        	itemLabel="#{vio.descricao}" 
+				        	itemValue="#{vio}" />
+				    </p:selectManyCheckbox>
+				
+
+				<p:outputLabel value="Relato" for="relato" />
+				<h:panelGroup>
+					<p:inputTextarea id="relato" size="150" rows="4" cols="80"
+						style="height: 100px; overflow:auto;" maxlength="250"
+						value="#{registrarDenunciaBean.denuncia.relato}" counter="display"
+						counterTemplate="{0} restantes" />
+					<h:outputText id="display" />
+					<p:watermark for="relato" value="Descreva aqui o relato." />
+				</h:panelGroup>
+	    		
+	    		<p:outputLabel/>
+	    		
+	    		<h4>Endereço da família</h4>
+		    			    	    
+		    	<p:outputLabel for="cep" value="CEP"  />
+		    	<h:panelGroup>
+                   	<p:inputMask id="cep" mask="99999-999" size="9" 
+                   		value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.cep}" 
+                   		required="false"                   		                   		
+			    		validatorMessage="O cep é obrigatório."/>
+			    					    		
+		    		<p:spacer width="10px" />
+			    	
+			    	<p:commandButton value="Pesquisar"
+	    				action="#{registrarDenunciaBean.buscaEnderecoPorCEP}" 
+	    				update="cep endereco numero complemento bairro muni2 uf2"
+	    				process="@this cep"
+	    				imadiate="true"/>
+	    		
+		    	</h:panelGroup>
+		    	
+		    	<p:outputLabel value="Endereço" for="endereco"/>
+		    	<h:panelGroup>
+		    		<p:inputText id="endereco" size="60" maxlength="80" 
+		    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.endereco}"
+		    			required="false"
+		    			readonly="false"
+				    	validatorMessage="O endereço é obrigatório."/>
+				    <p:spacer width="10px" />	    		
+		    		<p:outputLabel value="Número" for="numero"/>
+		    		<p:spacer width="10px" />
+		    		<p:inputText id="numero" size="5" maxlength="8" 
+		    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.numero}"
+		    			required="false" 
+				    	validatorMessage="O número é obrigatório."/>			    	
+			    </h:panelGroup>		    			    	
+			    
+	    		<p:outputLabel value="Complemento" for="complemento"/>
+	    		<p:inputText id="complemento" size="60" maxlength="80" 
+	    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.complemento}"/>	    		
+	    		
+	    		<p:outputLabel value="Bairro" for="bairro"/>
+	    		<p:inputText id="bairro" size="60" maxlength="80" 
+	    			required="false"
+	    			readonly="false"
+	    			validatorMessage="O bairro é obrigatório."
+	    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.bairro}"/>	   
+	
+	    		<p:outputLabel value="Município *"/>
+			    <h:panelGroup>
+					<p:inputText id="muni2"
+						required="false"
+		    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.municipio}"/>
+		    			
+					<p:spacer width="10px" />
+					
+		    		<p:selectOneMenu id="uf2" value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.uf}"
+		    			required="false" 
+				    	validatorMessage="A UF é obrigatória.">
+		    			<f:selectItem itemLabel="Selecione a UF" />
+		    			<f:selectItems value="#{registrarDenunciaBean.ufs}" var="uf" 
+							itemLabel="#{uf}" itemValue="#{uf}"/>
+		    		</p:selectOneMenu>
+				
+				</h:panelGroup>	
+				
+				
+	    		
+	    		<p:outputLabel value="Referência" for="referencia"/>
+	    		<h:panelGroup>
+	    			<p:inputText id="referencia" size="60" maxlength="80" 
+	    				value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.referencia}" />	
+	    			<p:watermark for="referencia" value="Um local próximo conhecido" />
+	    		</h:panelGroup>		
+	    		
+	    			
+	    		<p:spacer height="10px" />
+	    		
+	    		<p:commandButton value="Salvar"  icon="pi pi-save"
+	    				action="#{registrarDenunciaBean.salvar}" update="frmCadDenuncia growl"/>
+				 		
+	    	</p:panelGrid>	    	
+	    	
+			
+    	</h:form>
+    </ui:define>
+</ui:composition>

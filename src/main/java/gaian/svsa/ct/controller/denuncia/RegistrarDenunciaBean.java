@@ -16,6 +16,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.io.source.ByteArrayOutputStream;
+import gaian.svsa.ct.modelo.enums.Uf;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Denuncia;
@@ -66,9 +67,12 @@ public class RegistrarDenunciaBean implements Serializable {
 	private List<AgenteViolador> agentes;
 	private List<DireitoViolado> direitos;
 	private List<StatusRD> statusRD;
+	private List<Uf> ufs;
 	private List<OrigemDenuncia> origens;
 	private List<Sexo> sexos;
 	private List<MunicipioTO> municipioList;
+	private boolean edicao = false;
+	private boolean composicao = false;
 	
 	private Integer ano;
 	private String nome;
@@ -104,7 +108,7 @@ public class RegistrarDenunciaBean implements Serializable {
 				this.origens = Arrays.asList(OrigemDenuncia.values());
 				this.sexos = Arrays.asList(Sexo.values());
 				this.unidade = loginBean.getUsuario().getUnidade();
-				
+				this.ufs = Arrays.asList(Uf.values());
 				denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
 				limpar();
 			}
@@ -168,14 +172,14 @@ public class RegistrarDenunciaBean implements Serializable {
 		this.denuncia.setFamilia(new Familia());
 		this.denuncia.getFamilia().setTenant_id(loginBean.getTenantId());
 		this.denuncia.getFamilia().setPessoaReferencia(pr);		
-		this.denuncia.getFamilia().setEndereco(new Endereco());
-		this.denuncia.getFamilia().getEndereco().setTenant_id(loginBean.getTenantId());
+		this.denuncia.getFamilia().getPessoaReferencia().setEndereco(new Endereco());
+		this.denuncia.getFamilia().getPessoaReferencia().getEndereco().setTenant_id(loginBean.getTenantId());
 	}
 	
 	public void listarMunicipiosEnd() throws Exception {
 		
 		try {
-			setMunicipioList(restService.listarMunicipios(denuncia.getFamilia().getEndereco().getUf()));
+			setMunicipioList(restService.listarMunicipios(denuncia.getFamilia().getPessoaReferencia().getEndereco().getUf()));
 		}
 		catch(Exception e){
 			MessageUtil.sucesso("Problema na recuperação dos municípios.");
@@ -185,18 +189,18 @@ public class RegistrarDenunciaBean implements Serializable {
 	public void buscaEnderecoPorCEP() {
 		
         try {
-			enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(denuncia.getFamilia().getEndereco().getCep());
+			enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(denuncia.getFamilia().getPessoaReferencia().getEndereco().getCep());
 			
 			/*
 	         * Preenche o Endereco do prontuario com os dados buscados
 	         */	 
 			
-	        denuncia.getFamilia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
+	        denuncia.getFamilia().getPessoaReferencia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
 	        		                concat(" ").concat(enderecoTO.getLogradouro()));
-	        denuncia.getFamilia().getEndereco().setNumero(null);
-	        denuncia.getFamilia().getEndereco().setBairro(enderecoTO.getBairro());
-	        denuncia.getFamilia().getEndereco().setMunicipio(enderecoTO.getCidade());
-	        denuncia.getFamilia().getEndereco().setUf(enderecoTO.getEstado());
+	        denuncia.getFamilia().getPessoaReferencia().getEndereco().setNumero(null);
+	        denuncia.getFamilia().getPessoaReferencia().getEndereco().setBairro(enderecoTO.getBairro());
+	        denuncia.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(enderecoTO.getCidade());
+	        denuncia.getFamilia().getPessoaReferencia().getEndereco().setUf(enderecoTO.getEstado());
 	        
 	        if (enderecoTO.getResultado() != 1) {
 	        	MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");

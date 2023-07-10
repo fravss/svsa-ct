@@ -194,7 +194,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 				pessoa.setFamilia(pessoaReferencia.getFamilia());				
 			}
 			
-			pessoa.getFamilia().getEndereco().setMunicipio(pessoa.getFamilia().getEndereco().getMunicipio());
+			pessoa.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(pessoa.getFamilia().getPessoaReferencia().getEndereco().getMunicipio());
 			
 			this.composicaoService.salvar(pessoa);
 			
@@ -573,18 +573,18 @@ public class MPComposicaoFamiliarBean implements Serializable {
 	public void buscaEnderecoPorCEP() {
 			
 	        try {
-				enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(pessoa.getFamilia().getEndereco().getCep());
+				enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(pessoa.getFamilia().getPessoaReferencia().getEndereco().getCep());
 				
 				/*
 		         * Preenche o Endereco do prontuario com os dados buscados
 		         */	 
 				
-				pessoa.getFamilia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
+				pessoa.getFamilia().getPessoaReferencia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
 		        		                concat(" ").concat(enderecoTO.getLogradouro()));
-				pessoa.getFamilia().getEndereco().setNumero(null);
-				pessoa.getFamilia().getEndereco().setBairro(enderecoTO.getBairro());
-				pessoa.getFamilia().getEndereco().setMunicipio(enderecoTO.getCidade());
-				pessoa.getFamilia().getEndereco().setUf(enderecoTO.getEstado());
+				pessoa.getFamilia().getPessoaReferencia().getEndereco().setNumero(null);
+				pessoa.getFamilia().getPessoaReferencia().getEndereco().setBairro(enderecoTO.getBairro());
+				pessoa.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(enderecoTO.getCidade());
+				pessoa.getFamilia().getPessoaReferencia().getEndereco().setUf(enderecoTO.getEstado());
 		        
 		        if (enderecoTO.getResultado() != 1) {
 		        	MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");

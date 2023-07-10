@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -55,26 +56,12 @@ public class Familia implements Cloneable, Serializable {
 	
 	private Long tenant_id;
 	
-	private BigDecimal rendaFamiliar;
-	
-	private Boolean insuficienciaAlimentar;
-	
-	@ToString.Include
-	@Temporal(TemporalType.DATE)
-	private Calendar dataInsuficienciaAlimentar;
-	
 	@OneToMany (mappedBy="familia", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	private List<Pessoa> membros;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codigo_endereco")
-	private Endereco endereco;
+	private Set<Pessoa> membros;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_pessoa_referencia")
 	private PessoaReferencia pessoaReferencia;
-	
-	private String programaTransferenciaRenda;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_denuncia")

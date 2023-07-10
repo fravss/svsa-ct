@@ -40,7 +40,7 @@ public class MPComposicaoService implements Serializable {
 		//pessoa.setDataRegistroComposicaoFamiliar(Calendar.getInstance());
 		
 		/* grava municipio em maiusculo*/
-		pessoa.getFamilia().getEndereco().setMunicipio(pessoa.getFamilia().getEndereco().getMunicipio());
+		pessoa.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(pessoa.getFamilia().getPessoaReferencia().getEndereco().getMunicipio());
 		
 		return this.composicaoDAO.salvar(pessoa);		
 		
