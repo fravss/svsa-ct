@@ -389,6 +389,14 @@ public class RegistrarDenunciaBean implements Serializable {
 		}        
 	}
 	
+	public boolean isEdicao() {
+		
+		if(denuncia.getFamilia().getPessoaReferencia() != null && denuncia.getFamilia().getPessoaReferencia().getCodigo() != null) {
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean isPessoaReferenciaSelecionada() {
 
     	if(getPessoaReferencia() != null && getPessoaReferencia().getCodigo() != null) {    		

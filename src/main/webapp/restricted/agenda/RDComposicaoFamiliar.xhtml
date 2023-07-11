@@ -40,11 +40,11 @@
 				    
 		    <p:spacer height="5px" />
 		  
-			<p:dataTable id="membrosDataTable"  value="#{registrarDenunciaBean.mpComposicaoBean.pessoas}" 
-	    		var="pessoa" emptyMessage="Nenhum membro encontrado." 
+			<p:dataTable id="membrosDataTable"  value="#{registrarDenunciaBean.denuncia.familia.membros}" 
+	    		var="membros" emptyMessage="Nenhum membro encontrado." 
 	    		paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="true"
-	    		rowStyleClass="#{pessoa.status eq 'INATIVO' ? 'inativo' : null}"
-	    		selectionMode="single" selection="#{registrarDenunciaBean.mpComposicaoBean.pessoa}" rowKey="#{pessoa.codigo}"> 
+	    		rowStyleClass="#{registrarDenunciaBean.denuncia.status eq 'INATIVO' ? 'inativo' : null}"
+	    		selectionMode="single" selection="#{registrarDenunciaBean.denuncia.familia.membros}" rowKey="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.codigo}"> 
 			    		
 		    		<p:ajax event="rowSelect" process="membrosDataTable" update="membrosDataTable"/>
 					<p:ajax event="rowUnselect" process="membrosDataTable" update="membrosDataTable"/>/>
@@ -83,9 +83,9 @@
 		    						and registrarDenunciaBean.mpComposicaoBean.unidadeDoUsuario)
 		    						or (pessoa.codigo eq registrarDenunciaBean.mpComposicaoBean.pessoa.codigo)}"
 		            	oncomplete="PF('pessoaDialogWidgetVar').show()"
-		            	update=":frmProntuario:tab1:pessoaDialog" 
+		            	update=":frmCadDenuncia:tab1:pessoaDialog" 
 		            	process="@this">
-		            	<p:resetInput target=":frmProntuario:tab1:pessoaDialog" />	
+		            	<p:resetInput target=":frmCadDenuncia:tab1:pessoaDialog" />	
 	            	</p:commandButton>
 	            	
 	            	<p:spacer width="2px" /> 
@@ -117,9 +117,9 @@
 		    						and registrarDenunciaBean.mpComposicaoBean.unidadeDoUsuario}"
 		    			disabled="#{pessoa.codigo eq registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
 		            	oncomplete="PF('transferenciaWidgetVar').show()"
-		            	update=":frmProntuario:tab1:transferenciaDialog" 
+		            	update=":frmCadDenuncia:tab1:transferenciaDialog" 
 		            	process="@this">
-		            	<p:resetInput target=":frmProntuario:tab1:transferenciaDialog" />	
+		            	<p:resetInput target=":frmCadDenuncia:tab1:transferenciaDialog" />	
 	            	</p:commandButton>				
 					
 					
@@ -139,9 +139,9 @@
 		            	rendered="#{pessoa.codigo eq registrarDenunciaBean.mpComposicaoBean.pessoa.codigo 
 		    						and registrarDenunciaBean.mpComposicaoBean.unidadeDoUsuario}"		    			
 		            	oncomplete="PF('migracaoWidgetVar').show()"
-		            	update=":frmProntuario:tab1:migracaoDialog" 
+		            	update=":frmCadDenuncia:tab1:migracaoDialog" 
 		            	process="@this">
-		            	<p:resetInput target=":frmProntuario:tab1:migracaoDialog" />	
+		            	<p:resetInput target=":frmCadDenuncia:tab1:migracaoDialog" />	
 	            	</p:commandButton>	
 	            		            	
 	            	<p:spacer width="2px" /> 
@@ -149,7 +149,7 @@
 		            	disabled="#{registrarDenunciaBean.mpComposicaoBean.administrativo}"
 		            	rendered="#{pessoa.codigo eq registrarDenunciaBean.mpComposicaoBean.pessoa.codigo}"
 		            	oncomplete="PF('consultaDialogWidgetVar').show()"
-		            	update=":frmProntuario:tab1:consultaDialog" 
+		            	update=":frmCadDenuncia:tab1:consultaDialog" 
 		            	process="@this">
   						<f:setPropertyActionListener target="#{evolucaoUIBean.pessoa}"
 							value="#{pessoa}" /> 
@@ -160,9 +160,9 @@
 	            		rendered="#{pessoa.codigo eq registrarDenunciaBean.mpComposicaoBean.pessoa.codigo}"
 		            	actionListener="#{registrarDenunciaBean.mpComposicaoBean.consultaFaltas}"
 		            	oncomplete="PF('faltasDialogWidgetVar').show()"
-		            	update=":frmProntuario:tab1:faltasDialog" 
+		            	update=":frmCadDenuncia:tab1:faltasDialog" 
 		            	process="@this">
-		            	<p:resetInput target=":frmProntuario:tab1:faltasDialog" />	
+		            	<p:resetInput target=":frmCadDenuncia:tab1:faltasDialog" />	
 	            	</p:commandButton>            	
 	            				
 					
@@ -339,9 +339,19 @@
 						pattern="dd/MM/yyyy" 
 						mask="99/99/9999"
 						validatorMessage="A data de nascimento é obrigatória."/>
-						
-														
-					<p:outputLabel value="Telefone" for="phone"/>
+
+			<p:outputLabel value="Parentesco" for="parentesco" />
+			<p:selectOneMenu id="parentesco"
+				value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.parentesco}"
+				required="true" validatorMessage="O parentesco é obrigatório.">
+				<f:selectItem itemLabel="Selecione o parentesco" />
+				<f:selectItems
+					value="#{registrarDenunciaBean.mpComposicaoBean.parentescos}" var="paren"
+					itemLabel="#{paren}" itemValue="#{paren}" />
+			</p:selectOneMenu>
+
+
+			<p:outputLabel value="Telefone" for="phone"/>
 		    		<p:inputText id="phone" size="20" maxlength="20"
 		    			required="true" 
 		    			validatorMessage="O telefone de contato é obrigatório." 
@@ -387,7 +397,7 @@
 		                   	<p:inputMask id="cep" mask="99999-999" size="9" 
 		                   		disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
-		                   		value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.cep}" 
+		                   		value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.cep}" 
 		                   		required="true"                   		                   		
 					    		validatorMessage="O cep é obrigatório."/>
 					    					    		
@@ -407,7 +417,7 @@
 			    		<p:inputText id="endereco" size="50" maxlength="80" 
 			    			disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.endereco}"
+			    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.endereco}"
 			    			required="true" 
 					    	validatorMessage="O endereço é obrigatório."/>
 					    	
@@ -415,7 +425,7 @@
 			    		<p:inputText id="numero" size="20" maxlength="20"
 			    			disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
-							value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.numero}"
+							value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.numero}"
 			    			required="true" 
 			    			validatorMessage="O número é obrigatório." /> 
 			    			
@@ -424,13 +434,13 @@
 			    		<p:inputText id="complemento" size="50" maxlength="80" 
 			    			disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.complemento}"/> 
+			    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.complemento}"/> 
 			    			
 			    		<p:outputLabel value="Bairro" for="bairro"/>
 			    		<p:inputText id="bairro" size="50" maxlength="80"
 			    			disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}" 
-			    			value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.bairro}"
+			    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.bairro}"
 			    			required="true" 
 					    	validatorMessage="O bairro é obrigatório."/> 
 					    	
@@ -443,12 +453,12 @@
 					    		disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
 					    		required="true"
-					    		value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.municipio}" />
+					    		value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.municipio}" />
 					    	<p:inputText id="uf"
 					    		disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
 					    		required="true"
-					    		value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.uf}" />
+					    		value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.uf}" />
 					    </h:panelGroup>
 					    	
 					    		    	
@@ -458,7 +468,7 @@
 			    		<p:inputText id="referencia" size="50" maxlength="80" 
 			    			disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo ne 
 										registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{registrarDenunciaBean.mpComposicaoBean.pessoa.familia.endereco.referencia}"/>
+			    			value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.endereco.referencia}"/>
 			    		</p:panelGrid>
 		    		</h:panelGroup>
 		    		
