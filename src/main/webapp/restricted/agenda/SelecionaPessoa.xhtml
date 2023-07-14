@@ -50,19 +50,19 @@
 		    	emptyMessage="Nenhuma pessoa encontrada." 
 		    	paginator="true" rows="10" paginatorPosition="bottom"
 		    	paginatorAlwaysVisible="true" scrollable="true" resizeMode="true"
-		    	rowStyleClass="#{pessoa.statusProntuario eq 'INATIVO' or pessoa.statusPessoa eq 'INATIVO'? 'inativo' : null}">
+		    	rowStyleClass="#{pessoa.statusDenuncia eq 'INATIVO' ? 'inativo' : null}">
 		    		
 		    					
 				<p:column headerText="Código Prontuário" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoa.codigoProntuario}" />
+					<h:outputText value="#{pessoa.codigoDenuncia}" />
 				</p:column>
 				
-				<p:column headerText="Prontuário Físico" style="width: 40px; text-align: center">
+				<!--  <p:column headerText="Prontuário Físico" style="width: 40px; text-align: center">
 					<h:outputText value="#{pessoa.prontuarioFisico}" />
-				</p:column>				
+				</p:column>	-->			
 				
     			<p:column headerText="Nome/Nome Social" style="width: 160px; text-align: center">
-					<h:outputText value="#{pessoa.nome} / #{pessoa.nomeSocial}" />
+					<h:outputText value="#{pessoa.nome}" />	
 				</p:column>
 				
 				<p:column headerText="Data de Nascimento" style="width: 50px; text-align: center">

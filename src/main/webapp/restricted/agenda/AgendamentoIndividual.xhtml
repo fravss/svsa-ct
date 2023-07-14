@@ -61,7 +61,7 @@
 	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom" 
 	    		rowsPerPageTemplate="10,15,20"
 	    		selectionMode="single" selection="#{agendamentoIndividualBean.item}" rowKey="#{item.codigo}"
-	    		rowStyleClass="#{item.pessoa.familia.prontuario.status eq 'INATIVO' or item.pessoa.status eq 'INATIVO'? 'inativo' : null}">
+	    		rowStyleClass="#{item.pessoa.familia.denuncia.status eq 'INATIVO' ? 'inativo' : null}">
 	    		
 	    		<p:ajax event="rowSelect" update="frmPesquisa:toolbar frmPesquisa:listaDataTable frmPesquisa:faltasDialog" />
 			
@@ -75,8 +75,8 @@
 	    			</h:outputText>	    		
 	    		</p:column>
 	    		
-	    		<p:column headerText="Pront. Código" style="width: 10px; text-align: center">
-	    			<h:outputText value="#{item.pessoa.familia.prontuario.codigo}" />
+	    		<p:column headerText="Código Denúncia" style="width: 10px; text-align: center">
+	    			<h:outputText value="#{item.pessoa.familia.denuncia.codigo}" />
 	    		</p:column>
 	    				    	
 	    		<p:column headerText="Codigo Pessoa" style="width: 10px; text-align: center"

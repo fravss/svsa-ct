@@ -54,7 +54,7 @@ public class PessoaService implements Serializable {
 		return pessoaDAO.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, unidade, tenantId);
 	}	
 	public List<PessoaDTO> pesquisarPorProntuarioDTO(String termoPesquisa, Unidade unidade, Long tenantId) {
-		return pessoaDAO.pesquisarPessoaPorProntuarioDTO(termoPesquisa, unidade, tenantId);
+		return pessoaDAO.pesquisarPessoaPorDenunciaDTO(termoPesquisa, unidade, tenantId);
 	}	
 	
 	/* SelecionaPessoa Geral */
@@ -69,12 +69,8 @@ public class PessoaService implements Serializable {
 		return pessoaDAO.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, tenantId);
 	}	
 	public List<PessoaDTO> pesquisarPorProntuarioDTO(String termoPesquisa, Long tenantId) {
-		return pessoaDAO.pesquisarPessoaPorProntuarioDTO(termoPesquisa, tenantId);
+		return pessoaDAO.pesquisarPessoaPorDenunciaDTO(termoPesquisa, tenantId);
 	}
-	
-	
-		
-	
 
 	/*
 	 * SelecionaPessoaReferencia
@@ -90,7 +86,7 @@ public class PessoaService implements Serializable {
 		return pessoaDAO.pesquisarPorNomeSocial(termoPesquisa, unidade, tenantId);
 	}	
 	public List<PessoaDTO> pesquisarPorProntuario(String termoPesquisa, Unidade unidade, Long tenantId) {
-		return pessoaDAO.pesquisarPorProntuario(termoPesquisa, unidade, tenantId);
+		return pessoaDAO.pesquisarPorDenuncia(termoPesquisa, unidade, tenantId);
 	}
 	
 	/*
@@ -109,16 +105,6 @@ public class PessoaService implements Serializable {
 		return pessoaDAO.pesquisarPorProntuario(termoPesquisa, tenantId);
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/* Programa Social */
 	
@@ -129,7 +115,6 @@ public class PessoaService implements Serializable {
 	public List<Pessoa> pesquisarPessoaPorProgSocial(ProgramaSocial programa, Long tenantId) {
 		return pessoaDAO.pesquisarPessoaPorProgSocial(programa, tenantId);
 	}
-	
 	
 	
 	/* Busca dos países */
@@ -153,7 +138,6 @@ public class PessoaService implements Serializable {
 	}
 	
 	
-	
 	/* 
 	 * Migração de dados da pessoa - usado pelo MPComposicaoFamiliar na migração de dados pessoais
 	 */
@@ -166,8 +150,6 @@ public class PessoaService implements Serializable {
 	public Pessoa buscarPeloNome(String nome) {		
 		return pessoaDAO.buscarPeloNome(nome);
 	}
-	
-	
 	
 	public PessoaDAO getPessoaDAO() {
 		return pessoaDAO;
