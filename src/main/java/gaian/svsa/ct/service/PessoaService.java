@@ -50,10 +50,7 @@ public class PessoaService implements Serializable {
 	public List<PessoaDTO> pesquisarPessoaPorEnderecoDTO(String termoPesquisa, Unidade unidade, Long tenantId) {
 		return pessoaDAO.pesquisarPessoaPorEnderecoDTO(termoPesquisa, unidade, tenantId);
 	}	
-	public List<PessoaDTO> pesquisarPessoaPorNomeSocialDTO(String termoPesquisa, Unidade unidade, Long tenantId) {
-		return pessoaDAO.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, unidade, tenantId);
-	}	
-	public List<PessoaDTO> pesquisarPorProntuarioDTO(String termoPesquisa, Unidade unidade, Long tenantId) {
+	public List<PessoaDTO> pesquisarPorDenunciaDTO(String termoPesquisa, Unidade unidade, Long tenantId) {
 		return pessoaDAO.pesquisarPessoaPorDenunciaDTO(termoPesquisa, unidade, tenantId);
 	}	
 	
@@ -65,10 +62,7 @@ public class PessoaService implements Serializable {
 	public List<PessoaDTO> pesquisarPessoaPorEnderecoDTO(String termoPesquisa, Long tenantId) {
 		return pessoaDAO.pesquisarPessoaPorEnderecoDTO(termoPesquisa, tenantId);
 	}	
-	public List<PessoaDTO> pesquisarPessoaPorNomeSocialDTO(String termoPesquisa, Long tenantId) {
-		return pessoaDAO.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, tenantId);
-	}	
-	public List<PessoaDTO> pesquisarPorProntuarioDTO(String termoPesquisa, Long tenantId) {
+	public List<PessoaDTO> pesquisarPorDenunciaDTO(String termoPesquisa, Long tenantId) {
 		return pessoaDAO.pesquisarPessoaPorDenunciaDTO(termoPesquisa, tenantId);
 	}
 
@@ -82,10 +76,7 @@ public class PessoaService implements Serializable {
 	public List<PessoaDTO> pesquisarPorEndereco(String termoPesquisa, Unidade unidade, Long tenantId) {
 		return pessoaDAO.pesquisarPorEndereco(termoPesquisa, unidade, tenantId);
 	}		
-	public List<PessoaDTO> pesquisarPorNomeSocial(String termoPesquisa, Unidade unidade, Long tenantId) {
-		return pessoaDAO.pesquisarPorNomeSocial(termoPesquisa, unidade, tenantId);
-	}	
-	public List<PessoaDTO> pesquisarPorProntuario(String termoPesquisa, Unidade unidade, Long tenantId) {
+	public List<PessoaDTO> pesquisarPorDenuncia(String termoPesquisa, Unidade unidade, Long tenantId) {
 		return pessoaDAO.pesquisarPorDenuncia(termoPesquisa, unidade, tenantId);
 	}
 	
@@ -98,11 +89,8 @@ public class PessoaService implements Serializable {
 	public List<PessoaDTO> pesquisarPorEndereco(String termoPesquisa, Long tenantId) {
 		return pessoaDAO.pesquisarPorEndereco(termoPesquisa, tenantId);
 	}
-	public List<PessoaDTO> pesquisarPorNomeSocial(String termoPesquisa, Long tenantId) {
-		return pessoaDAO.pesquisarPorNomeSocial(termoPesquisa, tenantId);
-	}
-	public List<PessoaDTO> pesquisarPorProntuario(Long termoPesquisa, Long tenantId) {
-		return pessoaDAO.pesquisarPorProntuario(termoPesquisa, tenantId);
+	public List<PessoaDTO> pesquisarPorDenuncia(Long termoPesquisa, Long tenantId) {
+		return pessoaDAO.pesquisarPorDenuncia(termoPesquisa, tenantId);
 	}
 	
 	

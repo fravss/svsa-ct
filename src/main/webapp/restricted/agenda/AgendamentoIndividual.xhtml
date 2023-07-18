@@ -163,17 +163,17 @@
 				<p:panelGrid columns="2" id="addPanelGrid" style="width: 100%" 				
 					columnClasses="rotulo, campo" >					
 					
-					<p:outputLabel value="Pesquisar Pessoa"/>
+					<p:outputLabel value="Pesquisar Pessoa de Referência"/>
 					<p:commandButton icon="pi pi-plus" title="Adicionar uma pessoa" value="Pesquisar" 
 						disabled="#{agendamentoIndividualBean.itemSelecionado}"
 						actionListener="#{agendamentoIndividualBean.abrirDialogo}"
 					 	process="@this">
-					 	<p:ajax event="dialogReturn" listener="#{agendamentoIndividualBean.selecionarPessoa}" 
+					 	<p:ajax event="dialogReturn" listener="#{agendamentoIndividualBean.selecionarPessoaReferencia}" 
 					 		update="nomePessoa"
 					 		process="@this"/>
 					</p:commandButton>				
 				
-		    		<p:outputLabel value="Pessoa" for="nomePessoa"/>
+		    		<p:outputLabel value="Pessoa de Referência" for="nomePessoa"/>
 		    		<p:inputText id="nomePessoa" size="60" maxlength="80" 
 		    			readonly="true"
 		    			value="#{agendamentoIndividualBean.item.pessoa.nome}"/>

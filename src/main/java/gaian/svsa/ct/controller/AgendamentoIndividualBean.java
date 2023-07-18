@@ -212,26 +212,26 @@ public class AgendamentoIndividualBean implements Serializable {
 		Map<String,Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
 		options.put("width", 1000);
-        options.put("height", 500);
+        options.put("height", 600);
         options.put("contentWidth", "100%");
         options.put("contentHeight", "100%");
         options.put("draggable", true);
         options.put("responsive", true);
         options.put("closeOnEscape", true);
-        PrimeFaces.current().dialog().openDynamic("SelecionaPessoa", options, null);        	
+        PrimeFaces.current().dialog().openDynamic("SelecionaPessoaReferencia", options, null);        	
     }	
 	
 	public boolean isItemSelecionado() {
         return item != null && item.getCodigo() != null;
     }	
 	
-	public void selecionarPessoa(SelectEvent<?> event) {		
+	public void selecionarPessoaReferencia(SelectEvent<?> event) {		
 		
 		this.item = new ListaAtendimento();
 		item.setTenant_id(loginBean.getTenantId());
 		
 		PessoaDTO dto = (PessoaDTO) event.getObject();		
-		Pessoa p = pessoaService.buscarPeloCodigo(dto.getCodigo());
+		Pessoa p = pessoaService.buscarPFPeloCodigo(dto.getCodigo());
 		item.setPessoa(p);		
 	
 		log.info("Pessoa selecionada: " + this.item.getPessoa().getNome());

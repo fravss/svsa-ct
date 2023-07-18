@@ -22,18 +22,13 @@
 		    	paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 		    	currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
 		    	rowsPerPageTemplate="10,15,20" lazy="true"
-		    	rowStyleClass="#{pessoa.familia.prontuario.status eq 'INATIVO' or pessoa.status eq 'INATIVO' ? 'inativo' : null}"		    		
+		    	rowStyleClass="#{pessoa.familia.denuncia.status eq 'INATIVO' ? 'inativo' : null}"		    		
 		    	scrollable="true">
 	    		
 	    				    					
-				<p:column headerText="Código Pront." style="width: 20px; text-align: center"
-					filterBy="#{pessoa.familia.prontuario.codigo}" footerText="contains" filterMatchMode="contains">
-					<h:outputText value="#{pessoa.familia.prontuario.codigo}" />
-				</p:column>
-				
-		    	<p:column headerText="Pront. Físico" style="width: 20px; text-align: center"
-		    		filterBy="#{pessoa.familia.prontuario.prontuario}" footerText="contains" filterMatchMode="contains">
-					<h:outputText value="#{pessoa.familia.prontuario.prontuario}" />
+				<p:column headerText="Código Denúncia" style="width: 20px; text-align: center"
+					filterBy="#{pessoa.familia.denuncia.codigo}" footerText="contains" filterMatchMode="contains">
+					<h:outputText value="#{pessoa.familia.denuncia.codigo}" />
 				</p:column>
 				
 				<p:column headerText="Codigo Pessoa" style="width: 20px; text-align: center"
@@ -46,23 +41,13 @@
 					<h:outputText value="#{pessoa.nome}" />
 				</p:column>
 				
-				<p:column headerText="Nome Social" style="width: 80px; text-align: center"
-					filterBy="#{pessoa.nomeSocial}" footerText="contains" filterMatchMode="contains">
-					<h:outputText value="#{pessoa.nomeSocial}"/>
-				</p:column>
-				
-				<p:column headerText="Nome Mãe" style="width: 100px; text-align: center"
-					filterBy="#{pessoa.nomeMae}" footerText="contains" filterMatchMode="contains">
-					<h:outputText value="#{pessoa.nomeMae}"/>
-				</p:column>
-				
 				<p:column headerText="Endereço" style="width: 100px; text-align: center"
-					filterBy="#{pessoa.familia.endereco.endereco}" footerText="contains" filterMatchMode="contains">
-					<h:outputText value="#{pessoa.familia.endereco.endereco}, #{pessoa.familia.endereco.numero}" />
+					filterBy="#{pessoa.endereco.endereco}" footerText="contains" filterMatchMode="contains">
+					<h:outputText value="#{pessoa.endereco.endereco}, #{pessoa.endereco.numero}" />
 				</p:column>				
 				
 				<p:column headerText="Unidade" style="width: 70px; text-align: center">
-					<h:outputText value="#{pessoa.familia.prontuario.unidade.nome}" />
+					<h:outputText value="#{pessoa.familia.denuncia.unidade.nome}" />
 				</p:column>	
 				
 				<p:column headerText="Operações" style="width: 40px; text-align: center">				    	

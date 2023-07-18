@@ -64,15 +64,12 @@ public class SelecionaPessoaBean implements Serializable {
 				listaPessoasDTO = pessoaService.pesquisarPessoaDTO(termoPesquisa, unidade, loginBean.getTenantId());
 				log.info("listaPessoasDTO qde: " + listaPessoasDTO.size());
 			}
-			else if(getParametro().equals("nomeSocial")){
-				listaPessoasDTO = pessoaService.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, unidade, loginBean.getTenantId());
-			}
-			else if(getParametro().equals("prontuario")){
+			else if(getParametro().equals("denuncia")){
 				try {
-					listaPessoasDTO = pessoaService.pesquisarPorProntuarioDTO(termoPesquisa, unidade, loginBean.getTenantId());
+					listaPessoasDTO = pessoaService.pesquisarPorDenunciaDTO(termoPesquisa, unidade, loginBean.getTenantId());
 				}
 				catch(Exception e) {
-					MessageUtil.alerta("Digite um código de prontuário válido. Apenas números.");
+					MessageUtil.alerta("Digite um código de denúncia válida. Apenas números.");
 				}			
 			} 
 			
@@ -93,15 +90,12 @@ public class SelecionaPessoaBean implements Serializable {
 			else if(getParametro().equals("nome")){
 				listaPessoasDTO = pessoaService.pesquisarPessoaDTO(termoPesquisa, loginBean.getTenantId());
 			}
-			else if(getParametro().equals("nomeSocial")){
-				listaPessoasDTO = pessoaService.pesquisarPessoaPorNomeSocialDTO(termoPesquisa, loginBean.getTenantId());
-			}
 			else if(getParametro().equals("prontuario")){
 				try {
-					listaPessoasDTO = pessoaService.pesquisarPorProntuarioDTO(termoPesquisa, loginBean.getTenantId());
+					listaPessoasDTO = pessoaService.pesquisarPorDenunciaDTO(termoPesquisa, loginBean.getTenantId());
 				}
 				catch(Exception e) {
-					MessageUtil.alerta("Digite um código de prontuário válido. Apenas números.");
+					MessageUtil.alerta("Digite um código de denúncia válida. Apenas números.");
 				}			
 			} 
 			
