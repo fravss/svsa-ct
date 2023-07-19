@@ -28,8 +28,7 @@
 			        <p:outputLabel for="parametro" value="Pesquisar por: "/>
 			        <p:selectOneRadio id="parametro" value="#{selecionaPessoaBean.parametro}" unselectable="true">
 			            <f:selectItem itemLabel="Nome" itemValue="nome" />
-			            <f:selectItem itemLabel="Prontuário" itemValue="prontuario" />
-			            <f:selectItem itemLabel="Nome social" itemValue="nomeSocial" />
+			            <f:selectItem itemLabel="Denúncia" itemValue="denuncia" />
 			            <f:selectItem itemLabel="Endereço" itemValue="endereco" />
 			        </p:selectOneRadio>
 			        
@@ -53,15 +52,11 @@
 		    	rowStyleClass="#{pessoa.statusDenuncia eq 'INATIVO' ? 'inativo' : null}">
 		    		
 		    					
-				<p:column headerText="Código Prontuário" style="width: 40px; text-align: center">
+				<p:column headerText="Código Denúncia" style="width: 40px; text-align: center">
 					<h:outputText value="#{pessoa.codigoDenuncia}" />
-				</p:column>
+				</p:column>	
 				
-				<!--  <p:column headerText="Prontuário Físico" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoa.prontuarioFisico}" />
-				</p:column>	-->			
-				
-    			<p:column headerText="Nome/Nome Social" style="width: 160px; text-align: center">
+    			<p:column headerText="Nome" style="width: 160px; text-align: center">
 					<h:outputText value="#{pessoa.nome}" />	
 				</p:column>
 				

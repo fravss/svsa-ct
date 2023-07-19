@@ -13,7 +13,7 @@
 		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
-		<menuitem value="Atend. Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
+		<menuitem value="Atend. Recepção" outcome="/restricted/atendimento/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	
 		<menuitem value="Registrar Ação" outcome="/restricted/atendimento/RealizarAcao.xhtml">

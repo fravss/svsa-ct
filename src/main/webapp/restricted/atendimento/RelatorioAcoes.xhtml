@@ -49,14 +49,12 @@
 		            	update="acoesDataTable toolbar"
 		            	process="@this datai dataf">		            		            	
 	            	</p:commandButton>			
-					
-
 	            	
 	            	<p:spacer width="5px" />
 	            	
 	            	<p:commandButton title="Exportar para Excel" value="Exportar para Excel" icon="pi pi-file-excel"
 		            	ajax="false" process="acoesDataTable">
-		            	<p:dataExporter type="xls" target="acoesDataTable" fileName="Relatorio_acoes" />
+		            	<p:dataExporter type="xls" target="acoesDataTable" fileName="Relatorio_Acoes" />
 		            </p:commandButton>	
 					
 				</f:facet>
@@ -64,11 +62,11 @@
 				    
 	    
 		    <!--  Lista de ações -->
-			<p:dataTable id="acoesDataTable"  value="#{relatorioAcoesBean.listaAcoes}" 
-				var="item"
-	    		style="margin-top: 20px" emptyMessage="Nenhuma ação realizada." 
-	    		rowsPerPageTemplate="10,15,20" rows="10" 
-	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom">
+			<p:dataTable id="acoesDataTable" var="item" value="#{relatorioAcoesBean.listaAcoes}" 
+	    		style="margin-top: 20px" emptyMessage="Nenhuma ação realizada." paginator="true" rows="10"
+	    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+	    		currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+	    		rowsPerPageTemplate="10,15,20" scrollable="true">
 	    		
 		    	<p:column headerText="Data Ação" style="width: 30px; text-align: center"
 		    		sortBy="#{item.data}" >		    		
@@ -77,7 +75,6 @@
 	    			</h:outputText>
 	    		</p:column>	
 	    		
-	    		 				    		
 	    		<p:column headerText="Nome" style="width: 90px; text-align: center" 
 	    			filterBy="#{item.pessoa.nome}" 
 	    			footerText="contains" filterMatchMode="contains">
@@ -107,8 +104,7 @@
 	    			<h:outputText value="#{item.agendador.nome}" />	
     			</p:column>    		
 	    		
-	    		
-	    		<p:column headerText="Operações" style="width: 50px; text-align: center">
+	    		<p:column headerText="Operações" exportable="false" style="width: 50px; text-align: center">
 	    			<p:commandButton icon="pi pi-pencil" title="Alterar"		    					    				
 		    				oncomplete="PF('acaoWidgetVar').show();"
 		    				update="frmPesquisa:acaoGrid"
@@ -129,8 +125,6 @@
 						<f:setPropertyActionListener target="#{relatorioAcoesBean.itemMigrar}" value="#{item}" />
 					</p:commandButton>
 	    		</p:column> 
-	    		
-    		
 		   	</p:dataTable>		   	
 		   	
 			
