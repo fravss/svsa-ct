@@ -35,7 +35,7 @@
 	    				
 		    		<p:spacer width="10px" /> 
 
-					<p:button icon="pi pi-search" value="Voltar" outcome="/restricted/atendimento/PesquisarDenuncia.xhtml"/>
+					<p:button icon="pi pi-search" value="Voltar" outcome="/restricted/agenda/PesquisarDenuncia.xhtml"/>
 					
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -70,16 +70,16 @@
 
 
 				<p:outputLabel value="Ativo" for="status"
-					disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo eq 
-									registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}" />
+					disabled="#{registrarDenunciaBean.rdComposicaoBean.pessoa.codigo eq 
+									registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}" />
 				<p:selectOneMenu id="status" required="true"
-					disabled="#{registrarDenunciaBean.mpComposicaoBean.pessoa.codigo eq 
-									registrarDenunciaBean.mpComposicaoBean.pessoaReferencia.codigo}"
+					disabled="#{registrarDenunciaBean.rdComposicaoBean.pessoa.codigo eq 
+									registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"
 					value="#{registrarDenunciaBean.denuncia.status}"
 					validatorMessage="O Status é obrigatório.">
 					<f:selectItem itemLabel="Selecione o status" />
 					<f:selectItems
-						value="#{registrarDenunciaBean.mpComposicaoBean.status}"
+						value="#{registrarDenunciaBean.rdComposicaoBean.status}"
 						var="status" itemLabel="#{status}" itemValue="#{status}" />
 				</p:selectOneMenu>
 				
@@ -107,7 +107,7 @@
 					required="true" effect="blind" />
 
 				<p:outputLabel value="Telefone Pessoa Responsável" for="phone" />
-				<p:inputText id="phone" size="20" maxlength="20" required="false"
+				<p:inputText id="phone" size="20" maxlength="20" required="true"
 					validatorMessage="O telefone de contato é obrigatório."
 					value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.telefone}" />
 

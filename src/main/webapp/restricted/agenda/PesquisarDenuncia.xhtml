@@ -23,21 +23,18 @@
 			<p:toolbar id="toolbar" style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:commandButton icon="pi pi-user-plus" value="Registrar Denúncia" title="Nova"		
-						action="/restricted/agenda/CadastroDenuncia.xhtml" />
+						action="/restricted/agenda/RegistrarDenuncia.xhtml" />
 				</p:toolbarGroup>
 			</p:toolbar>  
 
 			<!--  Lista de denuncias nao terminadas -->
-			<p:dataTable id="listaDataTable"  value="#{registrarDenunciaBean.denuncias}" var="denuncia"
-				allowUnsorting="true" sortMode="single"
-	    		style="margin-top: 20px" emptyMessage="Nenhuma denuncia encontrada." rows="10" 
-	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom" 
-	    		rowsPerPageTemplate="10,15,20"
-	    		selectionMode="single" selection="#{registrarDenunciaBean.denuncia}" rowKey="#{denuncia.codigo}">
-	    		
-	    		<p:ajax event="rowSelect" update="listaDataTable" />			
-				<p:ajax event="rowUnselect" update="listaDataTable" />
-
+			
+			<p:dataTable id="denunciaTable" var="denuncia" value="#{pesquisarDenunciaBean.denuncias}" 
+		    		style="margin-top: 20px" emptyMessage="Nenhuma denuncia encontrada." paginator="true" rows="10"
+		    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+	    			currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+	    			rowsPerPageTemplate="10,15,20"
+		    		rowStyleClass="#{denuncia.status eq 'INATIVO' ? 'inativo' : null}">
 		    		
 		    	<p:column headerText="Data" style="width: 15px; text-align: center"
 		    		sortBy="#{denuncia.dataEmissao}">		    		
@@ -65,42 +62,31 @@
 	    		
 	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >
 
-					<p:button outcome="/restricted/agenda/CadastroDenuncia.xhtml" icon="pi pi-pencil" title="Editar Denuncia"
-						disabled="#{registrarDenunciaBean.denuncia.codigo eq null}">
+					<p:button outcome="/restricted/agenda/RegistrarDenuncia.xhtml" icon="pi pi-pencil" title="Editar Denuncia">
 						<f:param name="denuncia" value="#{denuncia.codigo}" />
-					</p:button>
-					
-					
-					<p:commandButton icon="pi pi-plus" title="Adicionar Pessoas"
-						disabled="#{registrarDenunciaBean.denuncia.codigo eq null}" >
-					</p:commandButton>	
+					</p:button>	
 					
 					<p:commandButton icon="pi pi-trash" title="Excluir Denúncia"
-		    			disabled="#{registrarDenunciaBean.denuncia.codigo eq null}"
-		    			oncomplete="PF('confirmacaoExclusaoWidgetVar').show()"		            	
-		            	update="listaDataTable frmDenuncia:toolbar frmDenuncia:growl"
+		    			onclick="PF('confirmacaoExclusaoWidgetVar').show()"		            	
 		            	process="@this">
-						<f:setPropertyActionListener target="#{registrarDenunciaBean.denuncia}" 
+						<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
 							value="#{denuncia}" />
 					</p:commandButton>		    		
 		    		
 					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
-						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
-						action="#{registrarDenunciaBean.showPDF}"
+						action="#{pesquisarDenunciaBean.showPDF}"
 						process="show" immediate="true" ajax="false"
 						update="frmPesquisa:addGrowl">
 					</p:commandButton>
 					
 					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
-						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
-						action="#{registrarDenunciaBean.showPDFNotificacao}"
+						action="#{pesquisarDenunciaBean.showPDFNotificacao}"
 						process="showNotificacao" immediate="true" ajax="false"
 						update="frmPesquisa:addGrowl">
 					</p:commandButton>
 					
 					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
-						disabled="#{not registrarDenunciaBean.atestadoSelecionado}"
-						action="#{registrarDenunciaBean.showPDFDenuncia}"
+						action="#{pesquisarDenunciaBean.showPDFDenuncia}"
 						process="showDenuncia" immediate="true" ajax="false"
 						update="frmPesquisa:addGrowl">
 					</p:commandButton>
@@ -118,9 +104,9 @@
 					onclick="PF('confirmacaoExclusaoWidgetVar').hide(); return false;" />
 					
 				<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
-				    update="frmDenuncia:listaDataTable frmDenuncia:toolbar frmDenuncia:growl"
+				    update="frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
 					onclick="PF('confirmacaoExclusaoWidgetVar').hide();"
-					action="#{registrarDenunciaBean.excluir}" 
+					action="#{pesquisarDenunciaBean.excluir}" 
 					process="@this"/>
 					
 			</p:confirmDialog>
