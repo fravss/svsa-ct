@@ -1,6 +1,5 @@
 package gaian.svsa.ct.controller.denuncia;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,14 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
-import com.itextpdf.io.source.ByteArrayOutputStream;
 import gaian.svsa.ct.modelo.enums.Uf;
 
 import gaian.svsa.ct.controller.LoginBean;
@@ -71,7 +65,6 @@ public class RegistrarDenunciaBean implements Serializable {
 	private List<OrigemDenuncia> origens;
 	private List<Sexo> sexos;
 	private List<MunicipioTO> municipioList;
-	private boolean edicao = false;
 	private boolean composicao = false;
 	
 	private Integer ano;
@@ -87,7 +80,7 @@ public class RegistrarDenunciaBean implements Serializable {
 	@Inject
 	private NotificacaoPDFService notificacaopdfService;
 	@Inject
-	private MPComposicaoFamiliarBean mpComposicaoBean;
+	private RDComposicaoFamiliarBean rdComposicaoBean;
 	@Inject
 	private RestService restService;
 	@Inject
@@ -210,150 +203,6 @@ public class RegistrarDenunciaBean implements Serializable {
 			MessageUtil.erro(e.getMessage());		            
 		}       
 	}
-
-	//Atestado
-	public void showPDF() {
-
-		try {
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-			// Creating a PdfWriter
-			log.info(denuncia);
-			log.info(loginBean.getUsuario().getTenant().getS3Key());
-			log.info(loginBean.getUsuario().getTenant().getSecretaria());
-			ByteArrayOutputStream baos = atestadopdfService.generateStream(denuncia,
-					loginBean.getUsuario().getTenant().getS3Key(),
-					loginBean.getUsuario().getTenant().getSecretaria());
-					
-
-			// setting some response headers
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setHeader("Pragma", "public");
-			// setting the content type
-			response.setContentType("application/pdf");
-			// the contentlength
-			response.setContentLength(baos.size());
-			// write ByteArrayOutputStream to the ServletOutputStream
-			ServletOutputStream os = response.getOutputStream();
-
-			baos.writeTo(os);
-			os.flush();
-			os.close();
-			context.responseComplete();
-		} catch (NegocioException ne) {
-			ne.printStackTrace();
-			MessageUtil.erro(ne.getMessage());
-		}catch (IOException e) {
-			e.printStackTrace();
-			MessageUtil.erro("Problema na escrita do PDF.");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			MessageUtil.erro("Problema na geração do PDF.");
-		}
-		
-		log.info("PDF gerado!");
-	}
-	
-	//Relatório de Denuncia
-	public void showPDFDenuncia() {
-
-		try {
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-			// Creating a PdfWriter
-			log.info(denuncia);
-			log.info(loginBean.getUsuario().getTenant().getS3Key());
-			log.info(loginBean.getUsuario().getTenant().getSecretaria());
-			ByteArrayOutputStream baos = denunciapdfService.generateStream(denuncia,
-					loginBean.getUsuario().getTenant().getS3Key(),
-					loginBean.getUsuario().getTenant().getSecretaria());
-					
-
-			// setting some response headers
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setHeader("Pragma", "public");
-			// setting the content type
-			response.setContentType("application/pdf");
-			// the contentlength
-			response.setContentLength(baos.size());
-			// write ByteArrayOutputStream to the ServletOutputStream
-			ServletOutputStream os = response.getOutputStream();
-
-			baos.writeTo(os);
-			os.flush();
-			os.close();
-			context.responseComplete();
-		} catch (NegocioException ne) {
-			ne.printStackTrace();
-			MessageUtil.erro(ne.getMessage());
-		}catch (IOException e) {
-			e.printStackTrace();
-			MessageUtil.erro("Problema na escrita do PDF.");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			MessageUtil.erro("Problema na geração do PDF.");
-		}
-		
-		log.info("PDF gerado!");
-	}
-	
-	//Notificação
-	public void showPDFNotificacao() {
-
-		try {
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-			// Creating a PdfWriter
-			log.info(denuncia);
-			log.info(loginBean.getUsuario().getTenant().getS3Key());
-			log.info(loginBean.getUsuario().getTenant().getSecretaria());
-			ByteArrayOutputStream baos = notificacaopdfService.generateStream(denuncia,
-					loginBean.getUsuario().getTenant().getS3Key(),
-					loginBean.getUsuario().getTenant().getSecretaria());
-					
-
-			// setting some response headers
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setHeader("Pragma", "public");
-			// setting the content type
-			response.setContentType("application/pdf");
-			// the contentlength
-			response.setContentLength(baos.size());
-			// write ByteArrayOutputStream to the ServletOutputStream
-			ServletOutputStream os = response.getOutputStream();
-
-			baos.writeTo(os);
-			os.flush();
-			os.close();
-			context.responseComplete();
-		} catch (NegocioException ne) {
-			ne.printStackTrace();
-			MessageUtil.erro(ne.getMessage());
-		}catch (IOException e) {
-			e.printStackTrace();
-			MessageUtil.erro("Problema na escrita do PDF.");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			MessageUtil.erro("Problema na geração do PDF.");
-		}
-		
-		log.info("PDF gerado!");
-	} 
 	
 	public boolean isAtestadoSelecionado() {
         return denuncia != null && denuncia.getCodigo() != null;
@@ -410,7 +259,7 @@ public class RegistrarDenunciaBean implements Serializable {
 
     	if(getDenuncia() != null && getDenuncia().getCodigo() != null) {
     		setPessoaReferencia(getDenuncia().getFamilia().getPessoaReferencia());
-    		mpComposicaoBean.setPessoaReferencia(getPessoaReferencia());
+    		rdComposicaoBean.setPessoaReferencia(getPessoaReferencia());
     	}        		
     }
 }

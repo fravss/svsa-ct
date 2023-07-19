@@ -27,7 +27,7 @@
 	<submenu label="Denuncia" icon="pi pi-book">
 		<grupo value="ADMINISTRATIVOS"></grupo>
 		<grupo value="TECNICOS"></grupo>		
-		<menuitem value="Registrar Denuncia" outcome="/restricted/atendimento/PesquisarDenuncia.xhtml">
+		<menuitem value="Registrar Denuncia" outcome="/restricted/agenda/PesquisarDenuncia.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>
 	</submenu>		

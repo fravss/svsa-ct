@@ -51,9 +51,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Getter
 @Setter
-@Named(value="mPComposicaoFamiliarBean")
+@Named(value="rDComposicaoFamiliarBean")
 @ViewScoped
-public class MPComposicaoFamiliarBean implements Serializable {
+public class RDComposicaoFamiliarBean implements Serializable {
 
 	private static final long serialVersionUID = 1769116747361287180L;
 
@@ -138,7 +138,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 		this.formasAcesso = Arrays.asList(FormaAcesso.values());
 		this.programasSociais = Arrays.asList(ProgramaSocial.values());
 		this.paises = this.pessoaService.buscarTodosPaises();
-				
+		
 		graficoPerfil = new PieChartModel();
 		
 		this.limpar();
@@ -219,7 +219,7 @@ public class MPComposicaoFamiliarBean implements Serializable {
 			
 			if(!isUnidadeDoUsuario())
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
-		
+			
 			composicaoService.excluirMembro(pessoa);
 			pesquisarMembros();
 			
@@ -238,7 +238,6 @@ public class MPComposicaoFamiliarBean implements Serializable {
 				throw new NegocioException("Operação inválida! O prontuário não é da sua unidade.");
 			
 			composicaoService.inativarMembro(pessoa);
-			
 			log.info("pessoa INATIVADA: " + pessoa.getNome());
 			pesquisarMembros();
 			
