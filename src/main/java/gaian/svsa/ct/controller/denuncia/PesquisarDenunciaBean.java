@@ -112,8 +112,8 @@ private static final long serialVersionUID = 1L;
 	public void ativar() {
 		try {
 			denunciaService.ativar(denunciaSelecionada);
-			log.info("prontuarioSelecionado para ativar: " + denunciaSelecionada.getCodigo());
-			MessageUtil.sucesso("Prontuario " + denunciaSelecionada.getCodigo() + " ativado com sucesso.");
+			log.info("denunciaSelecionada para ativar: " + denunciaSelecionada.getCodigo());
+			MessageUtil.sucesso("Denúncia " + denunciaSelecionada.getCodigo() + " ativado com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());		
@@ -125,8 +125,8 @@ private static final long serialVersionUID = 1L;
 	public void inativar() {
 		try {
 			denunciaService.inativar(denunciaSelecionada);
-			log.info("prontuarioSelecionado para inativar: " + denunciaSelecionada.getCodigo());
-			MessageUtil.sucesso("Prontuario " + denunciaSelecionada.getCodigo() + " inativado com sucesso.");
+			log.info("denunciaSelecionada para inativar: " + denunciaSelecionada.getCodigo());
+			MessageUtil.sucesso("Denúncia " + denunciaSelecionada.getCodigo() + " inativado com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());		

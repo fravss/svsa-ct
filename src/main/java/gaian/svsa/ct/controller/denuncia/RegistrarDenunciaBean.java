@@ -260,6 +260,7 @@ public class RegistrarDenunciaBean implements Serializable {
     	if(getDenuncia() != null && getDenuncia().getCodigo() != null) {
     		setPessoaReferencia(getDenuncia().getFamilia().getPessoaReferencia());
     		rdComposicaoBean.setPessoaReferencia(getPessoaReferencia());
+    		setComposicao(true);
     	}        		
     }
 }

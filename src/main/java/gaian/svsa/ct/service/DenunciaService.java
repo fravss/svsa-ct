@@ -54,28 +54,29 @@ public class DenunciaService implements Serializable {
 		
 	}
 	
-	/* Ativa o prontuario e todos os seus membros, exceto se houver atendimentos registrados */
+	/* Ativa a denúncia */
 	public void ativar(Denuncia denuncia) throws NegocioException {
 		
 		try {
-			log.info("Ativando prontuario e membros ... ");
+			log.info("Ativando denúncia ... ");
 			
-			//denunciaDAO.ativarDenuncia(denuncia);
+			denunciaDAO.ativarDenuncia(denuncia);
 			
 		} catch (Exception e) {
-			throw new NegocioException("Não foi possível ativar o prontuário.");
+			throw new NegocioException("Não foi possível ativar a denúncia.");
 		}		
 	}
 	
-public void inativar(Denuncia denuncia) throws NegocioException {
+	/* Inativa a denúncia */
+	public void inativar(Denuncia denuncia) throws NegocioException {
 		
 		try {
-			log.info("Inativando prontuario e membros ... ");
+			log.info("Inativando denúncia ... ");
 			
-			//denunciaDAO.inativarProntuario(denuncia);
+			denunciaDAO.inativarDenuncia(denuncia);
 			
 		} catch (Exception e) {
-			throw new NegocioException("Não foi possível inativar o prontuário.");
+			throw new NegocioException("Não foi possível inativar a denúncia.");
 		}
 		
 	}

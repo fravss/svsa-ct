@@ -103,6 +103,7 @@ public class ManterRDBean implements Serializable {
 	public void setPessoa(Pessoa pessoa) {
 		log.info("manterProntuarioBean.setPessoa() = " + pessoa.getNome());
 		this.pessoa = pessoa;
+		this.rdComposicaoBean.setPessoa(pessoa);
 		//	violenciaBean.setPessoa(pessoa);
 		//	saudeBean.setPessoa(pessoa);
 		//	trabalhoBean.setPessoa(pessoa);
