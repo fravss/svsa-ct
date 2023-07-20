@@ -66,7 +66,10 @@
 	    		<p:ajax event="rowSelect" update="frmPesquisa:toolbar frmPesquisa:listaDataTable frmPesquisa:faltasDialog" />
 			
 				<p:ajax event="rowUnselect" update="frmPesquisa:toolbar frmPesquisa:listaDataTable frmPesquisa:faltasDialog" />
-
+					
+				<p:column headerText="Det." style="width: 2px; text-align: center">
+                	<p:rowToggler/>
+           		</p:column>
 		    		
 		    	<p:column headerText="Agendado" style="width: 30px; text-align: center"
 		    		sortBy="#{item.dataAgendamento}">	    		
@@ -147,6 +150,23 @@
 					</p:commandButton>	
 									
 		    	</p:column>
+		    	
+		    	<p:rowExpansion>
+					<div>
+						<p:panelGrid columns="2" id="painel" style="width: 100%" columnClasses="rotulo, campo" cellpadding="7">						
+							
+							<p:outputLabel value="Nome da Pessoa: " style="font-weight:bold" />
+							<h:outputText value="#{item.pessoa.nome}" />
+	    		
+							<p:outputLabel value="Motivo da demanda: " style="font-weight:bold" />
+							<h:outputText value="#{item.motivo}"/>
+							
+							<p:outputLabel value="Agendado por: " style="font-weight:bold" />
+							<h:outputText value="#{item.agendador.nome}"/>
+
+						</p:panelGrid>
+					</div>
+				</p:rowExpansion>
     		
 		   	</p:dataTable>
 		   	
@@ -177,6 +197,19 @@
 		    		<p:inputText id="nomePessoa" size="60" maxlength="80" 
 		    			readonly="true"
 		    			value="#{agendamentoIndividualBean.item.pessoa.nome}"/>
+		    			
+		    		<p:outputLabel value="Motivo" for="motivo"/>
+		    		<h:panelGroup>
+			    		<p:inputTextarea id="motivo" size="1000" rows="3" cols="600"  style="width: 100%; overflow:auto;"
+			    			maxlength="1000" 
+			    			value="#{agendamentoIndividualBean.item.motivo}"
+			    			counter="display1"
+							counterTemplate="{0} caracteres restantes" 			    			
+			    			placeholder="Até 1000 caracteres."/>
+		    			<p:tooltip for="motivo" value="Novo" position="left"/>
+		    			<h:outputText id="display1" />
+				    	<p:watermark for="motivo" value="Descreva o motivo da procura pela unidade" />	
+			    	</h:panelGroup>
 		    			
 		    		<p:outputLabel value="Agendar para" for="dataAgendamento" />
 		    		<p:calendar id="dataAgendamento" size="30"

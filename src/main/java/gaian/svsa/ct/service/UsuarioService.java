@@ -13,7 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.dao.UsuarioDAO;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.Role;
@@ -83,7 +83,7 @@ public class UsuarioService implements Serializable {
 		
 			if(u != null) {			
 				
-				List<ListaAtendimento> result = listaAtendimentoDAO.buscarAgendaUsuario(u, tenantId);
+				List<Atendimento> result = listaAtendimentoDAO.buscarAgendaUsuario(u, tenantId);
 				log.info(" qde agendamentos " + result.size() + " para usuario " + u.getNome() );
 				if( result != null && result.size() > 0) {
 					MessageUtil.sucesso("O usuário possui agendamentos pendentes!");

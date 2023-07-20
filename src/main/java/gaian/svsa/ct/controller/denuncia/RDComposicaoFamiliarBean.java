@@ -14,7 +14,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Acao;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
@@ -70,7 +70,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private PieChartModel graficoPerfil;	
 	//private List<AtendimentoDTO> resumoAtendimentos = new ArrayList<>();
 	private List<Acao> acoes = new ArrayList<>();
-	private List<ListaAtendimento> listaFaltas = new ArrayList<>();
+	private List<Atendimento> listaFaltas = new ArrayList<>();
 	private List<Pais> paises;
 	private EnderecoTO enderecoTO;
 	

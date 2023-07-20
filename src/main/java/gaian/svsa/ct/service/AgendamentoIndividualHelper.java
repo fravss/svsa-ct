@@ -17,7 +17,7 @@ import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.dao.EncaminhamentoDAO;
 import gaian.svsa.ct.dao.UnidadeDAO;
 import gaian.svsa.ct.modelo.Encaminhamento;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Oficio;
 import gaian.svsa.ct.modelo.OficioEmitido;
 import gaian.svsa.ct.modelo.Pessoa;
@@ -59,7 +59,7 @@ class AgendamentoIndividualHelper implements Serializable {
 	/*
 	 * RelatorioAtendimentos (cadUnico)
 	 */
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		if (ini != null)
 			if (fim != null)
 				return listaDAO.buscarAtendCadUnicoDataPeriodo(unidade, ini, fim, tenantId);
@@ -68,7 +68,7 @@ class AgendamentoIndividualHelper implements Serializable {
 		return listaDAO.buscarAtendidosCadUnico(unidade, tenantId);
 	}
 
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		if (ini != null)
 			if (fim != null)
 				return listaDAO.buscarAtendCadUnicoDataPeriodo2(unidade, ini, fim, tenantId);
@@ -335,10 +335,10 @@ class AgendamentoIndividualHelper implements Serializable {
 	
 	
 
-	public List<ListaAtendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
+	public List<Atendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
 		
 		// faltas individualizada
-		List<ListaAtendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getDenuncia().getUnidade(), pessoa, tenantId);
+		List<Atendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getDenuncia().getUnidade(), pessoa, tenantId);
 	
 		return  faltas;
 	}

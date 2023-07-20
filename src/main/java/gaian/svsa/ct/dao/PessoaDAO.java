@@ -1008,7 +1008,7 @@ public class PessoaDAO implements Serializable {
        
         /* ListaAtendimento */
 		query = manager.createNativeQuery( 
-				"UPDATE ListaAtendimento "
+				"UPDATE Atendimento "
 				+ "SET codigo_pessoa = :pessoaNova "
 				+ "WHERE codigo_pessoa = :pessoa" );
 		query.setParameter( "pessoa", pessoa.getCodigo() );
