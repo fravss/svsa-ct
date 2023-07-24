@@ -12,6 +12,7 @@ import gaian.svsa.ct.modelo.Encaminhamento;
 import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.util.NegocioException;
 
 
@@ -45,6 +46,10 @@ public class EncaminhamentoService implements Serializable {
 	
 	public List<Orgao> buscarTodos(Long tenantId){
 		return orgaoDAO.buscarTodos(tenantId);
+	}
+	
+	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId){
+		return orgaoDAO.buscarCodigosEncaminhamento(codigosEncaminhamento,tenantId);
 	}
 	
 	/*

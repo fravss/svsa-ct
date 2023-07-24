@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import gaian.svsa.ct.modelo.Endereco;
 import gaian.svsa.ct.modelo.Orgao;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.modelo.enums.Uf;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.service.OrgaoService;
@@ -35,7 +36,7 @@ public class CadastroOrgaoBean implements Serializable {
 	private Orgao orgao;
 	private List<Uf> ufs;
 	private EnderecoTO enderecoTO;
-//	private List<CodigoEncaminhamento> codigos;
+	private List<CodigoEncaminhamento> codigos;
 	
 	@Inject
 	private OrgaoService orgaoService;
@@ -48,7 +49,7 @@ public class CadastroOrgaoBean implements Serializable {
 	public void inicializar() {
 		this.limpar();
 		this.ufs = Arrays.asList(Uf.values());
-//		this.codigos = Arrays.asList(CodigoEncaminhamento.values());
+		this.codigos = Arrays.asList(CodigoEncaminhamento.values());
 	}
 	
 	public void salvar() {

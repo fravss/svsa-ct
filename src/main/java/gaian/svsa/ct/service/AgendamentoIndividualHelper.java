@@ -241,9 +241,9 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio recebido
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
-					if (o.getCoordenador() != null) {
-						dto.setNomeTecnico(o.getCoordenador().getNome()); // coordenador que recebeu
-						dto.setNomeUnidade(o.getCoordenador().getUnidade().getNome()); // unidade do coordenador
+					if (o.getConselheiro() != null) {
+						dto.setNomeTecnico(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
 					dto.setResumoAtendimento("[Ofício Recebido] " + o.getNrOficio() + " ( " + o.getAssunto() + " ) ");
@@ -252,8 +252,8 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio respondido
 					dto2 = new AtendimentoDTO();
 					dto2.setData(o.getDataResposta());
-					dto2.setNomeTecnico(o.getTecnico().getNome());
-					dto2.setNomeUnidade(o.getTecnico().getUnidade().getNome());
+					dto2.setNomeTecnico(o.getConselheiro().getNome());
+					dto2.setNomeUnidade(o.getConselheiro().getUnidade().getNome());
 					dto2.setNomePessoa(o.getPessoa().getNome());
 					dto2.setResumoAtendimento(
 							"[Ofício Resposta] " + o.getNrOficioResp() + " ( " + o.getAssunto() + " ) ");
@@ -263,9 +263,9 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio recebido
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
-					if (o.getCoordenador() != null) {
-						dto.setNomeTecnico(o.getCoordenador().getNome()); // coordenador que recebeu
-						dto.setNomeUnidade(o.getCoordenador().getUnidade().getNome()); // unidade do coordenador
+					if (o.getConselheiro() != null) {
+						dto.setNomeTecnico(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
 					dto.setResumoAtendimento("[Ofício Recebido] " + o.getNrOficio() + " ( " + o.getAssunto() + " ) ");
@@ -292,11 +292,11 @@ class AgendamentoIndividualHelper implements Serializable {
 
 				AtendimentoDTO dto = new AtendimentoDTO();
 				dto.setData(o.getDataEmissao());
-				if (o.getTecnico() != null)
-					dto.setNomeTecnico(o.getTecnico().getNome());
+				if (o.getConselheiro() != null)
+					dto.setNomeTecnico(o.getConselheiro().getNome());
 				// emitidos
 				dto.setResumoAtendimento("[Ofício Emitido] " + o.getNrOficioEmitido() + " ( " + o.getAssunto() + " ) ");
-				dto.setNomeUnidade(o.getTecnico().getUnidade().getNome());
+				dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome());
 				dto.setNomePessoa(o.getPessoa().getNome());
 				atendimentos.add(dto);
 			}

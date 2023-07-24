@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
 import gaian.svsa.ct.service.OficioEmitidoService;
 import gaian.svsa.ct.service.PessoaService;
@@ -58,7 +60,7 @@ public class EmitirOficioBean implements Serializable {
 	private Orgao orgao;
 
 	private List<Usuario> tecnicos;
-//	private List<CodigoEncaminhamento> codigosEncaminhamento;
+	private List<CodigoEncaminhamento> codigosEncaminhamento;
 	
 	private Unidade unidade;
 	private boolean pessoaSelecionada = false;
@@ -77,8 +79,9 @@ public class EmitirOficioBean implements Serializable {
 		
 		unidade = loginBean.getUsuario().getUnidade();
 		
+		this.codigosEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
+		
 		listaOficiosEmitidos = oficioEmitidoService.buscarOficiosEmitidos(unidade, loginBean.getTenantId());
-		carregarOrgaos();
 		
 		limpar();	
 	}
@@ -89,7 +92,7 @@ public class EmitirOficioBean implements Serializable {
 			log.info("Salvando emissão de oficio...");
 			
 			oficioEmitido.setUnidade(unidade);
-			oficioEmitido.setTecnico(loginBean.getUsuario());
+			oficioEmitido.setConselheiro(loginBean.getUsuario());
 					
 			if(!isPessoaSelecionada()) {
 				if(oficioEmitido.getNome() == "") {
@@ -187,7 +190,7 @@ public class EmitirOficioBean implements Serializable {
 		
 			
 			// Emissão em nome de quem está imprimindo
-			oficioEmitido.setTecnico(loginBean.getUsuario());
+			oficioEmitido.setConselheiro(loginBean.getUsuario());
 			// Creating a PdfWriter
 			ByteArrayOutputStream baos = pdfService.generateStream(oficioEmitido, 
 					loginBean.getUsuario().getTenant().getS3Key(),
@@ -268,7 +271,7 @@ public class EmitirOficioBean implements Serializable {
 	}
 
 	public void carregarOrgaos() {
-		this.orgaos = oficioEmitidoService.buscarTodos(loginBean.getTenantId());
+		this.orgaos = oficioEmitidoService.buscarCodigosEncaminhamento(oficioEmitido.getCodigoEncaminhamento(), loginBean.getTenantId());
 	}
 	
 	public void selecionarOrgao() {
@@ -290,10 +293,8 @@ public class EmitirOficioBean implements Serializable {
 		return listaOficiosEmitidos;
 	}
 
-/*
 	public List<CodigoEncaminhamento> getcodigoEncaminhamento() {
 		return codigosEncaminhamento;
 	}
-*/
 	
 }

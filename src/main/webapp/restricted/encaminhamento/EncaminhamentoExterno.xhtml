@@ -67,8 +67,8 @@
 				rowKey="#{encaminhamento.codigo}"
 				rendered="#{encaminhamentoExternoBean.pessoaSelecionada}">
 
-				<p:ajax event="rowSelect" update="encaminhamentosTable show download" />
-				<p:ajax event="rowUnselect" update="encaminhamentosTable show download" />
+				<p:ajax event="rowSelect" update="encaminhamentosTable" />
+				<p:ajax event="rowUnselect" update="encaminhamentosTable" />
 
 				<f:facet name="header">
 		            Lista de Encaminhamentos
@@ -84,6 +84,11 @@
 					<h:outputText value="#{encaminhamento.data}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Codigo Encaminhamento"
+					style="width: 80px; text-align: center">
+					<h:outputText value="#{encaminhamento.codigoEncaminhamento}" />
 				</p:column>
 
 				<p:column headerText="Orgão unidade destino"
@@ -150,16 +155,22 @@
 						pattern="dd/MM/yyyy" mask="99/99/9999" required="true"
 						showOn="button" 
 						validatorMessage="A data é obrigatória." />
+						
+					<p:outputLabel value="Código Encaminhamento"
+						for="codigoEncaminhamento" />
+					<p:selectOneMenu id="codigoEncaminhamento"
+						value="#{encaminhamentoExternoBean.encaminhamento.codigoEncaminhamento}"
+						required="true"
+						validatorMessage="O codigo de encaminhamento é obrigatório.">
+						<f:selectItem itemLabel="Selecione o codigo" />
+						<f:selectItems
+							value="#{encaminhamentoExternoBean.codigosEncaminhamento}"
+							var="codigoEncaminhamento" itemLabel="#{codigoEncaminhamento}"
+							itemValue="#{codigoEncaminhamento}" />
 
-					<p:outputLabel value="Imprimir nome social?" for="nomeSocial" />
-					<h:selectOneRadio id="nomeSocial"
-						value="#{encaminhamentoExternoBean.encaminhamento.nomeSocial}" disabled="false">
-						<f:selectItem itemValue="true" itemLabel="SIM" />
-						<f:selectItem itemValue="false" itemLabel="NÃO" />
-						<p:ajax listener="#{encaminhamentoExternoBean.verificaNomeSocial}"
-							update="growl nomeSocial" process="nomeSocial"/>
-					</h:selectOneRadio>
-
+						<p:ajax listener="#{encaminhamentoExternoBean.carregarOrgaos}"
+							update="orgaos" process="codigoEncaminhamento" />
+					</p:selectOneMenu>
 
 					<p:outputLabel value="Orgão Externo" for="orgaos" />
 					<p:selectOneMenu id="orgaos"

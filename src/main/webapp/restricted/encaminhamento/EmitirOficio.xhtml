@@ -56,8 +56,8 @@
 	    			<h:outputText value="#{oficioEmitido.nrOficioEmitido}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Prontuário" style="width: 15px; text-align: center">
-	    			<h:outputText value="#{oficioEmitido.pessoa.familia.prontuario.codigo}" />
+	    		<p:column headerText="Denúncia" style="width: 15px; text-align: center">
+	    			<h:outputText value="#{oficioEmitido.pessoa.familia.denuncia.codigo}" />
 	    		</p:column>
 	    		 				    		
 	    		<p:column headerText="Pessoa" style="width: 85px; text-align: center"
@@ -70,6 +70,10 @@
 	    			filterBy="#{oficioEmitido.nome}">
 	    			<h:outputText value="#{oficioEmitido.nome}" />
 	    		</p:column>
+	    		
+	    		<p:column headerText="Cod. Encaminhamento" style="width: 60px; text-align: center">
+	    			<h:outputText value="#{oficioEmitido.codigoEncaminhamento}" />
+	    		</p:column>	
 	    		
 	    		<p:column headerText="Orgão" style="width: 40px; text-align: center"
 	    			filterBy="#{oficioEmitido.nomeOrgao}" >	 	    			
@@ -129,7 +133,7 @@
 	            <p:panelGrid id="detalheGrid" columns="2" columnClasses="label,value">
 	                
 	                <h:outputLabel value="Conselheiro: " style="font-weight:bold"/>
-	                <h:outputText value="#{emitirOficioBean.oficioEmitido.tecnico.nome}" />
+	                <h:outputText value="#{emitirOficioBean.oficioEmitido.conselheiro.nome}" />
 	                
 	                <h:outputLabel value="Assunto: " style="font-weight:bold"/>
 	                <h:outputText value="#{emitirOficioBean.oficioEmitido.assunto}" />
@@ -181,10 +185,24 @@
 						required="true"
 						showOn="button" 
 						pattern="dd/MM/yyyy"
-						mask="99/99/9999"/>						
+						mask="99/99/9999"/>
+						
+					<p:outputLabel value="Cod. Encaminhamento" for="codigoEncaminhamento"/>
+	    			<p:selectOneMenu id="codigoEncaminhamento" 	    				
+	    				value="#{emitirOficioBean.oficioEmitido.codigoEncaminhamento}" 		    			
+	    				required="true" 	    				
+		    			validatorMessage="O código de encaminhamento é obrigatório."  >
+		    			<f:selectItem itemLabel="Selecione o codigo de encaminhamento" />
+		    			<f:selectItems value="#{emitirOficioBean.codigosEncaminhamento}" var="codenc"
+							itemLabel="#{codenc}" itemValue="#{codenc}" />
+							
+						<p:ajax listener="#{emitirOficioBean.carregarOrgaos}"
+							update="orgaos" process="codigoEncaminhamento" />						
+	    			</p:selectOneMenu>				
 					
 					<p:outputLabel value="Orgão Externo" for="orgaos" />
 					<p:selectOneMenu id="orgaos"
+						disabled="#{emitirOficioBean.orgaos eq null}"
 						value="#{emitirOficioBean.orgao}">
 						<f:selectItem itemLabel="Selecione o orgão" />
 						<f:selectItems value="#{emitirOficioBean.orgaos}"

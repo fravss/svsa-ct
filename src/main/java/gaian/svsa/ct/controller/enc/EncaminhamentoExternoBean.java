@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Encaminhamento;
 import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
 import gaian.svsa.ct.service.EncaminhamentoService;
 import gaian.svsa.ct.service.PessoaService;
@@ -51,6 +53,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 
 	private Encaminhamento encaminhamento;
 	private List<Encaminhamento> listaEncaminhamentos;
+	private List<CodigoEncaminhamento> codigosEncaminhamento;
 	private List<Orgao> orgaos;
 	private Orgao orgao;
 	private Pessoa pessoa;
@@ -67,8 +70,9 @@ public class EncaminhamentoExternoBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		log.info("[LOG] " + loginBean.getUserName() + " -> " + this.getClass().getSimpleName());
+		
+		codigosEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
 
-		carregarOrgaos();
 		this.limpar();
 	}
 
@@ -232,7 +236,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 	}
 	
 	public void carregarOrgaos() {
-		this.orgaos = encaminhamentoService.buscarTodos(loginBean.getTenantId());
+		this.orgaos = encaminhamentoService.buscarCodigosEncaminhamento(encaminhamento.getCodigoEncaminhamento(), loginBean.getTenantId());
 	}
 
 	public void selecionarOrgao() {

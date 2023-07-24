@@ -82,7 +82,6 @@ public class Encaminhamento implements Serializable {
 	@Column(length = 512000,columnDefinition="Text")
 	private String anotacaoComplementar;
 	private String enderecoUnidadeDestino;
-	private boolean nomeSocial;
 	
 	/* Enums */
 	@Enumerated(EnumType.STRING)
