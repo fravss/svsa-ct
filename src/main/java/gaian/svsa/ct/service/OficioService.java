@@ -59,20 +59,17 @@ public class OficioService implements Serializable {
 	/*
 	 * RelatorioOficios
 	 */	
-	public List<Oficio> buscarOficiosUnidade(Unidade unidade, Date dataInicio, Date dataFim, Boolean sasc, Long tenantId) {
+	public List<Oficio> buscarOficiosUnidade(Unidade unidade, Date dataInicio, Date dataFim, Long tenantId) {
 		
 		if(dataInicio != null) {
 			if(dataFim != null) {
-				return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, dataInicio, dataFim, tenantId) 
-						: oficioDAO.buscarOficiosUnidade(unidade, dataInicio, dataFim, tenantId);
+				return oficioDAO.buscarOficiosUnidade(unidade, dataInicio, dataFim, tenantId);
 			}
 			else {
-				return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, dataInicio, new Date(), tenantId) 
-						: oficioDAO.buscarOficiosUnidade(unidade, dataInicio,  new Date(), tenantId);
+				return oficioDAO.buscarOficiosUnidade(unidade, dataInicio,  new Date(), tenantId);
 			}
 		}
-		return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, tenantId) 
-				: oficioDAO.buscarOficiosUnidade(unidade, tenantId);
+		return oficioDAO.buscarOficiosUnidade(unidade, tenantId);
 	}
 	
 	public List<Oficio> buscarOficiosRecebidos(Unidade unidade, Long tenantId) {

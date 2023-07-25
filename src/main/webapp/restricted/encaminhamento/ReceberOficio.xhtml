@@ -52,7 +52,6 @@
 	    		style="margin-top: 20px" emptyMessage="Nenhum ofício recebido." rows="10" 
 	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom" 
 	    		rowsPerPageTemplate="10,15,20"	    		
-	    		rowStyleClass="#{oficio.dataResposta eq null ? 'inativo' : null}"
 	    		selectionMode="single" selection="#{receberOficioBean.oficio}" rowKey="#{oficio.codigo}">
 	    		
 	    		<p:ajax event="rowSelect" update=":frmReceberOficio:toolbar" />
@@ -91,7 +90,7 @@
 	    		</p:column>
 	    		
 				<p:column headerText="Conselheiro responsável" style="width: 60px; text-align: center"
-					filterBy="#{oficio.tecnico.nome}" >	    			
+					filterBy="#{oficio.conselheiro.nome}" >	    			
 	    			<h:outputText value="#{oficio.conselheiro.nome}" />
 	    		</p:column> 
 	    		
@@ -192,26 +191,14 @@
 						actionListener="#{receberOficioBean.abrirDialogo}"
 					 	process="@this">
 					 	<p:ajax event="dialogReturn" listener="#{receberOficioBean.selecionarPessoa}" 
-					 		update="addGrowl nomePessoa unidadeSelecionada"
+					 		update="addGrowl nomePessoa"
 					 		process="@this"/>
 					</p:commandButton>
 										
 		    		<p:outputLabel value="Pessoa" for="nomePessoa"/>
 		    		<p:inputText id="nomePessoa" size="60" maxlength="80"
 		    			readonly="true"
-		    			value="#{receberOficioBean.oficio.pessoa.nome}"/>	
-		    		
-		    		<p:outputLabel value="Unidade encaminhada" for="unidadeSelecionada"/>
-	    			<p:selectOneMenu id="unidadeSelecionada" 
-	    				disabled="#{receberOficioBean.oficio.getPessoa() != null}"
-	    				value="#{receberOficioBean.oficio.unidade}" 
-	    				required="true"
-			    		validatorMessage="A unidade é obrigatória.">
-	    				<f:selectItem itemLabel="Selecione uma unidade" />
-	     				<f:selectItems value="#{receberOficioBean.unidades}" var="unid" 
-							itemLabel="#{unid.nome}" itemValue="#{unid}"/>
-	    			</p:selectOneMenu>	
-	    					    
+		    			value="#{receberOficioBean.oficio.pessoa.nome}"/>						    
 				    
 		    		<p:outputLabel value="Data Recebimento" for="dataRecebimento" />
 					<p:calendar id="dataRecebimento" size="30"
@@ -269,7 +256,7 @@
 							value="Nome do Orgao." />
 					</h:panelGroup>
 
-					<p:outputLabel value="Endereco do Orgao Emissor"
+					<p:outputLabel value="Endereço do Órgão Emissor"
 						for="endereco" />
 					<h:panelGroup>
 						<p:inputTextarea id="endereco" size="250" rows="2"
@@ -280,7 +267,7 @@
 							counterTemplate="{0} caracteres restantes" />
 						<h:outputText id="displayEndereco" />
 						<p:watermark for="endereco"
-							value="Endereco do Orgao Emissor." />
+							value="Endereço do Órgão Emissor." />
 					</h:panelGroup>	
 					  									
 					<p:outputLabel value="Assunto" for="assunto"/>

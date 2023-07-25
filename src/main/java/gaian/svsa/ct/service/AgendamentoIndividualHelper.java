@@ -213,9 +213,9 @@ class AgendamentoIndividualHelper implements Serializable {
 				dto.setData(e.getData());
 
 				dto.setResumoAtendimento("[Enc.Externo] PARA: " + e.getOrgaoUnidadeDestino()  + " - MOTIVO: " + e.getMotivo());
-				if (e.getTecnico() != null)
-					dto.setNomeTecnico(e.getTecnico().getNome());
-				dto.setNomeUnidade(e.getTecnico().getUnidade().getNome());
+				if (e.getConselheiro() != null)
+					dto.setNomeTecnico(e.getConselheiro().getNome());
+				dto.setNomeUnidade(e.getConselheiro().getUnidade().getNome());
 				dto.setNomePessoa(e.getPessoa().getNome());
 				atendimentos.add(dto);
 			}

@@ -10,9 +10,9 @@
 		rendered="#{pessoaSelecionada}">
 
 			
-		<h:outputText style="font-weight: bold;" value="Nome da Pessoa " />
-		<h:outputText value="#{pessoa.codigo} - #{pessoa.nome}"/>		
-		<h:outputText style="font-weight: bold;" value="Serviço: " />
+		<h:outputText style="font-weight: bold;" 
+		value="Nome da Pessoa: #{pessoa.codigo} - #{pessoa.nome}" />
+	
         <h:outputText style="font-weight: bold;" value="Ver detalhe: " />
         <p:commandButton update="denunciaPanel" 
 						onclick="PF('denunciaDialog').show()" 
@@ -22,8 +22,8 @@
         </p:commandButton>	      		     
 
 	    
-	    <h:outputText style="font-weight: bold;" value="Código Denúncia: " />
-	    <h:outputText value="#{pessoa.familia.denuncia.codigo}    #{pessoa.familia.denuncia.status}" />			     
+	    <h:outputText style="font-weight: bold;" 
+	    value="Código Denúncia: #{pessoa.familia.denuncia.codigo}  -  #{pessoa.familia.denuncia.status}" />			     
 	    
 	</p:panelGrid>			
 	<p:spacer height="1px" />

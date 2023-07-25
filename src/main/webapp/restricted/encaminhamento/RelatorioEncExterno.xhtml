@@ -102,11 +102,11 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Conselheiro" style="width: 60px; text-align: center"
-	    			filterBy="#{encam.tecnico.nome}" >
-	    			<h:outputText value="#{encam.tecnico.nome}" />
+	    			filterBy="#{encam.conselheiro.nome}" >
+	    			<h:outputText value="#{encam.conselheiro.nome}" />
 	    		</p:column>
 		    		
-	    		<p:column headerText="Operações" style="width: 20px; text-align: center">				    	
+	    		<p:column headerText="Operações" exportable="false" style="width: 20px; text-align: center">				    	
 			    	
 			    	<p:commandButton 
 			    		update="frmEncam:detalheGrid" 

@@ -81,7 +81,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 		try {
 
 			this.encaminhamento.setPessoa(pessoa);
-			this.encaminhamento.setTecnico(loginBean.getUsuario());
+			this.encaminhamento.setConselheiro(loginBean.getUsuario());
 			this.encaminhamento.setUnidade(loginBean.getUsuario().getUnidade());
 			
 			encaminhamento = this.encaminhamentoService.salvar(encaminhamento);
@@ -156,7 +156,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 			
 			// Emissão em nome de quem está imprimindo
-			encaminhamento.setTecnico(loginBean.getUsuario());
+			encaminhamento.setConselheiro(loginBean.getUsuario());
 						
 			// Creating a PdfWriter
 			ByteArrayOutputStream baos = pdfService.generateStream(encaminhamento, loginBean.getUsuario().getTenant().getS3Key());

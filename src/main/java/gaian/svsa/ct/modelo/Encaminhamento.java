@@ -89,8 +89,8 @@ public class Encaminhamento implements Serializable {
 	
 	/* relacionamentos */
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_pessoa")

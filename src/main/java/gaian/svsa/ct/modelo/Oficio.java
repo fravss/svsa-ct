@@ -49,6 +49,9 @@ import lombok.ToString;
 			+ "and o.tenant_id = :tenantId "
 			+ "and o.unidade = :unidade "
 			+ "order by o.dataRecebimento"),
+	@NamedQuery(name="Oficio.buscarOficiosUnidade", query="select o from Oficio o "
+			+ "where o.unidade = :unidade "
+			+ "and o.tenant_id = :tenantId"),
 	
 	/* usado para Histórico da pessoa */
 	@NamedQuery(name="Oficio.buscarOficiosHist", query="select o from Oficio o "
