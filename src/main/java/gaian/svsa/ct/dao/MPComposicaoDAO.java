@@ -6,11 +6,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 
 import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.modelo.Familia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
@@ -113,7 +115,47 @@ public class MPComposicaoDAO implements Serializable {
 	}
 	
 	
-	
+	// trocaPessoa de Referencia
+	@Transactional
+	public void trocarPR(Familia familia, PessoaReferencia prAntiga, Pessoa prNova) throws NegocioException {
+		try {
+			
+			log.info("trocando pessoa referencia...3 para " + prNova.getCodigo());
+			
+			// altera para PessoaReferencia
+			final Query query = manager.createNativeQuery( "UPDATE Pessoa SET TIPO_PESSOA = 'PESSOA_REFERENCIA', "
+					+ "parentescoPessoaReferencia = 'RESPONSAVEL_FAMILIAR' WHERE codigo = :id" );
+			query.setParameter( "id", prNova.getCodigo() );	 
+            query.executeUpdate();
+            
+            // altera para Pessoa
+            final Query query2 = manager.createNativeQuery( "UPDATE Pessoa SET TIPO_PESSOA = 'Pessoa', "
+            		+ "parentescoPessoaReferencia = 'NAO_PARENTE' WHERE codigo = :id" );
+            query2.setParameter( "id", prAntiga.getCodigo() );
+            query2.executeUpdate();
+            
+            //Altera PessoaReferencia da Familia
+            final Query query3 = manager.createNativeQuery( "UPDATE Familia SET codigo_pessoa_referencia = :pr WHERE codigo = :id" );
+            query3.setParameter( "pr", prNova.getCodigo() );	 
+            query3.setParameter( "id", familia.getCodigo() );
+            query3.executeUpdate();
+			
+            log.info("trocado.");
+		
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}	
 	
 	
 	

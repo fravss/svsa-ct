@@ -67,6 +67,7 @@ public class Pessoa implements Cloneable, Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@ToString.Include
 	private String nome;				//@Index(name="idx_nome") - para buscas com like% lazyPessoa
 	
 	private String rg;
@@ -79,8 +80,13 @@ public class Pessoa implements Cloneable, Serializable {
 	
 	private String email;
 	
+	@ToString.Include
 	private String escola;
 	
+	@ToString.Include
+	private String periodo;
+
+	@ToString.Include
 	private String serie;
 	
 	private Boolean excluida = false;
@@ -100,6 +106,7 @@ public class Pessoa implements Cloneable, Serializable {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_endereco")
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ToString.Include
 	private Endereco endereco;
 	
 	@Transient

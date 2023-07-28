@@ -16,6 +16,7 @@ import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.Endereco;
 import gaian.svsa.ct.modelo.Familia;
+import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.enums.AgenteViolador;
@@ -56,6 +57,7 @@ public class RegistrarDenunciaBean implements Serializable {
 	private PessoaReferencia pessoaReferencia;
 	private Unidade unidade;
 	private EnderecoTO enderecoTO;
+	private Pessoa pessoa;
 	
 	private List<Denuncia> denuncias = new ArrayList<>();
 	private List<AgenteViolador> agentes;
@@ -263,5 +265,16 @@ public class RegistrarDenunciaBean implements Serializable {
     		setComposicao(true);
     	}        		
     }
+	
+	public void setPessoa(Pessoa pessoa) {
+		log.info("RegistrarDenunciaBean.setPessoa() = " + pessoa.getNome());
+		this.pessoa = pessoa;
+		this.rdComposicaoBean.setPessoa(pessoa);
+		this.rdComposicaoBean.setEnderecoTO(enderecoTO);
+	}
+	
+	public List<Pessoa> getMembros(){
+		return rdComposicaoBean.getPessoas();
+	}
 }
 

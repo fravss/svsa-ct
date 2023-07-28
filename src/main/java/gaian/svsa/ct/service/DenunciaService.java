@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import gaian.svsa.ct.modelo.Pessoa;
+
 import gaian.svsa.ct.dao.DenunciaDAO;
 import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.NegocioException;
+import gaian.svsa.ct.dao.MPComposicaoDAO;
 import lombok.extern.log4j.Log4j;
 
 
@@ -24,6 +27,9 @@ public class DenunciaService implements Serializable {
 
 	@Inject
 	private DenunciaDAO denunciaDAO;
+	
+	@Inject
+	private MPComposicaoDAO composicaoDAO;
 	
 	public void salvar(Denuncia denuncia) throws NegocioException {
 		log.debug("Service : tenant = " + denuncia.getTenant_id());
@@ -48,6 +54,18 @@ public class DenunciaService implements Serializable {
 			throw new NegocioException("Somente o conselheiro que registrou pode alterar a denuncia! E isso só pode ser feito antes de 7 dias do registro.");
 		}	
 	} */
+	
+	
+	public void transferirMembro(Pessoa pessoa, Long codigoProntDestino) throws NegocioException {
+		
+		// Recuperar prontuario destino	
+		Denuncia denunciaDestino = denunciaDAO.buscarPeloCodigo(codigoProntDestino);
+		
+		pessoa.setFamilia(denunciaDestino.getFamilia());
+		
+		composicaoDAO.salvar(pessoa);
+		
+	}
 	
 	public void excluir(Denuncia denuncia) throws NegocioException {
 		denunciaDAO.excluir(denuncia);
@@ -107,6 +125,9 @@ public class DenunciaService implements Serializable {
 	
 	public Denuncia buscarDenuncia(Long codigo, Unidade unidade, Long tenantId) {
 		
+		//log.info(codigo);
+		//log.info(unidade);
+		//log.info(tenantId);
 		return denunciaDAO.buscarDenuncia(codigo, unidade, tenantId);
 	}
 }

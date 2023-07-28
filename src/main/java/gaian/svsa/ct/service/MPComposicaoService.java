@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import gaian.svsa.ct.dao.DenunciaDAO;
 import gaian.svsa.ct.dao.MPComposicaoDAO;
 import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.ListaAtendimento;
@@ -54,14 +55,14 @@ public class MPComposicaoService implements Serializable {
 		this.composicaoDAO.salvar(pessoa);		
 	}
 	
-	/*
-	public void transferirMembro(Pessoa pessoa, Long codigoProntDestino) throws NegocioException {
+	
+	public void transferirMembro(Pessoa pessoa, Long codigoDenunciaDestino) throws NegocioException {
 		
 		if(pessoa instanceof PessoaReferencia)
 			throw new NegocioException("Pessoa de Referência não pode ser transferida!");	
 				
-		prontService.transferirMembro(pessoa, codigoProntDestino);
-	} */
+		denunciaService.transferirMembro(pessoa, codigoDenunciaDestino);
+	} 
 	
 	public void excluirMembro(Pessoa pessoa) throws NegocioException {
 		
@@ -74,6 +75,9 @@ public class MPComposicaoService implements Serializable {
 
 	public Denuncia buscarDenuncia(Long denunciaDestino, Unidade unidade, Long tenantId) {
 		
+		//log.info(denunciaDestino);
+		//log.info(unidade);
+		//log.info(tenantId);
 		return denunciaService.buscarDenuncia(denunciaDestino, unidade, tenantId);
 	}
 	
@@ -160,18 +164,18 @@ public class MPComposicaoService implements Serializable {
 		
 	}
 	
-	/*
+	
 	public PessoaReferencia trocarPessoaReferencia(PessoaReferencia pessoaReferencia, Pessoa novaPessoaReferencia) throws NegocioException {
 		
 		
-		Denuncia prontuario = prontuarioDAO.buscarPeloCodigo(pessoaReferencia.getFamilia().getProntuario().getCodigo());
+		Pessoa pessoa = composicaoDAO.buscarPeloCodigo(pessoaReferencia.getCodigo());
 		
 		// trocando PessoaReferencia na mesma transacao
 		log.info("trocando pessoa referencia...2");
-		this.prontuarioDAO.trocarPR(prontuario.getFamilia(), prontuario.getFamilia().getPessoaReferencia(), novaPessoaReferencia);			
+		this.composicaoDAO.trocarPR(pessoa.getFamilia(), pessoa.getFamilia().getPessoaReferencia(), novaPessoaReferencia);			
 		
 		return this.composicaoDAO.buscarPFPeloCodigo(novaPessoaReferencia.getCodigo());
 		
-	} */
+	} 
 	
-}
+} 

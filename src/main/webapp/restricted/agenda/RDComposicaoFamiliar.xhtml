@@ -10,9 +10,9 @@
 		            
 		            <p:commandButton title="Incluir novo membro" icon="pi pi-user-plus"
 		            	value="Criar Membro" 
-		            	disabled="#{not manterRDBean.rdComposicaoBean.pessoaReferenciaSelecionada}"
-		            	rendered="#{manterRDBean.rdComposicaoBean.unidadeDoUsuario}"
-		            	actionListener="#{manterRDBean.rdComposicaoBean.limpar}"
+		            	disabled="#{not registrarDenunciaBean.rdComposicaoBean.pessoaReferenciaSelecionada}"
+		            	rendered="#{registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"
+		            	actionListener="#{registrarDenunciaBean.rdComposicaoBean.limpar}"
 		            	oncomplete="PF('pessoaDialogWidgetVar').show()"
 		            	update="toolbar pessoaDialog"
 		            	immediate="true"
@@ -27,8 +27,8 @@
 	            	
 	            	<p:commandButton title="Perfil etário do grupo familiar" icon="pi pi-chart-bar"
 	            		value="Perfil Etário"
-	            		disabled="#{not manterRDBean.rdComposicaoBean.pessoaReferenciaSelecionada}"
-		            	actionListener="#{manterRDBean.rdComposicaoBean.initGraficoPerfil}"
+	            		disabled="#{not registrarDenunciaBean.rdComposicaoBean.pessoaReferenciaSelecionada}"
+		            	actionListener="#{registrarDenunciaBean.rdComposicaoBean.initGraficoPerfil}"
 		            	oncomplete="PF('perfilDialogWidgetVar').show()"
 		            	update="perfilDialog toolbar" 
 		            	process="@this">
@@ -54,11 +54,11 @@
 				    
 		    <p:spacer height="5px" />
 		  
-			<p:dataTable id="membrosDataTable"  value="#{manterRDBean.rdComposicaoBean.pessoas}" 
+			<p:dataTable id="membrosDataTable"  value="#{registrarDenunciaBean.rdComposicaoBean.pessoas}" 
 	    		var="membros" emptyMessage="Nenhum membro encontrado." 
 	    		paginator="true" rows="10" paginatorPosition="bottom" paginatorAlwaysVisible="true"
 	    		rowStyleClass="#{registrarDenunciaBean.denuncia.status eq 'INATIVO' ? 'inativo' : null}"
-	    		selectionMode="single" selection="#{manterRDBean.rdComposicaoBean.pessoa}" rowKey="#{membros.codigo}"> 
+	    		selectionMode="single" selection="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" rowKey="#{membros.codigo}"> 
 			     		
 		    		<p:ajax event="rowSelect" process="membrosDataTable" update="membrosDataTable"/>
 					<p:ajax event="rowUnselect" process="membrosDataTable" update="membrosDataTable"/>/>
@@ -74,7 +74,7 @@
 	    		
 	    		<p:column headerText="Ref" style="width: 5px; text-align: center">
 	    			<h:outputText value="*" 
-	    				rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"/>
+	    				rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"/>
 	    		</p:column> 
 	    		
 	    		<p:column headerText="Parentesco" style="width: 40px; text-align: center">
@@ -90,9 +90,9 @@
 	    			headerText="Operações" style="width: 60px; text-align: center">	    					    		
 		    							
 					<p:commandButton id="bt_2" title="Editar" icon="pi pi-pencil" 
-		            	rendered="#{(membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo 
-		    						and manterRDBean.rdComposicaoBean.unidadeDoUsuario)
-		    						or (membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo)}"
+		            	rendered="#{(membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    						and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario)
+		    						or (membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo)}"
 		            	oncomplete="PF('pessoaDialogWidgetVar').show()"
 		            	update=":frmCadDenuncia:tab1:pessoaDialog" 
 		            	process="@this">
@@ -101,32 +101,21 @@
 	            	
 	            	<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_7" icon="pi pi-trash" title="Excluir membro desta familia"	
-		    			rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo 
-		    						and manterRDBean.rdComposicaoBean.unidadeDoUsuario}"
-		    			disabled="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"	    			
+		    			rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    						and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario and not
+    								registrarDenunciaBean.rdComposicaoBean.administrativo}"
+		    			disabled="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"	    			
 	    				onclick="PF('confirmaExclusao').show();"
 						process="@this">
-						<f:setPropertyActionListener target="#{manterRDBean.rdComposicaoBean.pessoa}" 
-							value="#{pessoa}" />
-					</p:commandButton>
-					
-	            	 
-	            	<p:spacer width="2px" /> 
-	            	<p:commandButton id="bt_3" icon="pi pi-user-minus" title="Criar prontuário novo para este membro"	
-		    			rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo 
-		    						and manterRDBean.rdComposicaoBean.unidadeDoUsuario}"
-		    			disabled="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"	    			
-	    				onclick="PF('criaNovoProntuario').show();"
-						process="@this">
-						<f:setPropertyActionListener target="#{manterRDBean.rdComposicaoBean.pessoa}" 
-							value="#{pessoa}" />
+						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
+							value="#{membros}" />
 					</p:commandButton>
 					
 					<p:spacer width="2px" /> 
 					<p:commandButton id="bt_6" title="Transferir membro para outra família" icon="pi pi-directions" 
-		            	rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo 
-		    						and manterRDBean.rdComposicaoBean.unidadeDoUsuario}"
-		    			disabled="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
+		            	rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    						and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"
+		    			disabled="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"
 		            	oncomplete="PF('transferenciaWidgetVar').show()"
 		            	update=":frmCadDenuncia:tab1:transferenciaDialog" 
 		            	process="@this">
@@ -136,40 +125,60 @@
 					
 					<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_1" icon="pi pi-star" title="Alterar Pessoa Responsável"	
-		    			rendered="#{manterRDBean.rdComposicaoBean.unidadeDoUsuario and registrarDenunciaBean.denuncia.status eq 'ATIVO'}"
-		    			disabled="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"	    			
+		    			rendered="#{registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario and registrarDenunciaBean.denuncia.status eq 'ATIVO'}"
+		    			disabled="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"	    			
 	    				onclick="PF('confirmaTroca').show();"
 						process="@this"
 						immediate="true">
-						<f:setPropertyActionListener target="#{manterRDBean.rdComposicaoBean.novaPessoaReferencia}" 
-							value="#{pessoa}" />
+						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.novaPessoaReferencia}" 
+							value="#{membros}" />
 					</p:commandButton>
 					
 					<p:spacer width="2px" /> 
 					<p:commandButton id="bt_8" title="Migrar dados pessoais para outra pessoa" icon="pi pi-angle-double-right" 
-		            	rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo 
-		    						and manterRDBean.rdComposicaoBean.unidadeDoUsuario}"		    			
+		            	rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    						and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"		    			
 		            	oncomplete="PF('migracaoWidgetVar').show()"
 		            	update=":frmCadDenuncia:tab1:migracaoDialog" 
 		            	process="@this">
 		            	<p:resetInput target=":frmCadDenuncia:tab1:migracaoDialog" />	
 	            	</p:commandButton>	
+	            	
+	            	<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
+	            		rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    			and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"
+						action="#{registrarDenunciaBean.rdComposicaoBean.showPDF}"
+						process="show" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
+						value="#{membros}" />
+					</p:commandButton>
+					
+					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
+						rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
+		    			and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"
+						action="#{registrarDenunciaBean.rdComposicaoBean.showPDFNotificacao}"
+						process="showNotificacao" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
+						value="#{membros}" />
+					</p:commandButton>
 	            		            	
 	            	<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_4" title="Evolução" icon="pi pi-history"
-		            	disabled="#{manterRDBean.rdComposicaoBean.administrativo}"
-		            	rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo}"
+		            	disabled="#{registrarDenunciaBean.rdComposicaoBean.administrativo}"
+		            	rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo}"
 		            	oncomplete="PF('consultaDialogWidgetVar').show()"
 		            	update=":frmCadDenuncia:tab1:consultaDialog" 
 		            	process="@this">
   						<f:setPropertyActionListener target="#{evolucaoUIBean.pessoa}"
-							value="#{pessoa}" /> 
+							value="#{membros}" /> 
 	            	</p:commandButton>	
 	            	
 	            	<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_5" title="Histórico de Faltas" icon="pi pi-thumbs-down"
-	            		rendered="#{membros.codigo eq manterRDBean.rdComposicaoBean.pessoa.codigo}"
-		            	actionListener="#{manterRDBean.rdComposicaoBean.consultaFaltas}"
+	            		rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo}"
+		            	actionListener="#{registrarDenunciaBean.rdComposicaoBean.consultaFaltas}"
 		            	oncomplete="PF('faltasDialogWidgetVar').show()"
 		            	update=":frmCadDenuncia:tab1:faltasDialog" 
 		            	process="@this">
@@ -193,71 +202,42 @@
 	        		immediate="true"
 	        		update="membrosDataTable"
 	        		onclick="PF('confirmaTroca').hide();"
-	        		action="#{manterRDBean.rdComposicaoBean.trocarPessoaReferencia}" />
+	        		action="#{registrarDenunciaBean.rdComposicaoBean.trocarPessoaReferencia}" />
 	    	</p:confirmDialog>
-	    	
-	    	<p:confirmDialog id="criaNovoProntuarioDialog" 
-	   			widgetVar="criaNovoProntuario"
-        		message="Confirma a criação de um RD novo para esta pessoa? Todas as evoluções serão mantidas."  
-                header="Excluir membro e criar novo prontuário" severity="alert"
-                showEffect="explode" hideEffect="explode">
-	        	<p:button icon="pi pi-thumbs-down" value="Não" 
-	        		onclick="PF('criaNovoProntuario').hide(); return false;" />
-        		<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
-	        		update="membrosDataTable"
-	        		process="@this"
-	        		onclick="PF('criaNovoProntuario').hide();"
-	        		action="#{manterRDBean.rdComposicaoBean.criarProntuario}"/>	        	
-	    	</p:confirmDialog>   	
-	    	
-	    	<p:confirmDialog id="confirmaExclusaoDialog" 
-	   			widgetVar="confirmaExclusao"
-        		message="Confirma a exclusão deste membro para esta familia?"  
-                header="Excluir membro da familia" severity="alert"
-                showEffect="explode" hideEffect="explode">
-	        	<p:button icon="pi pi-thumbs-down" value="Não" 
-	        		onclick="PF('confirmaExclusao').hide(); return false;" />
-        		<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
-	        		update="membrosDataTable"
-	        		process="@this"
-	        		onclick="PF('confirmaExclusao').hide();"
-	        		action="#{manterRDBean.rdComposicaoBean.excluirMembro}"/>	        	
-	    	</p:confirmDialog> 
-	    	
 		   	
-		   	<p:dialog id="transferenciaDialog" header="Transferência de pessoa para outra família" 
+		   	<p:dialog id="transferenciaDialog" header="Transferência de pessoa para outra denuncia" 
 		   		widgetVar="transferenciaWidgetVar" 
 				modal="true" resizable="false" closeOnEscape="true" 
 				style="max-height:600px;overflow:auto" >        			
 				
 				<p:panelGrid id="transgrid" columns="2" style="width: 100%" 
 					columnClasses="rotulo, campo" 
-					rendered="#{manterRDBean.rdComposicaoBean.pessoa ne null}">
+					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
 										
 					<p:outputLabel value="Membro a ser transferido: "/>
-					<h:outputLabel value="#{manterRDBean.rdComposicaoBean.pessoa.nome}"
+					<h:outputLabel value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
 						style="font-weight:bold"/>					
 					
-					<p:outputLabel value="RD Destino: " for="prontuario"/>		    		
-	   				<p:inputText id="prontuario" size="10" maxlength="12" alt="Prontuário destino"
-		    			value="#{manterRDBean.rdComposicaoBean.prontuarioDestino}"
+					<p:outputLabel value="RD Destino: " for="rdDestino"/>		    		
+	   				<p:inputText id="rdDestino" size="10" maxlength="12" alt="Denuncia destino"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.denunciaDestino}"
 		    			update="nomePr"
-	    				process="@this prontuario"
+	    				process="@this rdDestino"
 	    				imadiate="true">
-		    			<p:ajax event="keyup" listener="#{manterRDBean.rdComposicaoBean.buscarNomePessoa}" 
+		    			<p:ajax event="keyup" listener="#{registrarDenunciaBean.rdComposicaoBean.buscarNomePessoa}" 
 		    				update="nomePr" />		    			
 		    		</p:inputText>
-		    		    		
+		    				
 		    		<p:outputLabel value="Pessoa Responsável " for="nomePr"/>
 		    		<h:outputText id="nomePr" 
-		    			value="#{manterRDBean.rdComposicaoBean.nomePessoaRef}"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.nomePessoaRef}"
 		    			style="font-weight:bold"/>				
-		
+		 
 					<p:commandButton value="Confirmar Transferência"
-	    				action="#{manterRDBean.rdComposicaoBean.transferirMembro}" 
+	    				action="#{registrarDenunciaBean.rdComposicaoBean.transferirMembro}" 
 	    				onclick="PF('transferenciaWidgetVar').hide();"
 	    				update="nomePr membrosDataTable"
-	    				process="@this prontuario "
+	    				process="@this rdDestino "
 	    				imadiate="true"/>
 				</p:panelGrid>
 			</p:dialog>
@@ -270,35 +250,35 @@
 				
 				<p:panelGrid id="migracaogrid" columns="2" style="width: 100%" 
 					columnClasses="rotulo, campo" 
-					rendered="#{manterRDBean.rdComposicaoBean.pessoa ne null}">
+					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
 										
 					<p:outputLabel value="De: "/>
-					<h:outputLabel value="#{manterRDBean.rdComposicaoBean.pessoa.nome}"
+					<h:outputLabel value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
 						style="font-weight:bold"/>					
 							    		
 		    		<p:outputLabel value="Para:" for="nomePessoa"/>
-		    		<p:autoComplete id="nomePessoa" value="#{manterRDBean.rdComposicaoBean.nomePessoa}" 
+		    		<p:autoComplete id="nomePessoa" value="#{registrarDenunciaBean.rdComposicaoBean.nomePessoa}" 
 		    			size="60" maxlength="80" 
 		    			required="true" 
         				effect="blind"  
-		    			completeMethod="#{manterRDBean.rdComposicaoBean.buscarNomes}">
+		    			completeMethod="#{registrarDenunciaBean.rdComposicaoBean.buscarNomes}">
 		    			
 		    			<p:ajax partialSubmit="nomePessoa" 
-		    				event="itemSelect" listener="#{manterRDBean.rdComposicaoBean.buscarPessoa}" update="codigoPN nomePN" />  
+		    				event="itemSelect" listener="#{registrarDenunciaBean.rdComposicaoBean.buscarPessoa}" update="codigoPN nomePN" />  
 		    			
 		    		</p:autoComplete>
 		    		
 		    		<p:outputLabel value="Código: " for="codigoPN"/>
 		    		<h:outputText id="codigoPN" 
-		    			value="#{manterRDBean.rdComposicaoBean.pessoaNova.codigo}"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoaNova.codigo}"
 		    			style="font-weight:bold"/>	
 		    		<p:outputLabel value="Pessoa " for="nomePN"/>
 		    		<h:outputText id="nomePN" 
-		    			value="#{manterRDBean.rdComposicaoBean.pessoaNova.nome}"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoaNova.nome}"
 		    			style="font-weight:bold"/>				
 		
 					<p:commandButton value="Confirmar Migração"
-	    				action="#{manterRDBean.rdComposicaoBean.migrarDadosPessoais}" 
+	    				action="#{registrarDenunciaBean.rdComposicaoBean.migrarDadosPessoais}" 
 	    				onclick="PF('migracaoWidgetVar').hide();"
 	    				update="membrosDataTable"
 	    				process="@this "
@@ -320,31 +300,17 @@
 				
 				<p:panelGrid columns="2" id="pessoaPanelGrid" style="width: 100%" 
 					columnClasses="rotulo, campo" 
-					rendered="#{manterRDBean.rdComposicaoBean.pessoa ne null}">
-					
-					
-					<p:outputLabel value="Ativo" for="status"
-						disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo eq 
-									manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"/>
-		    		<p:selectOneMenu id="status" required="true" 
-		    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo eq 
-									manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-		    			value="#{registrarDenunciaBean.denuncia.status}"
-		    		    validatorMessage="O Status é obrigatório.">
-		    			<f:selectItem itemLabel="Selecione o status" />
-		    			<f:selectItems value="#{manterRDBean.rdComposicaoBean.status}" var="status"
-							itemLabel="#{status}" itemValue="#{status}"/>
-		    		</p:selectOneMenu>
+					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
 	    			
 		    		<p:outputLabel value="Nome" for="nomeMembro"/>
 		    		<p:inputText id="nomeMembro" size="50" maxlength="80" 
-		    			value="#{manterRDBean.rdComposicaoBean.pessoa.nome}"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
 		    			required="true" 
 				    	validatorMessage="O nome é obrigatório."/>
 						    			
 		    		<p:outputLabel value="Data de Nascimento" for="dataNascimento" />
 					<p:calendar id="dataNascimento" size="10"  
-						value="#{manterRDBean.rdComposicaoBean.pessoa.dataNascimento}"
+						value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.dataNascimento}"
 						required="true" 
 						showOn="button" 
 						pattern="dd/MM/yyyy" 
@@ -353,25 +319,54 @@
 
 			<p:outputLabel value="Parentesco" for="parentesco" />
 			<p:selectOneMenu id="parentesco"
-				value="#{manterRDBean.rdComposicaoBean.pessoa.parentesco}"
+				value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.parentesco}"
 				required="true" validatorMessage="O parentesco é obrigatório.">
 				<f:selectItem itemLabel="Selecione o parentesco" />
 				<f:selectItems
-					value="#{manterRDBean.rdComposicaoBean.parentescos}" var="paren"
+					value="#{registrarDenunciaBean.rdComposicaoBean.parentescos}" var="paren"
 					itemLabel="#{paren}" itemValue="#{paren}" />
 			</p:selectOneMenu>
 
+			<p:outputLabel value="Escola" for="escola" />
+			<h:panelGroup>
+				<p:inputText id="escola" size="60" maxlength="80"
+					disabled="#{registrarDenunciaBean.rdComposicaoBean.pessoa.codigo eq 
+						registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"
+					value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.escola}">
+				</p:inputText>
+				<p:watermark for="escola" value="Nome da Escola da Criança" />
+			</h:panelGroup>
+
+			<p:outputLabel value="Serie" for="serie" />
+			<h:panelGroup>
+				<p:inputText id="serie" size="20" maxlength="20"
+					disabled="#{registrarDenunciaBean.rdComposicaoBean.pessoa.codigo eq 
+								registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"
+					value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.serie}">
+				</p:inputText>
+				<p:watermark for="serie" value="Serie da Criança" />
+			</h:panelGroup>
+			
+			<p:outputLabel value="Periodo" for="periodo" />
+			<h:panelGroup>
+				<p:inputText id="periodo" size="20" maxlength="20"
+					disabled="#{registrarDenunciaBean.rdComposicaoBean.pessoa.codigo eq 
+								registrarDenunciaBean.rdComposicaoBean.pessoaReferencia.codigo}"
+					value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.periodo}">
+				</p:inputText>
+				<p:watermark for="periodo" value="Periodo de Estudo" />
+			</h:panelGroup> 
 
 			<p:outputLabel value="Telefone" for="phone"/>
 		    		<p:inputText id="phone" size="20" maxlength="20"
 		    			required="true" 
 		    			validatorMessage="O telefone de contato é obrigatório." 
-		    			value="#{manterRDBean.rdComposicaoBean.pessoa.telefone}"/>
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.telefone}"/>
 		    			
 		    		<p:outputLabel value="E-Mail" for="mail"/>
 					<h:panelGroup>
 					    <p:inputText id="mail" size="60" maxlength="80" 					    		
-					        	value="#{manterRDBean.rdComposicaoBean.pessoa.email}">					       
+					        	value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.email}">					       
 						</p:inputText>
 						<p:watermark for="mail" value="E-mail" />
 					</h:panelGroup>
@@ -384,18 +379,18 @@
 					        </p:column>
 					        <p:column >
 					        	<p:inputMask id="rg" size="15" maxlength="15" 
-					    			value="#{manterRDBean.rdComposicaoBean.pessoa.rg}"/>
+					    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.rg}"/>
 					    	</p:column>
 					    </p:row>
 			    	</p:panelGrid>	    			 
 			    		
 		        	<p:outputLabel value="Sexo Biológico" for="sexo"/>		       
 		        	<p:selectOneMenu id="sexo" 
-		    			value="#{manterRDBean.rdComposicaoBean.pessoa.sexo}"
+		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.sexo}"
 		    			required="true" 
 				    	validatorMessage="O sexo é obrigatório.">
 		    			<f:selectItem itemLabel="Selecione o sexo" />
-		    			<f:selectItems value="#{manterRDBean.rdComposicaoBean.sexos}" var="sexo" 
+		    			<f:selectItems value="#{registrarDenunciaBean.rdComposicaoBean.sexos}" var="sexo" 
 							itemLabel="#{sexo}" itemValue="#{sexo}"/>
    					</p:selectOneMenu>
 		    		
@@ -406,18 +401,13 @@
 			    		<p:outputLabel for="cep" value="CEP"  />
 				    	<h:panelGroup>
 		                   	<p:inputMask id="cep" mask="99999-999" size="9" 
-		                   		disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-		                   		value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.cep}" 
+		                   		value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.cep}" 
 		                   		required="true"                   		                   		
-					    		validatorMessage="O cep é obrigatório."/>
-					    					    		
+					    		validatorMessage="O cep é obrigatório."/>			    		
 				    		<p:spacer width="10px" />
 					    	
 					    	<p:commandButton value="Pesquisar"
-					    		disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-			    				action="#{manterRDBean.rdComposicaoBean.buscaEnderecoPorCEP}" 
+			    				action="#{registrarDenunciaBean.rdComposicaoBean.buscaEnderecoPorCEP}" 
 			    				update="cep endereco numero complemento bairro uf municipio"
 			    				process="@this cep"
 			    				imadiate="true"/>
@@ -426,32 +416,25 @@
 							    	
 					    <p:outputLabel value="Endereço" for="endereco"/>
 			    		<p:inputText id="endereco" size="50" maxlength="80" 
-			    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.endereco}"
+			    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.endereco}"
 			    			required="true" 
 					    	validatorMessage="O endereço é obrigatório."/>
 					    	
 					    <p:outputLabel value="Número" for="numero"/>
 			    		<p:inputText id="numero" size="20" maxlength="20"
-			    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-							value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.numero}"
+
+							value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.numero}"
 			    			required="true" 
 			    			validatorMessage="O número é obrigatório." /> 
 			    			
 			    			
 			    		<p:outputLabel value="Complemento" for="complemento"/>
 			    		<p:inputText id="complemento" size="50" maxlength="80" 
-			    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.complemento}"/> 
+			    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.complemento}"/> 
 			    			
 			    		<p:outputLabel value="Bairro" for="bairro"/>
 			    		<p:inputText id="bairro" size="50" maxlength="80"
-			    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}" 
-			    			value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.bairro}"
+			    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.bairro}"
 			    			required="true" 
 					    	validatorMessage="O bairro é obrigatório."/> 
 					    	
@@ -461,15 +444,13 @@
 					    <p:outputLabel value="Município Atual"/>	
 					    <h:panelGroup>
 					    	<p:inputText id="municipio"
-					    		disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
+
 					    		required="true"
-					    		value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.municipio}" />
+					    		value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.municipio}" />
 					    	<p:inputText id="uf"
-					    		disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
+
 					    		required="true"
-					    		value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.uf}" />
+					    		value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.uf}" />
 					    </h:panelGroup>
 					    	
 					    		    	
@@ -477,16 +458,15 @@
 					    	    		
 			    		<p:outputLabel value="Referência" for="referencia"/>
 			    		<p:inputText id="referencia" size="50" maxlength="80" 
-			    			disabled="#{manterRDBean.rdComposicaoBean.pessoa.codigo ne 
-										manterRDBean.rdComposicaoBean.pessoaReferencia.codigo}"
-			    			value="#{manterRDBean.rdComposicaoBean.pessoa.endereco.referencia}"/>
+
+			    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.endereco.referencia}"/>
 			    		</p:panelGrid>
 		    		</h:panelGroup>
 		    		
 		    							
 					<p:outputLabel/>
 					<p:commandButton icon="pi pi-save" id="salvarCommandButton" value="Salvar" 
-						actionListener="#{manterRDBean.rdComposicaoBean.salvarMembro}"
+						actionListener="#{registrarDenunciaBean.rdComposicaoBean.salvarMembro}"
 						update="pessoaPanelGrid membrosDataTable pessoaMessages pessoaGrowl"
 						oncomplete="if (!args.validationFailed) PF('pessoaDialogWidgetVar').hide()" 
 						process="pessoaDialog"/>
@@ -497,10 +477,10 @@
 			<p:dialog id="perfilDialog" header="Perfil Etário do Grupo Familiar" widgetVar="perfilDialogWidgetVar"
 				modal="true" resizable="false" closeOnEscape="true">			
         										
-				<p:chart type="pie" model="#{manterRDBean.rdComposicaoBean.graficoPerfil}" style="width:400px;height:300px" />	
+				<p:chart type="pie" model="#{registrarDenunciaBean.rdComposicaoBean.graficoPerfil}" style="width:400px;height:300px" />	
 				
 				<p:outputLabel value="Quantidade de pessoas na família =  " for="qde"/>
-				<h:outputText id="qde" value="#{manterRDBean.rdComposicaoBean.perfilEtarioTO.qdePessoas}"/>			
+				<h:outputText id="qde" value="#{registrarDenunciaBean.rdComposicaoBean.perfilEtarioTO.qdePessoas}"/>			
 			</p:dialog>	
 			
 			
@@ -512,7 +492,7 @@
 				style="max-height:600px;overflow:scroll"
 				position="center top">	
 			
-				<p:dataTable id="listaFaltas"  value="#{manterRDBean.rdComposicaoBean.listaFaltas}" var="item"
+				<p:dataTable id="listaFaltas"  value="#{registrarDenunciaBean.rdComposicaoBean.listaFaltas}" var="item"
 					allowUnsorting="true" sortMode="single"
 		    		style="margin-top: 20px" emptyMessage="Nenhuma falta apontada para a pessoa.">
 		    		

@@ -73,6 +73,7 @@ public class Denuncia implements Serializable {
 	
 	private Integer ano;
 	
+	@ToString.Include
 	private String relato;
 	
 	private Long tenant_id;

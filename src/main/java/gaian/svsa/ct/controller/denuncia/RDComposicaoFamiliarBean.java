@@ -1,19 +1,27 @@
 package gaian.svsa.ct.controller.denuncia;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import com.itextpdf.io.source.ByteArrayOutputStream;
+
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Acao;
+import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.modelo.Endereco;
 import gaian.svsa.ct.modelo.ListaAtendimento;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.Pessoa;
@@ -33,10 +41,14 @@ import gaian.svsa.ct.modelo.enums.Uf;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.modelo.to.PerfilEtarioTO;
+
 import gaian.svsa.ct.service.MPComposicaoService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.service.rest.BuscaCEPService;
 import gaian.svsa.ct.service.rest.RestService;
+import gaian.svsa.ct.service.pdf.AtestadoPDFService;
+import gaian.svsa.ct.service.pdf.NotificacaoPDFService;
+
 import gaian.svsa.ct.util.CalculoUtil;
 import gaian.svsa.ct.util.MessageUtil;
 import gaian.svsa.ct.util.NegocioException;
@@ -83,7 +95,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private Usuario usuarioLogado;
 	private boolean administrativo;
 	private boolean unidadeDoUsuario = false;
-	private Long prontuarioDestino;	
+	private Long denunciaDestino;	
 	private String nomePessoaRef;
 	private String nomePessoa;
 	private Uf uf = null;
@@ -108,7 +120,10 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private PessoaService pessoaService;
 	@Inject
 	private BuscaCEPService buscaCEPService;
-				
+	@Inject
+	private NotificacaoPDFService notificacaopdfService;
+	@Inject
+	private AtestadoPDFService atestadopdfService;
 	
 	@PostConstruct
 	public void inicializar() {
@@ -138,7 +153,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		this.formasAcesso = Arrays.asList(FormaAcesso.values());
 		this.programasSociais = Arrays.asList(ProgramaSocial.values());
 		this.paises = this.pessoaService.buscarTodosPaises();
-		
+
 		graficoPerfil = new PieChartModel();
 		
 		this.limpar();
@@ -162,7 +177,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	}
 	*/
 	
-	/*
+	
 	public void trocarPessoaReferencia() {
 
 		try {
@@ -177,7 +192,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		}
 		//return "/restricted/agenda/ManterProntuario.xhtml?faces-redirect=true";
 		//return "/agenda/ManterProntuario.xhtml";
-	} */
+	} 
 	
 	
 		
@@ -192,10 +207,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			// novo membro - se é alteração não seta a familia novamente
 			if(pessoa.getCodigo() == null) {
 				pessoa.setFamilia(pessoaReferencia.getFamilia());				
-			}
-			
-			pessoa.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(pessoa.getFamilia().getPessoaReferencia().getEndereco().getMunicipio());
-			
+			}			
 			this.composicaoService.salvar(pessoa);
 			
 			MessageUtil.sucesso("Membro " + pessoa.getNome() + " incluído/alterado com sucesso.");
@@ -243,7 +255,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			
 			pessoa = null;
 			
-			MessageUtil.sucesso("Membro INTIVADO com sucesso!");
+			MessageUtil.sucesso("Membro INATIVADO com sucesso!");
 
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -251,11 +263,11 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		}
 	}
 	
-	/* Transfere membro para outra família
+	// Transfere membro para outra família
 	public void transferirMembro() {
 		try {
 			
-			composicaoService.transferirMembro(pessoa, prontuarioDestino);
+			composicaoService.transferirMembro(pessoa, denunciaDestino);
 			
 			log.info("pessoa transferida: " + pessoa.getNome());
 			pesquisarMembros();
@@ -268,7 +280,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}
-	} */
+	} 
 	
 	/* Migração de dados de pessoais */
 	public void migrarDadosPessoais() {
@@ -310,29 +322,30 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		}
 	}
 	
-	/* por prontuario
+	// por prontuario
 	public void buscarNomePessoa() {
 		
 		log.debug("buscar nome ");
 		
-		if(prontuarioDestino != null) {
-			log.info("buscando prontuario digitado = " + prontuarioDestino);
+		if(denunciaDestino != null) {
+			log.info("buscando denuncia digitado = " + denunciaDestino);
 			
 			try {
-				Prontuario prontuario = composicaoService.buscarProntuario(prontuarioDestino, usuarioLogado.getUnidade(), loginBean.getTenantId());
+				Denuncia denuncia = composicaoService.buscarDenuncia(denunciaDestino, usuarioLogado.getUnidade(), loginBean.getTenantId());
 				
-				if(prontuario != null) {
-					setNomePessoaRef(prontuario.getCodigo() + " - " + prontuario.getFamilia().getPessoaReferencia().getNome());
+				log.info(denuncia);
+				if(denuncia != null) {
+					setNomePessoaRef(denuncia.getCodigo() + " - " + denuncia.getFamilia().getPessoaReferencia().getNome());
 				}				
 					
 			}catch(Exception e) {
-				MessageUtil.erro("Prontuário não existe ou não é da sua unidade!");
+				MessageUtil.erro("Denuncia não existe ou não é da sua unidade!");
 			}						
 		}
 		else {
-			MessageUtil.alerta("O Prontuário digitado é inválido ou não existe!");
+			MessageUtil.alerta("A denuncia digitada é inválido ou não existe!");
 		}	
-	} */
+	} 
 
 	/*
 	 * Fim manipulação de membros
@@ -360,7 +373,11 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	
 	public void limpar() {	
 			
-			this.pessoa = new Pessoa();		
+			this.pessoa = new Pessoa();
+			
+			Endereco e = new Endereco();
+			
+			this.pessoa.setEndereco(e);
 			
 			this.pessoa.setTenant_id(loginBean.getTenantId());
 			uf = null;
@@ -376,6 +393,103 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 	}
+	
+	//Atestado
+	
+	public void showPDF() {
+
+		try {
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-disposition", "inline=filename=file.pdf");
+
+			// Creating a PdfWriter
+			log.info(pessoa);
+			log.info(loginBean.getUsuario().getTenant().getS3Key());
+			log.info(loginBean.getUsuario().getTenant().getSecretaria());
+			ByteArrayOutputStream baos = atestadopdfService.generateStream(pessoa,
+					loginBean.getUsuario().getTenant().getS3Key(),
+					loginBean.getUsuario().getTenant().getSecretaria());
+					
+
+			// setting some response headers
+			response.setHeader("Expires", "0");
+			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+			response.setHeader("Pragma", "public");
+			// setting the content type
+			response.setContentType("application/pdf");
+			// the contentlength
+			response.setContentLength(baos.size());
+			// write ByteArrayOutputStream to the ServletOutputStream
+			ServletOutputStream os = response.getOutputStream();
+
+			baos.writeTo(os);
+			os.flush();
+			os.close();
+			context.responseComplete();
+		} catch (NegocioException ne) {
+			ne.printStackTrace();
+			MessageUtil.erro(ne.getMessage());
+		}catch (IOException e) {
+			e.printStackTrace();
+			MessageUtil.erro("Problema na escrita do PDF.");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			MessageUtil.erro("Problema na geração do PDF.");
+		}
+		
+		log.info("PDF gerado!");
+	}
+	
+	//Notificação
+		public void showPDFNotificacao() {
+
+			try {
+				
+				FacesContext context = FacesContext.getCurrentInstance();
+				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "inline=filename=file.pdf");
+
+				// Creating a PdfWriter
+				log.info(pessoa);
+				log.info(loginBean.getUsuario().getTenant().getS3Key());
+				log.info(loginBean.getUsuario().getTenant().getSecretaria());
+				ByteArrayOutputStream baos = notificacaopdfService.generateStream(pessoa,
+						loginBean.getUsuario().getTenant().getS3Key(),
+						loginBean.getUsuario().getTenant().getSecretaria());
+						
+
+				// setting some response headers
+				response.setHeader("Expires", "0");
+				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+				response.setHeader("Pragma", "public");
+				// setting the content type
+				response.setContentType("application/pdf");
+				// the contentlength
+				response.setContentLength(baos.size());
+				// write ByteArrayOutputStream to the ServletOutputStream
+				ServletOutputStream os = response.getOutputStream();
+
+				baos.writeTo(os);
+				os.flush();
+				os.close();
+				context.responseComplete();
+			} catch (NegocioException ne) {
+				ne.printStackTrace();
+				MessageUtil.erro(ne.getMessage());
+			}catch (IOException e) {
+				e.printStackTrace();
+				MessageUtil.erro("Problema na escrita do PDF.");
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				MessageUtil.erro("Problema na geração do PDF.");
+			}
+			
+			log.info("PDF gerado!");
+		} 
 	
 	public void consultaFaltas() {		
 		
@@ -572,18 +686,18 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	public void buscaEnderecoPorCEP() {
 			
 	        try {
-				enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(pessoa.getFamilia().getPessoaReferencia().getEndereco().getCep());
+				enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(pessoa.getEndereco().getCep());
 				
 				/*
 		         * Preenche o Endereco do prontuario com os dados buscados
 		         */	 
 				
-				pessoa.getFamilia().getPessoaReferencia().getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
+				pessoa.getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
 		        		                concat(" ").concat(enderecoTO.getLogradouro()));
-				pessoa.getFamilia().getPessoaReferencia().getEndereco().setNumero(null);
-				pessoa.getFamilia().getPessoaReferencia().getEndereco().setBairro(enderecoTO.getBairro());
-				pessoa.getFamilia().getPessoaReferencia().getEndereco().setMunicipio(enderecoTO.getCidade());
-				pessoa.getFamilia().getPessoaReferencia().getEndereco().setUf(enderecoTO.getEstado());
+				pessoa.getEndereco().setNumero(null);
+				pessoa.getEndereco().setBairro(enderecoTO.getBairro());
+				pessoa.getEndereco().setMunicipio(enderecoTO.getCidade());
+				pessoa.getEndereco().setUf(enderecoTO.getEstado());
 		        
 		        if (enderecoTO.getResultado() != 1) {
 		        	MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");

@@ -11,11 +11,11 @@
     <ui:define name="corpo">    	
     
     	<h2>Registrar Denúncia</h2>
+    	<p:tooltip/>
     	
-    	<h:form id="frmDenuncia"
-    	target="_blank">
+    	<h:form id="frmDenuncia" enctype="multipart/form-data" target="_blank">
     	
-    		<p:growl id="growl" showDetail="false"> 
+    		<p:growl id="growl" showDetail="false" closable="true"> 
     			<p:autoUpdate />
     		</p:growl>
 
@@ -71,24 +71,28 @@
 		            	process="@this">
 						<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
 							value="#{denuncia}" />
-					</p:commandButton>		    		
-		    		
-					<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
-						action="#{pesquisarDenunciaBean.showPDF}"
-						process="show" immediate="true" ajax="false"
-						update="frmPesquisa:addGrowl">
 					</p:commandButton>
 					
-					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
-						action="#{pesquisarDenunciaBean.showPDFNotificacao}"
-						process="showNotificacao" immediate="true" ajax="false"
-						update="frmPesquisa:addGrowl">
-					</p:commandButton>
-					
+					<p:commandButton icon="pi pi-thumbs-up" title="Ativar Denuncia"
+						rendered="#{denuncia.status eq 'INATIVO'}"
+						onclick="PF('confirmacaoAtivacao').show();"
+		        		process="@this">		        		
+		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+							value="#{denuncia}" />
+					</p:commandButton>					
+					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Prontuário"
+						rendered="#{denuncia.status eq 'ATIVO'}"					
+						onclick="PF('confirmacaoInativacao').show();"
+		        		process="@this">		        		
+		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+							value="#{denuncia}" />
+					</p:commandButton>		    				
 					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
 						action="#{pesquisarDenunciaBean.showPDFDenuncia}"
 						process="showDenuncia" immediate="true" ajax="false"
-						update="frmPesquisa:addGrowl">
+						update="frmDenuncia:addGrowl">
+						<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+						value="#{denuncia}" />
 					</p:commandButton>
 					
 		    	</p:column>
@@ -110,6 +114,33 @@
 					process="@this"/>
 					
 			</p:confirmDialog>
+			
+			<p:confirmDialog id="confirmacaoAtivacaoDialog" 
+		   		widgetVar="confirmacaoAtivacao"
+	        	message="A denuncia serpa reativada. Tem certeza que deseja continuar?"  
+	            header="Ativação da Denuncia" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoAtivacao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		process="@this"
+	        		update=":frmDenuncia:denunciaTable"
+	        		onclick="PF('confirmacaoAtivacao').hide();"
+	        		action="#{pesquisarDenunciaBean.ativar}" />
+	    	</p:confirmDialog> 
+	    	
+	    	<p:confirmDialog id="confirmacaoInativacaoDialog" 
+		   		widgetVar="confirmacaoInativacao"
+	        	message="A Denuncia será inativada. Tem certeza que deseja continuar?"  
+	            header="Inativação de Denuncia" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoInativacao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-down" value="Sim" 
+	        		process="@this"
+	        		update=":frmDenuncia:denunciaTable"
+	        		onclick="PF('confirmacaoInativacao').hide();"
+	        		action="#{pesquisarDenunciaBean.inativar}"/>
+	    	</p:confirmDialog>  
+			
 	    	
 	    	
     	</h:form>

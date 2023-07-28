@@ -116,14 +116,12 @@ public class DenunciaDAO implements Serializable {
 	}
 	
 	public Denuncia buscarDenuncia(Long codigo, Unidade unidade, Long tenantId) {
-		return manager.createQuery("select p from Denuncia p where p.codigo = :codigo "
-				+ "and p.excluido = :exc "
-				+ "and p.tenant_id = :tenantId "
-				+ "and p.unidade = :unidade", Denuncia.class)
+		return manager.createQuery("select d from Denuncia d where d.codigo = :codigo "
+				+ "and d.tenant_id = :tenantId "
+				+ "and d.unidade = :unidade", Denuncia.class)
 				.setParameter("codigo", codigo)
 				.setParameter("tenantId", tenantId)
 				.setParameter("unidade", unidade)
-				.setParameter("exc", false)
 				.getSingleResult();
 	}
 	

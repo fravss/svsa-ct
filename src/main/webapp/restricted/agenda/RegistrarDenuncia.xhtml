@@ -151,12 +151,12 @@
 
 				<p:outputLabel value="Relato" for="relato" />
 				<h:panelGroup>
-					<p:inputTextarea id="relato" size="150" rows="4" cols="80"
-						style="height: 100px; overflow:auto;" maxlength="250"
+					<p:inputTextarea id="relato" size="300" rows="4" cols="80"
+						style="height: 100px; overflow:auto;" maxlength="1000"
 						value="#{registrarDenunciaBean.denuncia.relato}" counter="display"
 						counterTemplate="{0} restantes" />
 					<h:outputText id="display" />
-					<p:watermark for="relato" value="Descreva aqui o relato." />
+					<p:watermark for="relato" value="Descreva aqui o relato da Denuncia." />
 				</h:panelGroup>
 
 				<p:outputLabel />

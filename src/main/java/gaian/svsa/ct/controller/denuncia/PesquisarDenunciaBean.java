@@ -23,9 +23,7 @@ import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.service.DenunciaService;
-import gaian.svsa.ct.service.pdf.AtestadoPDFService;
 import gaian.svsa.ct.service.pdf.DenunciaPDFService;
-import gaian.svsa.ct.service.pdf.NotificacaoPDFService;
 import gaian.svsa.ct.service.rest.BuscaCEPService;
 import gaian.svsa.ct.service.rest.RestService;
 import gaian.svsa.ct.util.MessageUtil;
@@ -54,27 +52,20 @@ private static final long serialVersionUID = 1L;
 	private Unidade unidade;
 	private EnderecoTO enderecoTO;
 	
-	private Integer ano;
-	
-	
-	
+	private Integer ano;	
 	
 	@Inject
 	private DenunciaService denunciaService;
-	
-	@Inject
-	private AtestadoPDFService atestadopdfService;
 	@Inject
 	private DenunciaPDFService denunciapdfService;
-	@Inject
-	private NotificacaoPDFService notificacaopdfService;
 	@Inject
 	private RDComposicaoFamiliarBean mpComposicaoBean;
 	@Inject
 	private RestService restService;
 	@Inject
 	private BuscaCEPService buscaCEPService;	
-	
+	@Inject
+	private RegistrarDenunciaBean registrarDenuncia;
 	@Inject
 	private LoginBean loginBean;
 	
@@ -136,66 +127,22 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	
-	//Atestado
-	public void showPDF() {
-
-		try {
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-			// Creating a PdfWriter
-			log.info(denunciaSelecionada);
-			log.info(loginBean.getUsuario().getTenant().getS3Key());
-			log.info(loginBean.getUsuario().getTenant().getSecretaria());
-			ByteArrayOutputStream baos = atestadopdfService.generateStream(denunciaSelecionada,
-					loginBean.getUsuario().getTenant().getS3Key(),
-					loginBean.getUsuario().getTenant().getSecretaria());
-					
-
-			// setting some response headers
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setHeader("Pragma", "public");
-			// setting the content type
-			response.setContentType("application/pdf");
-			// the contentlength
-			response.setContentLength(baos.size());
-			// write ByteArrayOutputStream to the ServletOutputStream
-			ServletOutputStream os = response.getOutputStream();
-
-			baos.writeTo(os);
-			os.flush();
-			os.close();
-			context.responseComplete();
-		} catch (NegocioException ne) {
-			ne.printStackTrace();
-			MessageUtil.erro(ne.getMessage());
-		}catch (IOException e) {
-			e.printStackTrace();
-			MessageUtil.erro("Problema na escrita do PDF.");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			MessageUtil.erro("Problema na geração do PDF.");
-		}
-		
-		log.info("PDF gerado!");
-	}
-	
 	//Relatório de Denuncia
 	public void showPDFDenuncia() {
 
 		try {
 			
+			log.info("Parametros Para a geração de PDF:");
+			log.info(denunciaSelecionada.getFamilia().getMembros());
+			log.info(getDenunciaSelecionada());
+			
 			FacesContext context = FacesContext.getCurrentInstance();
 			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 
 			// Creating a PdfWriter
-			log.info(denunciaSelecionada);
+			
 			log.info(loginBean.getUsuario().getTenant().getS3Key());
 			log.info(loginBean.getUsuario().getTenant().getSecretaria());
 			ByteArrayOutputStream baos = denunciapdfService.generateStream(denunciaSelecionada,
@@ -232,53 +179,7 @@ private static final long serialVersionUID = 1L;
 		log.info("PDF gerado!");
 	}
 	
-	//Notificação
-	public void showPDFNotificacao() {
-
-		try {
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-			// Creating a PdfWriter
-			log.info(denunciaSelecionada);
-			log.info(loginBean.getUsuario().getTenant().getS3Key());
-			log.info(loginBean.getUsuario().getTenant().getSecretaria());
-			ByteArrayOutputStream baos = notificacaopdfService.generateStream(denunciaSelecionada,
-					loginBean.getUsuario().getTenant().getS3Key(),
-					loginBean.getUsuario().getTenant().getSecretaria());
-					
-
-			// setting some response headers
-			response.setHeader("Expires", "0");
-			response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-			response.setHeader("Pragma", "public");
-			// setting the content type
-			response.setContentType("application/pdf");
-			// the contentlength
-			response.setContentLength(baos.size());
-			// write ByteArrayOutputStream to the ServletOutputStream
-			ServletOutputStream os = response.getOutputStream();
-
-			baos.writeTo(os);
-			os.flush();
-			os.close();
-			context.responseComplete();
-		} catch (NegocioException ne) {
-			ne.printStackTrace();
-			MessageUtil.erro(ne.getMessage());
-		}catch (IOException e) {
-			e.printStackTrace();
-			MessageUtil.erro("Problema na escrita do PDF.");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			MessageUtil.erro("Problema na geração do PDF.");
-		}
-		
-		log.info("PDF gerado!");
-	} 
+	
 	
 	/*public void consultaTransferencias(Prontuario p) {		
 		log.info("prontuario hist transf: " + p.getCodigo());
