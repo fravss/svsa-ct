@@ -110,6 +110,15 @@
 				<p:inputText id="phone" size="20" maxlength="20" required="true"
 					validatorMessage="O telefone de contato é obrigatório."
 					value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.telefone}" />
+					
+				<p:outputLabel value="Data de Nascimento" for="dataNascimento" />
+					<p:calendar id="dataNascimento" size="10"  
+						value="#{registrarDenunciaBean.denuncia.familia.pessoaReferencia.dataNascimento}"
+						required="true" 
+						showOn="button" 
+						pattern="dd/MM/yyyy" 
+						mask="99/99/9999"
+						validatorMessage="A data de nascimento é obrigatória."/>
 
 				<p:outputLabel value="RG" for="rg" />
 				<p:inputText id="rg" size="15" maxlength="15"

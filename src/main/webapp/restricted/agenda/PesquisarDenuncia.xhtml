@@ -80,7 +80,7 @@
 		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
 							value="#{denuncia}" />
 					</p:commandButton>					
-					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Prontuário"
+					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Denuncia"
 						rendered="#{denuncia.status eq 'ATIVO'}"					
 						onclick="PF('confirmacaoInativacao').show();"
 		        		process="@this">		        		
@@ -123,7 +123,7 @@
 	        		onclick="PF('confirmacaoAtivacao').hide(); return false;" />
 	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
 	        		process="@this"
-	        		update=":frmDenuncia:denunciaTable"
+	        		update=":frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
 	        		onclick="PF('confirmacaoAtivacao').hide();"
 	        		action="#{pesquisarDenunciaBean.ativar}" />
 	    	</p:confirmDialog> 
@@ -136,7 +136,7 @@
 	        		onclick="PF('confirmacaoInativacao').hide(); return false;" />
 	        	<p:commandButton icon="pi pi-thumbs-down" value="Sim" 
 	        		process="@this"
-	        		update=":frmDenuncia:denunciaTable"
+	        		update=":frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
 	        		onclick="PF('confirmacaoInativacao').hide();"
 	        		action="#{pesquisarDenunciaBean.inativar}"/>
 	    	</p:confirmDialog>  

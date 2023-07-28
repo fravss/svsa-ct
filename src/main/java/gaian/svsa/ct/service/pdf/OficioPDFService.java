@@ -125,6 +125,19 @@ public class OficioPDFService implements Serializable {
 		line4.setFont(font);
 		line4.setTextAlignment(TextAlignment.CENTER);
 		document.add(line4);
+		
+		//Campos das 3 Assinaturas dos conselheiros
+		Paragraph line5 = new Paragraph("\n_________________________________________   "
+				+ "\nAssinatura do Conselheiro 1\n\n\n"
+				+ "_________________________________________   "
+				+ "\nAssinatura do Conselheiro 2\n\n\n"
+				+ "_________________________________________"
+				+ "\nAssinatura do Conselheiro 3");
+		line5.setFontSize(12);
+		line5.setFont(font);
+		line5.setTextAlignment(TextAlignment.CENTER);
+		document.add(line5);
+		
 
 		document.close();		
 	}
@@ -151,6 +164,7 @@ public class OficioPDFService implements Serializable {
 		try {
 			PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 			log.info(unidade);
+			
 			if(unidade.equals("CREAS")) {      
 				Paragraph titulo = new Paragraph(
 						"\n" + secretaria.toUpperCase() + "\nCENTRO DE REFERÊNCIA ESPECIALIZADO DE ASSISTÊNCIA SOCIAL"

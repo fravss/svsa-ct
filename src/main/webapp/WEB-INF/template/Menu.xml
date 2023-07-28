@@ -48,7 +48,7 @@
 			</menuitem2>	
 		</submenu2>		
 		<submenu2 label="Relatórios">
-			<menuitem2 value="Encam. Interno(*)" outcome="/restricted/encaminhamento/RelatorioEncExterno.xhtml">
+			<menuitem2 value="Encam. Externos(*)" outcome="/restricted/encaminhamento/RelatorioEncExterno.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>
 			<menuitem2 value="Ofícios Recebidos" outcome="/restricted/encaminhamento/RelatorioOficio.xhtml">

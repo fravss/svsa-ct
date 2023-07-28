@@ -380,6 +380,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			Endereco e = new Endereco();
 			
 			this.pessoa.setEndereco(e);
+			this.pessoa.getEndereco().setTenant_id(loginBean.getTenantId());
 			
 			this.pessoa.setTenant_id(loginBean.getTenantId());
 			uf = null;

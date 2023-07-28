@@ -133,16 +133,6 @@
 						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.novaPessoaReferencia}" 
 							value="#{membros}" />
 					</p:commandButton>
-					
-					<p:spacer width="2px" /> 
-					<p:commandButton id="bt_8" title="Migrar dados pessoais para outra pessoa" icon="pi pi-angle-double-right" 
-		            	rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
-		    						and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"		    			
-		            	oncomplete="PF('migracaoWidgetVar').show()"
-		            	update=":frmCadDenuncia:tab1:migracaoDialog" 
-		            	process="@this">
-		            	<p:resetInput target=":frmCadDenuncia:tab1:migracaoDialog" />	
-	            	</p:commandButton>	
 	            	
 	            	<p:commandButton id="show" icon="pi pi-file-o" title="Gerar Atestado"
 	            		rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
@@ -240,52 +230,7 @@
 	    				process="@this rdDestino "
 	    				imadiate="true"/>
 				</p:panelGrid>
-			</p:dialog>
-			
-			
-			<p:dialog id="migracaoDialog" header="Migração de dados pessoais para outra pessoa" 
-		   		widgetVar="migracaoWidgetVar" 
-				modal="true" resizable="false" closeOnEscape="true" 
-				style="max-height:600px;overflow:auto" >        			
-				
-				<p:panelGrid id="migracaogrid" columns="2" style="width: 100%" 
-					columnClasses="rotulo, campo" 
-					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
-										
-					<p:outputLabel value="De: "/>
-					<h:outputLabel value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
-						style="font-weight:bold"/>					
-							    		
-		    		<p:outputLabel value="Para:" for="nomePessoa"/>
-		    		<p:autoComplete id="nomePessoa" value="#{registrarDenunciaBean.rdComposicaoBean.nomePessoa}" 
-		    			size="60" maxlength="80" 
-		    			required="true" 
-        				effect="blind"  
-		    			completeMethod="#{registrarDenunciaBean.rdComposicaoBean.buscarNomes}">
-		    			
-		    			<p:ajax partialSubmit="nomePessoa" 
-		    				event="itemSelect" listener="#{registrarDenunciaBean.rdComposicaoBean.buscarPessoa}" update="codigoPN nomePN" />  
-		    			
-		    		</p:autoComplete>
-		    		
-		    		<p:outputLabel value="Código: " for="codigoPN"/>
-		    		<h:outputText id="codigoPN" 
-		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoaNova.codigo}"
-		    			style="font-weight:bold"/>	
-		    		<p:outputLabel value="Pessoa " for="nomePN"/>
-		    		<h:outputText id="nomePN" 
-		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoaNova.nome}"
-		    			style="font-weight:bold"/>				
-		
-					<p:commandButton value="Confirmar Migração"
-	    				action="#{registrarDenunciaBean.rdComposicaoBean.migrarDadosPessoais}" 
-	    				onclick="PF('migracaoWidgetVar').hide();"
-	    				update="membrosDataTable"
-	    				process="@this "
-	    				imadiate="true"/>
-				</p:panelGrid>
-			</p:dialog>
-			
+			</p:dialog>			
 			
 			<p:dialog id="pessoaDialog" header="Novo membro" widgetVar="pessoaDialogWidgetVar"
 		   		modal="true" resizable="true" closeOnEscape="true"
@@ -379,7 +324,9 @@
 					        </p:column>
 					        <p:column >
 					        	<p:inputMask id="rg" size="15" maxlength="15" 
-					    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.rg}"/>
+					    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.rg}"
+					    			required="true" 
+					    			validatorMessage="O sexo é obrigatório."/>
 					    	</p:column>
 					    </p:row>
 			    	</p:panelGrid>	    			 
@@ -532,10 +479,26 @@
 	    		
 			   	</p:dataTable>
 		   	
-			</p:dialog>	
-			
-			
-			<!-- Reuso de componente -->
+			</p:dialog>
+
+
+	<p:confirmDialog id="confirmaExclusaoDialog"
+		widgetVar="confirmaExclusao"
+		message="Confirma a exclusão deste membro para esta familia?"
+		header="Excluir membro da familia" severity="alert"
+		showEffect="explode" hideEffect="explode">
+		<p:button icon="pi pi-thumbs-down" value="Não"
+			onclick="PF('confirmaExclusao').hide(); return false;" />
+		<p:commandButton icon="pi pi-thumbs-up" value="Sim"
+			update="membrosDataTable" process="@this"
+			onclick="PF('confirmaExclusao').hide();"
+			action="#{registrarDenunciaBean.rdComposicaoBean.excluirMembro}" />
+	</p:confirmDialog>
+
+
+
+
+	<!-- Reuso de componente -->
 			<ui:include src="/compositions/EvolucaoUI.xhtml">
                 <ui:param name="pessoa" value="#{evolucaoUIBean.pessoa}" />                
             </ui:include>

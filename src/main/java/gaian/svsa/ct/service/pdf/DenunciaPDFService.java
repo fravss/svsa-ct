@@ -75,63 +75,106 @@ public class DenunciaPDFService implements Serializable {
 	}
 
 		
-	private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
-		
+	private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria)
+			throws Exception {
+
 		PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 		TextAlignment align = TextAlignment.JUSTIFIED;
-		//Header 	
-		
+		// Header
+
 		headerAtestado(document, denuncia.getConselheiro().getUnidade().getNome(), denuncia, secretaria);
-		
-		Paragraph line1 = new Paragraph("\nREGISTRO DE DENÚNCIA		DATA: " + DateUtils.parseDateToString(denuncia.getDataEmissao())
-		+ "					CODIGO: " + denuncia.getCodigo());
+
+		Paragraph line1 = new Paragraph(
+				"\nREGISTRO DE DENÚNCIA		DATA: " + DateUtils.parseDateToString(denuncia.getDataEmissao())
+						+ "					CODIGO: " + denuncia.getCodigo());
 		line1.setFontSize(15);
 		line1.setBold();
 		line1.setUnderline();
 		line1.setFont(font);
 		line1.setTextAlignment(align);
 		document.add(line1);
-		
-		Paragraph line2 = new Paragraph("Nome da Genitora: " + denuncia.getFamilia().getPessoaReferencia().getNome()
-		+ "\nEndereço: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getEndereco()
-		+ "\nBairro: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getBairro()
-		+ "																		"
-		+ "Cidade: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getMunicipio()
-		+ "\nTelefone: " + denuncia.getFamilia().getPessoaReferencia().getTelefone());
-		
+
+		Paragraph line2 = new Paragraph("Nome do Responsável: " + denuncia.getFamilia().getPessoaReferencia().getNome()
+				+ "\nEndereço: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getEndereco()
+				+ "\nBairro: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getBairro()
+				+ "																		" + "Cidade: "
+				+ denuncia.getFamilia().getPessoaReferencia().getEndereco().getMunicipio() + "\nTelefone: "
+				+ denuncia.getFamilia().getPessoaReferencia().getTelefone());
+
 		line2.setFontSize(12);
 		line2.setFont(font);
 		line2.setTextAlignment(align);
 		document.add(line2);
-		
+
 		Paragraph line3 = new Paragraph("MEMBROS DA FAMILIA:");
 		line3.setBold();
 		line3.setFontSize(14);
 		line3.setFont(font);
 		line3.setTextAlignment(align);
 		document.add(line3);
-		
+
 		for (Pessoa p : denuncia.getFamilia().getMembros()) {
 
-			Paragraph line4 = new Paragraph("Nome: " + p.getNome() + "\n" + "Data de Nascimento: "
-					+ DateUtils.parseDateToString(p.getDataNascimento()) + "\n Parentesco:" + p.getParentesco() + "\n"
-					+ "Telefone de contato: " + p.getTelefone());
-			line4.setFontSize(12);
-			line4.setFont(font);
-			line4.setTextAlignment(align);
-			document.add(line4);
+			// PARA NÃO EMITIR PESSOAS EXCLUIDAS NA DENUNCIA
+			if (p.getExcluida() == true) {
 
-			Paragraph line5 = new Paragraph("Escola: " + p.getEscola() + "     		            " + "Série: "
-					+ p.getSerie() + "     		            " + "Periodo: " + p.getPeriodo());
-			line5.setFontSize(12);
-			line5.setFont(font);
-			line5.setTextAlignment(align);
-			document.add(line5);
+				Paragraph line4 = new Paragraph();
+				line4.setFontSize(12);
+				line4.setFont(font);
+				line4.setTextAlignment(align);
+				document.add(line4);
+
+				Paragraph line5 = new Paragraph();
+				line5.setFontSize(12);
+				line5.setFont(font);
+				line5.setTextAlignment(align);
+				document.add(line5);
+
+			} else {
+				// Emissão Normal
+				Paragraph line4 = new Paragraph("Nome: " + p.getNome() + "\n" + "Data de Nascimento: "
+						+ DateUtils.parseDateToString(p.getDataNascimento()) + "\n Parentesco:" + p.getParentesco()
+						+ "\n" + "Telefone de contato: " + p.getTelefone());
+				line4.setFontSize(12);
+				line4.setFont(font);
+				line4.setTextAlignment(align);
+				document.add(line4);
+
+				// Condicional para não emitir o campo escola, série e periodo caso o valor de escola seja nulo.
+				// 
+				if (p.getEscola() != null) {
+					Paragraph line5 = new Paragraph(
+							"Escola: " + p.getEscola() + "\nSérie: " + p.getSerie() + "\nPeriodo: " + p.getPeriodo());
+					line5.setFontSize(12);
+					line5.setFont(font);
+					line5.setTextAlignment(align);
+					document.add(line5);
+
+				} else {
+					Paragraph line5 = new Paragraph();
+					line5.setFontSize(12);
+					line5.setFont(font);
+					line5.setTextAlignment(align);
+					document.add(line5);
+				}
+				// Linha que separa as pessoas
+				Paragraph line6 = new Paragraph("____________________________________________________________");
+				line6.setFontSize(14);
+				line6.setFont(font);
+				line6.setTextAlignment(align);
+				document.add(line6);
+			}
 
 		}
+		// Campo de relato da denuncia
+		Paragraph line7 = new Paragraph("Relato da Denuncia: " + denuncia.getRelato());
+		line7.setFontSize(12);
+		line7.setFont(font);
+		line7.setTextAlignment(align);
+		document.add(line7);
+
 		document.close();
 	}
-
 
 	private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {
 		try {
