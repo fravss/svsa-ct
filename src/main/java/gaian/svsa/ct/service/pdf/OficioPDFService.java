@@ -93,14 +93,14 @@ public class OficioPDFService implements Serializable {
 		/* 
 	     * Header 
 	     */
-		image(document, oficioEmitido.getTecnico().getUnidade().getEndereco().getMunicipio(), s3Key);
-		headerOficio(document, oficioEmitido.getTecnico().getUnidade().getNome(), oficioEmitido, secretaria);
+		image(document, oficioEmitido.getConselheiro().getUnidade().getEndereco().getMunicipio(), s3Key);
+		headerOficio(document, oficioEmitido.getConselheiro().getUnidade().getNome(), oficioEmitido, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 	
 		
 		// Body
 		Paragraph line = new Paragraph("\nOfício N° " + oficioEmitido.getNrOficioEmitido() + " - " + 
-				oficioEmitido.getTecnico().getUnidade().getNome() + "\n " + 
+				oficioEmitido.getConselheiro().getUnidade().getNome() + "\n " + 
 				oficioEmitido.getNomeOrgao() + "\n\n\n");
 		line.setFontSize(12);
 		line.setFont(font);

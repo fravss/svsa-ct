@@ -71,7 +71,7 @@
 	    		style="margin-top: 20px" emptyMessage="Nenhum ofício recebido." rows="10"
 	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom" 
 	    		rowsPerPageTemplate="10,15" rowKey="#{oficio.codigo}"
-	    		rowStyleClass="#{oficio.dataResposta eq null and oficio.resposta eq true ? 'inativo' : null}"> 
+	    		rowStyleClass="#{oficio.dataResposta eq null ? 'inativo' : null}"> 
 			    		
 	    		<p:ajax event="rowSelect"/>				
 				<p:ajax event="rowUnselect"/>	
@@ -100,14 +100,14 @@
 	    		</p:column>
 	    		
 	    		
-	    		<p:column headerText="Tecnico" style="width: 75px; text-align: center"
-	    			filterBy="#{oficio.tecnico.nome}" >
-	    			<h:outputText value="#{oficio.tecnico.nome}" />
+	    		<p:column headerText="Conselheiro" style="width: 75px; text-align: center"
+	    			filterBy="#{oficio.conselheiro.nome}" >
+	    			<h:outputText value="#{oficio.conselheiro.nome}" />
 	    		</p:column>
 	    	
 	    		
-	    		<p:column headerText="Prontuário" style="width: 20px; text-align: center">
-	    			<h:outputText value="#{oficio.pessoa.familia.prontuario.codigo}" />
+	    		<p:column headerText="Denúncia" style="width: 20px; text-align: center">
+	    			<h:outputText value="#{oficio.pessoa.familia.denuncia.codigo}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Pessoa" style="width: 75px; text-align: left"
@@ -115,7 +115,7 @@
 	    			<h:outputText value="#{oficio.pessoa.codigo} - #{oficio.pessoa.nome}" />
 	    		</p:column>	    		
 	    		
-	    		<p:column headerText="Detalhes" style="width: 15px; text-align: center">	    		
+	    		<p:column headerText="Detalhes" exportable="false" style="width: 15px; text-align: center">	    		
 	    				    	
 			    	<p:commandButton 
 			    		update="frmoficio:detalheGrid" 
@@ -127,14 +127,6 @@
 							value="#{oficio}" />		                
 	            	</p:commandButton>
 	            </p:column>
-	            
-	            <p:commandButton title="Ver ofício anexado" icon="pi pi-paperclip"  
-			        	rendered="#{oficio.s3Key != null}"	
-		            	ajax="false"
-		            	process="@this"
-		            	immediate="true"
-		            	action="#{relatorioOficioBean.redirectPdf(oficio)}">    	
-	            	</p:commandButton>
 	    		
     		</p:dataTable> 
     		

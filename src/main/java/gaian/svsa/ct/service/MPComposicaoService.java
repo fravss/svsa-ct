@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import gaian.svsa.ct.dao.DenunciaDAO;
 import gaian.svsa.ct.dao.MPComposicaoDAO;
 import gaian.svsa.ct.modelo.Denuncia;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
@@ -158,7 +158,7 @@ public class MPComposicaoService implements Serializable {
 		return atendIndiv;
 	}	
 	
-	public List<ListaAtendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
+	public List<Atendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
 		
 		return listaService.consultaFaltas(pessoa, tenantId);
 		

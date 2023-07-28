@@ -47,34 +47,15 @@ import lombok.ToString;
 	@NamedQuery(name="Oficio.buscarOficiosRecebidos", query="select o from Oficio o "
 			+ "where o.dataResposta is null "
 			+ "and o.tenant_id = :tenantId "
-			+ "and o.resposta = true "
 			+ "and o.unidade = :unidade "
 			+ "order by o.dataRecebimento"),
+	@NamedQuery(name="Oficio.buscarOficiosUnidade", query="select o from Oficio o "
+			+ "where o.unidade = :unidade "
+			+ "and o.tenant_id = :tenantId"),
 	
 	/* usado para Histórico da pessoa */
 	@NamedQuery(name="Oficio.buscarOficiosHist", query="select o from Oficio o "
 			+ "where o.pessoa = :pessoa "
-			+ "and o.tenant_id = :tenantId"),
-	
-	/* Consulta para verificar ofícios enviados pela SASC */
-	@NamedQuery(name="Oficio.buscarTodosOficiosSasc", query="select o from Oficio o "
-			+ "where o.sasc is not null "
-			+ "and o.tenant_id = :tenantId"),
-	@NamedQuery(name="Oficio.buscarOficiosSasc", query="select o from Oficio o "
-			+ "where o.unidade = :unidade "
-			+ "and o.tenant_id = :tenantId "
-			+ "and o.sasc is not null"),
-	@NamedQuery(name="Oficio.buscarOficiosSascPeriodo", query="select o from Oficio o "
-			+ "where o.dataRecebimento between :ini and :fim "
-			+ "and o.unidade = :unidade "
-			+ "and o.tenant_id = :tenantId "
-			+ "and o.sasc is not null"),
-	@NamedQuery(name="Oficio.buscarOficiosUnidade", query="select o from Oficio o "
-			+ "where o.unidade = :unidade "
-			+ "and o.tenant_id = :tenantId"),
-	@NamedQuery(name="Oficio.buscarOficiosUnidadePeriodo", query="select o from Oficio o "
-			+ "where o.dataRecebimento between :ini and :fim "
-			+ "and o.unidade = :unidade "
 			+ "and o.tenant_id = :tenantId"),
 	
 	/* Buscas de gráficos */
@@ -87,20 +68,9 @@ import lombok.ToString;
 			+ "and o.tenant_id = :tenantId "
 			+ "and o.dataRecebimento between :ini and :fim "
 			+ "order by o.codigoEncaminhamento"),
-	@NamedQuery(name="Oficio.buscarOfGraficoSasc", query="select o from Oficio o "
-			+ "where o.unidade = :unidade "
-			+ "and o.tenant_id = :tenantId "
-			+ "and o.sasc is not null"),
-	@NamedQuery(name="Oficio.buscarOfGraficoSascPeriodo", query="select o from Oficio o "
-			+ "where o.unidade = :unidade "
-			+ "and o.tenant_id = :tenantId "
-			+ "and o.dataRecebimento between :ini and :fim "
-			+ "and o.sasc is not null"),
-	
 	@NamedQuery(name="Oficio.buscarOficiosPendentes", query="select o from Oficio o "
 			+ "where o.unidade = :unidade "
 			+ "and o.tenant_id = :tenantId "
-			+ "and o.resposta = true "
 			+ "and o.dataResposta is null "
 			+ "order by o.dataRecebimento")
 	/* usado para ofícios da sasc */
@@ -130,9 +100,6 @@ public class Oficio implements Serializable {
 	private String nrOficio;
 	
 	@ToString.Include
-	private String nrProcesso;
-	
-	@ToString.Include
 	@Column(length = 512000,columnDefinition="Text")
 	private String assunto;
 	
@@ -151,21 +118,17 @@ public class Oficio implements Serializable {
 	private String nrOficioResp;
 	
 	private String s3Key = null;
-	
-	private Boolean sasc;
-	
-	private Boolean resposta = true;
 
 	@Enumerated(EnumType.STRING)
 	private CodigoEncaminhamento codigoEncaminhamento;	
-
+	
 	@ManyToOne
 	@JoinColumn(name="codigo_coordenador")
 	private Usuario coordenador;
 	
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_unidade")

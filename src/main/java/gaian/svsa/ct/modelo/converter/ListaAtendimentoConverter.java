@@ -6,14 +6,14 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.util.cdi.CDIServiceLocator;
 
 /**
  * @author murakamiadmin
  *
  */
-@FacesConverter(forClass=ListaAtendimento.class)
+@FacesConverter(forClass=Atendimento.class)
 public class ListaAtendimentoConverter implements Converter<Object> {
 
 	private AgendamentoIndividualDAO listaDAO;
@@ -24,7 +24,7 @@ public class ListaAtendimentoConverter implements Converter<Object> {
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		ListaAtendimento retorno = null;
+		Atendimento retorno = null;
 
 		if (value != null && !value.isEmpty()) {
 			retorno = this.listaDAO.buscarPeloCodigo(Long.valueOf(value));
@@ -36,7 +36,7 @@ public class ListaAtendimentoConverter implements Converter<Object> {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long codigo = ((ListaAtendimento) value).getCodigo();
+			Long codigo = ((Atendimento) value).getCodigo();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

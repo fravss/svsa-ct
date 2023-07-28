@@ -14,7 +14,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.to.DatasIniFimTO;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
@@ -24,12 +24,12 @@ import gaian.svsa.ct.service.AgendamentoIndividualService;
  * @author murakamiadmin
  *
  */
-public class LazyAtendimento extends LazyDataModel<ListaAtendimento> implements Serializable {
+public class LazyAtendimento extends LazyDataModel<Atendimento> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Logger log = Logger.getLogger(LazyAtendimento.class);
 	
-	private List<ListaAtendimento> atendimentos = new ArrayList<ListaAtendimento>();
+	private List<Atendimento> atendimentos = new ArrayList<Atendimento>();
 	private AgendamentoIndividualDAO atendDAO;
 	private Unidade unidade;
 	private DatasIniFimTO datasTO;
@@ -45,12 +45,12 @@ public class LazyAtendimento extends LazyDataModel<ListaAtendimento> implements 
  
 	
 	@Override
-    public ListaAtendimento getRowData(String rowKey) {        
+    public Atendimento getRowData(String rowKey) {        
 		return atendDAO.buscarPeloCodigo(Long.parseLong(rowKey));
     }
 	
 	@Override
-	public String getRowKey(ListaAtendimento lista) {
+	public String getRowKey(Atendimento lista) {
         return String.valueOf(lista.getCodigo());
     }
 	
@@ -93,7 +93,7 @@ public class LazyAtendimento extends LazyDataModel<ListaAtendimento> implements 
     */
 	
 	@Override
-	public List<ListaAtendimento> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filters) {	
+	public List<Atendimento> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filters) {	
 		
 		String filtro1 = "";
 		String filtro2 = "";
@@ -117,7 +117,7 @@ public class LazyAtendimento extends LazyDataModel<ListaAtendimento> implements 
         }
 
 		
-		atendimentos = new ArrayList<ListaAtendimento>();
+		atendimentos = new ArrayList<Atendimento>();
 		int dataSize = 0;
 		
 		
@@ -150,10 +150,10 @@ public class LazyAtendimento extends LazyDataModel<ListaAtendimento> implements 
 		
 		// sort
         if (!sortBy.isEmpty()) {
-            List<Comparator<ListaAtendimento>> comparators = sortBy.values().stream()
+            List<Comparator<Atendimento>> comparators = sortBy.values().stream()
                     .map(o -> new LazyAtendimentoSorter(o.getField(), o.getOrder()))
                     .collect(Collectors.toList());
-            Comparator<ListaAtendimento> cp = ComparatorUtils.chainedComparator(comparators); // from apache
+            Comparator<Atendimento> cp = ComparatorUtils.chainedComparator(comparators); // from apache
             atendimentos.sort(cp);
         }
         

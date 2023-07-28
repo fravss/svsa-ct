@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
@@ -42,7 +42,7 @@ public class AgendamentoIndividualService implements Serializable {
 	private LoginBean loginBean;
 	
 
-	public void salvar(ListaAtendimento lista, Long tenantId) throws NegocioException {
+	public void salvar(Atendimento lista, Long tenantId) throws NegocioException {
 		
 		log.info("Agendamento pessoa:  " + lista.getPessoa().getNome());
 		
@@ -59,7 +59,7 @@ public class AgendamentoIndividualService implements Serializable {
 		this.listaDAO.salvar(lista);
 	}
 
-	public void verificarDisponibilidade(Unidade unidade, ListaAtendimento item, Long tenantId) throws NegocioException {		
+	public void verificarDisponibilidade(Unidade unidade, Atendimento item, Long tenantId) throws NegocioException {		
 				
 		if(item.getTecnico() == null) {
 			calendarioHelper.verificarDisponibilidade(unidade, item.getDataAgendamento(), tenantId);
@@ -73,12 +73,12 @@ public class AgendamentoIndividualService implements Serializable {
 	
 
 	/* RelatorioAtendimento migração */
-	public void salvarMigrar(ListaAtendimento lista) throws NegocioException {
+	public void salvarMigrar(Atendimento lista) throws NegocioException {
 
 		this.listaDAO.salvarAlterar(lista);
 	}	
 	
-	public void atualizar(ListaAtendimento lista) throws NegocioException {
+	public void atualizar(Atendimento lista) throws NegocioException {
 		
 		lista.setDataAtendimento(new Date());
 		lista.setStatusAtendimento(StatusAtendimento.FALTOU);
@@ -86,7 +86,7 @@ public class AgendamentoIndividualService implements Serializable {
 		this.listaDAO.salvar(lista);
 	}
 	
-	public void encerrarAtendimento(ListaAtendimento lista) throws NegocioException {		
+	public void encerrarAtendimento(Atendimento lista) throws NegocioException {		
 			
 		try {
 			lista.setStatusAtendimento(StatusAtendimento.ATENDIDO);		
@@ -102,7 +102,7 @@ public class AgendamentoIndividualService implements Serializable {
 	
 	
 	
-	public void salvarResumoRecepcao(ListaAtendimento lista) throws NegocioException {		
+	public void salvarResumoRecepcao(Atendimento lista) throws NegocioException {		
 		
 		if (lista.getDataAtendimento() == null ) {
 			lista.setDataAtendimento(new Date());	
@@ -114,7 +114,7 @@ public class AgendamentoIndividualService implements Serializable {
 		this.listaDAO.salvarRecepcao(lista);
 	}
 	
-	public void autoSave(ListaAtendimento lista) throws NegocioException {			
+	public void autoSave(Atendimento lista) throws NegocioException {			
 			
 		if (lista.getDataAtendimento() == null ) {
 			lista.setDataAtendimento(new Date());	
@@ -124,7 +124,7 @@ public class AgendamentoIndividualService implements Serializable {
 		this.listaDAO.salvar(lista);
 	}
 	
-	public void salvarAlterar(ListaAtendimento item, Usuario usuario) throws NegocioException {
+	public void salvarAlterar(Atendimento item, Usuario usuario) throws NegocioException {
 		
 		if(usuario.getCodigo().longValue() == item.getTecnico().getCodigo().longValue()) {
 			if(new Date().after(DateUtils.plusDays(item.getDataAtendimento(), 7)) )
@@ -142,7 +142,7 @@ public class AgendamentoIndividualService implements Serializable {
 		
 	}
 	
-	public void excluir(ListaAtendimento item) throws NegocioException {
+	public void excluir(Atendimento item) throws NegocioException {
 		listaDAO.excluir(item);
 		
 	}	
@@ -164,12 +164,12 @@ public class AgendamentoIndividualService implements Serializable {
 	
 	
 	
-	public List<ListaAtendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
+	public List<Atendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
 		return helper.consultaFaltas(pessoa, tenantId);
 	}
 	
 		
-	public List<ListaAtendimento> buscarAtendimentosRole(Usuario usuario, Long tenantId) {
+	public List<Atendimento> buscarAtendimentosRole(Usuario usuario, Long tenantId) {
 		
 		log.info(usuario.getRole().name());
 		
@@ -182,7 +182,7 @@ public class AgendamentoIndividualService implements Serializable {
 		return listaDAO.buscarAtendimentosRole(usuario, tenantId);
 	}
 	
-	public List<ListaAtendimento> buscarAtendimentosRecepcao(Usuario usuario, Long tenantId) {
+	public List<Atendimento> buscarAtendimentosRecepcao(Usuario usuario, Long tenantId) {
 		
 		/*
 		 * Retorna apenas atendimentos dos ultimos 30 dias
@@ -203,15 +203,15 @@ public class AgendamentoIndividualService implements Serializable {
 		return helper.buscarResumoAtendimentosDTO(pessoa, tenantId);		
 	}
 
-	public List<ListaAtendimento> buscarAtendimentosAgendados(Unidade unidade, Long tenantId) {
+	public List<Atendimento> buscarAtendimentosAgendados(Unidade unidade, Long tenantId) {
 		return listaDAO.buscarAtendimentosAgendados(unidade, tenantId);
 	}
 	// usado pelo Agendamento e Atendimento Individualizado
-	public List<ListaAtendimento> buscarAtendimentosAgendados(Unidade unidade, Date mesAno, Long tenantId) {
+	public List<Atendimento> buscarAtendimentosAgendados(Unidade unidade, Date mesAno, Long tenantId) {
 		return listaDAO.buscarAtendimentosAgendados(unidade, mesAno, tenantId);
 	}
 	
-	public List<ListaAtendimento> buscarAtendimentosCodAuxGrafico(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendimentosCodAuxGrafico(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		if(ini != null)
 			if(fim != null)
 				return listaDAO.buscarAtendimentosCodAuxGrafico(unidade, ini, fim, tenantId);
@@ -225,10 +225,10 @@ public class AgendamentoIndividualService implements Serializable {
 	 * RelatorioAtendimentos CadUnico 
 	 */
 	
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		return helper.buscarAtendCadUnicoPeriodo(unidade, ini, fim, tenantId);
 	}
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		return helper.buscarAtendCadUnicoPeriodo2(unidade, ini, fim, tenantId);
 	}
 	

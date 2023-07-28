@@ -97,7 +97,7 @@ public class EncamPDFService implements Serializable {
 	     * Header 
 	     */
 		image(document, s3Key);
-		header(document, "\n" + enc.getTecnico().getUnidade().getTipo() + " - " + enc.getTecnico().getUnidade().getNome());
+		header(document, "\n" + enc.getConselheiro().getUnidade().getTipo() + " - " + enc.getConselheiro().getUnidade().getNome());
 	
 		
 		// Body
@@ -137,8 +137,8 @@ public class EncamPDFService implements Serializable {
 		}
 		   
 		Paragraph line3 = new Paragraph("\nDATA: " + DateUtils.parseDateToString(enc.getDataCriacao()) + "\n"
-				+ "UNIDADE: " + enc.getTecnico().getUnidade().getNome() + "\n"
-				+ "TELEFONE: " + enc.getTecnico().getUnidade().getEndereco().getTelefoneContato() );
+				+ "UNIDADE: " + enc.getConselheiro().getUnidade().getNome() + "\n"
+				+ "TELEFONE: " + enc.getConselheiro().getUnidade().getEndereco().getTelefoneContato() );
 		line3.setFontSize(10);
 		line3.setFont(font);
 		line3.setTextAlignment(align);
@@ -146,33 +146,33 @@ public class EncamPDFService implements Serializable {
 		
 		Paragraph line4 = null;
 		
-		if(enc.getTecnico().getGrupo() == Grupo.COORDENADORES) {
-			if(enc.getTecnico().getRegistroProfissional() != null && !enc.getTecnico().getRegistroProfissional().equals("")) {
+		if(enc.getConselheiro().getGrupo() == Grupo.COORDENADORES) {
+			if(enc.getConselheiro().getRegistroProfissional() != null && !enc.getConselheiro().getRegistroProfissional().equals("")) {
 				line4 = new Paragraph("\n\n_________________________________________\n" 
-					+ enc.getTecnico().getNome() + "\n"
-					+ enc.getTecnico().getRole() + " - Coordenador(a) "
-					+ enc.getTecnico().getUnidade().getNome() + "\n" 
-					+ enc.getTecnico().getRegistroProfissional());
+					+ enc.getConselheiro().getNome() + "\n"
+					+ enc.getConselheiro().getRole() + " - Coordenador(a) "
+					+ enc.getConselheiro().getUnidade().getNome() + "\n" 
+					+ enc.getConselheiro().getRegistroProfissional());
 			}
 			else {
 				line4 = new Paragraph("\n\n_________________________________________\n" 
-						+ enc.getTecnico().getNome() + "\n"
-						+ enc.getTecnico().getRole() + " - Coordenador(a) "
-						+ enc.getTecnico().getUnidade().getNome());
+						+ enc.getConselheiro().getNome() + "\n"
+						+ enc.getConselheiro().getRole() + " - Coordenador(a) "
+						+ enc.getConselheiro().getUnidade().getNome());
 						
 			}
 		}
 		else {
-			if(enc.getTecnico().getRegistroProfissional() != null && !enc.getTecnico().getRegistroProfissional().equals("")) {
+			if(enc.getConselheiro().getRegistroProfissional() != null && !enc.getConselheiro().getRegistroProfissional().equals("")) {
 				line4 = new Paragraph("\n\n_________________________________________\n" 
-					+ enc.getTecnico().getNome() + "\n" 
-					+ enc.getTecnico().getRole() + "\n" 
-					+ enc.getTecnico().getRegistroProfissional());
+					+ enc.getConselheiro().getNome() + "\n" 
+					+ enc.getConselheiro().getRole() + "\n" 
+					+ enc.getConselheiro().getRegistroProfissional());
 			}
 			else {
 				line4 = new Paragraph("\n\n_________________________________________\n" 
-						+ enc.getTecnico().getNome() + "\n" 
-						+ enc.getTecnico().getRole()); 
+						+ enc.getConselheiro().getNome() + "\n" 
+						+ enc.getConselheiro().getRole()); 
 			}
 		}
 		

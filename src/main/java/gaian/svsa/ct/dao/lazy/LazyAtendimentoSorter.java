@@ -6,9 +6,9 @@ import java.util.Comparator;
 import org.apache.log4j.Logger;
 import org.primefaces.model.SortOrder;
 
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 
-public class LazyAtendimentoSorter implements Comparator<ListaAtendimento> {
+public class LazyAtendimentoSorter implements Comparator<Atendimento> {
 
 	private Logger log = Logger.getLogger(LazyAtendimentoSorter.class);
 	
@@ -34,7 +34,7 @@ public class LazyAtendimentoSorter implements Comparator<ListaAtendimento> {
 	 * @return
 	 */
 	@Override
-	public int compare(ListaAtendimento object1, ListaAtendimento object2) {
+	public int compare(Atendimento object1, Atendimento object2) {
 		try {
 			Field field1 = object1.getClass().getDeclaredField(this.sortField);
 			Field field2 = object2.getClass().getDeclaredField(this.sortField);			

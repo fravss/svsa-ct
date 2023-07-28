@@ -17,7 +17,7 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
@@ -47,10 +47,10 @@ public class AgendamentoIndividualBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<ListaAtendimento> listaAtendimentos = new ArrayList<>();
+	private List<Atendimento> listaAtendimentos = new ArrayList<>();
 	
-	private ListaAtendimento item;
-	private List<ListaAtendimento> listaFaltas = new ArrayList<>();
+	private Atendimento item;
+	private List<Atendimento> listaFaltas = new ArrayList<>();
 	private Date mesAno;
 	
 	private List<Role> roles;	
@@ -65,7 +65,7 @@ public class AgendamentoIndividualBean implements Serializable {
 	private Unidade unidade;		
 	
 	@Inject
-	private AgendamentoIndividualService listaAtendimentoService;
+	private AgendamentoIndividualService atendimentoService;
 	@Inject
 	private PessoaService pessoaService;
 	
@@ -103,7 +103,7 @@ public class AgendamentoIndividualBean implements Serializable {
 			
 			if(item.getPessoa() != null) {
 				item.setTenant_id(loginBean.getTenantId());
-				this.listaAtendimentoService.salvar(item, loginBean.getTenantId());
+				this.atendimentoService.salvar(item, loginBean.getTenantId());
 				MessageUtil.sucesso("Agendamento realizado com sucesso.");
 				
 				buscarListaAtendimento(unidade);	
@@ -126,7 +126,7 @@ public class AgendamentoIndividualBean implements Serializable {
 	private void buscarListaAtendimento(Unidade unidade) {
 		
 		log.debug(mesAno);
-		listaAtendimentos = listaAtendimentoService.buscarAtendimentosAgendados(unidade, mesAno, loginBean.getTenantId());
+		listaAtendimentos = atendimentoService.buscarAtendimentosAgendados(unidade, mesAno, loginBean.getTenantId());
 		
 	}	
 	// filtro para consulta dos atendimentos paginado por mes/ano
@@ -136,10 +136,10 @@ public class AgendamentoIndividualBean implements Serializable {
 		log.info(mesAno);
 	}	
 
-	public void consultaFaltas(ListaAtendimento item) {
+	public void consultaFaltas(Atendimento item) {
 		
 		log.info("pessoa consultada: " + item.getPessoa().getNome());
-		setListaFaltas(listaAtendimentoService.consultaFaltas(item.getPessoa(), loginBean.getTenantId()));
+		setListaFaltas(atendimentoService.consultaFaltas(item.getPessoa(), loginBean.getTenantId()));
 		
 	}
 
@@ -150,7 +150,7 @@ public class AgendamentoIndividualBean implements Serializable {
 				MessageUtil.sucesso("Agendamento não pode ser excluído porque já existe registro de atendimento! É necessário encerrar o atendimento.");
 			}
 			else {
-				listaAtendimentoService.excluir(item);
+				atendimentoService.excluir(item);
 				//log.info("item selecionado: " + item.getPessoa().getNome());
 				
 				this.listaAtendimentos.remove(item);
@@ -169,7 +169,7 @@ public class AgendamentoIndividualBean implements Serializable {
 			
 			item.setTecnico(loginBean.getUsuario());
 			item.setResumoAtendimento("[Falta] " + item.getResumoAtendimento());
-			listaAtendimentoService.atualizar(item); 
+			atendimentoService.atualizar(item); 
 			log.info("ausente: " + item.getPessoa().getNome());
 			
 			this.listaAtendimentos.remove(item);
@@ -193,7 +193,7 @@ public class AgendamentoIndividualBean implements Serializable {
 		
 		try {
 			log.info("verificar disponibilidade do tecnico");			
-			listaAtendimentoService.verificarDisponibilidade(unidade, item, loginBean.getTenantId());			
+			atendimentoService.verificarDisponibilidade(unidade, item, loginBean.getTenantId());			
 		}
 		catch (NegocioException e) {			
 			MessageUtil.alerta(e.getMessage());
@@ -202,7 +202,7 @@ public class AgendamentoIndividualBean implements Serializable {
 	
 	public void limpar() {
 
-		item = new ListaAtendimento();
+		item = new Atendimento();
 		item.setUnidade(unidade);
 		item.setTenant_id(loginBean.getTenantId());
 	}
@@ -227,7 +227,7 @@ public class AgendamentoIndividualBean implements Serializable {
 	
 	public void selecionarPessoaReferencia(SelectEvent<?> event) {		
 		
-		this.item = new ListaAtendimento();
+		this.item = new Atendimento();
 		item.setTenant_id(loginBean.getTenantId());
 		
 		PessoaDTO dto = (PessoaDTO) event.getObject();		
@@ -239,7 +239,7 @@ public class AgendamentoIndividualBean implements Serializable {
 		MessageUtil.sucesso("Pessoa Selecionada: " + this.item.getPessoa().getNome());			
 	}
 	
-	public List<ListaAtendimento> getListaAtendimentos() {
+	public List<Atendimento> getListaAtendimentos() {
 		buscarListaAtendimento(unidade);	
 		return listaAtendimentos;
 	}

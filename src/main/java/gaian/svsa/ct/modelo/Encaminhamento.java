@@ -82,7 +82,6 @@ public class Encaminhamento implements Serializable {
 	@Column(length = 512000,columnDefinition="Text")
 	private String anotacaoComplementar;
 	private String enderecoUnidadeDestino;
-	private boolean nomeSocial;
 	
 	/* Enums */
 	@Enumerated(EnumType.STRING)
@@ -90,8 +89,8 @@ public class Encaminhamento implements Serializable {
 	
 	/* relacionamentos */
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_pessoa")
