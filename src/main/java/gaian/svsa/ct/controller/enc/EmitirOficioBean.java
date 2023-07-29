@@ -59,7 +59,7 @@ public class EmitirOficioBean implements Serializable {
 	private List<Orgao> orgaos;
 	private Orgao orgao;
 
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
 	private List<CodigoEncaminhamento> codigosEncaminhamento;
 	
 	private Unidade unidade;

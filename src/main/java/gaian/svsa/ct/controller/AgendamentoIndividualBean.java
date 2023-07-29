@@ -54,11 +54,11 @@ public class AgendamentoIndividualBean implements Serializable {
 	private Date mesAno;
 	
 	private List<Role> roles;	
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
 	
 	// para preenchimento dos lists dinamicamente
 	//private Role role;
-	private Usuario roleTecnico;
+	private Usuario roleConselheiro;
 	private String strRole;
 	private String mse;
 	
@@ -98,8 +98,8 @@ public class AgendamentoIndividualBean implements Serializable {
 			log.info("Salvando agendamento...");
 			item.setUnidade(unidade);
 			item.setAgendador(loginBean.getUsuario());
-			if(item.getTecnico() != null)
-				item.setRole(item.getTecnico().getRole());
+			if(item.getConselheiro() != null)
+				item.setRole(item.getConselheiro().getRole());
 			
 			if(item.getPessoa() != null) {
 				item.setTenant_id(loginBean.getTenantId());
@@ -167,7 +167,7 @@ public class AgendamentoIndividualBean implements Serializable {
 	public void excluirPorFalta() {
 		try {
 			
-			item.setTecnico(loginBean.getUsuario());
+			item.setConselheiro(loginBean.getUsuario());
 			item.setResumoAtendimento("[Falta] " + item.getResumoAtendimento());
 			atendimentoService.atualizar(item); 
 			log.info("ausente: " + item.getPessoa().getNome());
@@ -182,17 +182,17 @@ public class AgendamentoIndividualBean implements Serializable {
 		}
 	}
 	
-	public void carregarTecnicos() {
+	public void carregarConselheiros() {
 
-		this.tecnicos = usuarioService.buscarTecnicosRole(item.getRole(), unidade, loginBean.getTenantId());
+		this.conselheiros = usuarioService.buscarConselheirosRole(item.getRole(), unidade, loginBean.getTenantId());
 		
-		log.debug("Tecnicos carregados role = " + item.getRole().name());
+		log.debug("Conselheiros carregados role = " + item.getRole().name());
 	}
 	
-	public void verificarDispTecnico() {
+	public void verificarDispConselheiro() {
 		
 		try {
-			log.info("verificar disponibilidade do tecnico");			
+			log.info("verificar disponibilidade do  onselheiro");			
 			atendimentoService.verificarDisponibilidade(unidade, item, loginBean.getTenantId());			
 		}
 		catch (NegocioException e) {			

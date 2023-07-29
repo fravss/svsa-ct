@@ -31,19 +31,19 @@ public class CalendarioService implements Serializable {
 		
 		Calendario calendario;
 		
-		if(((Calendario)event.getData()).getTecnico() != null) {
+		if(((Calendario)event.getData()).getConselheiro() != null) {
 			calendario = new Calendario(event.getTitle(),
 					event.getStartDate(),
 					event.getEndDate(), 
-					((Calendario)event.getData()).getTecnico(),  unidade);
-			log.info("event.getData() COM tecnico = " + ((Calendario)event.getData()).getTecnico().getNome()); 
+					((Calendario)event.getData()).getConselheiro(),  unidade);
+			log.info("event.getData() COM conselheiro = " + ((Calendario)event.getData()).getConselheiro().getNome()); 
 		}
 		else {
 			calendario = new Calendario(event.getTitle(),
 					event.getStartDate(),
 					event.getEndDate(), 
 					null,  unidade);
-			log.info("event.getData() SEM tecnico = ");
+			log.info("event.getData() SEM conselheiro = ");
 		}
 		calendario.setTenant_id(tenantId);
 
@@ -56,19 +56,19 @@ public class CalendarioService implements Serializable {
 		
 		Calendario calendario = calendarioDAO.buscarPeloCodigo( ((Calendario)event.getData()).getCodigo() );
 		
-		if(((Calendario)event.getData()).getTecnico() != null) {
+		if(((Calendario)event.getData()).getConselheiro() != null) {
 					
 			
-			calendario.setTecnico( ((Calendario)event.getData()).getTecnico() );
+			calendario.setConselheiro( ((Calendario)event.getData()).getConselheiro() );
 			
-			log.info("event.getData() conselheiro = " + ((Calendario)event.getData()).getTecnico().getNome()); 
+			log.info("event.getData() conselheiro = " + ((Calendario)event.getData()).getConselheiro().getNome()); 
 		}
 		else {
-			if(calendario.getTecnico() != null) {
+			if(calendario.getConselheiro() != null) {
 				throw new NegocioException("Não é permitido converter para feriado!");
 			}
 			calendario.setTitle(event.getTitle());
-			calendario.setTecnico( null );			
+			calendario.setConselheiro( null );			
 		}		
 		
 		calendario.setStartDate(event.getStartDate());

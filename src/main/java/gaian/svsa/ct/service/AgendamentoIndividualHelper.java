@@ -214,7 +214,7 @@ class AgendamentoIndividualHelper implements Serializable {
 
 				dto.setResumoAtendimento("[Enc.Externo] PARA: " + e.getOrgaoUnidadeDestino()  + " - MOTIVO: " + e.getMotivo());
 				if (e.getConselheiro() != null)
-					dto.setNomeTecnico(e.getConselheiro().getNome());
+					dto.setNomeConselheiro(e.getConselheiro().getNome());
 				dto.setNomeUnidade(e.getConselheiro().getUnidade().getNome());
 				dto.setNomePessoa(e.getPessoa().getNome());
 				atendimentos.add(dto);
@@ -242,7 +242,7 @@ class AgendamentoIndividualHelper implements Serializable {
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
 					if (o.getConselheiro() != null) {
-						dto.setNomeTecnico(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeConselheiro(o.getConselheiro().getNome()); // coordenador que recebeu
 						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
@@ -252,7 +252,7 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio respondido
 					dto2 = new AtendimentoDTO();
 					dto2.setData(o.getDataResposta());
-					dto2.setNomeTecnico(o.getConselheiro().getNome());
+					dto2.setNomeConselheiro(o.getConselheiro().getNome());
 					dto2.setNomeUnidade(o.getConselheiro().getUnidade().getNome());
 					dto2.setNomePessoa(o.getPessoa().getNome());
 					dto2.setResumoAtendimento(
@@ -264,7 +264,7 @@ class AgendamentoIndividualHelper implements Serializable {
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
 					if (o.getConselheiro() != null) {
-						dto.setNomeTecnico(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeConselheiro(o.getConselheiro().getNome()); // coordenador que recebeu
 						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
@@ -293,7 +293,7 @@ class AgendamentoIndividualHelper implements Serializable {
 				AtendimentoDTO dto = new AtendimentoDTO();
 				dto.setData(o.getDataEmissao());
 				if (o.getConselheiro() != null)
-					dto.setNomeTecnico(o.getConselheiro().getNome());
+					dto.setNomeConselheiro(o.getConselheiro().getNome());
 				// emitidos
 				dto.setResumoAtendimento("[Ofício Emitido] " + o.getNrOficioEmitido() + " ( " + o.getAssunto() + " ) ");
 				dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome());

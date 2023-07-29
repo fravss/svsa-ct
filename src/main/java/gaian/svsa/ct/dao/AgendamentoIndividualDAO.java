@@ -173,8 +173,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 		}		
 		a.setPessoa(lista.getPessoa());
 		a.setAgendador(lista.getAgendador());
-		if(lista.getTecnico() != null)
-			a.setTecnico(lista.getTecnico());
+		if(lista.getConselheiro() != null)
+			a.setConselheiro(lista.getConselheiro());
 		a.setUnidade(lista.getUnidade());
 		a.setTenant_id(lista.getTenant_id());
 		a.setStatusAtendimento(StatusAtendimento.ATENDIDO);
@@ -275,8 +275,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 							.getResultList();	
 	}
 	
-	public List<Atendimento> buscarAtendimentosTecnicos(Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("Atendimento.buscarAtendimentosTecnicos", Atendimento.class)
+	public List<Atendimento> buscarAtendimentosConselheiros(Unidade unidade, Long tenantId) {
+		return manager.createNamedQuery("Atendimento.buscarAtendimentosConselheiros", Atendimento.class)
 				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", StatusAtendimento.AGENDADO)
@@ -302,7 +302,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 	
 	public List<Atendimento> buscarAgendaUsuario(Usuario usuario, Long tenantId) {			
 		return manager.createNamedQuery("Atendimento.buscarAgendaUsuario", Atendimento.class)
-				.setParameter("tecnico", usuario)
+				.setParameter("conselheiro", usuario)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", StatusAtendimento.AGENDADO)
 				.getResultList();	
@@ -367,13 +367,13 @@ public class AgendamentoIndividualDAO implements Serializable {
 		/*
 		 SELECT a.dataAtendimento, 
 			a.resumoAtendimento, 
-			c.nome AS nomeTecnico, 
+			c.nome AS nomeConselheiro, 
 			d.nome AS nomeUnidade,
 			b.nome AS nomePessoa,
 			a.codigoAuxiliar
 		FROM svsa.listaatendimento a
 			INNER JOIN svsa.pessoa b ON b.codigo = a.codigo_pessoa
-			INNER JOIN svsa.usuario c ON c.codigo = a.codigo_tecnico
+			INNER JOIN svsa.usuario c ON c.codigo = a.codigo_Conselheiro
 			INNER JOIN svsa.unidade d ON d.codigo = a.codigo_unidade
 		WHERE a.codigo_pessoa = 31722 
 			and a.tenant_id = 1
@@ -389,7 +389,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 				+ "a.codigoAuxiliar) "
 			+ "FROM Atendimento a "
 				+ "INNER JOIN Pessoa b ON b.codigo = a.pessoa.codigo "
-				+ "INNER JOIN Usuario c ON c.codigo = a.tecnico.codigo "
+				+ "INNER JOIN Usuario c ON c.codigo = a.conselheiro.codigo "
 				+ "INNER JOIN Unidade d ON d.codigo = a.unidade.codigo "
 			+ "WHERE a.pessoa.codigo = :codigo_pessoa "
 			 	+ "and a.tenant_id = :tenantId "
@@ -488,7 +488,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 				.setFirstResult(first)
 				.setMaxResults(pageSize)
 				.getResultList();				
-		} else if(opcao == 3) {  // nome tecnico
+		} else if(opcao == 3) {  // nome conselheiro
 			lista = manager.createQuery("select a from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
@@ -497,7 +497,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
-					+ " and a.tecnico.nome LIKE :filtro "
+					+ " and a.conselheiro.nome LIKE :filtro "
 					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
 					+ " and a.dataAtendimento between :ini and :fim "
 					+ " order by a.dataAtendimento", Atendimento.class)
@@ -558,7 +558,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 				.setParameter("filtro", filtro.toUpperCase() + "%")
 				.setParameter("status", StatusAtendimento.ATENDIDO)
 				.getSingleResult();
-		} else if(opcao == 3) {  // nome tecnico			
+		} else if(opcao == 3) {  // nome conselheiro			
 			qde = manager.createQuery("select count(a) from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
@@ -567,7 +567,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
-					+ " and a.tecnico.nome LIKE :filtro "
+					+ " and a.conselheiro.nome LIKE :filtro "
 					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
 					+ " and a.dataAtendimento between :ini and :fim "
 					+ " order by a.dataAtendimento", Long.class)

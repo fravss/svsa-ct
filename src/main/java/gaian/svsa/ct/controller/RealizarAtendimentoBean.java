@@ -53,7 +53,7 @@ public class RealizarAtendimentoBean implements Serializable {
 	private boolean auxilioFuneral;
 	private boolean auxilioNatalidade;
 	
-	private DualListModel<Usuario> tecnicos;	
+	private DualListModel<Usuario> conselheiros;	
 	private Usuario usuarioLogado;		
 	private boolean cadastrador;
 	private boolean statusPoll = true;
@@ -79,7 +79,7 @@ public class RealizarAtendimentoBean implements Serializable {
 			
 			carregarCodAux();
 			
-			carregarTecnicos();
+			carregarConselheiros();
 						
 			buscarListaAtendimento();	
 			
@@ -108,26 +108,26 @@ public class RealizarAtendimentoBean implements Serializable {
 		}
 	}
 	
-	private void carregarTecnicos() throws NegocioException {		
+	private void carregarConselheiros() throws NegocioException {		
 		try {
-			List<Usuario>tecsSource = new ArrayList<Usuario>();
-			tecsSource = usuarioService.buscarTecnicos(usuarioLogado.getUnidade(), loginBean.getTenantId());
-			tecsSource.remove(usuarioLogado);
-			List<Usuario> tecsTarget = new ArrayList<Usuario>();
+			List<Usuario>consSource = new ArrayList<Usuario>();
+			consSource = usuarioService.buscarConselheiros(usuarioLogado.getUnidade(), loginBean.getTenantId());
+			consSource.remove(usuarioLogado);
+			List<Usuario> consTarget = new ArrayList<Usuario>();
 	       
-	        tecnicos = new DualListModel<Usuario>(tecsSource, tecsTarget);
+			conselheiros = new DualListModel<Usuario>(consSource, consTarget);
 		}
         catch(Exception e){
-        	log.error("Erro carregarTecnicos() do RealizarAtendimento");
+        	log.error("Erro carregarConselheiros() do RealizarAtendimento");
 			throw e;
         }
 	}
 	
 	public void onTransfer(TransferEvent event) {
 
-        for(Object tecnico : event.getItems()) {
-        	log.info("Tecnico selecionado: " + ((Usuario) tecnico).getNome());
-        	MessageUtil.sucesso("Conselheiro " + ((Usuario) tecnico).getNome() + " selecionado.");
+        for(Object conselheiro : event.getItems()) {
+        	log.info("Conselheiro selecionado: " + ((Usuario) conselheiro).getNome());
+        	MessageUtil.sucesso("Conselheiro " + ((Usuario) conselheiro).getNome() + " selecionado.");
         }         
     }
 	
@@ -135,8 +135,8 @@ public class RealizarAtendimentoBean implements Serializable {
 	public void encerrar() {
 		try {
 			
-			item.setTecnico(usuarioLogado);	
-			item.setTecnicos(new HashSet<Usuario>(tecnicos.getTarget()));		
+			item.setConselheiro(usuarioLogado);	
+			item.setConselheiros(new HashSet<Usuario>(conselheiros.getTarget()));		
 			item.setTenant_id(loginBean.getTenantId());
 	
 			this.atendimentoService.encerrarAtendimento(item);
@@ -161,8 +161,8 @@ public class RealizarAtendimentoBean implements Serializable {
 			Instant time = Instant.now();			
 			log.info("auto save atendimento individual... : " + time);
 			
-			item.setTecnico(usuarioLogado);			
-			item.setTecnicos(new HashSet<Usuario>(tecnicos.getTarget()));
+			item.setConselheiro(usuarioLogado);			
+			item.setConselheiros(new HashSet<Usuario>(conselheiros.getTarget()));
 			item.setTenant_id(loginBean.getTenantId());
 			
 			log.info("ANTES...auto save atendimento INDIV codigo = " + item.getCodigo());

@@ -90,15 +90,15 @@ public class UsuarioDAO implements Serializable {
 	
 	/* Buscas caso de uso ManterSCFV, RealizarAtendimento ind e col e ManterPAIF */
 	
-	public List<Usuario> buscarTecnicos(Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("Usuario.buscarTecnicos", Usuario.class)				
+	public List<Usuario> buscarConselheiros(Unidade unidade, Long tenantId) {
+		return manager.createNamedQuery("Usuario.buscarConselheiros", Usuario.class)				
 				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)
 				.getResultList();
 	}
-	public List<Usuario> buscarTecnicosRole(Role role, Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("Usuario.buscarTecnicosRole", Usuario.class)
+	public List<Usuario> buscarConselheirosRole(Role role, Unidade unidade, Long tenantId) {
+		return manager.createNamedQuery("Usuario.buscarConselheirosRole", Usuario.class)
 				.setParameter("role", role)
 				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
@@ -193,14 +193,14 @@ public class UsuarioDAO implements Serializable {
 				.setParameter("nome", "%" + nome.toUpperCase() + "%")
 				.getSingleResult();
 	}
-	public Long buscarTotalTecnicos(Long tenantId) {
-		return manager.createNamedQuery("Usuario.buscarTotalTecnicos", Long.class)
+	public Long buscarTotalConselheiros(Long tenantId) {
+		return manager.createNamedQuery("Usuario.buscarTotalConselheiros", Long.class)
 				.setParameter("status", Status.ATIVO)
 				.setParameter("tenantId", tenantId)
 				.getSingleResult();
 	}
-	public Long buscarTotalTecnicosUnid(Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("Usuario.buscarTotalTecnicosUnid", Long.class)
+	public Long buscarTotalConselheirosUnid(Unidade unidade, Long tenantId) {
+		return manager.createNamedQuery("Usuario.buscarTotalConselheirosUnid", Long.class)
 				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)

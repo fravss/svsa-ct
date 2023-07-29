@@ -39,9 +39,9 @@ public class DenunciaService implements Serializable {
 	
 	/*public void salvarAlterar(Denuncia denuncia, Long codigoUsuarioLogado) throws NegocioException {
 		
-		log.info("para verificar o problema de alteração de denuncia...criada por: " + denuncia.getTecnico().getCodigo() + " **** Tentativa de alteração por : " + codigoUsuarioLogado);
+		log.info("para verificar o problema de alteração de denuncia...criada por: " + denuncia.getConselheiro().getCodigo() + " **** Tentativa de alteração por : " + codigoUsuarioLogado);
 			
-		if(codigoUsuarioLogado.longValue() == denuncia.getTecnico().getCodigo().longValue()) {
+		if(codigoUsuarioLogado.longValue() == denuncia.getConselheiro().getCodigo().longValue()) {
 			if(new Date().after(DateUtils.plusDays(denuncia.getDataEmissao(), 7)) ){
 				throw new NegocioException("Prazo para alteração (7 dias) foi ultrapassado!");
 					

@@ -26,7 +26,7 @@ public class AtendimentoDTO implements Serializable, Comparable<AtendimentoDTO>{
 	@ToString.Include
 	private Date data;
 	private String resumoAtendimento = "";
-	private String nomeTecnico = "";
+	private String nomeConselheiro = "";
 	private String nomeUnidade = "";
 	private String nomePessoa = "";
 	private CodigoAuxiliarAtendimento codAux;
@@ -35,30 +35,30 @@ public class AtendimentoDTO implements Serializable, Comparable<AtendimentoDTO>{
 	
 	public AtendimentoDTO() {}
 	
-	public AtendimentoDTO(Date data, String resumoAtendimento, String nomeTecnico, String nomeUnidade, String nomePessoa, CodigoAuxiliarAtendimento codAux) {
+	public AtendimentoDTO(Date data, String resumoAtendimento, String nomeConselheiro, String nomeUnidade, String nomePessoa, CodigoAuxiliarAtendimento codAux) {
 		this.data = data;
 		this.resumoAtendimento = resumoAtendimento;
-		this.nomeTecnico = nomeTecnico;
+		this.nomeConselheiro = nomeConselheiro;
 		this.nomeUnidade = nomeUnidade;
 		this.nomePessoa = nomePessoa;
 		this.codAux = codAux;
 	}
 	
-	public AtendimentoDTO(Date data, String resumoAtendimento, String nomeTecnico, String nomeUnidade, String nomePessoa) {
+	public AtendimentoDTO(Date data, String resumoAtendimento, String nomeConselheiro, String nomeUnidade, String nomePessoa) {
 		this.data = data;
 		this.resumoAtendimento = resumoAtendimento;
-		this.nomeTecnico = nomeTecnico;
+		this.nomeConselheiro = nomeConselheiro;
 		this.nomeUnidade = nomeUnidade;
 		this.nomePessoa = nomePessoa;
 	}
 	
 	// usado em produtividadeDAO
-	public AtendimentoDTO(String nomeTecnico, String nomeUnidade) {		
-		this.nomeTecnico = nomeTecnico;		
+	public AtendimentoDTO(String nomeConselheiro, String nomeUnidade) {		
+		this.nomeConselheiro = nomeConselheiro;		
 		this.nomeUnidade = nomeUnidade;
 	}
-	public AtendimentoDTO(String nomeTecnico, String nomeUnidade, Role role) {		
-		this.nomeTecnico = nomeTecnico;		
+	public AtendimentoDTO(String nomeConselheiro, String nomeUnidade, Role role) {		
+		this.nomeConselheiro = nomeConselheiro;		
 		this.nomeUnidade = nomeUnidade;
 		this.role = role;
 	}

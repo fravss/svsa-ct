@@ -63,14 +63,14 @@ import lombok.ToString;
 	
 	/* apenas usuarios Ativos */
 	
-	@NamedQuery(name="Usuario.buscarTecnicos", query="select u from Usuario u "
+	@NamedQuery(name="Usuario.buscarConselheiros", query="select u from Usuario u "
 			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.status = :status " 
 			+ "and u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "
 			+ "and u.grupo not in ('ADMINISTRATIVOS') "
 			+ "order by u.nome"),  // *cuidado*	
-	@NamedQuery(name="Usuario.buscarTecnicosRole", query="select u from Usuario u "
+	@NamedQuery(name="Usuario.buscarConselheirosRole", query="select u from Usuario u "
 			+ "where u.role = :role "
 			+ "and u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
@@ -84,12 +84,12 @@ import lombok.ToString;
 	
 	/* count ativos */
 	
-	@NamedQuery(name="Usuario.buscarTotalTecnicos", query="select count(u) from Usuario u "
+	@NamedQuery(name="Usuario.buscarTotalConselheiros", query="select count(u) from Usuario u "
 			+ "where u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.unidade.tipo not in ('SASC') "
 			+ "and u.status = :status"),
-	@NamedQuery(name="Usuario.buscarTotalTecnicosUnid", query="select count(u) from Usuario u "
+	@NamedQuery(name="Usuario.buscarTotalConselheirosUnid", query="select count(u) from Usuario u "
 			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId " 
 			+ "and u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "

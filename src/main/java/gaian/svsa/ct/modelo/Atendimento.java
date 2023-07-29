@@ -69,17 +69,14 @@ import lombok.ToString;
 			+ "and a.dataAgendamento between :ini and :fim "
 			+ "and a.tenant_id = :tenantId "
 			+ "order by a.dataAgendamento"),
-	@NamedQuery(name="Atendimento.buscarAgendaUsuario", query="select a from Atendimento a "
-			+ "where a.statusAtendimento = :status "
-			+ "and a.tecnico = :tecnico "
-			+ "and a.tenant_id = :tenantId "),
+	@NamedQuery(name="Atendimento.buscarAgendaUsuario", query="select a from Atendimento a where a.statusAtendimento = :status and a.conselheiro = :conselheiro and a.tenant_id = :tenantId "),
 	@NamedQuery(name="Atendimento.buscarAtendimentosRole", query="select a from Atendimento a "
 			+ "where a.statusAtendimento = :status "
 			+ "and a.unidade = :unidade "
 			+ "and a.tenant_id = :tenantId "
 			+ "and a.role = :role "
 			+ "order by a.dataAgendamento"),
-	@NamedQuery(name="Atendimento.buscarAtendimentosTecnicos", query="select a from Atendimento a "
+	@NamedQuery(name="Atendimento.buscarAtendimentosConselheiros", query="select a from Atendimento a "
 			+ "where a.statusAtendimento = :status "
 			+ "and a.unidade = :unidade "
 			+ "and a.tenant_id = :tenantId "
@@ -203,10 +200,10 @@ public class Atendimento implements Serializable, Comparable<Atendimento>{
 	private CodigoAuxiliarAtendimento codigoAuxiliar;	//@Index(name="idx_codigoAuxiliar") para buscas lazyAtendimento
 	
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
+	@JoinColumn(name="codigo_conselheiro")
 	@NotFound( action = NotFoundAction.IGNORE )
 	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-	private Usuario tecnico;
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_agendador")
@@ -216,12 +213,12 @@ public class Atendimento implements Serializable, Comparable<Atendimento>{
 	
 	@ManyToMany(fetch = FetchType.EAGER, 
 			cascade = {CascadeType.PERSIST,	CascadeType.MERGE}	)
-		@JoinTable(	name="TecnicoAtendimento", 
+		@JoinTable(	name="ConselheiroAtendimento", 
 					joinColumns={@JoinColumn(name="codigo_atendimento")}, 
-					inverseJoinColumns={@JoinColumn(name="codigo_tecnico")}	)
+					inverseJoinColumns={@JoinColumn(name="codigo_conselheiro")}	)
 		@NotFound( action = NotFoundAction.IGNORE )
 		//@NotAudited
-	private Set<Usuario> tecnicos = new HashSet<>();
+	private Set<Usuario> conselheiros = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_pessoa")

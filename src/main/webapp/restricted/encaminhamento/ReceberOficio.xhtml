@@ -285,12 +285,12 @@
 			    	</h:panelGroup>
 			    	
 			    				    		
-	    			<p:outputLabel value="Conselheiro Responsável" for="tecnico"/>
-	    			<p:selectOneMenu id="tecnico"
+	    			<p:outputLabel value="Conselheiro Responsável" for="conselheiro"/>
+	    			<p:selectOneMenu id="conselheiro"
 		    			value="#{receberOficioBean.oficio.conselheiro}">
 		    			<f:selectItem itemLabel="Selecione o conselheiro" />
-		    			<f:selectItems value="#{receberOficioBean.tecnicos}" var="tec" 
-							itemLabel="#{tec.nome}" itemValue="#{tec}"/>
+		    			<f:selectItems value="#{receberOficioBean.conselheiros}" var="con" 
+							itemLabel="#{con.nome}" itemValue="#{con}"/>
 		    		</p:selectOneMenu>	    				
 					
 					<p:commandButton icon="pi pi-save" id="salvarCommandButton" value="Salvar" 

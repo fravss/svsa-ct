@@ -98,9 +98,9 @@
 	    		</p:column>    			
 	    		
 	    		<p:column headerText="Conselheiro destinado" style="width: 80px; text-align: center"
-	    			filterBy="#{item.tecnico.nome}"
+	    			filterBy="#{item.conselheiro.nome}"
 	    			footerText="contains" filterMatchMode="contains">	    			
-	    			<h:outputText value="#{item.tecnico.nome}" />
+	    			<h:outputText value="#{item.conselheiro.nome}" />
 	    		</p:column> 
 	    		
 	    		<p:column headerText="Agendado por" style="width: 60px; text-align: center"
@@ -114,7 +114,7 @@
 		    		
 		    		<p:commandButton icon="pi pi-pencil" title="Editar agendamento"
 		    			disabled="#{agendamentoIndividualBean.item.codigo eq null}"
-		    			actionListener="#{agendamentoIndividualBean.carregarTecnicos}"    			
+		    			actionListener="#{agendamentoIndividualBean.carregarConselheiros}"    			
 		    			oncomplete="PF('addDialogWidgetVar').show();"
 		    			update=":frmPesquisa:addDialog :frmPesquisa:toolbar :frmPesquisa:messages :frmPesquisa:listaDataTable" 
 		            	process="@this">
@@ -228,25 +228,25 @@
 		    			<f:selectItem itemLabel="Selecione o perfil" />
 		    			<f:selectItems value="#{agendamentoIndividualBean.roles}" var="role" 
 							itemLabel="#{role}" itemValue="#{role}" />							
-						<p:ajax listener="#{agendamentoIndividualBean.carregarTecnicos}" 
-							update="tecnico" process="role"/>									
+						<p:ajax listener="#{agendamentoIndividualBean.carregarConselheiros}" 
+							update="conselheiro" process="role"/>									
 	    			</p:selectOneMenu>	    			
 	    			
-	    			<p:outputLabel value="Conselheiro Responsável" for="tecnico"/>	
+	    			<p:outputLabel value="Conselheiro Responsável" for="conselheiro"/>	
 	    			<h:panelGroup>	    			
-		    			<p:selectOneMenu id="tecnico" 
-			    			value="#{agendamentoIndividualBean.item.tecnico}" >
+		    			<p:selectOneMenu id="conselheiro" 
+			    			value="#{agendamentoIndividualBean.item.conselheiro}" >
 			    			<f:selectItem itemLabel="Selecione o conselheiro" />
-			    			<f:selectItems value="#{agendamentoIndividualBean.tecnicos}" var="tec" 
-								itemLabel="#{tec.nome}" itemValue="#{tec}" />
+			    			<f:selectItems value="#{agendamentoIndividualBean.conselheiros}" var="con" 
+								itemLabel="#{con.nome}" itemValue="#{con}" />
 							
-							<p:ajax listener="#{agendamentoIndividualBean.verificarDispTecnico}" 
-								update="tecnico dataAgendamento msg" process="addDialog"/>																		
+							<p:ajax listener="#{agendamentoIndividualBean.verificarDispConselheiro}" 
+								update="conselheiro dataAgendamento msg" process="addDialog"/>																		
 			    		</p:selectOneMenu>
 			    		<p:commandButton id="disp" value="Verificar disponibilidade"				    			
-							actionListener="#{agendamentoIndividualBean.verificarDispTecnico}"
+							actionListener="#{agendamentoIndividualBean.verificarDispConselheiro}"
 							update="msg disp"
-							process="@this dataAgendamento tecnico disp">
+							process="@this dataAgendamento conselheiro disp">
 						</p:commandButton>
 					</h:panelGroup>   		    		       		    		
 				</p:panelGrid>

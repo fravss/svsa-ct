@@ -77,21 +77,21 @@ public class AgendaScheduleBean implements Serializable {
     			eventModel.addEvent(event);  
     		}
     		else {
-    			if(l.getTecnico() != null) {
-    				log.debug("com tecnico");
+    			if(l.getConselheiro() != null) {
+    				log.debug("com conselheiro");
     				event = DefaultScheduleEvent.builder()
         					.title("[IND] " + l.getPessoa().getNome())
         					.startDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))
         					.endDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))   
-        					.description(""+l.getTecnico().getNome())
+        					.description(""+l.getConselheiro().getNome())
         					.borderColor("blue")
         					.backgroundColor("blue")
         					.build();    				
     				eventModel.addEvent(event);  
-    				//eventModel.addEvent(new DefaultScheduleEvent("[IND] " + l.getPessoa().getNome() + " (" + l.getTecnico().getNome() + ")", l.getDataAgendamento(), l.getDataAgendamento()));
+    				//eventModel.addEvent(new DefaultScheduleEvent("[IND] " + l.getPessoa().getNome() + " (" + l.getConselheiro().getNome() + ")", l.getDataAgendamento(), l.getDataAgendamento()));
     			}
     			else {
-    				log.debug("sem tecnico");
+    				log.debug("sem conselheiro");
     				event = DefaultScheduleEvent.builder()
         					.title("[IND] " + l.getPessoa().getNome())
         					.startDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))

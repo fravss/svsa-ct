@@ -23,22 +23,22 @@ public class CalendarioAgendaHelper implements Serializable {
 	@Inject
 	private CalendarioDAO calendarioDAO;
 	
-	// verifica disponibilidade do tecnico
-	public void verificarDisponibilidade(Usuario tecnico, Date data, Long tenantId) throws NegocioException {
+	// verifica disponibilidade do conselheiro
+	public void verificarDisponibilidade(Usuario conselheiro, Date data, Long tenantId) throws NegocioException {
 		
-		log.debug("Verificando disponibilidades...feriados, folgas, data ocupada e tecnico na data");
-		verificarDisponibilidade(tecnico.getUnidade(), data, tenantId);
+		log.debug("Verificando disponibilidades...feriados, folgas, data ocupada e conselheiro na data");
+		verificarDisponibilidade(conselheiro.getUnidade(), data, tenantId);
 
 		// verifica se técnico está de folga ou ferias
-		calendarioDAO.verificaDataTecnico(data, tecnico, tenantId);
+		calendarioDAO.verificaDataConselheiro(data, conselheiro, tenantId);
 		
-		// verifica se tecnico está ocupado
-		calendarioDAO.verificaAgendaTecnico(data, tecnico, tenantId);
+		// verifica se conselheiro está ocupado
+		calendarioDAO.verificaAgendaConselheiro(data, conselheiro, tenantId);
 	}
 
 	public void verificarDisponibilidade(Unidade unidade, Date data, Long tenantId) throws NegocioException {
 		
-		log.debug("Verificando disponibilidades...feriados, folgas, data ocupada e tecnico na data. unidade = " + unidade);		
+		log.debug("Verificando disponibilidades...feriados, folgas, data ocupada e conselheiro na data. unidade = " + unidade);		
 	
 		// verifica se é feriado ou dia ocupado
 		calendarioDAO.verificaDataFeriados(data, unidade, tenantId);		

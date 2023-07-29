@@ -47,7 +47,7 @@ public class CadastroAtendimentoRecepcaoBean implements Serializable {
 		try {			
 			item.setCodigoAuxiliar(CodigoAuxiliarAtendimento.ATENDIMENTO_RECEPCAO);
 			item.setRole(loginBean.getUsuario().getRole());
-			item.setTecnico(loginBean.getUsuario());
+			item.setConselheiro(loginBean.getUsuario());
 			item.setUnidade(loginBean.getUsuario().getUnidade());
 			String str = " : ";
 			String resumoNome = nomePessoaAtendida.concat(str).concat(item.getResumoAtendimento());

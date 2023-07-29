@@ -128,11 +128,11 @@ public class UsuarioService implements Serializable {
 
 
 
-	public List<Usuario> buscarTecnicos(Unidade unidade, Long tenantId) {		
-		return usuarioDAO.buscarTecnicos(unidade, tenantId);
+	public List<Usuario> buscarConselheiros(Unidade unidade, Long tenantId) {		
+		return usuarioDAO.buscarConselheiros(unidade, tenantId);
 	}
-	public List<Usuario> buscarTecnicosRole(Role role, Unidade unidade, Long tenantId) {
-		return usuarioDAO.buscarTecnicosRole(role, unidade, tenantId);
+	public List<Usuario> buscarConselheirosRole(Role role, Unidade unidade, Long tenantId) {
+		return usuarioDAO.buscarConselheirosRole(role, unidade, tenantId);
 	}
 	public List<Usuario> buscarUsuarios(Unidade unidade, Long tenantId) {		
 		return usuarioDAO.buscarUsuarios(unidade, tenantId);

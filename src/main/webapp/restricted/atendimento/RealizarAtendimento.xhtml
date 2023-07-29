@@ -73,9 +73,9 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Conselheiro" style="width: 100px; text-align: center"
-	    			filterBy="#{item.tecnico.nome}"
+	    			filterBy="#{item.conselheiro.nome}"
 	    			footerText="contains" filterMatchMode="contains">
-	    			<h:outputText value="#{item.tecnico.nome}" />
+	    			<h:outputText value="#{item.conselheiro.nome}" />
 	    		</p:column>    		
     		
     			<p:column headerText="Perfil" style="width: 50px; text-align: center">
@@ -172,9 +172,9 @@
 	    			<p:pickList id="pickList"
 	    				responsive="true"	    				
 	    				converter="pickListTecConverter"
-	    				value="#{realizarAtendimentoBean.tecnicos}" 
-	    				var="tecnico" 
-	    				itemValue="#{tecnico}" itemLabel="#{tecnico.nome}">
+	    				value="#{realizarAtendimentoBean.conselheiros}" 
+	    				var="conselheiro" 
+	    				itemValue="#{conselheiro}" itemLabel="#{conselheiro.nome}">
 	    				
 	    				<f:facet name="sourceCaption">Disponíveis</f:facet>
         				<f:facet name="targetCaption">Selecionados</f:facet>

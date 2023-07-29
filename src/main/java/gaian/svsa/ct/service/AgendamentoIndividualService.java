@@ -61,11 +61,11 @@ public class AgendamentoIndividualService implements Serializable {
 
 	public void verificarDisponibilidade(Unidade unidade, Atendimento item, Long tenantId) throws NegocioException {		
 				
-		if(item.getTecnico() == null) {
+		if(item.getConselheiro() == null) {
 			calendarioHelper.verificarDisponibilidade(unidade, item.getDataAgendamento(), tenantId);
 		}
 		else {
-			calendarioHelper.verificarDisponibilidade(item.getTecnico(), item.getDataAgendamento(), tenantId);
+			calendarioHelper.verificarDisponibilidade(item.getConselheiro(), item.getDataAgendamento(), tenantId);
 		}
 		
 	}
@@ -126,7 +126,7 @@ public class AgendamentoIndividualService implements Serializable {
 	
 	public void salvarAlterar(Atendimento item, Usuario usuario) throws NegocioException {
 		
-		if(usuario.getCodigo().longValue() == item.getTecnico().getCodigo().longValue()) {
+		if(usuario.getCodigo().longValue() == item.getConselheiro().getCodigo().longValue()) {
 			if(new Date().after(DateUtils.plusDays(item.getDataAtendimento(), 7)) )
 			{
 				throw new NegocioException("Prazo para alteração (7 dias) foi ultrapassado!");
@@ -177,7 +177,7 @@ public class AgendamentoIndividualService implements Serializable {
 				usuario.getRole() == Role.CONSELHEIRO ||
 				usuario.getRole() == Role.PSICOLOGO ||
 				usuario.getRole() == Role.ORIENTADOR_SOCIAL) {
-			return listaDAO.buscarAtendimentosTecnicos(usuario.getUnidade(), tenantId);
+			return listaDAO.buscarAtendimentosConselheiros(usuario.getUnidade(), tenantId);
 		}
 		return listaDAO.buscarAtendimentosRole(usuario, tenantId);
 	}

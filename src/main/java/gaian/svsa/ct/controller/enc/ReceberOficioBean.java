@@ -59,7 +59,7 @@ public class ReceberOficioBean implements Serializable {
 	private Orgao orgao;
 	private Boolean todos = false;
 	
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
 	private List<CodigoEncaminhamento> codigoEncaminhamento;
 	
 	private Usuario usuarioLogado;
@@ -90,7 +90,7 @@ public class ReceberOficioBean implements Serializable {
 		
 		carregarOficios();
 		
-		tecnicos = usuarioService.buscarTecnicos(unidade, loginBean.getTenantId());
+		conselheiros = usuarioService.buscarConselheiros(unidade, loginBean.getTenantId());
 		
 		limpar();
 	}

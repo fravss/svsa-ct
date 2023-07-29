@@ -107,7 +107,7 @@ public class LazyAtendimento extends LazyDataModel<Atendimento> implements Seria
                     	filtro1 = (String)meta.getFilterValue();
                     } else if(meta.getField().equals("pessoa.nome")) {
                     	filtro2 = (String)meta.getFilterValue();
-                    } else if(meta.getField().equals("tecnico.nome")) {
+                    } else if(meta.getField().equals("conselheiro.nome")) {
                     	filtro3 = (String)meta.getFilterValue();
                     }                    	
 	
@@ -133,7 +133,7 @@ public class LazyAtendimento extends LazyDataModel<Atendimento> implements Seria
 			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro2, 2, tenantId).intValue();
 			this.setRowCount(dataSize);
 		} else if(filtro3 != null && !filtro3.equals("")) {
-			log.debug("filtro por nome tecnico = :" + filtro3);  
+			log.debug("filtro por nome conselheiro = :" + filtro3);  
 			atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro3, 3, tenantId);	
 			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro3, 3, tenantId).intValue();
 			this.setRowCount(dataSize);

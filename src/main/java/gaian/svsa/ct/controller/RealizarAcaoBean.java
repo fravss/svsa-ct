@@ -48,7 +48,7 @@ public class RealizarAcaoBean implements Serializable {
 	private List<Acao> acoes = new ArrayList<>();
 	private Acao acao = new Acao();
 	private Pessoa pessoa;
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
 	private boolean statusPoll = true;
 	
 	@Inject
@@ -75,8 +75,8 @@ public class RealizarAcaoBean implements Serializable {
 			acao.setAgendador(loginBean.getUsuario());
 			acao.setTenant_id(loginBean.getTenantId());
 			
-			if(acao.getTecnico() != null)
-				acao.setTecnico(loginBean.getUsuario());
+			if(acao.getConselheiro() != null)
+				acao.setConselheiro(loginBean.getUsuario());
 			
 			if(acao.getPessoas().size() < 1 || acao.getPessoas().isEmpty() || acao.getPessoas() == null) {
 				
@@ -112,7 +112,7 @@ public class RealizarAcaoBean implements Serializable {
 			log.info("auto save... : " + time);
 			
 			acao.setTenant_id(loginBean.getTenantId());
-			acao.setTecnico(loginBean.getUsuario());
+			acao.setConselheiro(loginBean.getUsuario());
 			
 			if(acao.getPessoas().size() < 1 || acao.getPessoas().isEmpty() || acao.getPessoas() == null) {
 				
@@ -203,6 +203,6 @@ public class RealizarAcaoBean implements Serializable {
 		acao.setTenant_id(loginBean.getTenantId());
 		acao.setPessoas(new ArrayList<Pessoa>());
 		acao.setUnidade(loginBean.getUsuario().getUnidade());
-		acao.setTecnico(loginBean.getUsuario());
+		acao.setConselheiro(loginBean.getUsuario());
 	}	
 }

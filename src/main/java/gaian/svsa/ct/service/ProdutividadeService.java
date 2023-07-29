@@ -38,7 +38,7 @@ public class ProdutividadeService implements Serializable {
 	
 	public List<AtendimentoTO> buscarAtendCaUnicoDTO(Date ini, Date fim, Long tenantId) {	
 		
-		/* atendimentos cadunico por tecnico*/
+		/* atendimentos cadunico por conselheiro*/
 		List<AtendimentoDTO> dtos;		
 		
 		if(ini != null) {
@@ -54,58 +54,58 @@ public class ProdutividadeService implements Serializable {
 	}
 		
 	
-	public List<AtendimentoTO> buscarAtendTecnicoDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
+	public List<AtendimentoTO> buscarAtendConselheiroDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 		
-		/* atendimentos por tecnico*/
+		/* atendimentos por conselheiro*/
 		List<AtendimentoDTO> dtos;			
 		
 		if(ini != null) {
 			if(fim != null) {
-				dtos = prodDAO.buscarTecnicoProdDTO(ini, fim, unidade, tenantId);
+				dtos = prodDAO.buscarConselheiroProdDTO(ini, fim, unidade, tenantId);
 				totalGeral = prodDAO.buscarTotalGeral(ini, fim, tenantId);
 			}
 			else {
-				dtos = prodDAO.buscarTecnicoProdDTO(ini, new Date(), unidade, tenantId);
+				dtos = prodDAO.buscarConselheiroProdDTO(ini, new Date(), unidade, tenantId);
 				totalGeral = prodDAO.buscarTotalGeral(ini, new Date(), tenantId);				
 			}
 			
-			//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicosUnid(unidade);
+			//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheirosUnid(unidade);
 		}
 		else {
-			dtos = prodDAO.buscarTecnicoProdDTO(unidade, tenantId);
+			dtos = prodDAO.buscarConselheiroProdDTO(unidade, tenantId);
 			totalGeral = prodDAO.buscarTotalGeral(tenantId);
-			//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicos();
+			//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheiros();
 		}
 		
-		mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicos(tenantId);
+		mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheiros(tenantId);
 			
 		return carregarTO(dtos);
 	}
 	
-	public List<AtendimentoTO> buscarAcoesTecnicoDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
+	public List<AtendimentoTO> buscarAcoesConselheiroDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 			
-			/* acoes por tecnico*/
+			/* acoes por conselheiro*/
 			List<AtendimentoDTO> dtos;			
 			
 			if(ini != null) {
 				if(fim != null) {
-					dtos = prodDAO.buscarTecnicoProdAcoesDTO(ini, fim, unidade, tenantId);
+					dtos = prodDAO.buscarConselheiroProdAcoesDTO(ini, fim, unidade, tenantId);
 					totalGeral = prodDAO.buscarTotalGeralAcao(ini, fim, tenantId);
 				}
 				else {
-					dtos = prodDAO.buscarTecnicoProdAcoesDTO(ini, new Date(), unidade, tenantId);
+					dtos = prodDAO.buscarConselheiroProdAcoesDTO(ini, new Date(), unidade, tenantId);
 					totalGeral = prodDAO.buscarTotalGeralAcao(ini, new Date(), tenantId);				
 				}
 				
-				//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicosUnid(unidade);
+				//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheirosUnid(unidade);
 			}
 			else {
-				dtos = prodDAO.buscarTecnicoProdAcoesDTO(unidade, tenantId);
+				dtos = prodDAO.buscarConselheiroProdAcoesDTO(unidade, tenantId);
 				totalGeral = prodDAO.buscarTotalGeralAcao(tenantId);
-				//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicos();
+				//mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheiros();
 			}
 			
-			mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalTecnicos(tenantId);
+			mediaGeral = (float)totalGeral / usuarioDAO.buscarTotalConselheiros(tenantId);
 					
 			return carregarTO(dtos);
 		}
@@ -123,18 +123,18 @@ public class ProdutividadeService implements Serializable {
 			AtendimentoDTO atendDTO = dtos.get(0);
 			
 			if( tamanho > 0 ) {
-				AtendimentoTO to = new AtendimentoTO(atendDTO.getNomeTecnico(),atendDTO.getNomeUnidade(), atendDTO.getRole());
+				AtendimentoTO to = new AtendimentoTO(atendDTO.getNomeConselheiro(),atendDTO.getNomeUnidade(), atendDTO.getRole());
 				
 				for(AtendimentoDTO dto : dtos) {
 					
-					if(to.getNome().equals(dto.getNomeTecnico())) {
+					if(to.getNome().equals(dto.getNomeConselheiro())) {
 						qde++;
 					}
 					else {
 						to.setQdeAtendimentos(qde);
 						to.setPercentual((float)qde/tamanho);			
 						tos.add(to);
-						to = new AtendimentoTO( dto.getNomeTecnico(), dto.getNomeUnidade(), dto.getRole() );
+						to = new AtendimentoTO( dto.getNomeConselheiro(), dto.getNomeUnidade(), dto.getRole() );
 						qde = 1L;
 					}
 				}

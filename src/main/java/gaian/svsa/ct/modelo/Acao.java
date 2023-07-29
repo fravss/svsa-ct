@@ -77,8 +77,8 @@ public class Acao implements Serializable {
 	private Unidade unidade;
 	
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_agendador")
