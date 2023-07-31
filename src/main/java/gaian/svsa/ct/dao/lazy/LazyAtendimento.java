@@ -16,6 +16,7 @@ import org.primefaces.model.SortMeta;
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
 import gaian.svsa.ct.modelo.to.DatasIniFimTO;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
 
@@ -33,13 +34,15 @@ public class LazyAtendimento extends LazyDataModel<Atendimento> implements Seria
 	private AgendamentoIndividualDAO atendDAO;
 	private Unidade unidade;
 	private DatasIniFimTO datasTO;
+	private CodigoAuxiliarAtendimento codigoAux;
 	private Long tenantId;
 	
-	public LazyAtendimento(AgendamentoIndividualService service, Unidade unidade, DatasIniFimTO datasTO, Long tenantId) {
+	public LazyAtendimento(AgendamentoIndividualService service, Unidade unidade, DatasIniFimTO datasTO, CodigoAuxiliarAtendimento codigoAux, Long tenantId) {
 		
 		this.atendDAO = service.getListaDAO();
 		this.unidade = unidade;
 		this.datasTO = datasTO;
+		this.codigoAux = codigoAux;
 		this.tenantId = tenantId;
 	}	
  
@@ -57,7 +60,11 @@ public class LazyAtendimento extends LazyDataModel<Atendimento> implements Seria
 	@Override
 	public int count(Map<String, FilterMeta> filterBy) {
 		
-		return this.atendDAO.encontrarQde(unidade, datasTO, tenantId).intValue();
+		if(this.codigoAux == null)
+			return this.atendDAO.encontrarQde(unidade, datasTO, tenantId).intValue();
+		else
+			return this.atendDAO.encontrarQde(unidade, datasTO, codigoAux, tenantId).intValue();
+		
 		/*
 		 return (int) atendimentos.stream()
 		
@@ -122,28 +129,71 @@ public class LazyAtendimento extends LazyDataModel<Atendimento> implements Seria
 		
 		
 		if(filtro1 != null && !filtro1.equals("")) {			
-			log.debug("filtro por codigo pessoa = :" + filtro1); 
-			atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro1, 1, tenantId);	
-			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro1, 1, tenantId).intValue();
+			log.debug("filtro por codigo pessoa = :" + filtro1);
+			
+			if(this.codigoAux == null) {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro1, 1, tenantId);	
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro1, 1, tenantId).intValue();
+			}
+			else {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, codigoAux, filtro1, 1, tenantId);	
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, codigoAux, filtro1, 1, tenantId).intValue();
+			}
+				
 			this.setRowCount(dataSize); 
-		} else if(filtro2 != null && !filtro2.equals(""))  {
+		} 
+		else if(filtro2 != null && !filtro2.equals(""))  {
 			log.debug("filtro por nome pessoa = :" + filtro2); 
 			log.debug("buscarComPaginacao (parametros): " + first + ", " + pageSize + ", " + unidade.getCodigo() + ", " + datasTO.getIni() + ", " + datasTO.getFim());
-			atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro2, 2, tenantId);	
-			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro2, 2, tenantId).intValue();
+			
+			if(this.codigoAux == null) {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro2, 2, tenantId);	
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro2, 2, tenantId).intValue();
+			}
+			else {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, codigoAux, filtro2, 2, tenantId);	
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, codigoAux, filtro2, 2, tenantId).intValue();
+			}
+			
 			this.setRowCount(dataSize);
-		} else if(filtro3 != null && !filtro3.equals("")) {
-			log.debug("filtro por nome conselheiro = :" + filtro3);  
-			atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro3, 3, tenantId);	
-			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro3, 3, tenantId).intValue();
+		} 
+		else if(filtro3 != null && !filtro3.equals("")) {
+			log.debug("filtro por nome tecnico = :" + filtro3);  
+			
+			if(this.codigoAux == null) {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, filtro3, 3, tenantId);
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, filtro3, 3, tenantId).intValue();
+			}
+			else {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, codigoAux, filtro3, 3, tenantId);
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, codigoAux, filtro3, 3, tenantId).intValue();
+			}
+			
 			this.setRowCount(dataSize);
-		} else {	
+		} 
+		else {	
 			log.debug("sem filtro da unidade " + unidade.getNome()); 
 			log.debug("buscarComPaginacao (parametros): " + first + ", " + pageSize + ", " + unidade.getCodigo() + ", " + datasTO.getIni() + ", " + datasTO.getFim());
-			atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, tenantId);
-			dataSize = this.atendDAO.encontrarQde(unidade, datasTO, tenantId).intValue();
+			
+			if(this.codigoAux == null) {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, tenantId);
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, tenantId).intValue();
+			}
+			else {
+				
+				atendimentos = this.atendDAO.buscarComPaginacao(first, pageSize, unidade, datasTO, codigoAux, tenantId);
+				dataSize = this.atendDAO.encontrarQde(unidade, datasTO, codigoAux, tenantId).intValue();
+			}
+			
 			this.setRowCount(dataSize);
-			log.debug("qde = : " + atendimentos.size() + " dataSize: " + dataSize); 
+			log.debug("qde = : " + atendimentos.size() + " dataSize: " + dataSize);
 		}
 
 		log.debug("tamanho = :" + dataSize);

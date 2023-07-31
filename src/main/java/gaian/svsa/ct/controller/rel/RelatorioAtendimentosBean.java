@@ -20,6 +20,8 @@ import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.enums.Ano;
+import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
+import gaian.svsa.ct.modelo.enums.EnumUtil;
 import gaian.svsa.ct.modelo.enums.Grupo;
 import gaian.svsa.ct.modelo.enums.Mes;
 import gaian.svsa.ct.modelo.to.DatasIniFimTO;
@@ -62,6 +64,9 @@ public class RelatorioAtendimentosBean implements Serializable {
 	private String nomePessoa;
 	private boolean consultado = false;
 	
+	private List<CodigoAuxiliarAtendimento> codigosAux;
+	private CodigoAuxiliarAtendimento codigoAux;
+	
 	private List<String> anos = new ArrayList<>(Arrays.asList(Ano.getAnos()));
 	private Integer ano;
 	private List<Mes> meses;	
@@ -86,18 +91,17 @@ public class RelatorioAtendimentosBean implements Serializable {
 		
 		anos = new ArrayList<>(Arrays.asList(Ano.getAnos()));		
 		meses = Arrays.asList(Mes.values());
+		codigosAux = EnumUtil.getTiposAtendimento();
 
 		unidade = loginBean.getUsuario().getUnidade();		
 		graficoAtendimentos = new PieChartModel();
 		graficoAtendimentosCol = new PieChartModel();
-		
-		consultarAtendimentos();
 	}
 	
 	public void consultarAtendimentos() {
 		
 		datasTO = DateUtils.getDatasIniFim(getAno(), getMes());
-		lazyAtendimentos = new LazyAtendimento(atendimentoService, unidade, datasTO, loginBean.getTenantId());
+		lazyAtendimentos = new LazyAtendimento(atendimentoService, unidade, datasTO, codigoAux, loginBean.getTenantId());
 		consultado = true;
 	}
 	

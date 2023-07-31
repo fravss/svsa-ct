@@ -78,7 +78,7 @@ private static final long serialVersionUID = 1L;
 	try {
 		LocalDate data = LocalDate.now();
 		setAno(data.getYear());	
-		denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
+		denuncias = denunciaService.buscarTodos(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
 		this.unidade = loginBean.getUsuario().getUnidade();
 	}
 	catch(Exception e){
@@ -89,7 +89,7 @@ private static final long serialVersionUID = 1L;
 	public void excluir() {
 		try {
 			this.denunciaService.excluir(denunciaSelecionada);
-			denuncias = denunciaService.buscarTodos(loginBean.getTenantId());
+			denuncias = denunciaService.buscarTodos(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
 			MessageUtil.sucesso("Denuncia" + denunciaSelecionada.getCodigo() + " excluída com sucesso.");
 			
 		//	limpar();

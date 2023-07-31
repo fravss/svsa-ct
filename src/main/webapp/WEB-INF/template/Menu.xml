@@ -18,10 +18,15 @@
 		</menuitem>	
 		<menuitem value="Registrar Ação" outcome="/restricted/atendimento/RealizarAcao.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>				
-		<menuitem value="Relatório de Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
-			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>		
+		</menuitem>
+		<submenu2 label="Relatórios">
+			<menuitem2 value="Atendimentos" outcome="/restricted/atendimento/RelatorioAtendimentos.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>
+			<menuitem2 value="Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>	
+		</submenu2>		
 	</submenu>
 	
 	<submenu label="Denuncia" icon="pi pi-book">

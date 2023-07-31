@@ -17,8 +17,8 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 
 import gaian.svsa.ct.modelo.Acao;
-import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.Atendimento;
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
@@ -440,6 +440,7 @@ public class AgendamentoIndividualDAO implements Serializable {
 	 * 
 	 */	
 	// filtros
+	//Sem CodigoAux
 	public List<Atendimento> buscarComPaginacao(int first, int pageSize, Unidade unidade, DatasIniFimTO datasTO, String filtro, int opcao, Long tenantId) {
 		
 		List<Atendimento> lista = new ArrayList<Atendimento>();
@@ -448,8 +449,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 			lista = manager.createQuery("select a from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
-					+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-					+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
@@ -470,8 +471,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 			lista = manager.createQuery("select a from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
-					+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-					+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
@@ -492,8 +493,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 			lista = manager.createQuery("select a from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
-					+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-					+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
@@ -513,7 +514,90 @@ public class AgendamentoIndividualDAO implements Serializable {
 		}		
 		return lista;		
 	}
+	
+	//Com CodigoAux
+	public List<Atendimento> buscarComPaginacao(int first, int pageSize, Unidade unidade, DatasIniFimTO datasTO, CodigoAuxiliarAtendimento codigoAux, String filtro, int opcao, Long tenantId) {
+		
+		List<Atendimento> lista = new ArrayList<Atendimento>();
+		
+		if(opcao == 1) {  // codigo pessoa
+			lista = manager.createQuery("select a from Atendimento a "
+					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+					+ " INNER JOIN Familia fam ON pes.familia = fam "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
+					+ "where a.statusAtendimento = :status "
+					+ " and uni = :unidade "
+					+ " and a.tenant_id = :tenantId "
+					+ " and pes.codigo = :filtro "
+					+ " and a.codigoAuxiliar = :codigoAux "
+					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+					+ " and a.dataAtendimento between :ini and :fim "
+					+ " order by a.dataAtendimento", Atendimento.class)
+				.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+				.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+				.setParameter("unidade", unidade)
+				.setParameter("tenantId", tenantId)
+				.setParameter("filtro", Long.valueOf(filtro))
+				.setParameter("codigoAux", codigoAux)
+				.setParameter("status", StatusAtendimento.ATENDIDO)
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();				
+		} else if(opcao == 2) {  // nome pessoa
+			lista = manager.createQuery("select a from Atendimento a "
+					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+					+ " INNER JOIN Familia fam ON pes.familia = fam "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
+					+ "where a.statusAtendimento = :status "
+					+ " and uni = :unidade "
+					+ " and a.tenant_id = :tenantId "
+					+ " and pes.nome LIKE :filtro "
+					+ " and a.codigoAuxiliar = :codigoAux "
+					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+					+ " and a.dataAtendimento between :ini and :fim "
+					+ " order by a.dataAtendimento", Atendimento.class)
+				.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+				.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+				.setParameter("unidade", unidade)
+				.setParameter("tenantId", tenantId)
+				.setParameter("filtro", filtro.toUpperCase() + "%")
+				.setParameter("codigoAux", codigoAux)
+				.setParameter("status", StatusAtendimento.ATENDIDO)
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();				
+		} else if(opcao == 3) {  // nome conselheiro
+			lista = manager.createQuery("select a from Atendimento a "
+					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+					+ " INNER JOIN Familia fam ON pes.familia = fam "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
+					+ "where a.statusAtendimento = :status "
+					+ " and uni = :unidade "
+					+ " and a.tenant_id = :tenantId "
+					+ " and a.conselheiro.nome LIKE :filtro "
+					+ " and a.codigoAuxiliar = :codigoAux "
+					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+					+ " and a.dataAtendimento between :ini and :fim "
+					+ " order by a.dataAtendimento", Atendimento.class)
+				.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+				.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+				.setParameter("unidade", unidade)
+				.setParameter("tenantId", tenantId)
+				.setParameter("filtro", filtro.toUpperCase() + "%")
+				.setParameter("codigoAux", codigoAux)
+				.setParameter("status", StatusAtendimento.ATENDIDO)
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();				
+		}		
+		return lista;		
+	}
+	
 	// quantidade total
+	// Sem CodigoAux
 	public Long encontrarQde(Unidade unidade, DatasIniFimTO datasTO, String filtro, int opcao, Long tenantId) {	
 		
 		Long qde = 0L;
@@ -522,8 +606,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 			qde = manager.createQuery("select count(a) from Atendimento a "
 				+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 				+ " INNER JOIN Familia fam ON pes.familia = fam "
-				+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-				+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+				+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+				+ " INNER JOIN Unidade uni ON den.unidade = uni "
 				+ "where a.statusAtendimento = :status "
 				+ " and uni = :unidade "
 				+ " and a.tenant_id = :tenantId "
@@ -542,8 +626,8 @@ public class AgendamentoIndividualDAO implements Serializable {
 			qde = manager.createQuery("select count(a) from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
-					+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-					+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
@@ -558,12 +642,12 @@ public class AgendamentoIndividualDAO implements Serializable {
 				.setParameter("filtro", filtro.toUpperCase() + "%")
 				.setParameter("status", StatusAtendimento.ATENDIDO)
 				.getSingleResult();
-		} else if(opcao == 3) {  // nome conselheiro			
+		} else if(opcao == 3) {  // nome tecnico			
 			qde = manager.createQuery("select count(a) from Atendimento a "
 					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
 					+ " INNER JOIN Familia fam ON pes.familia = fam "
-					+ " INNER JOIN Prontuario pro ON fam.prontuario = pro "
-					+ " INNER JOIN Unidade uni ON pro.unidade = uni "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
 					+ "where a.statusAtendimento = :status "
 					+ " and uni = :unidade "
 					+ " and a.tenant_id = :tenantId "
@@ -578,13 +662,89 @@ public class AgendamentoIndividualDAO implements Serializable {
 				.setParameter("filtro", filtro.toUpperCase() + "%")
 				.setParameter("status", StatusAtendimento.ATENDIDO)
 				.getSingleResult();
-		}
-		
+		}		
 		return qde;	
-	}	
+	}
 	
+	// quantidade total
+	// Com CodigoAux
+	public Long encontrarQde(Unidade unidade, DatasIniFimTO datasTO, CodigoAuxiliarAtendimento codigoAux, String filtro, int opcao, Long tenantId) {	
+		
+		Long qde = 0L;
+		
+		if(opcao == 1) {  // codigo pessoa			
+			qde = manager.createQuery("select count(a) from Atendimento a "
+				+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+				+ " INNER JOIN Familia fam ON pes.familia = fam "
+				+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+				+ " INNER JOIN Unidade uni ON den.unidade = uni "
+				+ "where a.statusAtendimento = :status "
+				+ " and uni = :unidade "
+				+ " and a.tenant_id = :tenantId "
+				+ " and pes.codigo = :filtro "
+				+ " and a.codigoAuxiliar = :codigoAux "
+				+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+				+ " and a.dataAtendimento between :ini and :fim "
+				+ " order by a.dataAtendimento", Long.class)
+			.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+			.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+			.setParameter("unidade", unidade)
+			.setParameter("tenantId", tenantId)
+			.setParameter("filtro", Long.valueOf(filtro))
+			.setParameter("codigoAux", codigoAux)
+			.setParameter("status", StatusAtendimento.ATENDIDO)
+			.getSingleResult();
+		} else if(opcao == 2) {  // nome pessoa			
+			qde = manager.createQuery("select count(a) from Atendimento a "
+					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+					+ " INNER JOIN Familia fam ON pes.familia = fam "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
+					+ "where a.statusAtendimento = :status "
+					+ " and uni = :unidade "
+					+ " and a.tenant_id = :tenantId "
+					+ " and pes.nome LIKE :filtro "
+					+ " and a.codigoAuxiliar = :codigoAux "
+					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+					+ " and a.dataAtendimento between :ini and :fim "
+					+ " order by a.dataAtendimento", Long.class)
+				.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+				.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+				.setParameter("unidade", unidade)
+				.setParameter("tenantId", tenantId)
+				.setParameter("filtro", filtro.toUpperCase() + "%")
+				.setParameter("codigoAux", codigoAux)
+				.setParameter("status", StatusAtendimento.ATENDIDO)
+				.getSingleResult();
+		} else if(opcao == 3) {  // nome tecnico			
+			qde = manager.createQuery("select count(a) from Atendimento a "
+					+ " INNER JOIN Pessoa pes ON a.pessoa = pes "
+					+ " INNER JOIN Familia fam ON pes.familia = fam "
+					+ " INNER JOIN Denuncia den ON fam.denuncia = den "
+					+ " INNER JOIN Unidade uni ON den.unidade = uni "
+					+ "where a.statusAtendimento = :status "
+					+ " and uni = :unidade "
+					+ " and a.tenant_id = :tenantId "
+					+ " and a.conselheiro.nome LIKE :filtro "
+					+ " and a.codigoAuxiliar = :codigoAux "
+					+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+					+ " and a.dataAtendimento between :ini and :fim "
+					+ " order by a.dataAtendimento", Long.class)
+				.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+				.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+				.setParameter("unidade", unidade)
+				.setParameter("tenantId", tenantId)
+				.setParameter("filtro", filtro.toUpperCase() + "%")
+				.setParameter("codigoAux", codigoAux)
+				.setParameter("status", StatusAtendimento.ATENDIDO)
+				.getSingleResult();
+		}		
+		return qde;	
+	}
+			
 	// sem filtro 
 	//SELECT * FROM svsa_salto.ListaAtendimento where codigo_unidade=1 and statusAtendimento = 'ATENDIDO' order by dataAtendimento;	
+	//Sem CodigoAux
 	public List<Atendimento> buscarComPaginacao(int first, int pageSize, Unidade unidade, DatasIniFimTO datasTO, Long tenantId) {
 		List<Atendimento> lista = manager.createQuery("select a from Atendimento a "				
 				+ "where a.statusAtendimento = :status "
@@ -603,7 +763,32 @@ public class AgendamentoIndividualDAO implements Serializable {
 			.getResultList();			
 		return lista;
 	}
-	public Long encontrarQde(Unidade unidade, DatasIniFimTO datasTO, Long tenantId) {		
+	
+	//SELECT * FROM svsa_salto.ListaAtendimento where codigo_unidade=1 and statusAtendimento = 'ATENDIDO' order by dataAtendimento;	
+	//Com CodigoAux
+	public List<Atendimento> buscarComPaginacao(int first, int pageSize, Unidade unidade, DatasIniFimTO datasTO, CodigoAuxiliarAtendimento codigoAux, Long tenantId) {
+		List<Atendimento> lista = manager.createQuery("select a from Atendimento a "				
+				+ "where a.statusAtendimento = :status "
+				+ " and a.unidade = :unidade "
+				+ " and a.tenant_id = :tenantId "
+				+ " and a.codigoAuxiliar = :codigoAux "
+				+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+				+ " and a.dataAtendimento between :ini and :fim "
+				+ " order by a.dataAtendimento", Atendimento.class)
+			.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+			.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+			.setParameter("unidade", unidade)
+			.setParameter("tenantId", tenantId)
+			.setParameter("codigoAux", codigoAux)
+			.setParameter("status", StatusAtendimento.ATENDIDO)
+			.setFirstResult(first)
+			.setMaxResults(pageSize)
+			.getResultList();			
+		return lista;
+	}
+	
+	//Sem CodigoAux
+	public Long encontrarQde(Unidade unidade, DatasIniFimTO datasTO,  Long tenantId) {		
 		Long qde = manager.createQuery("select COUNT(a) from Atendimento a "				
 				+ "where a.statusAtendimento = :status "
 				+ " and a.unidade = :unidade "
@@ -619,6 +804,28 @@ public class AgendamentoIndividualDAO implements Serializable {
 			.getSingleResult();			
 		return qde;
 	}
+	
+	//Com CodigoAux
+	public Long encontrarQde(Unidade unidade, DatasIniFimTO datasTO, CodigoAuxiliarAtendimento codigoAux, Long tenantId) {		
+		Long qde = manager.createQuery("select COUNT(a) from Atendimento a "				
+				+ "where a.statusAtendimento = :status "
+				+ " and a.unidade = :unidade "
+				+ " and a.tenant_id = :tenantId "
+				+ " and a.codigoAuxiliar = :codigoAux "
+				+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO')"
+				+ " and a.dataAtendimento between :ini and :fim "
+				+ " order by a.dataAtendimento", Long.class)
+			.setParameter("ini", datasTO.getIni(), TemporalType.TIMESTAMP)
+			.setParameter("fim", DateUtils.plusDay(datasTO.getFim()), TemporalType.TIMESTAMP)
+			.setParameter("unidade", unidade)
+			.setParameter("tenantId", tenantId)
+			.setParameter("codigoAux", codigoAux)
+			.setParameter("status", StatusAtendimento.ATENDIDO)
+			.getSingleResult();			
+		return qde;
+	}
+	
+	
 	
 	// grafico do relatorio atendimentos
 	public List<Atendimento> buscarAtendimentosCodAuxGrafico(Unidade unidade, Long tenantId) {			

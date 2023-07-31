@@ -49,7 +49,8 @@ import lombok.ToString;
 @Setter
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Denuncia.buscarTodos", query="select d from Denuncia d where d.tenant_id = :tenantId"),
+	@NamedQuery(name="Denuncia.buscarTodos", query="select d from Denuncia d where d.tenant_id = :tenantId "
+			+"and d.unidade = :unidade"),
 	@NamedQuery(name="Denuncia.buscarTodosDia", query="select d from Denuncia d where d.tenant_id = :tenantId "
 			+ "and d.unidade = :unidade "
 			+ "and d.dataEmissao between :ini and :fim "),	

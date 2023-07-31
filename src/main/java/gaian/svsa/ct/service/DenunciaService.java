@@ -115,8 +115,8 @@ public class DenunciaService implements Serializable {
 		return denunciaDAO.buscarPeloNome(nome);
 	}
 
-	public List<Denuncia> buscarTodos(Long tenantId) {
-		return denunciaDAO.buscarTodos(tenantId);
+	public List<Denuncia> buscarTodos(Long tenantId, Unidade unidade) {
+		return denunciaDAO.buscarTodos(tenantId, unidade);
 	}
 	
 	public List<Denuncia> buscarTodosDia(Long tenantId, Unidade unidade) {

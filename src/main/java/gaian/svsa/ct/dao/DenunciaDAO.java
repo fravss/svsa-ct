@@ -89,9 +89,10 @@ public class DenunciaDAO implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Denuncia> buscarTodos(Long tenantId) {
+	public List<Denuncia> buscarTodos(Long tenantId, Unidade unidade) {
 		return manager.createNamedQuery("Denuncia.buscarTodos")
 				.setParameter("tenantId", tenantId)
+				.setParameter("unidade", unidade)
 				.getResultList();
 	}
 	
