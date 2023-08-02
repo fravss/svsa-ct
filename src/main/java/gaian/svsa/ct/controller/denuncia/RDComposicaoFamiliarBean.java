@@ -44,7 +44,7 @@ import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.modelo.to.PerfilEtarioTO;
 
-import gaian.svsa.ct.service.MPComposicaoService;
+import gaian.svsa.ct.service.RDComposicaoService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.service.rest.BuscaCEPService;
 import gaian.svsa.ct.service.rest.RestService;
@@ -113,7 +113,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private List<ProgramaSocial> programasSociais;
 	
 	@Inject
-	private MPComposicaoService composicaoService;
+	private RDComposicaoService composicaoService;
 	@Inject
 	private LoginBean loginBean;	
 	@Inject

@@ -8,10 +8,9 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import gaian.svsa.ct.dao.DenunciaDAO;
-import gaian.svsa.ct.dao.MPComposicaoDAO;
-import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.dao.RDComposicaoDAO;
 import gaian.svsa.ct.modelo.Atendimento;
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
@@ -23,13 +22,13 @@ import gaian.svsa.ct.util.NegocioException;
  * @author murakamiadmin
  *
  */
-public class MPComposicaoService implements Serializable {
+public class RDComposicaoService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Logger log = Logger.getLogger(MPComposicaoService.class);
+	private Logger log = Logger.getLogger(RDComposicaoService.class);
 	
 	@Inject
-	private MPComposicaoDAO composicaoDAO;
+	private RDComposicaoDAO composicaoDAO;
 	@Inject
 	private AgendamentoIndividualService listaService;
 	@Inject
@@ -114,7 +113,7 @@ public class MPComposicaoService implements Serializable {
 	public List<Pessoa> buscarTodosMembros(Denuncia denuncia, Long tenantId) {
 		return composicaoDAO.buscarTodosMembros(denuncia, tenantId);
 	}
-	public MPComposicaoDAO getComposicaoDAO() {
+	public RDComposicaoDAO getComposicaoDAO() {
 		return composicaoDAO;
 	}
 

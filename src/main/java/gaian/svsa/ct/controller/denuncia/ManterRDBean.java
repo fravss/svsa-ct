@@ -17,7 +17,7 @@ import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.Role;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
-import gaian.svsa.ct.service.MPComposicaoService;
+import gaian.svsa.ct.service.RDComposicaoService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.util.MessageUtil;
 import lombok.Getter;
@@ -50,7 +50,7 @@ public class ManterRDBean implements Serializable {
 	@Inject
 	private PessoaService pessoaService;
 	@Inject
-	private MPComposicaoService composicaoService;	
+	private RDComposicaoService composicaoService;	
 	@Inject
 	private RDComposicaoFamiliarBean rdComposicaoBean;
 	

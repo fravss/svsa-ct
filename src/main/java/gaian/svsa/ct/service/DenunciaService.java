@@ -12,7 +12,7 @@ import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.NegocioException;
-import gaian.svsa.ct.dao.MPComposicaoDAO;
+import gaian.svsa.ct.dao.RDComposicaoDAO;
 import lombok.extern.log4j.Log4j;
 
 
@@ -29,7 +29,7 @@ public class DenunciaService implements Serializable {
 	private DenunciaDAO denunciaDAO;
 	
 	@Inject
-	private MPComposicaoDAO composicaoDAO;
+	private RDComposicaoDAO composicaoDAO;
 	
 	public void salvar(Denuncia denuncia) throws NegocioException {
 		log.debug("Service : tenant = " + denuncia.getTenant_id());

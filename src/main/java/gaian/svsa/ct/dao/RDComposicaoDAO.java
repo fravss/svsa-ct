@@ -24,7 +24,7 @@ import gaian.svsa.ct.util.jpa.Transactional;
  * @author murakamiadmin
  *
  */
-public class MPComposicaoDAO implements Serializable {
+public class RDComposicaoDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
 	private Logger log = Logger.getLogger(PessoaDAO.class);

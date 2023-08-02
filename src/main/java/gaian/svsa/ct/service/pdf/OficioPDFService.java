@@ -152,7 +152,7 @@ public class OficioPDFService implements Serializable {
 			ImageData data = ImageDataFactory.create(url);
 			// Creating an Image object 
 			Image img = new Image(data);
-			//document.add(img);	
+			document.add(img);	
 
 		} catch (Exception e) {
 			throw new NegocioException("Logotipo da unidade não encontrado.");

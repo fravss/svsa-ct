@@ -103,6 +103,7 @@ private static final long serialVersionUID = 1L;
 	public void ativar() {
 		try {
 			denunciaService.ativar(denunciaSelecionada);
+			denuncias = denunciaService.buscarTodos(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
 			log.info("denunciaSelecionada para ativar: " + denunciaSelecionada.getCodigo());
 			MessageUtil.sucesso("Denúncia " + denunciaSelecionada.getCodigo() + " ativado com sucesso.");
 		} catch (NegocioException e) {
@@ -116,6 +117,7 @@ private static final long serialVersionUID = 1L;
 	public void inativar() {
 		try {
 			denunciaService.inativar(denunciaSelecionada);
+			denuncias = denunciaService.buscarTodos(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
 			log.info("denunciaSelecionada para inativar: " + denunciaSelecionada.getCodigo());
 			MessageUtil.sucesso("Denúncia " + denunciaSelecionada.getCodigo() + " inativado com sucesso.");
 		} catch (NegocioException e) {

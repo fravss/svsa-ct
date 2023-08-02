@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import gaian.svsa.ct.dao.MPComposicaoDAO;
+import gaian.svsa.ct.dao.RDComposicaoDAO;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.util.cdi.CDIServiceLocator;
 
@@ -16,9 +16,9 @@ import gaian.svsa.ct.util.cdi.CDIServiceLocator;
 @FacesConverter(forClass=Pessoa.class )
 public class PessoaConverter implements Converter<Object> {
 
-	private MPComposicaoDAO composicaoDAO;
+	private RDComposicaoDAO composicaoDAO;
 	public PessoaConverter() {
-		this.composicaoDAO = CDIServiceLocator.getBean(MPComposicaoDAO.class);
+		this.composicaoDAO = CDIServiceLocator.getBean(RDComposicaoDAO.class);
 	}
 
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
