@@ -123,8 +123,8 @@ public class OficioEmitido implements Serializable {
 	private CodigoEncaminhamento codigoEncaminhamento;	
 
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	@ManyToOne
 	@JoinColumn(name="codigo_unidade")

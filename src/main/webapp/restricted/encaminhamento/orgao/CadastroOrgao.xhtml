@@ -44,7 +44,16 @@
 	    		<p:inputText id="nome" size="60" maxlength="80" 
 	    			value="#{cadastroOrgaoBean.orgao.nome}"
 	    			required="true" 
-			    	validatorMessage="O nome é obrigatório."/>	 
+			    	validatorMessage="O nome é obrigatório."/>	
+			    
+			    <p:outputLabel value="Código de Encaminhamento" for="codigoEncaminhamento"/>
+	    		<p:selectOneMenu id="codigoEncaminhamento" value="#{cadastroOrgaoBean.orgao.codigoEncaminhamento}"
+	    			required="true" 
+			    	validatorMessage="O códico de encaminhamento é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o código de encaminhamento" />
+	    			<f:selectItems value="#{cadastroOrgaoBean.codigos}" var="codigoEncaminhamento" 
+						itemLabel="#{codigoEncaminhamento}" itemValue="#{codigoEncaminhamento}"/>
+	    		</p:selectOneMenu>
 			    
 			    <p:outputLabel for="cep" value="CEP"  />
 		    	<h:panelGroup>                   	

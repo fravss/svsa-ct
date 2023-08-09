@@ -40,7 +40,7 @@ public class LazyPessoa extends LazyDataModel<Pessoa> implements Serializable {
 		String filtroNomeSocial = "";
 		String filtroMae = "";
 		String filtroEndereco = "";
-		String filtroCodigoProntuario = "";
+		String filtroCodigoDenuncia = "";
 		String filtroCodigoPessoa = "";
 		String filtroFisico = "";
 		
@@ -61,15 +61,15 @@ public class LazyPessoa extends LazyDataModel<Pessoa> implements Serializable {
                 	filtroMae = (String)meta.getFilterValue();
                 	log.debug("property : " + meta.getField() + "-" + (String)meta.getFilterValue());
                 }                		
-            	else if(meta.getField().equals("familia.endereco.endereco")) { //4
+            	else if(meta.getField().equals("endereco.endereco")) { //4
             		filtroEndereco = (String)meta.getFilterValue();
             		log.debug("property : " + meta.getField() + "-" + (String)meta.getFilterValue());
             	}                		
-                else if(meta.getField().equals("familia.prontuario.codigo")) { //5	                	
-                	filtroCodigoProntuario = (String)meta.getFilterValue();
+                else if(meta.getField().equals("familia.denuncia.codigo")) { //5	                	
+                	filtroCodigoDenuncia = (String)meta.getFilterValue();
                 	log.debug("property : " + meta.getField() + "-" + (String)meta.getFilterValue());
                 }                   	
-                else if(meta.getField().equals("familia.prontuario.prontuario")) { //6	                	
+                else if(meta.getField().equals("familia.denuncia")) { //6	                	
                 	filtroFisico = (String)meta.getFilterValue();
                 	log.debug("property : " + meta.getField() + "-" + (String)meta.getFilterValue());
                 }
@@ -106,9 +106,9 @@ public class LazyPessoa extends LazyDataModel<Pessoa> implements Serializable {
 			dataSize = this.pessoaDAO.encontrarQdePessoas(filtroEndereco, 4, tenantId).intValue();
 			this.setRowCount(dataSize);
 		} 
-		else if(filtroCodigoProntuario != null && !filtroCodigoProntuario.equals("")) {			
-			pessoas = this.pessoaDAO.buscarComPaginacao(first, pageSize, filtroCodigoProntuario, 5, tenantId);
-			dataSize = this.pessoaDAO.encontrarQdePessoas(filtroCodigoProntuario, 5, tenantId).intValue();
+		else if(filtroCodigoDenuncia != null && !filtroCodigoDenuncia.equals("")) {			
+			pessoas = this.pessoaDAO.buscarComPaginacao(first, pageSize, filtroCodigoDenuncia, 5, tenantId);
+			dataSize = this.pessoaDAO.encontrarQdePessoas(filtroCodigoDenuncia, 5, tenantId).intValue();
 			this.setRowCount(dataSize);
 		} 
 		else if(filtroFisico != null && !filtroFisico.equals("")) {			

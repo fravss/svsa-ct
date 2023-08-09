@@ -22,7 +22,7 @@ public class AcompanhamentoDTO implements Serializable{
 	private Long codigo;
 	private Date dataIngresso;
 	private Integer prazoMeses;
-	private String tecnicoResponsavel;
+	private String conselheiroResponsavel;
 	private Long codigoProntuario;
 	private String prontuarioFisico;
 	private String pessoaReferencia;
@@ -32,24 +32,24 @@ public class AcompanhamentoDTO implements Serializable{
 	
 	public AcompanhamentoDTO() {}
 	
-	public AcompanhamentoDTO(Long codigo, Date dataIngresso, Integer prazoMeses, String tecnicoResponsavel, 
+	public AcompanhamentoDTO(Long codigo, Date dataIngresso, Integer prazoMeses, String conselheiroResponsavel, 
 							Long codigoProntuario, String prontuarioFisico, String pessoaReferencia, String bairro) {
 		this.codigo = codigo;
 		this.dataIngresso = dataIngresso;
 		this.prazoMeses = prazoMeses;
-		this.tecnicoResponsavel = tecnicoResponsavel;
+		this.conselheiroResponsavel = conselheiroResponsavel;
 		this.codigoProntuario = codigoProntuario;
 		this.prontuarioFisico = prontuarioFisico;
 		this.pessoaReferencia = pessoaReferencia;
 		this.bairro = bairro;
 	}
 	
-	public AcompanhamentoDTO(Long codigo, Date dataIngresso, Integer prazoMeses, String tecnicoResponsavel,
+	public AcompanhamentoDTO(Long codigo, Date dataIngresso, Integer prazoMeses, String conselheiroResponsavel,
 			Long codigoProntuario, String prontuarioFisico, String pessoaReferencia, Long codigoPessoa, String bairro) {
 		this.codigo = codigo;
 		this.dataIngresso = dataIngresso;
 		this.prazoMeses = prazoMeses;
-		this.tecnicoResponsavel = tecnicoResponsavel;
+		this.conselheiroResponsavel = conselheiroResponsavel;
 		this.codigoProntuario = codigoProntuario;
 		this.prontuarioFisico = prontuarioFisico;
 		this.pessoaReferencia = pessoaReferencia;
@@ -57,11 +57,11 @@ public class AcompanhamentoDTO implements Serializable{
 		this.bairro = bairro;
 	}
 	
-	public AcompanhamentoDTO(Long codigo, String pessoa, Date dataEncaminhamento, String tecnicoResponsavel) {
+	public AcompanhamentoDTO(Long codigo, String pessoa, Date dataEncaminhamento, String conselheiroResponsavel) {
 		this.codigo = codigo;
 		this.pessoaReferencia = pessoa;
 		this.dataIngresso = dataEncaminhamento;		
-		this.tecnicoResponsavel = tecnicoResponsavel;		
+		this.conselheiroResponsavel = conselheiroResponsavel;		
 	}
 
 }

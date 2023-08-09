@@ -16,10 +16,12 @@ import org.primefaces.model.chart.PieChartModel;
 
 import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.dao.lazy.LazyAtendimento;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.enums.Ano;
+import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
+import gaian.svsa.ct.modelo.enums.EnumUtil;
 import gaian.svsa.ct.modelo.enums.Grupo;
 import gaian.svsa.ct.modelo.enums.Mes;
 import gaian.svsa.ct.modelo.to.DatasIniFimTO;
@@ -50,17 +52,20 @@ public class RelatorioAtendimentosBean implements Serializable {
 	private Long qdeAtendimentos = 0L;
 	private PieChartModel graficoAtendimentosCol;	
 	private Long qdeAtendimentosCol = 0L;
-	private List<ListaAtendimento> listaAtendimentos = new ArrayList<>();
-	private List<ListaAtendimento> listaAtendimentosGrafico = new ArrayList<>();
+	private List<Atendimento> listaAtendimentos = new ArrayList<>();
+	private List<Atendimento> listaAtendimentosGrafico = new ArrayList<>();
 	private Unidade unidade;
 	private Date dataInicio;
 	private Date dataFim;
-	private ListaAtendimento itemAlterar = new ListaAtendimento();
-	private ListaAtendimento itemExcluir;
-	private ListaAtendimento itemMigrar;
+	private Atendimento itemAlterar = new Atendimento();
+	private Atendimento itemExcluir;
+	private Atendimento itemMigrar;
 	private Long codigoPessoa;
 	private String nomePessoa;
 	private boolean consultado = false;
+	
+	private List<CodigoAuxiliarAtendimento> codigosAux;
+	private CodigoAuxiliarAtendimento codigoAux;
 	
 	private List<String> anos = new ArrayList<>(Arrays.asList(Ano.getAnos()));
 	private Integer ano;
@@ -70,7 +75,7 @@ public class RelatorioAtendimentosBean implements Serializable {
 		
 	
 	@Inject
-	AgendamentoIndividualService listaAtendimentoService;	
+	AgendamentoIndividualService atendimentoService;	
 	@Inject
 	PessoaService pessoaService;
 	@Inject
@@ -86,23 +91,22 @@ public class RelatorioAtendimentosBean implements Serializable {
 		
 		anos = new ArrayList<>(Arrays.asList(Ano.getAnos()));		
 		meses = Arrays.asList(Mes.values());
+		codigosAux = EnumUtil.getTiposAtendimento();
 
 		unidade = loginBean.getUsuario().getUnidade();		
 		graficoAtendimentos = new PieChartModel();
 		graficoAtendimentosCol = new PieChartModel();
-		
-		consultarAtendimentos();
 	}
 	
 	public void consultarAtendimentos() {
 		
 		datasTO = DateUtils.getDatasIniFim(getAno(), getMes());
-		lazyAtendimentos = new LazyAtendimento(listaAtendimentoService, unidade, datasTO, loginBean.getTenantId());
+		lazyAtendimentos = new LazyAtendimento(atendimentoService, unidade, datasTO, codigoAux, loginBean.getTenantId());
 		consultado = true;
 	}
 	
 	public void initGraficoAtendimentos() {		
-		listaAtendimentosGrafico =  listaAtendimentoService.buscarAtendimentosCodAuxGrafico(unidade, datasTO.getIni(), datasTO.getFim(), loginBean.getTenantId());
+		listaAtendimentosGrafico =  atendimentoService.buscarAtendimentosCodAuxGrafico(unidade, datasTO.getIni(), datasTO.getFim(), loginBean.getTenantId());
 		qdeAtendimentos = Long.valueOf(listaAtendimentosGrafico.size()); // listaAtendimentoService.encontrarQuantidade(unidade, dataInicio, dataFim);	
 		createPieModel();
 	}
@@ -120,7 +124,7 @@ public class RelatorioAtendimentosBean implements Serializable {
         	
         	String codigo = listaAtendimentosGrafico.get(0).getCodigoAuxiliar().toString();        	
         	int qde = 0; 
-	        for(ListaAtendimento l: listaAtendimentosGrafico) {   
+	        for(Atendimento l: listaAtendimentosGrafico) {   
         		
         		
 	        	if(!l.getCodigoAuxiliar().toString().equals(codigo)) {
@@ -146,7 +150,7 @@ public class RelatorioAtendimentosBean implements Serializable {
 	public void alterar() {
 	
 		try {
-			listaAtendimentoService.salvarAlterar(itemAlterar, loginBean.getUsuario() );
+			atendimentoService.salvarAlterar(itemAlterar, loginBean.getUsuario() );
 			log.info("Atendimento Alterado por " + loginBean.getUserName());
 			
 			MessageUtil.sucesso("Atendimento número (" + itemAlterar.getCodigo() + ") alterado com sucesso.");
@@ -158,7 +162,7 @@ public class RelatorioAtendimentosBean implements Serializable {
 	
 	public void excluir() {
 		try {
-			listaAtendimentoService.excluir(itemExcluir);
+			atendimentoService.excluir(itemExcluir);
 			log.info("Atendimento DELETED por " + loginBean.getUserName());
 			this.listaAtendimentos.remove(itemExcluir);
 			MessageUtil.sucesso("Atendimento número (" + itemExcluir.getCodigo() + ") excluído com sucesso.");
@@ -175,7 +179,7 @@ public class RelatorioAtendimentosBean implements Serializable {
 				
 
 					itemMigrar.setPessoa(pessoa);
-					listaAtendimentoService.encerrarAtendimento(itemMigrar);
+					atendimentoService.encerrarAtendimento(itemMigrar);
 					log.info("Atendimento MIGRADO para a pessoa " + itemMigrar.getPessoa().getNome());
 
 					limparPessoa();

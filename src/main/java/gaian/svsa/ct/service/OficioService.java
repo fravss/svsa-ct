@@ -13,6 +13,7 @@ import gaian.svsa.ct.modelo.OficioEmitido;
 import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.util.NegocioException;
 import lombok.extern.log4j.Log4j;
 
@@ -51,27 +52,24 @@ public class OficioService implements Serializable {
 		oficioDAO.excluir(oficio);		
 	}
 
-	public List<Orgao> buscarTodos(Long tenantId){
-		return orgaoDAO.buscarTodos(tenantId);
-	}	
+	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId){
+		return orgaoDAO.buscarCodigosEncaminhamento(codigosEncaminhamento, tenantId);
+	}
 	
 	/*
 	 * RelatorioOficios
 	 */	
-	public List<Oficio> buscarOficiosUnidade(Unidade unidade, Date dataInicio, Date dataFim, Boolean sasc, Long tenantId) {
+	public List<Oficio> buscarOficiosUnidade(Unidade unidade, Date dataInicio, Date dataFim, Long tenantId) {
 		
 		if(dataInicio != null) {
 			if(dataFim != null) {
-				return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, dataInicio, dataFim, tenantId) 
-						: oficioDAO.buscarOficiosUnidade(unidade, dataInicio, dataFim, tenantId);
+				return oficioDAO.buscarOficiosUnidade(unidade, dataInicio, dataFim, tenantId);
 			}
 			else {
-				return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, dataInicio, new Date(), tenantId) 
-						: oficioDAO.buscarOficiosUnidade(unidade, dataInicio,  new Date(), tenantId);
+				return oficioDAO.buscarOficiosUnidade(unidade, dataInicio,  new Date(), tenantId);
 			}
 		}
-		return (sasc) ? oficioDAO.buscarOficiosSasc(unidade, tenantId) 
-				: oficioDAO.buscarOficiosUnidade(unidade, tenantId);
+		return oficioDAO.buscarOficiosUnidade(unidade, tenantId);
 	}
 	
 	public List<Oficio> buscarOficiosRecebidos(Unidade unidade, Long tenantId) {

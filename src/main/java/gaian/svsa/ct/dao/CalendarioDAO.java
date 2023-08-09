@@ -117,7 +117,7 @@ public class CalendarioDAO implements Serializable {
 				+ "where :data >= c.startDate and :data <= c.endDate "
 				+ "and c.unidade = :unidade "
 				+ "and c.tenant_id = :tenantId "
-				+ "and c.tecnico is null", Long.class)
+				+ "and c.conselheiro is null", Long.class)
 		.setParameter("data", dat)
 		.setParameter("unidade", unidade)
 		.setParameter("tenantId", tenantId)
@@ -129,15 +129,15 @@ public class CalendarioDAO implements Serializable {
 		}		
 	}
 	/*
-	 * Verificar se tecnico está ocupado (folga ou férias)
+	 * Verificar se conselheiro está ocupado (folga ou férias)
 	 */
-	public void verificaDataTecnico(Date data, Usuario tecnico, Long tenantId) throws NegocioException {
+	public void verificaDataConselheiro(Date data, Usuario conselheiro, Long tenantId) throws NegocioException {
 		/*
 		 * SELECT *
 				FROM svsa_salto.calendario
 				where '2020-11-18 07:00:00' >= startDate 
 					AND '2020-11-18 07:00:00' <= endDate
-						AND codigo_tecnico = 74;
+						AND codigo_conselheiro = 74;
 		 */
 		
 		//log.info("Data conferir : " + data);
@@ -146,37 +146,37 @@ public class CalendarioDAO implements Serializable {
 		
 		Long qde = manager.createQuery("SELECT count(c) from Calendario c "
 				+ "where :data >= c.startDate and :data <= c.endDate "
-				+ "and c.tecnico = :tecnico "
+				+ "and c.conselheiro = :conselheiro "
 				+ "and c.tenant_id = :tenantId ", Long.class)
 		.setParameter("data", dat)
-		.setParameter("tecnico", tecnico)
+		.setParameter("conselheiro", conselheiro)
 		.setParameter("tenantId", tenantId)
 		.getSingleResult();
 		
 	
 		if(qde > 0) {
-			throw new NegocioException("O(a)" + tecnico.getNome() + " está de folga ou em férias. Verifique no calendário de feriados.");
+			throw new NegocioException("O(a)" + conselheiro.getNome() + " está de folga ou em férias. Verifique no calendário de feriados.");
 		}		
 	}
 	
 	/*
-	 * Verificar se tecnico está agendado no mesmo dia e horário
+	 * Verificar se conselheiro está agendado no mesmo dia e horário
 	 */
-	public void verificaAgendaTecnico(Date data, Usuario tecnico, Long tenantId) throws NegocioException {	
+	public void verificaAgendaConselheiro(Date data, Usuario conselheiro, Long tenantId) throws NegocioException {	
 		
-		Long qde = manager.createQuery("SELECT count(l) FROM ListaAtendimento l "				
-				+ "WHERE l.dataAgendamento = :data "
-					+ "and l.tecnico = :tecnico "
-					+ "and l.tenant_id = :tenantId "
-					+ "and l.statusAtendimento = 'AGENDADO' ", Long.class)
+		Long qde = manager.createQuery("SELECT count(a) FROM Atendimento a "				
+				+ "WHERE a.dataAgendamento = :data "
+					+ "and a.conselheiro = :conselheiro "
+					+ "and a.tenant_id = :tenantId "
+					+ "and a.statusAtendimento = 'AGENDADO' ", Long.class)
 		.setParameter("data", data, TemporalType.TIMESTAMP)
-		.setParameter("tecnico", tecnico)
+		.setParameter("conselheiro", conselheiro)
 		.setParameter("tenantId", tenantId)
 		.getSingleResult();
 		
 		log.info("Quantidade: "+qde);
 		if(qde > 0) {
-			throw new NegocioException("Já existe um agendamento para " + tecnico.getNome() + " neste horário.");
+			throw new NegocioException("Já existe um agendamento para " + conselheiro.getNome() + " neste horário.");
 
 		}		
 	}

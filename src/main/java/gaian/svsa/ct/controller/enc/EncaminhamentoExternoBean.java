@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Encaminhamento;
 import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
 import gaian.svsa.ct.service.EncaminhamentoService;
 import gaian.svsa.ct.service.PessoaService;
@@ -51,6 +53,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 
 	private Encaminhamento encaminhamento;
 	private List<Encaminhamento> listaEncaminhamentos;
+	private List<CodigoEncaminhamento> codigosEncaminhamento;
 	private List<Orgao> orgaos;
 	private Orgao orgao;
 	private Pessoa pessoa;
@@ -67,8 +70,9 @@ public class EncaminhamentoExternoBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		log.info("[LOG] " + loginBean.getUserName() + " -> " + this.getClass().getSimpleName());
+		
+		codigosEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
 
-		carregarOrgaos();
 		this.limpar();
 	}
 
@@ -77,7 +81,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 		try {
 
 			this.encaminhamento.setPessoa(pessoa);
-			this.encaminhamento.setTecnico(loginBean.getUsuario());
+			this.encaminhamento.setConselheiro(loginBean.getUsuario());
 			this.encaminhamento.setUnidade(loginBean.getUsuario().getUnidade());
 			
 			encaminhamento = this.encaminhamentoService.salvar(encaminhamento);
@@ -114,15 +118,6 @@ public class EncaminhamentoExternoBean implements Serializable {
 		this.encaminhamento.setTenant_id(loginBean.getTenantId());
 		
 	}
-	
-	public void verificaNomeSocial() throws NegocioException {
-
-		log.info("Verificando nome social");
-		if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-			encaminhamento.setNomeSocial(false);
-			MessageUtil.erro("A pessoa não possui nome social!");
-		}			
-	}	
 
 	public void carregarEncaminhamentos() {
 		listaEncaminhamentos = encaminhamentoService.buscarEncaminhamentos(pessoa, loginBean.getTenantId());
@@ -154,12 +149,6 @@ public class EncaminhamentoExternoBean implements Serializable {
 		
 
 		try {
-			// verifica se tem nomeSocial
-			if(encaminhamento.isNomeSocial()) {
-				if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-					throw new NegocioException("Pessoa não possui nome social. Altere o encaminhamento ou o cadastro da pessoa.");
-				}
-			}
 			
 			FacesContext context = FacesContext.getCurrentInstance();
 			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
@@ -167,7 +156,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 			response.setHeader("Content-disposition", "inline=filename=file.pdf");
 			
 			// Emissão em nome de quem está imprimindo
-			encaminhamento.setTecnico(loginBean.getUsuario());
+			encaminhamento.setConselheiro(loginBean.getUsuario());
 						
 			// Creating a PdfWriter
 			ByteArrayOutputStream baos = pdfService.generateStream(encaminhamento, loginBean.getUsuario().getTenant().getS3Key());
@@ -204,14 +193,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 	
 	public void downloadPDF(Encaminhamento encaminhamento){
 		try {
-			// verifica se tem nomeSocial
-			if(encaminhamento.isNomeSocial()) {
-				if (pessoa.getNomeSocial() == null || pessoa.getNomeSocial().equals("") ){
-					throw new NegocioException("Pessoa não possui nome social. Altere o encaminhamento ou o cadastro da pessoa.");
-				}
-			}
-			
-			
+					
 			String nomeArquivo = "Encaminhamento ".concat(encaminhamento.getCodigo().toString().concat(".pdf"));
 			// no contexto da aplicacao
 			String caminhoWebInf = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/WEB-INF/pdfs/");
@@ -254,7 +236,7 @@ public class EncaminhamentoExternoBean implements Serializable {
 	}
 	
 	public void carregarOrgaos() {
-		this.orgaos = encaminhamentoService.buscarTodos(loginBean.getTenantId());
+		this.orgaos = encaminhamentoService.buscarCodigosEncaminhamento(encaminhamento.getCodigoEncaminhamento(), loginBean.getTenantId());
 	}
 
 	public void selecionarOrgao() {

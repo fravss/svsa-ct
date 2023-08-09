@@ -1,14 +1,11 @@
 package gaian.svsa.ct.controller.enc;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +38,6 @@ public class RelatorioOficioBean implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;	
 	private Oficio oficio;	
-	private Boolean sasc = false;
 	
 	@Inject
 	private OficioService oService;
@@ -60,17 +56,11 @@ public class RelatorioOficioBean implements Serializable {
 
 	public void consultarOficios() {
 
-		listaOficios = oService.buscarOficiosUnidade(unidade, dataInicio, dataFim, sasc, loginBean.getTenantId());
+		listaOficios = oService.buscarOficiosUnidade(unidade, dataInicio, dataFim, loginBean.getTenantId());
 	
 		qdeTotal = listaOficios.size();
 		
 	}
-
-	public void redirectPdf() throws IOException {
-
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.redirect(oficio.getUrlAnexo());
-    }
 	
 	public boolean isUnidadeSelecionada() {
 		if(unidade != null)

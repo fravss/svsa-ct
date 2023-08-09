@@ -13,7 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.dao.UsuarioDAO;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.Role;
@@ -83,7 +83,7 @@ public class UsuarioService implements Serializable {
 		
 			if(u != null) {			
 				
-				List<ListaAtendimento> result = listaAtendimentoDAO.buscarAgendaUsuario(u, tenantId);
+				List<Atendimento> result = listaAtendimentoDAO.buscarAgendaUsuario(u, tenantId);
 				log.info(" qde agendamentos " + result.size() + " para usuario " + u.getNome() );
 				if( result != null && result.size() > 0) {
 					MessageUtil.sucesso("O usuário possui agendamentos pendentes!");
@@ -128,11 +128,11 @@ public class UsuarioService implements Serializable {
 
 
 
-	public List<Usuario> buscarTecnicos(Unidade unidade, Long tenantId) {		
-		return usuarioDAO.buscarTecnicos(unidade, tenantId);
+	public List<Usuario> buscarConselheiros(Unidade unidade, Long tenantId) {		
+		return usuarioDAO.buscarConselheiros(unidade, tenantId);
 	}
-	public List<Usuario> buscarTecnicosRole(Role role, Unidade unidade, Long tenantId) {
-		return usuarioDAO.buscarTecnicosRole(role, unidade, tenantId);
+	public List<Usuario> buscarConselheirosRole(Role role, Unidade unidade, Long tenantId) {
+		return usuarioDAO.buscarConselheirosRole(role, unidade, tenantId);
 	}
 	public List<Usuario> buscarUsuarios(Unidade unidade, Long tenantId) {		
 		return usuarioDAO.buscarUsuarios(unidade, tenantId);

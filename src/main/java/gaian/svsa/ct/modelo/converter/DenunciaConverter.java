@@ -5,8 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import gaian.svsa.ct.dao.CapaProntuarioDAO;
-import gaian.svsa.ct.modelo.Prontuario;
+import gaian.svsa.ct.dao.DenunciaDAO;
+import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.util.cdi.CDIServiceLocator;
 
 
@@ -14,21 +14,21 @@ import gaian.svsa.ct.util.cdi.CDIServiceLocator;
  * @author murakamiadmin
  *
  */
-@FacesConverter(forClass=Prontuario.class)
-public class ProntuarioConverter implements Converter<Object> {
+@FacesConverter(forClass=Denuncia.class)
+public class DenunciaConverter implements Converter<Object> {
 
-	private CapaProntuarioDAO prontuarioDAO;
+	private DenunciaDAO denunciaDAO;
 	
-	public ProntuarioConverter() {
-		this.prontuarioDAO = CDIServiceLocator.getBean(CapaProntuarioDAO.class);
+	public DenunciaConverter() {
+		this.denunciaDAO = CDIServiceLocator.getBean(DenunciaDAO.class);
 	}
 	
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Prontuario retorno = null;
+		Denuncia retorno = null;
 
 		if (value != null && !value.isEmpty()) {
-			retorno = this.prontuarioDAO.buscarPeloCodigo(Long.valueOf(value));
+			retorno = this.denunciaDAO.buscarPeloCodigo(Long.valueOf(value));
 		}
 
 		return retorno;
@@ -37,7 +37,7 @@ public class ProntuarioConverter implements Converter<Object> {
 	@Override  //converte de objeto para codigo - necessário mapear do modelo obj para relacional
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long codigo = ((Prontuario) value).getCodigo();
+			Long codigo = ((Denuncia) value).getCodigo();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

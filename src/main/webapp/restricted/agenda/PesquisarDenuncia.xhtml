@@ -1,0 +1,148 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Formulário de Denúncia</ui:define>
+    
+    <ui:define name="corpo">    	
+    
+    	<h2>Registrar Denúncia</h2>
+    	<p:tooltip/>
+    	
+    	<h:form id="frmDenuncia" enctype="multipart/form-data" target="_blank">
+    	
+    		<p:growl id="growl" showDetail="false" closable="true"> 
+    			<p:autoUpdate />
+    		</p:growl>
+
+
+			<p:toolbar id="toolbar" style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton icon="pi pi-user-plus" value="Registrar Denúncia" title="Nova"		
+						action="/restricted/agenda/RegistrarDenuncia.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>  
+
+			<!--  Lista de denuncias nao terminadas -->
+			
+			<p:dataTable id="denunciaTable" var="denuncia" value="#{pesquisarDenunciaBean.denuncias}" 
+		    		style="margin-top: 20px" emptyMessage="Nenhuma denuncia encontrada." paginator="true" rows="10"
+		    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+	    			currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+	    			rowsPerPageTemplate="10,15,20"
+		    		rowStyleClass="#{denuncia.status eq 'INATIVO' ? 'inativo' : null}">
+		    		
+		    	<p:column headerText="Data" style="width: 15px; text-align: center"
+		    		sortBy="#{denuncia.dataEmissao}">		    		
+		    		<h:outputText value="#{denuncia.dataEmissao}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>	    		
+	    		</p:column>	    				    		
+
+
+				<p:column headerText="Código" style="width: 10px; text-align: center">	    			
+	    			<h:outputText value="#{denuncia.codigo}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Nome do Responsavel" style="width: 80px; text-align: center">	    			
+	    			<h:outputText value="#{denuncia.familia.pessoaReferencia.nome}" />
+	    		</p:column>
+				
+				<p:column headerText="Relato" style="width: 80px; text-align: center">	    			
+	    			<h:outputText value="#{denuncia.relato}" />
+	    		</p:column> 
+	    		
+	    		<p:column headerText="RD Status" style="width: 30px; text-align: center">		
+	    			<h:outputText value="#{denuncia.statusRD}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Operações" style="width: 65px; text-align: center" >
+
+					<p:button outcome="/restricted/agenda/RegistrarDenuncia.xhtml" icon="pi pi-pencil" title="Editar Denuncia">
+						<f:param name="denuncia" value="#{denuncia.codigo}" />
+					</p:button>	
+					
+					<p:commandButton icon="pi pi-trash" title="Excluir Denúncia"
+		    			onclick="PF('confirmacaoExclusaoWidgetVar').show()"		            	
+		            	process="@this">
+						<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+							value="#{denuncia}" />
+					</p:commandButton>
+					
+					<p:commandButton icon="pi pi-thumbs-up" title="Ativar Denuncia"
+						rendered="#{denuncia.status eq 'INATIVO'}"
+						onclick="PF('confirmacaoAtivacao').show();"
+		        		process="@this">		        		
+		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+							value="#{denuncia}" />
+					</p:commandButton>					
+					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Denuncia"
+						rendered="#{denuncia.status eq 'ATIVO'}"					
+						onclick="PF('confirmacaoInativacao').show();"
+		        		process="@this">		        		
+		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+							value="#{denuncia}" />
+					</p:commandButton>		    				
+					<p:commandButton id="showDenuncia" icon="pi pi-print" title="Gerar Denúncia"
+						action="#{pesquisarDenunciaBean.showPDFDenuncia}"
+						process="showDenuncia" immediate="true" ajax="false"
+						update="frmDenuncia:addGrowl">
+						<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
+						value="#{denuncia}" />
+					</p:commandButton>
+					
+		    	</p:column>
+    		
+		   	</p:dataTable>
+	    	
+	    	<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusaoWidgetVar"
+				message="Confirma a exclusão?"
+				header="Exclusão de ação" severity="alert">
+				
+				<p:button icon="pi pi-thumbs-down" value="Não"
+					onclick="PF('confirmacaoExclusaoWidgetVar').hide(); return false;" />
+					
+				<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+				    update="frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
+					onclick="PF('confirmacaoExclusaoWidgetVar').hide();"
+					action="#{pesquisarDenunciaBean.excluir}" 
+					process="@this"/>
+					
+			</p:confirmDialog>
+			
+			<p:confirmDialog id="confirmacaoAtivacaoDialog" 
+		   		widgetVar="confirmacaoAtivacao"
+	        	message="A denuncia será reativada. Tem certeza que deseja continuar?"  
+	            header="Ativação da Denuncia" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoAtivacao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		process="@this"
+	        		update=":frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
+	        		onclick="PF('confirmacaoAtivacao').hide();"
+	        		action="#{pesquisarDenunciaBean.ativar}" />
+	    	</p:confirmDialog> 
+	    	
+	    	<p:confirmDialog id="confirmacaoInativacaoDialog" 
+		   		widgetVar="confirmacaoInativacao"
+	        	message="A Denuncia será inativada. Tem certeza que deseja continuar?"  
+	            header="Inativação de Denuncia" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoInativacao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-down" value="Sim" 
+	        		process="@this"
+	        		update=":frmDenuncia:denunciaTable frmDenuncia:toolbar frmDenuncia:growl"
+	        		onclick="PF('confirmacaoInativacao').hide();"
+	        		action="#{pesquisarDenunciaBean.inativar}"/>
+	    	</p:confirmDialog>  
+			
+	    	
+	    	
+    	</h:form>
+    </ui:define>
+</ui:composition>

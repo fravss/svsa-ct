@@ -15,7 +15,7 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import gaian.svsa.ct.modelo.Acao;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
 import gaian.svsa.ct.modelo.enums.EnumUtil;
@@ -41,19 +41,19 @@ public class RealizarAtendimentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<ListaAtendimento> listaAtendimentos = new ArrayList<>();
+	private List<Atendimento> listaAtendimentos = new ArrayList<>();
 	//private List<AtendimentoDTO> resumoAtendimentos = new ArrayList<>();	
 	private List<CodigoAuxiliarAtendimento> codigosAuxiliares;	
 	private List<Acao> acoes = new ArrayList<>();
-	private List<ListaAtendimento> faltas = new ArrayList<>();
+	private List<Atendimento> faltas = new ArrayList<>();
 	
 	
 
-	private ListaAtendimento item;
+	private Atendimento item;
 	private boolean auxilioFuneral;
 	private boolean auxilioNatalidade;
 	
-	private DualListModel<Usuario> tecnicos;	
+	private DualListModel<Usuario> conselheiros;	
 	private Usuario usuarioLogado;		
 	private boolean cadastrador;
 	private boolean statusPoll = true;
@@ -61,7 +61,7 @@ public class RealizarAtendimentoBean implements Serializable {
 	@Inject 
 	UsuarioService usuarioService;
 	@Inject
-	AgendamentoIndividualService listaAtendimentoService;
+	AgendamentoIndividualService atendimentoService;
 	@Inject
 	LoginBean loginBean;
 
@@ -79,7 +79,7 @@ public class RealizarAtendimentoBean implements Serializable {
 			
 			carregarCodAux();
 			
-			carregarTecnicos();
+			carregarConselheiros();
 						
 			buscarListaAtendimento();	
 			
@@ -108,26 +108,26 @@ public class RealizarAtendimentoBean implements Serializable {
 		}
 	}
 	
-	private void carregarTecnicos() throws NegocioException {		
+	private void carregarConselheiros() throws NegocioException {		
 		try {
-			List<Usuario>tecsSource = new ArrayList<Usuario>();
-			tecsSource = usuarioService.buscarTecnicos(usuarioLogado.getUnidade(), loginBean.getTenantId());
-			tecsSource.remove(usuarioLogado);
-			List<Usuario> tecsTarget = new ArrayList<Usuario>();
+			List<Usuario>consSource = new ArrayList<Usuario>();
+			consSource = usuarioService.buscarConselheiros(usuarioLogado.getUnidade(), loginBean.getTenantId());
+			consSource.remove(usuarioLogado);
+			List<Usuario> consTarget = new ArrayList<Usuario>();
 	       
-	        tecnicos = new DualListModel<Usuario>(tecsSource, tecsTarget);
+			conselheiros = new DualListModel<Usuario>(consSource, consTarget);
 		}
         catch(Exception e){
-        	log.error("Erro carregarTecnicos() do RealizarAtendimento");
+        	log.error("Erro carregarConselheiros() do RealizarAtendimento");
 			throw e;
         }
 	}
 	
 	public void onTransfer(TransferEvent event) {
 
-        for(Object tecnico : event.getItems()) {
-        	log.info("Tecnico selecionado: " + ((Usuario) tecnico).getNome());
-        	MessageUtil.sucesso("Conselheiro " + ((Usuario) tecnico).getNome() + " selecionado.");
+        for(Object conselheiro : event.getItems()) {
+        	log.info("Conselheiro selecionado: " + ((Usuario) conselheiro).getNome());
+        	MessageUtil.sucesso("Conselheiro " + ((Usuario) conselheiro).getNome() + " selecionado.");
         }         
     }
 	
@@ -135,11 +135,11 @@ public class RealizarAtendimentoBean implements Serializable {
 	public void encerrar() {
 		try {
 			
-			item.setTecnico(usuarioLogado);	
-			item.setTecnicos(new HashSet<Usuario>(tecnicos.getTarget()));		
+			item.setConselheiro(usuarioLogado);	
+			item.setConselheiros(new HashSet<Usuario>(conselheiros.getTarget()));		
 			item.setTenant_id(loginBean.getTenantId());
 	
-			this.listaAtendimentoService.encerrarAtendimento(item);
+			this.atendimentoService.encerrarAtendimento(item);
 
 			buscarListaAtendimento();
 			
@@ -161,12 +161,12 @@ public class RealizarAtendimentoBean implements Serializable {
 			Instant time = Instant.now();			
 			log.info("auto save atendimento individual... : " + time);
 			
-			item.setTecnico(usuarioLogado);			
-			item.setTecnicos(new HashSet<Usuario>(tecnicos.getTarget()));
+			item.setConselheiro(usuarioLogado);			
+			item.setConselheiros(new HashSet<Usuario>(conselheiros.getTarget()));
 			item.setTenant_id(loginBean.getTenantId());
 			
 			log.info("ANTES...auto save atendimento INDIV codigo = " + item.getCodigo());
-			this.listaAtendimentoService.autoSave(item);
+			this.atendimentoService.autoSave(item);
 			log.info("DEPOIS...auto save atendimento INDIV codigo = " + item.getCodigo());
 			
 			MessageUtil.sucesso("Auto save executado.");
@@ -197,7 +197,7 @@ public class RealizarAtendimentoBean implements Serializable {
 	public void buscarListaAtendimento() throws NegocioException {
 		
 		try {
-			this.listaAtendimentos =  listaAtendimentoService.buscarAtendimentosRole(loginBean.getUsuario(), loginBean.getTenantId());
+			this.listaAtendimentos =  atendimentoService.buscarAtendimentosRole(loginBean.getUsuario(), loginBean.getTenantId());
 			
 		}
 		catch(Exception e){
@@ -231,11 +231,11 @@ public class RealizarAtendimentoBean implements Serializable {
 	*/	
 	public void consultaFaltas() {
 		
-		this.faltas = listaAtendimentoService.consultaFaltas(item.getPessoa(), loginBean.getTenantId());
+		this.faltas = atendimentoService.consultaFaltas(item.getPessoa(), loginBean.getTenantId());
 	}	
 
 	public void limpar() {
-		item = new ListaAtendimento();
+		item = new Atendimento();
 		item.setTenant_id(loginBean.getTenantId());
 
 	}

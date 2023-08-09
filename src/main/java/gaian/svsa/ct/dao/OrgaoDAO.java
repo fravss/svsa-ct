@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import gaian.svsa.ct.modelo.Orgao;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
 
@@ -69,13 +70,13 @@ public class OrgaoDAO implements Serializable {
 	 * Buscas
 	 */
 	
-/*	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId) {
+	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId) {
 		return manager.createNamedQuery("Orgao.buscarCodigosEncaminhamento", Orgao.class)
 				.setParameter("codigosEncaminhamento", codigosEncaminhamento)
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
-*/
+
 	
 	public Orgao buscarPeloCodigo(Long codigo) {
 		return manager.find(Orgao.class, codigo);

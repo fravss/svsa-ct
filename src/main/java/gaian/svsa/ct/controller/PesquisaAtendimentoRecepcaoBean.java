@@ -10,7 +10,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
 import gaian.svsa.ct.util.MessageUtil;
 import gaian.svsa.ct.util.NegocioException;
@@ -29,24 +29,24 @@ public class PesquisaAtendimentoRecepcaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<ListaAtendimento> itensAtendimento = new ArrayList<>();
+	private List<Atendimento> itensAtendimento = new ArrayList<>();
 	
-	private ListaAtendimento itemExcluir;
+	private Atendimento itemExcluir;
 	
 	@Inject
-	AgendamentoIndividualService listaAtendimentoService;	
+	AgendamentoIndividualService atendimentoService;	
 	@Inject
 	LoginBean loginBean;
 	
 	@PostConstruct
 	public void inicializar() {
 		
-		itensAtendimento = listaAtendimentoService.buscarAtendimentosRecepcao(loginBean.getUsuario(), loginBean.getTenantId());
+		itensAtendimento = atendimentoService.buscarAtendimentosRecepcao(loginBean.getUsuario(), loginBean.getTenantId());
 	}
 	
 	public void excluir() {
 		try {
-			listaAtendimentoService.excluir(itemExcluir);
+			atendimentoService.excluir(itemExcluir);
 			
 			this.itensAtendimento.remove(itemExcluir);
 			MessageUtil.sucesso("Atendimento recepção número (" + itemExcluir.getCodigo() + ") excluído com sucesso.");

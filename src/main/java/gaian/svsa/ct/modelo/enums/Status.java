@@ -5,7 +5,6 @@ package gaian.svsa.ct.modelo.enums;
  *
  */
 public enum Status {
-
 	ATIVO,
 	INATIVO;
 	

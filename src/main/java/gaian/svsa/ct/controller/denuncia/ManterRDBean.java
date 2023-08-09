@@ -1,44 +1,45 @@
-package gaian.svsa.ct.controller.pront;
+package gaian.svsa.ct.controller.denuncia;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
 import gaian.svsa.ct.controller.LoginBean;
+import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.Role;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
-import gaian.svsa.ct.service.MPComposicaoService;
+import gaian.svsa.ct.service.RDComposicaoService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.util.MessageUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 /**
  * @author murakamiadmin
  *
  */
+@Log4j
 @Getter
 @Setter
-@Named(value="manterProntuarioBean")
+@Named(value="manterRDBean")
 @ViewScoped
-public class ManterProntuarioBean implements Serializable {
+public class ManterRDBean implements Serializable {
 
 	private static final long serialVersionUID = 1769116747361287180L;
 	//private LogUtil logUtil = new LogUtil(ManterProntuarioBean.class);
 	
 	private PessoaReferencia pessoaReferencia;
+	private Pessoa pessoa;
 	private List<PessoaReferencia> listaPessoasReferencia = new ArrayList<>();
 	private boolean administrativo;
 	private Usuario usuarioLogado;
@@ -49,10 +50,9 @@ public class ManterProntuarioBean implements Serializable {
 	@Inject
 	private PessoaService pessoaService;
 	@Inject
-	private MPComposicaoService composicaoService;	
+	private RDComposicaoService composicaoService;	
 	@Inject
-	private MPComposicaoFamiliarBean mpComposicaoBean;
-	@Inject
+	private RDComposicaoFamiliarBean rdComposicaoBean;
 	
 	
 	
@@ -74,40 +74,24 @@ public class ManterProntuarioBean implements Serializable {
         listaPessoasReferencia = composicaoService.todasPessoasReferencia(loginBean.getTenantId());
     }	
 		
-	public void abrirDialogo() {
-		Map<String,Object> options = new HashMap<String, Object>();
-		options.put("modal", true);
-		options.put("width", 1000);
-        options.put("height", 500);
-        options.put("contentWidth", "100%");
-        options.put("contentHeight", "100%");
-        options.put("draggable", true);
-        options.put("responsive", true);
-        options.put("closeOnEscape", true);
-        PrimeFaces.current().dialog().openDynamic("/restricted/agenda/SelecionaPessoaReferencia", options, null);
-        	
-    }
-	
-	public void abrirDialogoGeral() {
-		Map<String,Object> options = new HashMap<String, Object>();
-		options.put("modal", true);
-		options.put("width", 1000);
-        options.put("height", 500);
-        options.put("contentWidth", "100%");
-        options.put("contentHeight", "100%");
-        options.put("draggable", true);
-        options.put("responsive", true);
-        options.put("closeOnEscape", true);
-        PrimeFaces.current().dialog().openDynamic("/restricted/agenda/SelecionaPReferenciaGeral", options, null);
-        	
-    }	
-	
 	public void selecionarPessoaReferencia(SelectEvent<?> event) {
 		
 		PessoaDTO dto = (PessoaDTO) event.getObject();		
 		this.pessoaReferencia = pessoaService.buscarPFPeloCodigo(dto.getCodigo());
 		
-		mpComposicaoBean.setPessoaReferencia(this.pessoaReferencia);		
+		/* dados familiares */
+		rdComposicaoBean.setPessoaReferencia(this.pessoaReferencia);
+	//	mpAcompanhamentoBean.setPessoaReferencia(this.pessoaReferencia);
+	//	beneficioBean.setPessoaReferencia(this.pessoaReferencia);
+	//	habitacionalBean.setPessoaReferencia(this.pessoaReferencia);
+	//	convivenciaBean.setPessoaReferencia(this.pessoaReferencia);
+		
+		/* dados individuais */
+		//	mpIndividualBean.setMembros(mpComposicaoBean.getPessoas());
+		//	violenciaBean.setMembros(mpComposicaoBean.getPessoas());
+		//	saudeBean.setMembros(mpComposicaoBean.getPessoas());
+		//	trabalhoBean.setMembros(mpComposicaoBean.getPessoas());
+		//	educacionalBean.setMembros(mpComposicaoBean.getPessoas());		
 		
 		MessageUtil.sucesso("Pessoa Referencia Selecionada: " + this.pessoaReferencia.getNome());			
 	}	
@@ -116,4 +100,18 @@ public class ManterProntuarioBean implements Serializable {
         return pessoaReferencia != null && pessoaReferencia.getCodigo() != null;
     }
 	
+	public void setPessoa(Pessoa pessoa) {
+		log.info("manterProntuarioBean.setPessoa() = " + pessoa.getNome());
+		this.pessoa = pessoa;
+		this.rdComposicaoBean.setPessoa(pessoa);
+		//	violenciaBean.setPessoa(pessoa);
+		//	saudeBean.setPessoa(pessoa);
+		//	trabalhoBean.setPessoa(pessoa);
+		//	educacionalBean.setPessoa(pessoa);
+	}
+	
+	public List<Pessoa> getMembros(){
+		return rdComposicaoBean.getPessoas();
+	}
+		
 }

@@ -111,17 +111,14 @@ public class EnumUtil {
 				CodigoAuxiliarAtendimento.OUTROS_COLETIVO);
 		
 		CODIGOS_PARENTESCO_MEMBROS = Arrays.asList(
-				Parentesco.RESPONSAVEL_FAMILIAR,
-				Parentesco.CONJUGE_COMPANHEIRO,
+				Parentesco.GENITORA,
+				Parentesco.PAI,
 				Parentesco.ENTEADO,
 				Parentesco.FILHO,
-				Parentesco.GENRO_NORA,
-				Parentesco.IRMAO_IRMA,
+				Parentesco.IRMAO,
 				Parentesco.NAO_PARENTE,
-				Parentesco.NETO_BISNETO,
-				Parentesco.OUTRO_PARENTE,
-				Parentesco.PAI_MAE,
-				Parentesco.SOGRO_SOGRA);
+				Parentesco.NETO,
+				Parentesco.OUTRO_PARENTE);
 		
 	}
 

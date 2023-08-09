@@ -60,18 +60,14 @@ public class SelecionaPessoaReferenciaBean implements Serializable {
 			else if(getParametro().equals("nome")){
 				listaPessoasReferencia = pessoaService.pesquisarPorNome(termoPesquisa, unidade, loginBean.getTenantId());
 			}
-			else if(getParametro().equals("nomeSocial")){
-				listaPessoasReferencia = pessoaService.pesquisarPorNomeSocial(termoPesquisa, unidade, loginBean.getTenantId());	
-			}
-			else if(getParametro().equals("prontuario")){
+			else if(getParametro().equals("denuncia")){
 				try {
-					listaPessoasReferencia = pessoaService.pesquisarPorProntuario(termoPesquisa, unidade, loginBean.getTenantId());
+					listaPessoasReferencia = pessoaService.pesquisarPorDenuncia(termoPesquisa, unidade, loginBean.getTenantId());
 				}
 				catch(Exception e) {
-					MessageUtil.alerta("Digite um código de prontuário válido. Apenas números.");
+					MessageUtil.alerta("Digite um código de denúncia válida. Apenas números.");
 				}			
 			} 
-		
 			
 			if (listaPessoasReferencia.isEmpty()) {
 	            MessageUtil.alerta("Sua consulta não encontrou pessoas de referência nesta unidade.");
@@ -95,15 +91,12 @@ public class SelecionaPessoaReferenciaBean implements Serializable {
 			else if(getParametro().equals("nome")){
 				listaPessoasReferencia = pessoaService.pesquisarPorNome(termoPesquisa, loginBean.getTenantId());
 			} 
-			else if(getParametro().equals("nomeSocial")){
-				listaPessoasReferencia = pessoaService.pesquisarPorNomeSocial(termoPesquisa, loginBean.getTenantId());	
-			}
-			else if(getParametro().equals("prontuario")){
+			else if(getParametro().equals("denuncia")){
 				try {
-					listaPessoasReferencia = pessoaService.pesquisarPorProntuario(Long.valueOf(termoPesquisa), loginBean.getTenantId());
+					listaPessoasReferencia = pessoaService.pesquisarPorDenuncia(Long.valueOf(termoPesquisa), loginBean.getTenantId());
 				}
 				catch(Exception e) {
-					MessageUtil.alerta("Digite um código de prontuário válido. Apenas números.");
+					MessageUtil.alerta("Digite um código de denúncia válida. Apenas números.");
 				}			
 			} 
 			

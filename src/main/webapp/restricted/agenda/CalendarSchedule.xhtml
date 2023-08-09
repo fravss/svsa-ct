@@ -59,12 +59,12 @@
             		<p:inputText id="title" value="#{calendarScheduleBean.event.title}" required="true" size="50"/>
             		
             		
-            		<p:outputLabel value="Conselheiro:" for="tecnico"/>
-           			<p:selectOneMenu id="tecnico" 
-		    			value="#{calendarScheduleBean.event.data.tecnico}">
+            		<p:outputLabel value="Conselheiro:" for="conselheiro"/>
+           			<p:selectOneMenu id="conselheiro" 
+		    			value="#{calendarScheduleBean.event.data.conselheiro}">
 		    			<f:selectItem itemLabel="Para feriados NÃO selecionar conselheiro." />
-		    			<f:selectItems value="#{calendarScheduleBean.tecnicos}" var="tecnico"
-							itemLabel="#{tecnico.nome}" itemValue="#{tecnico}"/>
+		    			<f:selectItems value="#{calendarScheduleBean.conselheiros}" var="conselheiro"
+							itemLabel="#{conselheiro.nome}" itemValue="#{conselheiro}"/>
 		    		</p:selectOneMenu>
 		 
 		            <p:outputLabel for="from" value="De:" />

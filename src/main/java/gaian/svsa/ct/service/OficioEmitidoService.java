@@ -16,6 +16,7 @@ import gaian.svsa.ct.modelo.OficioEmitido;
 import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.util.NegocioException;
 
 /**
@@ -100,8 +101,8 @@ public class OficioEmitidoService implements Serializable {
 		oficioEmitidoDAO.excluir(oficioEmitido);		
 	}
 
-	public List<Orgao> buscarTodos(Long tenantId){
-		return orgaoDAO.buscarTodos(tenantId);
+	public List<Orgao> buscarCodigosEncaminhamento(CodigoEncaminhamento codigosEncaminhamento, Long tenantId){
+		return orgaoDAO.buscarCodigosEncaminhamento(codigosEncaminhamento, tenantId);
 	}
 		
 	/*

@@ -1,7 +1,6 @@
 package gaian.svsa.ct.modelo;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -26,13 +25,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import gaian.svsa.ct.modelo.enums.CorRaca;
-import gaian.svsa.ct.modelo.enums.Genero;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
+
 import gaian.svsa.ct.modelo.enums.Parentesco;
 import gaian.svsa.ct.modelo.enums.Sexo;
-import gaian.svsa.ct.modelo.enums.Status;
-import gaian.svsa.ct.modelo.enums.TipoPcD;
-import gaian.svsa.ct.modelo.enums.Uf;
 import gaian.svsa.ct.util.CalculoUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -56,7 +53,7 @@ import lombok.extern.log4j.Log4j;
 	@NamedQuery(name="Pessoa.buscarTodos", query="select p from Pessoa p where p.excluida = :exc and p.tenant_id = :tenantId"),
 	@NamedQuery(name="Pessoa.buscarPeloNome", query="select p from Pessoa p where p.nome = :nome and p.excluida = :exc"),
 	@NamedQuery(name="Pessoa.buscarNomes", query="select p.nome from Pessoa p where p.tenant_id = :tenantId "
-			+ "and p.familia.prontuario.unidade = :unidade "
+			+ "and p.familia.denuncia.unidade = :unidade "
 			+ "and p.excluida = :exc "
 			+ "and p.nome LIKE :nome")
 })
@@ -70,91 +67,47 @@ public class Pessoa implements Cloneable, Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
-	private Long tenant_id;
-	
+	@ToString.Include
 	private String nome;				//@Index(name="idx_nome") - para buscas com like% lazyPessoa
 	
-	private String nomeSocial;
-	
-	private String nomeMae;	
-	
 	private String rg;
-	
-	private String orgaoEmissor;
-	
-	@ToString.Include
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataEmissao;	
-	
-	private String cpf;
-	
-	private String nis;	
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataNis;
 	
 	@ToString.Include
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNascimento;
 	
-	private String ufNascimento;
-	
-	private String municipioNascimento;
-	
-	private String observacao;
-	
-	@Temporal(TemporalType.DATE)
-	private Calendar dataRegistroComposicaoFamiliar;
-	
-	private Boolean excluida = false;
-	
-	@Enumerated(EnumType.STRING)
-	private Status status = Status.ATIVO;
-	
 	private String telefone;
 	
 	private String email;
 	
-	private String mse;   // Transient
-	// enums
-	//private Uf uf;
-	@Enumerated(EnumType.STRING)
-	private Uf ufEmissao;
+	@ToString.Include
+	private String escola;
+	
+	@ToString.Include
+	private String periodo;
+
+	@ToString.Include
+	private String serie;
+	
+	private Boolean excluida = false;
+	
+	private Long tenant_id;
 	
 	@Enumerated(EnumType.STRING)
-	private CorRaca corRaca;
+	private Parentesco parentesco;
 	
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
-	
-	@Enumerated(EnumType.STRING)
-	private Genero identidadeGenero;
-	
-	@Enumerated(EnumType.STRING)
-	private Parentesco parentescoPessoaReferencia;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoPcD tipoPcD;
-	
-	// relacionamentos
-
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="codigo_familia")
 	private Familia familia;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codigo_tipo_documento")
-	private TipoDocumento tipoDocumento;
-	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codigo_forma_ingresso")
-	private FormaIngresso formaIngresso;
-	
-	@ManyToOne
-	@JoinColumn(name="pais_origem")
-	private Pais paisOrigem;
-	
+	@JoinColumn(name="codigo_endereco")
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@ToString.Include
+	private Endereco endereco;
 	
 	@Transient
 	public int getIdade() {
@@ -163,18 +116,6 @@ public class Pessoa implements Cloneable, Serializable {
 			idade = CalculoUtil.calcularIdade(this.getDataNascimento());
 		
 		return idade;			
-	}
-	@Transient
-	public String getMse() {
-		return mse;
-	}
-	public void setMse(String mse) {
-		this.mse = mse;
-	}
-	
-	@Override
-	public Pessoa clone() throws CloneNotSupportedException {
-		return (Pessoa) super.clone();
 	}
 	
 	/*
@@ -202,8 +143,8 @@ public class Pessoa implements Cloneable, Serializable {
 		if(this.getFamilia() != null) {	
 			log.info("datas Pessoa, Familia e Prontuario atualizados.");
 			this.getFamilia().setDataModificacao(this.getDataModificacao());
-			if(this.getFamilia().getProntuario() != null) {
-				this.getFamilia().getProntuario().setDataModificacao(this.getDataModificacao());	
+			if(this.getFamilia().getDenuncia() != null) {
+				this.getFamilia().getDenuncia().setDataModificacao(this.getDataModificacao());	
 			}
 		}
 	}	

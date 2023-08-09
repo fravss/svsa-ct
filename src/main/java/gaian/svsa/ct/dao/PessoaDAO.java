@@ -80,7 +80,7 @@ public class PessoaDAO implements Serializable {
 
 	public Pessoa buscarPessoa(Long codigo, Unidade unidade, Long tenantId) {
 
-		String jpql = "from Pessoa p where p.codigo = :codigo " + "and p.familia.prontuario.unidade = :unidade "
+		String jpql = "from Pessoa p where p.codigo = :codigo " + "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc";
 
 		TypedQuery<Pessoa> query = manager.createQuery(jpql, Pessoa.class);
@@ -92,8 +92,6 @@ public class PessoaDAO implements Serializable {
 		return query.getSingleResult();
 
 	}
-	
-	
 
 	/* SelecionaPessoa */
 
@@ -103,18 +101,16 @@ public class PessoaDAO implements Serializable {
 
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
 			+ "where p.nome LIKE :termo " 
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc "
-				+ "and p.familia.prontuario.unidade = :unidade ";
+				+ "and p.familia.denuncia.unidade = :unidade ";
 
 		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
 		query.setParameter("unidade", unidade);
@@ -145,18 +141,16 @@ public class PessoaDAO implements Serializable {
 	*/
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome,"
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, "
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
-			+ "where p.familia.endereco.endereco LIKE :termo "
+			+ "where p.endereco.endereco LIKE :termo "
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc "
-				+ "and p.familia.prontuario.unidade = :unidade ";
+				+ "and p.familia.denuncia.unidade = :unidade ";
 		
 		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
 		query.setParameter("unidade", unidade);
@@ -164,49 +158,11 @@ public class PessoaDAO implements Serializable {
 		query.setParameter("tenantId", tenantId);
 		query.setParameter("exc", false);
 
-		return query.getResultList();
-}
-	public List<PessoaDTO> pesquisarPessoaPorNomeSocialDTO(String termo, Unidade unidade, Long tenantId) {
-		log.info("TermoPesquisa por nome social na DAO = " + termo);
-
-		/*
-		String jpql = "from Pessoa p where p.nomeSocial LIKE :termo " + "and p.familia.prontuario.unidade = :unidade "
-				+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc";
-
-		TypedQuery<Pessoa> query = manager.createQuery(jpql, Pessoa.class);
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("termo", "%" + termo + "%");
-		query.setParameter("unidade", unidade);
-		query.setParameter("exc", false);
-
-		return query.getResultList();
-		 */
-		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
-				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
-				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
-			+ "from Pessoa p "
-			+ "where p.nomeSocial LIKE :termo "
-				+ "and p.tenant_id = :tenantId " 
-				+ "and p.excluida = :exc "
-				+ "and p.familia.prontuario.unidade = :unidade ";
-		
-		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
-		query.setParameter("unidade", unidade);
-		query.setParameter("termo", "%" + termo + "%");
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("exc", false);
-		
 		return query.getResultList();
 	}
 
-	public List<PessoaDTO> pesquisarPessoaPorProntuarioDTO(String termo, Unidade unidade, Long tenantId) {
-		log.info("TermoPesquisa por prontuario na DAO = " + termo);
+	public List<PessoaDTO> pesquisarPessoaPorDenunciaDTO(String termo, Unidade unidade, Long tenantId) {
+		log.info("TermoPesquisa por denuncia na DAO = " + termo);
 
 		/*
 		String jpql = "from Pessoa p where p.familia.prontuario.codigo = :termo "
@@ -223,18 +179,16 @@ public class PessoaDAO implements Serializable {
 		*/
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
-			+ "where p.familia.prontuario.codigo = :termo "
+			+ "where p.familia.denuncia.codigo = :termo "
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc "
-				+ "and p.familia.prontuario.unidade = :unidade ";
+				+ "and p.familia.denuncia.unidade = :unidade ";
 		
 		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
 		query.setParameter("unidade", unidade);
@@ -256,13 +210,11 @@ public class PessoaDAO implements Serializable {
 		*/
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
 			+ "where p.nome LIKE :termo " 
 				+ "and p.tenant_id = :tenantId " 
@@ -286,15 +238,13 @@ public class PessoaDAO implements Serializable {
 		*/
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
-			+ "where p.familia.endereco.endereco LIKE :termo " 
+			+ "where p.endereco.endereco LIKE :termo " 
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
@@ -305,51 +255,21 @@ public class PessoaDAO implements Serializable {
 		return query.getResultList();
 	}
 
-	public List<PessoaDTO> pesquisarPessoaPorNomeSocialDTO(String termo, Long tenantId) {
-		log.info("TermoPesquisa pessoa por nome social na DAO = " + termo);
-		/*
-		String jpql = "from Pessoa p where p.nomeSocial LIKE :termo " + "and p.tenant_id = :tenantId "
-				+ "and p.excluida = :exc";
-		*/
-		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
-				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
-				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
-			+ "from Pessoa p "
-			+ "where p.nomeSocial LIKE :termo " 
-				+ "and p.tenant_id = :tenantId " 
-				+ "and p.excluida = :exc ";
-		
-		TypedQuery<PessoaDTO> query = manager.createQuery(jpql, PessoaDTO.class);
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("termo", "%" + termo + "%");
-		query.setParameter("exc", false);		
-		
-		return query.getResultList();
-	}
-
-	public List<PessoaDTO> pesquisarPessoaPorProntuarioDTO(String termo, Long tenantId) {
-		log.info("TermoPesquisa pessoa por prontuario na DAO = " + termo);
+	public List<PessoaDTO> pesquisarPessoaPorDenunciaDTO(String termo, Long tenantId) {
+		log.info("TermoPesquisa pessoa por denuncia na DAO = " + termo);
 		/*
 		String jpql = "from Pessoa p where p.familia.prontuario.codigo = :termo " + "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		*/
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " + "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status ) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from Pessoa p "
-			+ "where p.familia.prontuario.codigo = :termo " 
+			+ "where p.familia.denuncia.codigo = :termo " 
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 
@@ -360,10 +280,6 @@ public class PessoaDAO implements Serializable {
 
 		return query.getResultList();
 	}
-	
-	
-	
-	
 
 	/*
 	 * SelecionaPessoaReferencia
@@ -375,18 +291,14 @@ public class PessoaDAO implements Serializable {
 		
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
+				+ "p.familia.denuncia.codigo, "
 				+ "p.nome, " 
-				+ "p.nomeSocial, " 
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
 			+ "where p.nome LIKE :termo " 
-				+ "and p.familia.prontuario.unidade = :unidade "
+				+ "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 
@@ -404,15 +316,11 @@ public class PessoaDAO implements Serializable {
 
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
+				+ "p.familia.denuncia.codigo, "
 				+ "p.nome, " 
-				+ "p.nomeSocial, " 
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
 			+ "where p.nome LIKE :termo " 
 				+ "and p.tenant_id = :tenantId " 
@@ -431,18 +339,14 @@ public class PessoaDAO implements Serializable {
 		
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
+				+ "p.familia.denuncia.codigo, " 
 				+ "p.nome, " 
-				+ "p.nomeSocial, " 
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
-			+ "where p.familia.endereco.endereco LIKE :termo " 
-				+ "and p.familia.prontuario.unidade = :unidade "
+			+ "where p.endereco.endereco LIKE :termo " 
+				+ "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 
@@ -461,17 +365,13 @@ public class PessoaDAO implements Serializable {
 	
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
+				+ "p.familia.denuncia.codigo, "
 				+ "p.nome, " 
-				+ "p.nomeSocial, " 
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
-			+ "where p.familia.endereco.endereco LIKE :termo " 
+			+ "where p.endereco.endereco LIKE :termo " 
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 		
@@ -483,79 +383,20 @@ public class PessoaDAO implements Serializable {
 		
 		return query.getResultList();
 	}	
-	public List<PessoaDTO> pesquisarPorNomeSocial(String termo, Unidade unidade, Long tenantId) {
-		log.info("TermoPesquisa por nome social/unidade na DAO = " + termo);
-		
-		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
-				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " 
-				+ "p.nomeSocial, " 
-				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
-			+ "from PessoaReferencia p "
-			+ "where p.nomeSocial LIKE :termo " 
-				+ "and p.familia.prontuario.unidade = :unidade "
-				+ "and p.tenant_id = :tenantId " 
-				+ "and p.excluida = :exc ";
-		
-		TypedQuery<PessoaDTO> query = manager
-				.createQuery(jpql, PessoaDTO.class);
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("termo", "%" + termo + "%");
-		query.setParameter("unidade", unidade);
-		query.setParameter("exc", false);
-		
-		return query.getResultList();
-	}	
-	public List<PessoaDTO> pesquisarPorNomeSocial(String termo, Long tenantId) {
-		log.info("TermoPesquisa por nome social/geral na DAO = " + termo);
-		
-		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
-				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " 
-				+ "p.nomeSocial, " 
-				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
-			+ "from PessoaReferencia p "
-			+ "where p.nomeSocial LIKE :termo " 
-				+ "and p.tenant_id = :tenantId " 
-				+ "and p.excluida = :exc ";
-		
-		TypedQuery<PessoaDTO> query = manager
-				.createQuery(jpql, PessoaDTO.class);	
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("termo", "%" + termo + "%");
-		query.setParameter("exc", false);
-		
-		return query.getResultList();
-	}
-	public List<PessoaDTO> pesquisarPorProntuario(String termo, Unidade unidade, Long tenantId) {
-		log.info("TermoPesquisa por prontuario/unidade na DAO = " + termo + " unidade = " + unidade.getCodigo());
+	
+	public List<PessoaDTO> pesquisarPorDenuncia(String termo, Unidade unidade, Long tenantId) {
+		log.info("TermoPesquisa por denuncia/unidade na DAO = " + termo + " unidade = " + unidade.getCodigo());
 				
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
+				+ "p.familia.denuncia.codigo, "
 				+ "p.nome, " 
-				+ "p.nomeSocial, " 
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
-			+ "where p.familia.prontuario.codigo = :termo " 
-				+ "and p.familia.prontuario.unidade = :unidade "
+			+ "where p.familia.denuncia.codigo = :termo " 
+				+ "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 		
@@ -567,22 +408,19 @@ public class PessoaDAO implements Serializable {
 		
 		return query.getResultList();
 	}
-	public List<PessoaDTO> pesquisarPorProntuario(Long termo, Long tenantId) {
-		log.info("TermoPesquisa por prontuario/geral na DAO = " + termo);	
+	
+	public List<PessoaDTO> pesquisarPorDenuncia(Long termo, Long tenantId) {
+		log.info("TermoPesquisa por denuncia/geral na DAO = " + termo);	
 
 		String jpql = "SELECT new gaian.svsa.ct.modelo.to.PessoaDTO( "
 				+ "p.codigo, "
-				+ "p.familia.prontuario.codigo, "
-				+ "p.familia.prontuario.prontuario, " 
-				+ "p.nome, " 
-				+ "p.nomeSocial, " 
+				+ "p.familia.denuncia.codigo, "
+				+ "p.nome, "  
 				+ "p.dataNascimento, "
-				+ "p.familia.prontuario.unidade.nome, " 
-				+ "p.status, " 
-				+ "p.familia.prontuario.status, "
-				+ "p.nomeMae) "
+				+ "p.familia.denuncia.unidade.nome, " 
+				+ "p.familia.denuncia.status) "
 			+ "from PessoaReferencia p "
-			+ "where p.familia.prontuario.codigo = :termo " 
+			+ "where p.familia.denuncia.codigo = :termo " 
 				+ "and p.tenant_id = :tenantId " 
 				+ "and p.excluida = :exc ";
 		
@@ -593,18 +431,6 @@ public class PessoaDAO implements Serializable {
 		
 		return query.getResultList();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	/* Filtros PesquisaPessoa paginação */
 
@@ -618,42 +444,42 @@ public class PessoaDAO implements Serializable {
 							+ "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 2) { // filtroNomeSocial
+		} /*else if (codigo == 2) { // filtroNomeSocial
 			log.debug("filtro = " + codigo);
 			return manager
 					.createQuery("Select p From Pessoa p where p.nomeSocial LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 3) { // filtroMae
+		}*/ /* else if (codigo == 3) { // filtroMae
 			log.debug("filtro = " + codigo);
 			return manager
 					.createQuery("Select p From Pessoa p where p.nomeMae LIKE :termo " + "and p.tenant_id = :tenantId "
 							+ "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 4) { // filtroEndereco
+		} */else if (codigo == 4) { // filtroEndereco
 			log.debug("filtro = " + codigo);
 			return manager
-					.createQuery("Select p From Pessoa p where p.familia.endereco.endereco LIKE :termo "
+					.createQuery("Select p From Pessoa p where p.endereco.endereco LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 5) { // filtroCodigoProntuario
+		} else if (codigo == 5) { // filtroCodigoDenuncia
 			log.debug("filtro = " + codigo);
 			return manager
-					.createQuery("Select p From Pessoa p where p.familia.prontuario.codigo = :termo "
+					.createQuery("Select p From Pessoa p where p.familia.denuncia.codigo = :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", Long.valueOf(termo)).setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 6) { // filtroFisico
+		} /*else if (codigo == 6) { // filtroFisico
 			log.debug("filtro = " + codigo);
 			return manager
-					.createQuery("Select p From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
+					.createQuery("Select p From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).setFirstResult(first).setMaxResults(pageSize).getResultList();
-		} else if (codigo == 7) { // filtroCodigoPessoa
+		} */ else if (codigo == 7) { // filtroCodigoPessoa
 			log.debug("filtro = " + codigo);
 			return manager
 					.createQuery("Select p From Pessoa p where p.codigo = :termo " + "and p.tenant_id = :tenantId "
@@ -674,21 +500,19 @@ public class PessoaDAO implements Serializable {
 		if(codigo == 1) {  // nome
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.nome LIKE :termo "
-					+ "and p.familia.prontuario.unidade = :unidade "
-					+ "and p.paisOrigem = :pais "
+					+ "and p.familia.denuncia.unidade = :unidade "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", "%" + termo.toUpperCase() + "%")
 				.setParameter("unidade", unidade)
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
-		else if(codigo == 3) {  // filtroMae
+		/* else if(codigo == 3) {  // filtroMae
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.nomeMae LIKE :termo "
-					+ "and p.familia.prontuario.unidade = :unidade "
+					+ "and p.familia.denuncia.unidade = :unidade "
 					+ "and p.paisOrigem = :pais "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
@@ -698,25 +522,23 @@ public class PessoaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
-		}
-		else if(codigo == 5) {  // filtroCodigoProntuario
+		} */
+		else if(codigo == 5) {  // filtroCodigoDenuncia
 			log.debug("filtro = " + codigo);
-			return manager.createQuery("Select p From Pessoa p where p.familia.prontuario.codigo = :termo "
-					+ "and p.familia.prontuario.unidade = :unidade "
-					+ "and p.paisOrigem = :pais "
+			return manager.createQuery("Select p From Pessoa p where p.familia.denuncia.codigo = :termo "
+					+ "and p.familia.denuncia.unidade = :unidade "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", Long.valueOf(termo))
 				.setParameter("unidade", unidade)
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
-		else if(codigo == 6) {  // filtroFisico
+		/*else if(codigo == 6) {  // filtroFisico
 			log.debug("filtro = " + codigo);
-			return manager.createQuery("Select p From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
-					+ "and p.familia.prontuario.unidade = :unidade "
+			return manager.createQuery("Select p From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
+					+ "and p.familia.denuncia.unidade = :unidade "
 					+ "and p.paisOrigem = :pais "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
@@ -726,29 +548,25 @@ public class PessoaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
-		}
+		} */
 		else if(codigo == 7) {  // filtroCodigoPessoa
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.codigo = :termo "
-					+ "and p.familia.prontuario.unidade = :unidade "
-					+ "and p.paisOrigem = :pais "
+					+ "and p.familia.denuncia.unidade = :unidade "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", Long.valueOf(termo))
 				.setParameter("unidade", unidade)
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
 		else {
 			return manager.createQuery("Select p from Pessoa p where p.excluida = :exc "
-				+ "and p.familia.prontuario.unidade = :unidade "
-				+ "and p.paisOrigem = :pais "
+				+ "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId")
 				.setParameter("exc", false)
 				.setParameter("unidade", unidade)
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}		
@@ -760,8 +578,7 @@ public class PessoaDAO implements Serializable {
 		if(codigo == 1) {  // nome
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.nome LIKE :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-					+ "and p.paisOrigem = :pais "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", "%" + termo.toUpperCase() + "%")
@@ -770,10 +587,10 @@ public class PessoaDAO implements Serializable {
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
-		else if(codigo == 2) {  // filtroNomeSocial
+		/* else if(codigo == 2) {  // filtroNomeSocial
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.nomeSocial LIKE :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.paisOrigem = :pais "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")
@@ -782,11 +599,11 @@ public class PessoaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
-		}
-		else if(codigo == 3) {  // filtroMae
+		} */
+		/* else if(codigo == 3) {  // filtroMae
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.nomeMae LIKE :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.paisOrigem = :pais "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
@@ -795,37 +612,33 @@ public class PessoaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
-		}
+		} */
 		else if(codigo == 4) {  // filtroEndereco
 			log.debug("filtro = " + codigo);
-			return manager.createQuery("Select p From Pessoa p where p.familia.endereco.endereco LIKE :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-					+ "and p.paisOrigem = :pais "
+			return manager.createQuery("Select p From Pessoa p where p.endereco.endereco LIKE :termo "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", "%" + termo.toUpperCase() + "%")
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
-		else if(codigo == 5) {  // filtroCodigoProntuario
+		else if(codigo == 5) {  // filtroCodigoDenuncia
 			log.debug("filtro = " + codigo);
-			return manager.createQuery("Select p From Pessoa p where p.familia.prontuario.codigo = :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-					+ "and p.paisOrigem = :pais "
+			return manager.createQuery("Select p From Pessoa p where p.familia.denuncia.codigo = :termo "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", Long.valueOf(termo))
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
-		else if(codigo == 6) {  // filtroFisico
+		/* else if(codigo == 6) {  // filtroFisico
 			log.debug("filtro = " + codigo);
-			return manager.createQuery("Select p From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+			return manager.createQuery("Select p From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.paisOrigem = :pais "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
@@ -834,27 +647,23 @@ public class PessoaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
-		}
+		} */
 		else if(codigo == 7) {  // filtroCodigoPessoa
 			log.debug("filtro = " + codigo);
 			return manager.createQuery("Select p From Pessoa p where p.codigo = :termo "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-					+ "and p.paisOrigem = :pais "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.tenant_id = :tenantId "
 					+ "and p.excluida = :exc")			
 				.setParameter("termo", Long.valueOf(termo))
-				.setParameter("pais", pais)
 				.setParameter("tenantId", tenantId)
 				.setParameter("exc", false)
 				.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}
 		else {
 			return manager.createQuery("Select p from Pessoa p where p.excluida = :exc "
-					+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-					+ "and p.paisOrigem = :pais "
+					+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 					+ "and p.tenant_id = :tenantId")
 					.setParameter("exc", false)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setFirstResult(first).setMaxResults(pageSize).getResultList();
 		}		
@@ -862,7 +671,6 @@ public class PessoaDAO implements Serializable {
 	
 	//Quantidade de pessoas
 	
-
 	public Long encontrarQdePessoas(String termo, int codigo, Long tenantId) {
 
 		if (codigo == 1) { // nome
@@ -872,49 +680,48 @@ public class PessoaDAO implements Serializable {
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else if (codigo == 2) { // filtroNomeSocial
+		} /* else if (codigo == 2) { // filtroNomeSocial
 			log.debug("filtro = " + codigo);
 			return (Long) manager
 					.createQuery("Select count(p) From Pessoa p where p.nomeSocial LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else if (codigo == 3) { // filtroMae
+		} */ /* else if (codigo == 3) { // filtroMae
 			log.debug("filtro = " + codigo);
 			return (Long) manager
 					.createQuery("Select count(p) From Pessoa p where p.nomeMae LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else if (codigo == 4) { // filtroEndereco
+		} */ else if (codigo == 4) { // filtroEndereco
 			log.debug("filtro = " + codigo);
 			return (Long) manager
-					.createQuery("Select count(p) From Pessoa p where p.familia.endereco.endereco LIKE :termo "
+					.createQuery("Select count(p) From Pessoa p where p.endereco.endereco LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else if (codigo == 5) { // filtroCodigoProntuario
+		} else if (codigo == 5) { // filtroCodigoDenuncia
 			log.debug("filtro = " + codigo);
 			return (Long) manager
-					.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.codigo = :termo "
+					.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.codigo = :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", Long.valueOf(termo)).setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else if (codigo == 6) { // filtroFisico
+		} /*else if (codigo == 6) { // filtroFisico
 			log.debug("filtro = " + codigo);
 			return (Long) manager
-					.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
+					.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
 							+ "and p.tenant_id = :tenantId " + "and p.excluida = :exc")
 					.setParameter("termo", "%" + termo.toUpperCase() + "%").setParameter("tenantId", tenantId)
 					.setParameter("exc", false).getSingleResult();
-		} else {
+		} */ else {
 			return (Long) manager
 					.createQuery(
 							"Select count(p) From Pessoa p where p.excluida = :exc " + "and p.tenant_id = :tenantId ")
 					.setParameter("exc", false).setParameter("tenantId", tenantId).getSingleResult();
 		}
 	}
-
 	
 	//Quantidade de pessoas RelatorioPessoaPais
 	
@@ -923,21 +730,19 @@ public class PessoaDAO implements Serializable {
 			if(codigo == 1) {  // nome
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nome LIKE :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
-						+ "and p.paisOrigem = :pais "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", "%" + termo.toUpperCase() + "%")
 					.setParameter("unidade", unidade)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 2) {  // filtroNomeSocial
+			/* else if(codigo == 2) {  // filtroNomeSocial
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nomeSocial LIKE :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")
@@ -947,11 +752,11 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
-			else if(codigo == 3) {  // filtroMae
+			} */
+			/* else if(codigo == 3) {  // filtroMae
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nomeMae LIKE :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
@@ -961,39 +766,35 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
+			} */
 			else if(codigo == 4) {  // filtroEndereco
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.endereco.endereco LIKE :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
-						+ "and p.paisOrigem = :pais "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.endereco.endereco LIKE :termo "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", "%" + termo.toUpperCase() + "%")
 					.setParameter("unidade", unidade)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 5) {  // filtroCodigoProntuario
+			else if(codigo == 5) {  // filtroCodigoDenuncia
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.codigo = :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
-						+ "and p.paisOrigem = :pais "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.codigo = :termo "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", Long.valueOf(termo))
 					.setParameter("unidade", unidade)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 6) {  // filtroFisico
+			/* else if(codigo == 6) {  // filtroFisico
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
-						+ "and p.familia.prontuario.unidade = :unidade "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
@@ -1003,15 +804,13 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
+			} */
 			else {
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.excluida = :exc "
-						+ "and p.familia.prontuario.unidade = :unidade "
-						+ "and p.paisOrigem = :pais "
+						+ "and p.familia.denuncia.unidade = :unidade "
 						+ "and p.tenant_id = :tenantId ")					
 					.setParameter("exc", false)
 					.setParameter("unidade", unidade)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.getSingleResult();
 			}		
@@ -1022,20 +821,18 @@ public class PessoaDAO implements Serializable {
 			if(codigo == 1) {  // nome
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nome LIKE :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-						+ "and p.paisOrigem = :pais "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", "%" + termo.toUpperCase() + "%")
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 2) {  // filtroNomeSocial
+			/* else if(codigo == 2) {  // filtroNomeSocial
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nomeSocial LIKE :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")
@@ -1044,11 +841,11 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
-			else if(codigo == 3) {  // filtroMae
+			} */
+			/* else if(codigo == 3) {  // filtroMae
 				log.debug("filtro = " + codigo);
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.nomeMae LIKE :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
@@ -1057,37 +854,33 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
+			} */
 			else if(codigo == 4) {  // filtroEndereco
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.endereco.endereco LIKE :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-						+ "and p.paisOrigem = :pais "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.endereco.endereco LIKE :termo "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", "%" + termo.toUpperCase() + "%")
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 5) {  // filtroCodigoProntuario
+			else if(codigo == 5) {  // filtroCodigoDenuncia
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.codigo = :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-						+ "and p.paisOrigem = :pais "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.codigo = :termo "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
 					.setParameter("termo", Long.valueOf(termo))
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
 			}
-			else if(codigo == 6) {  // filtroFisico
+			/* else if(codigo == 6) {  // filtroFisico
 				log.debug("filtro = " + codigo);
-				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.prontuario.prontuario LIKE :termo "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
+				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.familia.denuncia.denunciaFisica LIKE :termo "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.paisOrigem = :pais "
 						+ "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc")			
@@ -1096,20 +889,16 @@ public class PessoaDAO implements Serializable {
 					.setParameter("tenantId", tenantId)
 					.setParameter("exc", false)
 					.getSingleResult();
-			}
+			} */
 			else {
 				return (Long) manager.createQuery("Select count(p) From Pessoa p where p.excluida = :exc "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') "
-						+ "and p.paisOrigem = :pais "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') "
 						+ "and p.tenant_id = :tenantId ")					
 					.setParameter("exc", false)
-					.setParameter("pais", pais)
 					.setParameter("tenantId", tenantId)
 					.getSingleResult();
 			}		
 		}
-	
-	
 
 	/* Filtros PesquisaPessoa paginação */
 
@@ -1119,7 +908,7 @@ public class PessoaDAO implements Serializable {
 	public List<Pessoa> pesquisarPessoaPorProgSocial(ProgramaSocial programa, Unidade unidade, Long tenantId) {
 		return manager
 				.createQuery("Select p From Pessoa p " + "where p.formaIngresso.programaSocial = :programa "
-						+ "and p.familia.prontuario.unidade = :unidade " + "and p.tenant_id = :tenantId "
+						+ "and p.familia.denuncia.unidade = :unidade " + "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc", Pessoa.class)
 				.setParameter("unidade", unidade).setParameter("tenantId", tenantId).setParameter("programa", programa)
 				.setParameter("exc", false).getResultList();
@@ -1130,7 +919,7 @@ public class PessoaDAO implements Serializable {
 				.createQuery(
 						"Select p From Pessoa p " + "where p.formaIngresso.programaSocial = :programa "
 								+ "and p.tenant_id = :tenantId "
-								+ "and p.familia.prontuario.unidade.tipo not in ('SASC') " + "and p.excluida = :exc",
+								+ "and p.familia.denuncia.unidade.tipo not in ('SASC') " + "and p.excluida = :exc",
 						Pessoa.class)
 				.setParameter("programa", programa).setParameter("tenantId", tenantId).setParameter("exc", false)
 				.getResultList();
@@ -1142,7 +931,7 @@ public class PessoaDAO implements Serializable {
 	public List<Pessoa> pesquisarPessoasPais(Pais pais, Unidade unidade, Long tenantId) {
 		return manager.createQuery("Select p From Pessoa p "
 				+ "where p.paisOrigem = :pais "
-				+ "and p.familia.prontuario.unidade = :unidade "
+				+ "and p.familia.denuncia.unidade = :unidade "
 				+ "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc", Pessoa.class)		
 				.setParameter("pais", pais)
@@ -1155,7 +944,7 @@ public class PessoaDAO implements Serializable {
 	public List<Pessoa> pesquisarPessoasPais(Pais pais, Long tenantId) {
 		return manager
 				.createQuery("Select p From Pessoa p " + "where p.paisOrigem = :pais "
-						+ "and p.familia.prontuario.unidade.tipo not in ('SASC') " + "and p.tenant_id = :tenantId "
+						+ "and p.familia.denuncia.unidade.tipo not in ('SASC') " + "and p.tenant_id = :tenantId "
 						+ "and p.excluida = :exc", Pessoa.class)
 				.setParameter("pais", pais).setParameter("tenantId", tenantId).setParameter("exc", false)
 				.getResultList();
@@ -1219,7 +1008,7 @@ public class PessoaDAO implements Serializable {
        
         /* ListaAtendimento */
 		query = manager.createNativeQuery( 
-				"UPDATE ListaAtendimento "
+				"UPDATE Atendimento "
 				+ "SET codigo_pessoa = :pessoaNova "
 				+ "WHERE codigo_pessoa = :pessoa" );
 		query.setParameter( "pessoa", pessoa.getCodigo() );

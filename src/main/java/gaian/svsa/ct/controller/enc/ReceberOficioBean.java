@@ -1,23 +1,18 @@
 package gaian.svsa.ct.controller.enc;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
@@ -29,6 +24,7 @@ import gaian.svsa.ct.modelo.Orgao;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
+import gaian.svsa.ct.modelo.enums.CodigoEncaminhamento;
 import gaian.svsa.ct.modelo.enums.TipoUnidade;
 import gaian.svsa.ct.modelo.to.PessoaDTO;
 import gaian.svsa.ct.service.OficioService;
@@ -63,13 +59,12 @@ public class ReceberOficioBean implements Serializable {
 	private Orgao orgao;
 	private Boolean todos = false;
 	
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
+	private List<CodigoEncaminhamento> codigoEncaminhamento;
 	
 	private Usuario usuarioLogado;
 	private Unidade unidade;
 	private String unidadeEncaminhada;
-	
-	private Part file;
 	
 	@Inject
 	private PessoaService pessoaService;
@@ -91,11 +86,11 @@ public class ReceberOficioBean implements Serializable {
 		usuarioLogado = loginBean.getUsuario();
 		unidade = usuarioLogado.getUnidade();
 		unidades = unidadeService.buscarTodos(loginBean.getTenantId());
+		this.codigoEncaminhamento = Arrays.asList(CodigoEncaminhamento.values());
 		
-		carregarOrgaos();
 		carregarOficios();
 		
-		tecnicos = usuarioService.buscarTecnicos(unidade, loginBean.getTenantId());
+		conselheiros = usuarioService.buscarConselheiros(unidade, loginBean.getTenantId());
 		
 		limpar();
 	}
@@ -116,14 +111,8 @@ public class ReceberOficioBean implements Serializable {
 		try {										
 			log.info("Salvando recebimento de oficio...");
 			
-			//Verifica se foi recebido pela SASC e ativa FLAG
-			if(unidade.getTipo() == TipoUnidade.SASC ) {
-				oficio.setSasc(true);				
-			}
-			else {
-				oficio.setCoordenador(usuarioLogado);
-				oficio.setUnidade(usuarioLogado.getUnidade());
-			}
+			oficio.setCoordenador(usuarioLogado);
+			oficio.setUnidade(usuarioLogado.getUnidade());
 									
 			//Verifica se existe ao menos um orgão
 			if(oficio.getNomeOrgao() != "" && oficio.getNomeOrgao() != null) {
@@ -134,13 +123,6 @@ public class ReceberOficioBean implements Serializable {
 				else {					
 					oficio.setTenant_id(loginBean.getTenantId());
 					oficio = this.oficioService.salvar(oficio);
-					
-					//Verifica se foi carregado algum arquivo
-					if(getFile() != null) {
-						processFileUpload();
-						oficio = this.oficioService.salvar(oficio);
-						// grava a chave de acesso ao arquivo no s3
-					}
 				}
 				
 				
@@ -185,15 +167,14 @@ public class ReceberOficioBean implements Serializable {
 		oficioEmitido.setEndereco(oficio.getEndereco());
 		if(oficio.getPessoa() != null) {
 			oficioEmitido.setPessoa(oficio.getPessoa());
-			oficioEmitido.setNome(oficio.getPessoa().getNome());
 		}		
 		oficioEmitido.setNomeOrgao(oficio.getNomeOrgao());		
-		oficioEmitido.setTecnico(usuarioLogado);
+		oficioEmitido.setConselheiro(usuarioLogado);
 		oficioEmitido.setTenant_id(loginBean.getTenantId());
 		oficioEmitido.setUnidade(unidade);
 		
 		oficio.setDataResposta(new Date());
-		oficio.setTecnico(usuarioLogado);
+		oficio.setConselheiro(usuarioLogado);
 		oficio.setAssunto(oficioEmitido.getAssunto());
 	}
 	
@@ -250,14 +231,14 @@ public class ReceberOficioBean implements Serializable {
 		Pessoa p = pessoaService.buscarPeloCodigo(dto.getCodigo());
 		oficio.setPessoa(p);	
 				
-		oficio.setUnidade(oficio.getPessoa().getFamilia().getProntuario().getUnidade());
-		unidadeEncaminhada = oficio.getPessoa().getFamilia().getProntuario().getUnidade().getNome();
+		oficio.setUnidade(oficio.getPessoa().getFamilia().getDenuncia().getUnidade());
+		unidadeEncaminhada = oficio.getPessoa().getFamilia().getDenuncia().getUnidade().getNome();
 		log.debug("Pessoa selecionada: " + oficio.getPessoa().getNome() + " - " + unidadeEncaminhada);
 		MessageUtil.sucesso("Pessoa Selecionada: " + oficio.getPessoa().getNome());			
 	}
 	
 	public void carregarOrgaos() {
-		this.orgaos = oficioService.buscarTodos(loginBean.getTenantId());
+		this.orgaos = oficioService.buscarCodigosEncaminhamento(oficio.getCodigoEncaminhamento(), loginBean.getTenantId());
 	}
 	
 	public void selecionarOrgao() {
@@ -271,95 +252,6 @@ public class ReceberOficioBean implements Serializable {
 		}
 		log.debug("nome: " + oficio.getNomeOrgao());
 		log.debug("endereco: " + oficio.getEndereco());
-	}
-	
-    
-    /*
-     * Faz upload do arquivo no bucket do Amazon S3 
-     */
-    private void processFileUpload() throws IOException, NegocioException{    	   
-    	
-    	try {
-    		
-    		oficio = s3.gravaAnexoOficio(oficio, getFile());
-    		
-        } catch (NegocioException e) {  
-        	e.printStackTrace();
-            MessageUtil.erro(e.getMessage());
-        }
-
-	}
-	public Part getFile() {
-		log.info("getFile()" + file);
-        return file;
-    } 
-    public void setFile(Part file) {
-    	log.info("setFile()" + file);
-        this.file = file;
-    }
-    
-    
-    
-    /*
-     * Faz download do arquivo no bucket do Amazon S3 
-     * 
-     * .xhtml
-     * 
-		    <p:commandButton title="Download Oficio Pdf" icon="pi pi-file-o"  
-		    	rendered="#{oficio.s3Key != null}"	
-		    	ajax="false"
-		    	process="@this"
-		    	immediate="true"
-		    	action="#{receberOficioBean.processFileDownload(oficio)}">		            	
-			</p:commandButton>	       
-     * 
-     */
-    public void processFileDownload(Oficio oficio) throws IOException, NegocioException{		
-    	    	
-    	try {  
-    		
-    		// S3
-			InputStream pdfInputStream = s3.leAnexoOficio(oficio);
-    		
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-
-			response.reset(); // Algum filtro pode ter configurado alguns cabeçalhos no buffer de antemão.								
-			response.setHeader("Content-Type", "application/pdf"); // Define apenas o tipo de conteúdo, Utilize se
-																	// necessário ServletContext#getMimeType() para
-																	// detecção automática com base em nome de arquivo.
-			OutputStream responseOutputStream = response.getOutputStream();			
-
-			// Lê o conteúdo do PDF e grava para saída
-			byte[] bytesBuffer = new byte[2048];
-			int bytesRead;
-			while ((bytesRead = pdfInputStream.read(bytesBuffer)) > 0) {
-				responseOutputStream.write(bytesBuffer, 0, bytesRead);
-			}
-			responseOutputStream.flush();
-
-			// Fecha os streams
-			pdfInputStream.close();
-			responseOutputStream.close();
-			facesContext.responseComplete();
-
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-			MessageUtil.erro("Problema na leitura do arquivo anexado.");
-		}
-	}
-    
-    public void redirectPdf(Oficio of) throws IOException {
-    	log.info("redirectPdf" + of);
-    	ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.redirect(of.getUrlAnexo());
-    }
-    
-	public boolean isSascSelecionado() {
-		return usuarioLogado.getUnidade().getTipo() == TipoUnidade.SASC ;
 	}
 	
 	public boolean isOficioSelecionado() {

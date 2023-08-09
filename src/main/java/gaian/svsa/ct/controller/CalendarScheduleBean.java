@@ -47,7 +47,7 @@ public class CalendarScheduleBean implements Serializable {
 	private ScheduleEvent<?> event = new DefaultScheduleEvent<>();
 	private List<Calendario> calendario = new ArrayList<>();
 	private Unidade unidade;
-	private List<Usuario> tecnicos;
+	private List<Usuario> conselheiros;
 	
 	@Inject
 	private CalendarioService calendarioService;
@@ -61,7 +61,7 @@ public class CalendarScheduleBean implements Serializable {
     public void init() {
     	
     	unidade = loginBean.getUsuario().getUnidade(); 
-    	this.tecnicos = usuarioService.buscarUsuarios(unidade, loginBean.getTenantId()); 
+    	this.conselheiros = usuarioService.buscarUsuarios(unidade, loginBean.getTenantId()); 
     	
     	event = DefaultScheduleEvent.builder()
 				.startDate(DateUtils.asLocalDateTime(new Date()))
@@ -90,9 +90,9 @@ public class CalendarScheduleBean implements Serializable {
     	
     	for(Calendario c : calendario) {  
     		    		
-    		if(c.getTecnico() != null) {
+    		if(c.getConselheiro() != null) {
     			event = DefaultScheduleEvent.builder()
-    					.title(c.getTecnico().getNome() + " #" + c.getTitle())
+    					.title(c.getConselheiro().getNome() + " #" + c.getTitle())
     					.startDate(c.getStartDate())
     					.endDate(c.getEndDate())
     					.data(c)
@@ -120,7 +120,7 @@ public class CalendarScheduleBean implements Serializable {
         
         log.debug("event " + getEvent()); 
         
-        if(( (Calendario)event.getData() ).getTecnico() != null) {
+        if(( (Calendario)event.getData() ).getConselheiro() != null) {
 			
 			try {
 				// pega só o título, sem o nome do técnico

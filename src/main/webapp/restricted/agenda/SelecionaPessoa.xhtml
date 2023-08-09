@@ -28,8 +28,7 @@
 			        <p:outputLabel for="parametro" value="Pesquisar por: "/>
 			        <p:selectOneRadio id="parametro" value="#{selecionaPessoaBean.parametro}" unselectable="true">
 			            <f:selectItem itemLabel="Nome" itemValue="nome" />
-			            <f:selectItem itemLabel="Prontuário" itemValue="prontuario" />
-			            <f:selectItem itemLabel="Nome social" itemValue="nomeSocial" />
+			            <f:selectItem itemLabel="Denúncia" itemValue="denuncia" />
 			            <f:selectItem itemLabel="Endereço" itemValue="endereco" />
 			        </p:selectOneRadio>
 			        
@@ -50,19 +49,15 @@
 		    	emptyMessage="Nenhuma pessoa encontrada." 
 		    	paginator="true" rows="10" paginatorPosition="bottom"
 		    	paginatorAlwaysVisible="true" scrollable="true" resizeMode="true"
-		    	rowStyleClass="#{pessoa.statusProntuario eq 'INATIVO' or pessoa.statusPessoa eq 'INATIVO'? 'inativo' : null}">
+		    	rowStyleClass="#{pessoa.statusDenuncia eq 'INATIVO' ? 'inativo' : null}">
 		    		
 		    					
-				<p:column headerText="Código Prontuário" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoa.codigoProntuario}" />
-				</p:column>
+				<p:column headerText="Código Denúncia" style="width: 40px; text-align: center">
+					<h:outputText value="#{pessoa.codigoDenuncia}" />
+				</p:column>	
 				
-				<p:column headerText="Prontuário Físico" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoa.prontuarioFisico}" />
-				</p:column>				
-				
-    			<p:column headerText="Nome/Nome Social" style="width: 160px; text-align: center">
-					<h:outputText value="#{pessoa.nome} / #{pessoa.nomeSocial}" />
+    			<p:column headerText="Nome" style="width: 160px; text-align: center">
+					<h:outputText value="#{pessoa.nome}" />	
 				</p:column>
 				
 				<p:column headerText="Data de Nascimento" style="width: 50px; text-align: center">

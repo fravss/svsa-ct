@@ -5,15 +5,12 @@ package gaian.svsa.ct.modelo.enums;
  *
  */
 public enum Parentesco {
-	RESPONSAVEL_FAMILIAR,
-	PAI_MAE,
-	CONJUGE_COMPANHEIRO,
+	GENITORA,
+	PAI,
 	FILHO,
 	ENTEADO,
-	IRMAO_IRMA,
-	NETO_BISNETO,	
-	SOGRO_SOGRA,	
-	GENRO_NORA,
+	NETO,
+	IRMAO,	
 	OUTRO_PARENTE,
 	NAO_PARENTE
 }

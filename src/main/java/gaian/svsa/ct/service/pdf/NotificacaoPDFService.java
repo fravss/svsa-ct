@@ -14,7 +14,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 
-import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.util.NegocioException;
 
 public class NotificacaoPDFService implements Serializable {
@@ -28,7 +28,7 @@ public class NotificacaoPDFService implements Serializable {
 	
 	// para stream e impressão de Emissão de Atestado
 	
-	public ByteArrayOutputStream generateStream(Denuncia denuncia, String s3Key, String secretaria) throws NegocioException {
+	public ByteArrayOutputStream generateStream(Pessoa pessoa, String s3Key, String secretaria) throws NegocioException {
 		
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -43,7 +43,7 @@ public class NotificacaoPDFService implements Serializable {
 
 	        
 	        // gera impressão do Atestado
-	        generateContent(document, denuncia, s3Key, secretaria);
+	        generateContent(document, pessoa, s3Key, secretaria);
 	        
 	        return baos;
 	        
@@ -54,7 +54,7 @@ public class NotificacaoPDFService implements Serializable {
 	}
 	
 	// para download de Emissão de Atestado
-	public void generatePDF(String dest, String nome, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	public void generatePDF(String dest, String nome, Pessoa pessoa, String s3Key, String secretaria) throws Exception {
 		
 		// Creating a PdfWriter			  
 		PdfWriter writer = new 
@@ -68,34 +68,31 @@ public class NotificacaoPDFService implements Serializable {
 		
 		document.setMargins(50, 50, 50, 50);		
 		
-		generateContent(document, denuncia, s3Key, secretaria);
+		generateContent(document, pessoa, s3Key, secretaria);
 		
 	}
-private void generateContent(Document document, Denuncia denuncia, String s3Key, String secretaria) throws Exception {
+	
+	private void generateContent(Document document, Pessoa pessoa, String s3Key, String secretaria) throws Exception {
 		
 		PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 		TextAlignment align = TextAlignment.JUSTIFIED;
 		
-		/* 
-	     * Header 
-	     */		
-		headerAtestado(document, denuncia.getTecnico().getUnidade().getNome(), denuncia, secretaria);
-		//header(document, "Sistema Único de Assistência Social - SUAS");
+		// Header 		
+		headerAtestado(document, pessoa.getFamilia().getDenuncia().getConselheiro().getNome(), pessoa, secretaria);
 		
 		Paragraph line = new Paragraph("\nNotificação");
 		line.setFontSize(24);
 		line.setFont(font);
 		line.setTextAlignment(TextAlignment.CENTER);
 		document.add(line);
-		
-		if (denuncia.getPessoa().getNomeMae().isEmpty() && denuncia.getPessoa().getNomePai().isEmpty() == false) {
-			Paragraph line1 = new Paragraph("\nFico o (a) Sr.(a) " + denuncia.getPessoa().getNomePai());
+	
+			Paragraph line1 = new Paragraph("\nFico o (a) Sr.(a) " + pessoa.getNome());
 			line1.setFontSize(16);
 			line1.setFont(font);
 			line1.setTextAlignment(align);
 			document.add(line1);
 
-			Paragraph line2 = new Paragraph("\nResidente ao endereço: " + denuncia.getPessoa().getEnderecoPai()
+			Paragraph line2 = new Paragraph("\nResidente ao endereço: " + pessoa.getEndereco()
 					+ " \nNOTIFICADO (A), nos termos do inciso VII, do Artigo 136, da lei Federal "
 					+ "nº 8.069, de 13 de Julho de 1990, que instituiu o Estatuto da Criança e do Adolescente, a "
 					+ "Comparecer no dia ________________________ de ___________________________ de 20___ às _________________hs.,\n");
@@ -103,31 +100,16 @@ private void generateContent(Document document, Denuncia denuncia, String s3Key,
 			line2.setFont(font);
 			line2.setTextAlignment(align);
 			document.add(line2);
-		} else {
-			Paragraph line1 = new Paragraph("\nFico o (a) Sr.(a) " + denuncia.getPessoa().getNomeMae());
-			line1.setFontSize(16);
-			line1.setFont(font);
-			line1.setTextAlignment(align);
-			document.add(line1);
-
-			Paragraph line2 = new Paragraph("\nResidente ao endereço: " + denuncia.getPessoa().getEndereco()
-					+ " \nNOTIFICADO (A), nos termos do inciso VII, do Artigo 136, da lei Federal "
-					+ "nº 8.069, de 13 de Julho de 1990, que instituiu o Estatuto da Criança e do Adolescente, a "
-					+ "Comparecer no dia ________________________ de ___________________________ de 20___ às _________________hs.,\n");
-			line2.setFontSize(16);
-			line2.setFont(font);
-			line2.setTextAlignment(align);
-			document.add(line2);
-		}
 			
-		Paragraph line3 = new Paragraph("na sede do CONSELHO TUTELAR, sito ao endereço \n"+ denuncia.getUnidade().getEndereco() 
-		+ " para _________________________________________________________________________________" + " sob as penas do Artigo 236 da mesma lei acima mencionada.");
+		Paragraph line3 = new Paragraph("na sede do CONSELHO TUTELAR, sito ao endereço \n" + pessoa.getFamilia().getDenuncia().getUnidade().getEndereco()
+		+ " _________________________________________________________________________________" 
+		+ " sob as penas do Artigo 236 da mesma lei acima mencionada.");
 		line3.setFontSize(16);
 		line3.setFont(font);
 		line3.setTextAlignment(align);
 		document.add(line3);	
 		
-	//	Paragraph line4 = new Paragraph("\nSalto: " + DateUtils.parseDateToString(denuncia.getDataEmissao()) );
+	//	Paragraph line4 = new Paragraph("\nSalto: " + DateUtils.parseDateToString(pessoa.getDataEmissao()) );
 	//	line4.setFontSize(16);
 	//	line4.setFont(font);
 	//	line4.setTextAlignment(align);
@@ -155,10 +137,10 @@ private void generateContent(Document document, Denuncia denuncia, String s3Key,
 		
 
 		document.close();		
-	}
+	} 
 
 
-	private void headerAtestado(Document document, String unidade, Denuncia denuncia, String secretaria) throws Exception {
+	private void headerAtestado(Document document, String unidade, Pessoa pessoa, String secretaria) throws Exception {
 		try {
 			PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 			log.info(unidade);
@@ -172,8 +154,8 @@ private void generateContent(Document document, Denuncia denuncia, String s3Key,
 				document.add(titulo);
 				
 				Paragraph titulo2 = new Paragraph("Lei Federal nº 8.069, de 13 de julho de 1990\n" 
-				+ denuncia.getUnidade().getEndereco()
-						+ "\nFone: " + denuncia.getUnidade().getEndereco().getTelefoneContato() 
+				+ pessoa.getFamilia().getDenuncia().getUnidade().getEndereco()
+						+ "\nFone: " + pessoa.getFamilia().getDenuncia().getUnidade().getEndereco().getTelefoneContato()
 						+ "\n");
 			//	titulo2.setBackgroundColor(ColorConstants.BLUE);
 				titulo2.setFontSize(12);

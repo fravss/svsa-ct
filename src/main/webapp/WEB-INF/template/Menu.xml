@@ -13,25 +13,26 @@
 		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
-		<menuitem value="Atend. Recepção" outcome="/restricted/agenda/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
+		<menuitem value="Atend. Recepção" outcome="/restricted/atendimento/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	
 		<menuitem value="Registrar Ação" outcome="/restricted/atendimento/RealizarAcao.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>				
-		<menuitem value="Relatório de Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
-			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>		
+		</menuitem>
+		<submenu2 label="Relatórios">
+			<menuitem2 value="Atendimentos" outcome="/restricted/atendimento/RelatorioAtendimentos.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>
+			<menuitem2 value="Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>	
+		</submenu2>		
 	</submenu>
 	
 	<submenu label="Denuncia" icon="pi pi-book">
 		<grupo value="ADMINISTRATIVOS"></grupo>
 		<grupo value="TECNICOS"></grupo>		
-		<menuitem value="Registrar Denuncia" outcome="/restricted/atendimento/RegistrarDenuncia.xhtml">
-			<grupo value="ADMINISTRATIVOS"></grupo>
-		</menuitem>
-		<menuitem value="Capa de Prontuario" outcome="/restricted/agenda/PesquisaCapaProntuario.xhtml"></menuitem>
-		<menuitem value="Manter Prontuario" outcome="/restricted/agenda/ManterProntuario.xhtml">
+		<menuitem value="Registrar Denuncia" outcome="/restricted/agenda/PesquisarDenuncia.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>
 	</submenu>		
@@ -45,13 +46,14 @@
 		<menuitem value="Cadastro Órgão Externo" outcome="/restricted/encaminhamento/orgao/PesquisaOrgao.xhtml"></menuitem>
 		<submenu2 label="Gestão de Ofícios">
 			<menuitem2 value="Receber Ofícios" outcome="/restricted/encaminhamento/ReceberOficio.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>
 			<menuitem2 value="Emitir Ofícios" outcome="/restricted/encaminhamento/EmitirOficio.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>	
 		</submenu2>		
 		<submenu2 label="Relatórios">
-			<menuitem2 value="Encam. Interno(*)" outcome="/restricted/encaminhamento/RelatorioEncExterno.xhtml">
+			<menuitem2 value="Encam. Externos(*)" outcome="/restricted/encaminhamento/RelatorioEncExterno.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>
 			<menuitem2 value="Ofícios Recebidos" outcome="/restricted/encaminhamento/RelatorioOficio.xhtml">

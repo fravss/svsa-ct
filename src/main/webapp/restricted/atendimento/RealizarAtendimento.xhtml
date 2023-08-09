@@ -38,10 +38,14 @@
 	    		rowsPerPageTemplate="10,15,20"
 	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
 	    		selectionMode="single" selection="#{realizarAtendimentoBean.item}" rowKey="#{item.codigo}"
-	    		rowStyleClass="#{item.pessoa.familia.prontuario.status eq 'INATIVO' or item.pessoa.status eq 'INATIVO'? 'inativo' : null}">
+	    		rowStyleClass="#{item.pessoa.familia.denuncia.status eq 'INATIVO' ? 'inativo' : null}">
 	    		
-	    		<p:ajax event="rowSelect" update="frmPesquisa:toolbar" />			
-				<p:ajax event="rowUnselect" update="frmPesquisa:toolbar" />
+	    		<p:ajax event="rowSelect" update="frmPesquisa:toolbar frmPesquisa:listaDataTable" />			
+				<p:ajax event="rowUnselect" update="frmPesquisa:toolbar frmPesquisa:listaDataTable" />
+				
+				<p:column headerText="Det." style="width: 2px; text-align: center">
+                	<p:rowToggler/>
+           		</p:column>
 		    		
 		    	<p:column headerText="Agendado" style="width: 30px; text-align: center"
 		    		sortBy="#{item.dataAgendamento}" >
@@ -50,8 +54,8 @@
 	    			</h:outputText>
 	    		</p:column>
 		    		   
-		    	<p:column headerText="Pront. Código" style="width: 10px; text-align: center">
-	    			<h:outputText value="#{item.pessoa.familia.prontuario.codigo}" />
+		    	<p:column headerText="Código Denúncia" style="width: 10px; text-align: center">
+	    			<h:outputText value="#{item.pessoa.familia.denuncia.codigo}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Código" style="width: 8px; text-align: center">
@@ -64,18 +68,14 @@
 	    			<h:outputText value="#{item.pessoa.nome}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Nome Social" style="width: 80px; text-align: center">
-	    			<h:outputText value="#{item.pessoa.nomeSocial}" />
-	    		</p:column>
-	    		
 	    		<p:column headerText="Telefone" style="width: 30px; text-align: center">
 	    			<h:outputText value="#{item.pessoa.telefone}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Conselheiro" style="width: 100px; text-align: center"
-	    			filterBy="#{item.tecnico.nome}"
+	    			filterBy="#{item.conselheiro.nome}"
 	    			footerText="contains" filterMatchMode="contains">
-	    			<h:outputText value="#{item.tecnico.nome}" />
+	    			<h:outputText value="#{item.conselheiro.nome}" />
 	    		</p:column>    		
     		
     			<p:column headerText="Perfil" style="width: 50px; text-align: center">
@@ -83,7 +83,8 @@
 	    		</p:column> 
 	    		
 	    		<p:column headerText="Operações" style="width: 20px; text-align: center">
-	    			<p:commandButton title="Evolução" icon="pi pi-history"	
+	    			<p:commandButton title="Evolução" icon="pi pi-history"
+	    				disabled="#{realizarAtendimentoBean.item.codigo eq null}"
 	            		rendered="#{not realizarAtendimentoBean.cadastrador}"		            	
 		            	oncomplete="PF('consultaDialogWidgetVar').show()"
 		            	update="frmPesquisa:consultaDialog frmPesquisa:toolbar" 
@@ -92,6 +93,7 @@
 							value="#{item.pessoa}" /> 								                
 	            	</p:commandButton>
 	            	<p:commandButton title="Faltas pessoa" icon="pi pi-thumbs-down"
+	            		disabled="#{realizarAtendimentoBean.item.codigo eq null}"
 	            		rendered="#{not realizarAtendimentoBean.cadastrador}"      	
 		            	actionListener="#{realizarAtendimentoBean.consultaFaltas}" 
 		            	oncomplete="PF('faltasDialogWidgetVar').show()"
@@ -100,6 +102,24 @@
 		            	<p:resetInput target="frmPesquisa:faltasDialog" />	
 	            	</p:commandButton>
 	    		</p:column>
+	    		
+	    		<p:rowExpansion>
+					<div>
+						<p:panelGrid columns="2" id="painel" style="width: 100%" columnClasses="rotulo, campo" cellpadding="7">						
+							
+							<p:outputLabel value="Nome da Pessoa: " style="font-weight:bold" />
+							<h:outputText value="#{item.pessoa.nome}" />
+	    		
+							<p:outputLabel value="Motivo da demanda: " style="font-weight:bold" />
+							<h:outputText value="#{item.motivo}"/>
+							
+							<p:outputLabel value="Agendado por: " style="font-weight:bold" />
+							<h:outputText value="#{item.agendador.nome}"/>
+
+						</p:panelGrid>
+					</div>
+				</p:rowExpansion>
+	    		
 		   	</p:dataTable>
 		   	
 			
@@ -120,7 +140,7 @@
 				<p:panelGrid columns="1" id="resumoPanelGrid" 					
 					layout="grid" styleClass="showcase-text-align-center">	
 					
-	    			<h:outputText id="pront" value="PRONTUÁRIO: #{realizarAtendimentoBean.item.pessoa.familia.prontuario.codigo}" />	
+	    			<h:outputText id="denuncia" value="Denuncia: #{realizarAtendimentoBean.item.pessoa.familia.denuncia.codigo}" />	
 					
 	    			<h:outputText id="nomeAtendido" value="PESSOA: #{realizarAtendimentoBean.item.pessoa.nome}" />	
 	    			
@@ -152,9 +172,9 @@
 	    			<p:pickList id="pickList"
 	    				responsive="true"	    				
 	    				converter="pickListTecConverter"
-	    				value="#{realizarAtendimentoBean.tecnicos}" 
-	    				var="tecnico" 
-	    				itemValue="#{tecnico}" itemLabel="#{tecnico.nome}">
+	    				value="#{realizarAtendimentoBean.conselheiros}" 
+	    				var="conselheiro" 
+	    				itemValue="#{conselheiro}" itemLabel="#{conselheiro.nome}">
 	    				
 	    				<f:facet name="sourceCaption">Disponíveis</f:facet>
         				<f:facet name="targetCaption">Selecionados</f:facet>

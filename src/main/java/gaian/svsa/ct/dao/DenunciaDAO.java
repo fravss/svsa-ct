@@ -9,10 +9,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TemporalType;
 
+import org.apache.log4j.Logger;
+
 import gaian.svsa.ct.modelo.Denuncia;
-import gaian.svsa.ct.modelo.PessoaDenuncia;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.Status;
 import gaian.svsa.ct.util.DateUtils;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
@@ -24,28 +26,21 @@ import gaian.svsa.ct.util.jpa.Transactional;
 public class DenunciaDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private Logger log = Logger.getLogger(DenunciaDAO.class);
 
 	@Inject
 	private EntityManager manager;
 	
 	@Transactional
-	public Denuncia salvar(Denuncia denuncia) throws NegocioException {
+	public void salvar(Denuncia denuncia) throws NegocioException {
+		
 		try {
-			// se pessoa nova
-			if(denuncia.getPessoa().getCodigo() == null) {
-				denuncia.getPessoa().setTenant_id(denuncia.getTenant_id());
-				denuncia.getPessoa().setUnidade(denuncia.getUnidade());
-				PessoaDenuncia p = manager.merge(denuncia.getPessoa());
-				denuncia.setPessoa(p);
-			}
-			else {
-				manager.merge(denuncia.getPessoa());
-			}
-			return manager.merge(denuncia);	
+			
+			manager.merge(denuncia);
 			
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw e;
+			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -94,9 +89,10 @@ public class DenunciaDAO implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Denuncia> buscarTodos(Long tenantId) {
+	public List<Denuncia> buscarTodos(Long tenantId, Unidade unidade) {
 		return manager.createNamedQuery("Denuncia.buscarTodos")
 				.setParameter("tenantId", tenantId)
+				.setParameter("unidade", unidade)
 				.getResultList();
 	}
 	
@@ -118,5 +114,69 @@ public class DenunciaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.setParameter("nome", query + "%")
 				.getResultList();
+	}
+	
+	public Denuncia buscarDenuncia(Long codigo, Unidade unidade, Long tenantId) {
+		return manager.createQuery("select d from Denuncia d where d.codigo = :codigo "
+				+ "and d.tenant_id = :tenantId "
+				+ "and d.unidade = :unidade", Denuncia.class)
+				.setParameter("codigo", codigo)
+				.setParameter("tenantId", tenantId)
+				.setParameter("unidade", unidade)
+				.getSingleResult();
+	}
+	
+	@Transactional
+	public void ativarDenuncia(Denuncia denuncia) throws NegocioException {
+		
+		try {
+			
+			Denuncia d = buscarPeloCodigo(denuncia.getCodigo());
+			
+			d.setStatus(Status.ATIVO);
+			manager.merge(d);		
+			
+			log.info("Denúncia ativada: " + d.getCodigo());
+			
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}
+	
+	@Transactional
+	public void inativarDenuncia(Denuncia denuncia) throws NegocioException {
+		try {
+			
+			Denuncia d = buscarPeloCodigo(denuncia.getCodigo());				
+			
+			d.setStatus(Status.INATIVO);
+			manager.merge(d);
+			
+			log.info("Denúncia inativado: " + d.getCodigo());
+			
+			
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}	
 	}
 }

@@ -15,7 +15,7 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.enums.Role;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
 import gaian.svsa.ct.util.DateUtils;
@@ -38,11 +38,11 @@ public class AgendaScheduleBean implements Serializable {
 
 	private ScheduleModel eventModel;
 	private ScheduleEvent<?> event = new DefaultScheduleEvent<>();
-	private List<ListaAtendimento> listaAtendimentos = new ArrayList<>();
+	private List<Atendimento> listaAtendimentos = new ArrayList<>();
 	
 		
 	@Inject
-	AgendamentoIndividualService listaAtendimentoService;	
+	AgendamentoIndividualService atendimentoService;	
 	@Inject
 	LoginBean loginBean;
     
@@ -50,7 +50,7 @@ public class AgendaScheduleBean implements Serializable {
     @PostConstruct
     public void init() {
     	
-    	listaAtendimentos = listaAtendimentoService.buscarAtendimentosAgendados(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
+    	listaAtendimentos = atendimentoService.buscarAtendimentosAgendados(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
     	//log.info("Qde agendamentos ind: " + listaAtendimentos.size());
     	
     	eventModel = new DefaultScheduleModel();
@@ -62,7 +62,7 @@ public class AgendaScheduleBean implements Serializable {
     	
     	log.debug("Qde agendamentos: " + listaAtendimentos.size());    	
     	
-    	for(ListaAtendimento l : listaAtendimentos) { 
+    	for(Atendimento l : listaAtendimentos) { 
             
     		if( l.getRole() == Role.CADASTRADOR ) {    
     			log.debug("cadastrador");
@@ -77,21 +77,21 @@ public class AgendaScheduleBean implements Serializable {
     			eventModel.addEvent(event);  
     		}
     		else {
-    			if(l.getTecnico() != null) {
-    				log.debug("com tecnico");
+    			if(l.getConselheiro() != null) {
+    				log.debug("com conselheiro");
     				event = DefaultScheduleEvent.builder()
         					.title("[IND] " + l.getPessoa().getNome())
         					.startDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))
         					.endDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))   
-        					.description(""+l.getTecnico().getNome())
+        					.description(""+l.getConselheiro().getNome())
         					.borderColor("blue")
         					.backgroundColor("blue")
         					.build();    				
     				eventModel.addEvent(event);  
-    				//eventModel.addEvent(new DefaultScheduleEvent("[IND] " + l.getPessoa().getNome() + " (" + l.getTecnico().getNome() + ")", l.getDataAgendamento(), l.getDataAgendamento()));
+    				//eventModel.addEvent(new DefaultScheduleEvent("[IND] " + l.getPessoa().getNome() + " (" + l.getConselheiro().getNome() + ")", l.getDataAgendamento(), l.getDataAgendamento()));
     			}
     			else {
-    				log.debug("sem tecnico");
+    				log.debug("sem conselheiro");
     				event = DefaultScheduleEvent.builder()
         					.title("[IND] " + l.getPessoa().getNome())
         					.startDate(DateUtils.asLocalDateTime(l.getDataAgendamento()))

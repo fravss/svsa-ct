@@ -66,9 +66,9 @@ public class AcaoService implements Serializable {
 	
 	public void salvarAlterar(Acao acao, Long codigoUsuarioLogado) throws NegocioException {
 		
-		log.info("para verificar o problema de alteração de ação...Ação criada por: " + acao.getTecnico().getCodigo() + " **** Tentativa de alteração por : " + codigoUsuarioLogado);
+		log.info("para verificar o problema de alteração de ação...Ação criada por: " + acao.getConselheiro().getCodigo() + " **** Tentativa de alteração por : " + codigoUsuarioLogado);
 			
-		if(codigoUsuarioLogado.longValue() == acao.getTecnico().getCodigo().longValue()) {
+		if(codigoUsuarioLogado.longValue() == acao.getConselheiro().getCodigo().longValue()) {
 			if(new Date().after(DateUtils.plusDays(acao.getData(), 7)) ){
 				throw new NegocioException("Prazo para alteração (7 dias) foi ultrapassado!");
 					
@@ -108,8 +108,8 @@ public class AcaoService implements Serializable {
 				AtendimentoDTO dto = new AtendimentoDTO();	
 				dto.setData(a.getData());
 				dto.setResumoAtendimento("[Ação] " + a.getDescricao());
-				if (a.getTecnico() != null)
-					dto.setNomeTecnico(a.getTecnico().getNome());
+				if (a.getConselheiro() != null)
+					dto.setNomeConselheiro(a.getConselheiro().getNome());
 				dto.setNomeUnidade(a.getUnidade().getNome());
 				dto.setNomePessoa(pessoa.getNome());
 				if (a.getAgendador() != null)

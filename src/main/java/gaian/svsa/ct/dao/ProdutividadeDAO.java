@@ -33,21 +33,21 @@ public class ProdutividadeDAO implements Serializable {
 		 	SELECT 
 			    u.nome, unid.nome
 			FROM svsa_salto.ListaAtendimento l
-		        INNER JOIN svsa_salto.Usuario u ON (u.codigo = l.codigo_tecnico)
+		        INNER JOIN svsa_salto.Usuario u ON (u.codigo = l.codigo_conselheiro)
 		        INNER JOIN svsa_salto.Unidade unid ON (unid.codigo = u.codigo_unidade)
 			WHERE
 			    l.codigoAuxiliar IN ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO')
 			ORDER BY u.nome;
 		 */
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
-				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
-				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+				+ "u.nome, unid.nome, u.role) " + "FROM Atendimento a "
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ "WHERE "
-				+ " l.codigoAuxiliar in ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO') "
-				+ " and l.dataAtendimento between :ini and :fim "
-				+ " and l.statusAtendimento = :status "
-				+ " and l.tenant_id = :tenantId "
+				+ " a.codigoAuxiliar in ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO') "
+				+ " and a.dataAtendimento between :ini and :fim "
+				+ " and a.statusAtendimento = :status "
+				+ " and a.tenant_id = :tenantId "
 				+ " and unid.tipo not in ('SASC') "
 				+ " ORDER BY u.nome"
 				, AtendimentoDTO.class)
@@ -65,20 +65,20 @@ public class ProdutividadeDAO implements Serializable {
 		 	SELECT 
 			    u.nome, unid.nome
 			FROM svsa_salto.ListaAtendimento l
-		        INNER JOIN svsa_salto.Usuario u ON (u.codigo = l.codigo_tecnico)
+		        INNER JOIN svsa_salto.Usuario u ON (u.codigo = l.codigo_conselheiro)
 		        INNER JOIN svsa_salto.Unidade unid ON (unid.codigo = u.codigo_unidade)
 			WHERE
 			    l.codigoAuxiliar IN ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO')
 			ORDER BY u.nome;
 		 */
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
-				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
-				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+				+ "u.nome, unid.nome, u.role) " + "FROM Atendimento a "
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ "WHERE "
-				+ " l.codigoAuxiliar in ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO') "
-				+ " and l.statusAtendimento = :status "
-				+ " and l.tenant_id = :tenantId "
+				+ " a.codigoAuxiliar in ('CADASTRAMENTO_CADUNICO' , 'CADASTRAMENTO_CADUNICO_BPC', 'ATUALIZACAO_CADUNICO', 'OUTROS_CADUNICO') "
+				+ " and a.statusAtendimento = :status "
+				+ " and a.tenant_id = :tenantId "
 				+ " and unid.tipo not in ('SASC') "
 				+ "ORDER BY u.nome"
 				, AtendimentoDTO.class)
@@ -91,20 +91,20 @@ public class ProdutividadeDAO implements Serializable {
 	
 	
 	
-	/* Produtividade atendimentos por tecnico */
+	/* Produtividade atendimentos por conselheiro */
 	
 	
 	
-	public List<AtendimentoDTO> buscarTecnicoProdDTO(Unidade unidade, Long tenantId) {
+	public List<AtendimentoDTO> buscarConselheiroProdDTO(Unidade unidade, Long tenantId) {
 		
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
-				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
-				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+				+ "u.nome, unid.nome, u.role) " + "FROM Atendimento a "
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
-				+ "WHERE l.statusAtendimento = :status "
-				+ " and l.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
+				+ "WHERE a.statusAtendimento = :status "
+				+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
 				+ " and unid = :unidade "
-				+ " and l.tenant_id = :tenantId "
+				+ " and a.tenant_id = :tenantId "
 				+ " and unid.tipo not in ('SASC') "
 				+ "ORDER BY u.nome"
 				, AtendimentoDTO.class)
@@ -116,17 +116,17 @@ public class ProdutividadeDAO implements Serializable {
 		return lista;
 	}
 
-	public List<AtendimentoDTO> buscarTecnicoProdDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
+	public List<AtendimentoDTO> buscarConselheiroProdDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 		
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
-				+ "u.nome, unid.nome, u.role) " + "FROM ListaAtendimento l "
-				+ " INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+				+ "u.nome, unid.nome, u.role) " + "FROM Atendimento a "
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
-				+ "WHERE l.dataAtendimento between :ini and :fim "
-				+ " and l.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
-				+ " and l.statusAtendimento = :status "
+				+ "WHERE a.dataAtendimento between :ini and :fim "
+				+ " and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
+				+ " and a.statusAtendimento = :status "
 				+ " and unid = :unidade "
-				+ " and l.tenant_id = :tenantId "
+				+ " and a.tenant_id = :tenantId "
 				+ " and unid.tipo not in ('SASC') "
 				+ " ORDER BY u.nome"
 				, AtendimentoDTO.class)
@@ -141,13 +141,13 @@ public class ProdutividadeDAO implements Serializable {
 	}
 	
 	public Long buscarTotalGeral(Date ini, Date fim, Long tenantId) {	
-		return manager.createQuery("select count(l) from ListaAtendimento l "
-				+ "INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+		return manager.createQuery("select count(l) from Atendimento a "
+				+ "INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ "INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
-				+ "where l.statusAtendimento = :status "
-				+ "and l.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
-				+ "and l.dataAtendimento between :ini and :fim "
-				+ "and l.tenant_id = :tenantId "
+				+ "where a.statusAtendimento = :status "
+				+ "and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
+				+ "and a.dataAtendimento between :ini and :fim "
+				+ "and a.tenant_id = :tenantId "
 				+ "and unid.tipo not in ('SASC') ", Long.class)
 				.setParameter("tenantId", tenantId)
 				.setParameter("ini", ini, TemporalType.TIMESTAMP)
@@ -157,12 +157,12 @@ public class ProdutividadeDAO implements Serializable {
 	}
 	
 	public Long buscarTotalGeral(Long tenantId) {	
-		return manager.createQuery("select count(l) from ListaAtendimento l "
-				+ "INNER JOIN Usuario u ON u.codigo = l.tecnico.codigo "				
+		return manager.createQuery("select count(l) from Atendimento a "
+				+ "INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ "INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
-				+ "where l.statusAtendimento = :status "
-				+ "and l.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
-				+ "and l.tenant_id = :tenantId "
+				+ "where a.statusAtendimento = :status "
+				+ "and a.codigoAuxiliar not in ('ATENDIMENTO_RECEPCAO') "
+				+ "and a.tenant_id = :tenantId "
 				+ "and unid.tipo not in ('SASC')", Long.class)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", StatusAtendimento.ATENDIDO)
@@ -170,11 +170,11 @@ public class ProdutividadeDAO implements Serializable {
 	}
 	
 	
-public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tenantId) {
+	public List<AtendimentoDTO> buscarConselheiroProdAcoesDTO(Unidade unidade, Long tenantId) {
 		
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM Acao a "
-				+ " INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ " and unid = :unidade "
 				+ " and a.tenant_id = :tenantId "
@@ -188,11 +188,11 @@ public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tena
 		return lista;
 	}
 
-	public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
+	public List<AtendimentoDTO> buscarConselheiroProdAcoesDTO(Date ini, Date fim, Unidade unidade, Long tenantId) {
 		
 		List<AtendimentoDTO> lista = manager.createQuery("SELECT new gaian.svsa.ct.modelo.to.AtendimentoDTO( "
 				+ "u.nome, unid.nome, u.role) " + "FROM Acao a "
-				+ " INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
+				+ " INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ " INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ " and unid = :unidade "
 				+ " and a.tenant_id = :tenantId "
@@ -210,7 +210,7 @@ public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tena
 	
 	public Long buscarTotalGeralAcao(Date ini, Date fim, Long tenantId) {	
 		return manager.createQuery("select count(a) from Acao a "
-				+ "INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
+				+ "INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ "INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ "and a.dataAcao between :ini and :fim "
 				+ "and a.tenant_id = :tenantId "
@@ -223,7 +223,7 @@ public List<AtendimentoDTO> buscarTecnicoProdAcoesDTO(Unidade unidade, Long tena
 	
 	public Long buscarTotalGeralAcao(Long tenantId) {	
 		return manager.createQuery("select count(a) from Acao a "
-				+ "INNER JOIN Usuario u ON u.codigo = a.tecnico.codigo "				
+				+ "INNER JOIN Usuario u ON u.codigo = a.conselheiro.codigo "				
 				+ "INNER JOIN Unidade unid ON unid.codigo = u.unidade.codigo "
 				+ "and unid.tipo not in ('SASC') "
 				+ "and a.tenant_id = :tenantId ", Long.class)

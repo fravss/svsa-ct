@@ -7,7 +7,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.enums.CodigoAuxiliarAtendimento;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
 import gaian.svsa.ct.util.MessageUtil;
@@ -27,11 +27,11 @@ public class CadastroAtendimentoRecepcaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ListaAtendimento item;
+	private Atendimento item;
 	private String nomePessoaAtendida;
 
 	@Inject
-	AgendamentoIndividualService listaAtendimentoService;	
+	AgendamentoIndividualService atendimentoService;	
 	@Inject
 	LoginBean loginBean;
 	
@@ -47,13 +47,13 @@ public class CadastroAtendimentoRecepcaoBean implements Serializable {
 		try {			
 			item.setCodigoAuxiliar(CodigoAuxiliarAtendimento.ATENDIMENTO_RECEPCAO);
 			item.setRole(loginBean.getUsuario().getRole());
-			item.setTecnico(loginBean.getUsuario());
+			item.setConselheiro(loginBean.getUsuario());
 			item.setUnidade(loginBean.getUsuario().getUnidade());
 			String str = " : ";
 			String resumoNome = nomePessoaAtendida.concat(str).concat(item.getResumoAtendimento());
 			item.setResumoAtendimento(resumoNome);
 			
-			this.listaAtendimentoService.salvarResumoRecepcao(item);
+			this.atendimentoService.salvarResumoRecepcao(item);
 			MessageUtil.sucesso("Atendimento Receção salvo com sucesso!");
 			this.limpar();
 			
@@ -69,7 +69,7 @@ public class CadastroAtendimentoRecepcaoBean implements Serializable {
 	}
 	
 	public void limpar() {
-		this.item = new ListaAtendimento();
+		this.item = new Atendimento();
 		this.item.setTenant_id(loginBean.getTenantId());
 	}
 

@@ -61,16 +61,16 @@ public class Calendario implements Serializable {
 	private Unidade unidade;
 	
 	@ManyToOne
-	@JoinColumn(name="codigo_tecnico")
-	private Usuario tecnico;
+	@JoinColumn(name="codigo_conselheiro")
+	private Usuario conselheiro;
 	
 	public Calendario() {}
 	
-	public Calendario(String title, LocalDateTime date, LocalDateTime date2, Usuario tecnico, Unidade unidade) {
+	public Calendario(String title, LocalDateTime date, LocalDateTime date2, Usuario conselheiro, Unidade unidade) {
 		this.title = title;
 		this.setStartDate(date);
 		this.setEndDate(date2);
-		this.tecnico = tecnico;
+		this.conselheiro = conselheiro;
 		this.unidade = unidade;
 	}
 	

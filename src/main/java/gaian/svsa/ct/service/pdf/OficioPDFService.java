@@ -93,14 +93,14 @@ public class OficioPDFService implements Serializable {
 		/* 
 	     * Header 
 	     */
-		image(document, oficioEmitido.getTecnico().getUnidade().getEndereco().getMunicipio(), s3Key);
-		headerOficio(document, oficioEmitido.getTecnico().getUnidade().getNome(), oficioEmitido, secretaria);
+		image(document, oficioEmitido.getConselheiro().getUnidade().getEndereco().getMunicipio(), s3Key);
+		headerOficio(document, oficioEmitido.getConselheiro().getUnidade().getNome(), oficioEmitido, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 	
 		
 		// Body
 		Paragraph line = new Paragraph("\nOfício N° " + oficioEmitido.getNrOficioEmitido() + " - " + 
-				oficioEmitido.getTecnico().getUnidade().getNome() + "\n " + 
+				oficioEmitido.getConselheiro().getUnidade().getNome() + "\n " + 
 				oficioEmitido.getNomeOrgao() + "\n\n\n");
 		line.setFontSize(12);
 		line.setFont(font);
@@ -125,6 +125,19 @@ public class OficioPDFService implements Serializable {
 		line4.setFont(font);
 		line4.setTextAlignment(TextAlignment.CENTER);
 		document.add(line4);
+		
+		//Campos das 3 Assinaturas dos conselheiros
+		Paragraph line5 = new Paragraph("\n_________________________________________   "
+				+ "\nAssinatura do Conselheiro 1\n\n\n"
+				+ "_________________________________________   "
+				+ "\nAssinatura do Conselheiro 2\n\n\n"
+				+ "_________________________________________"
+				+ "\nAssinatura do Conselheiro 3");
+		line5.setFontSize(12);
+		line5.setFont(font);
+		line5.setTextAlignment(TextAlignment.CENTER);
+		document.add(line5);
+		
 
 		document.close();		
 	}
@@ -139,7 +152,7 @@ public class OficioPDFService implements Serializable {
 			ImageData data = ImageDataFactory.create(url);
 			// Creating an Image object 
 			Image img = new Image(data);
-			//document.add(img);	
+			document.add(img);	
 
 		} catch (Exception e) {
 			throw new NegocioException("Logotipo da unidade não encontrado.");
@@ -151,6 +164,7 @@ public class OficioPDFService implements Serializable {
 		try {
 			PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
 			log.info(unidade);
+			
 			if(unidade.equals("CREAS")) {      
 				Paragraph titulo = new Paragraph(
 						"\n" + secretaria.toUpperCase() + "\nCENTRO DE REFERÊNCIA ESPECIALIZADO DE ASSISTÊNCIA SOCIAL"

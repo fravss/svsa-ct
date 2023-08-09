@@ -17,7 +17,7 @@ import gaian.svsa.ct.dao.AgendamentoIndividualDAO;
 import gaian.svsa.ct.dao.EncaminhamentoDAO;
 import gaian.svsa.ct.dao.UnidadeDAO;
 import gaian.svsa.ct.modelo.Encaminhamento;
-import gaian.svsa.ct.modelo.ListaAtendimento;
+import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Oficio;
 import gaian.svsa.ct.modelo.OficioEmitido;
 import gaian.svsa.ct.modelo.Pessoa;
@@ -59,7 +59,7 @@ class AgendamentoIndividualHelper implements Serializable {
 	/*
 	 * RelatorioAtendimentos (cadUnico)
 	 */
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		if (ini != null)
 			if (fim != null)
 				return listaDAO.buscarAtendCadUnicoDataPeriodo(unidade, ini, fim, tenantId);
@@ -68,7 +68,7 @@ class AgendamentoIndividualHelper implements Serializable {
 		return listaDAO.buscarAtendidosCadUnico(unidade, tenantId);
 	}
 
-	public List<ListaAtendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
+	public List<Atendimento> buscarAtendCadUnicoPeriodo2(Unidade unidade, Date ini, Date fim, Long tenantId) {
 		if (ini != null)
 			if (fim != null)
 				return listaDAO.buscarAtendCadUnicoDataPeriodo2(unidade, ini, fim, tenantId);
@@ -213,9 +213,9 @@ class AgendamentoIndividualHelper implements Serializable {
 				dto.setData(e.getData());
 
 				dto.setResumoAtendimento("[Enc.Externo] PARA: " + e.getOrgaoUnidadeDestino()  + " - MOTIVO: " + e.getMotivo());
-				if (e.getTecnico() != null)
-					dto.setNomeTecnico(e.getTecnico().getNome());
-				dto.setNomeUnidade(e.getTecnico().getUnidade().getNome());
+				if (e.getConselheiro() != null)
+					dto.setNomeConselheiro(e.getConselheiro().getNome());
+				dto.setNomeUnidade(e.getConselheiro().getUnidade().getNome());
 				dto.setNomePessoa(e.getPessoa().getNome());
 				atendimentos.add(dto);
 			}
@@ -241,9 +241,9 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio recebido
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
-					if (o.getCoordenador() != null) {
-						dto.setNomeTecnico(o.getCoordenador().getNome()); // coordenador que recebeu
-						dto.setNomeUnidade(o.getCoordenador().getUnidade().getNome()); // unidade do coordenador
+					if (o.getConselheiro() != null) {
+						dto.setNomeConselheiro(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
 					dto.setResumoAtendimento("[Ofício Recebido] " + o.getNrOficio() + " ( " + o.getAssunto() + " ) ");
@@ -252,8 +252,8 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio respondido
 					dto2 = new AtendimentoDTO();
 					dto2.setData(o.getDataResposta());
-					dto2.setNomeTecnico(o.getTecnico().getNome());
-					dto2.setNomeUnidade(o.getTecnico().getUnidade().getNome());
+					dto2.setNomeConselheiro(o.getConselheiro().getNome());
+					dto2.setNomeUnidade(o.getConselheiro().getUnidade().getNome());
 					dto2.setNomePessoa(o.getPessoa().getNome());
 					dto2.setResumoAtendimento(
 							"[Ofício Resposta] " + o.getNrOficioResp() + " ( " + o.getAssunto() + " ) ");
@@ -263,9 +263,9 @@ class AgendamentoIndividualHelper implements Serializable {
 					// oficio recebido
 					dto = new AtendimentoDTO();
 					dto.setData(o.getDataRecebimento());
-					if (o.getCoordenador() != null) {
-						dto.setNomeTecnico(o.getCoordenador().getNome()); // coordenador que recebeu
-						dto.setNomeUnidade(o.getCoordenador().getUnidade().getNome()); // unidade do coordenador
+					if (o.getConselheiro() != null) {
+						dto.setNomeConselheiro(o.getConselheiro().getNome()); // coordenador que recebeu
+						dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome()); // unidade do coordenador
 					}
 					dto.setNomePessoa(o.getPessoa().getNome());
 					dto.setResumoAtendimento("[Ofício Recebido] " + o.getNrOficio() + " ( " + o.getAssunto() + " ) ");
@@ -292,11 +292,11 @@ class AgendamentoIndividualHelper implements Serializable {
 
 				AtendimentoDTO dto = new AtendimentoDTO();
 				dto.setData(o.getDataEmissao());
-				if (o.getTecnico() != null)
-					dto.setNomeTecnico(o.getTecnico().getNome());
+				if (o.getConselheiro() != null)
+					dto.setNomeConselheiro(o.getConselheiro().getNome());
 				// emitidos
 				dto.setResumoAtendimento("[Ofício Emitido] " + o.getNrOficioEmitido() + " ( " + o.getAssunto() + " ) ");
-				dto.setNomeUnidade(o.getTecnico().getUnidade().getNome());
+				dto.setNomeUnidade(o.getConselheiro().getUnidade().getNome());
 				dto.setNomePessoa(o.getPessoa().getNome());
 				atendimentos.add(dto);
 			}
@@ -335,10 +335,10 @@ class AgendamentoIndividualHelper implements Serializable {
 	
 	
 
-	public List<ListaAtendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
+	public List<Atendimento> consultaFaltas(Pessoa pessoa, Long tenantId) {
 		
 		// faltas individualizada
-		List<ListaAtendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getProntuario().getUnidade(), pessoa, tenantId);
+		List<Atendimento> faltas = listaDAO.consultaFaltas(pessoa.getFamilia().getDenuncia().getUnidade(), pessoa, tenantId);
 	
 		return  faltas;
 	}

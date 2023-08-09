@@ -6,15 +6,15 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 
-import gaian.svsa.ct.modelo.ObsComposicaoFamiliar;
+import gaian.svsa.ct.modelo.Denuncia;
+import gaian.svsa.ct.modelo.Familia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
-import gaian.svsa.ct.modelo.Prontuario;
-import gaian.svsa.ct.modelo.TipoDocumento;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
@@ -24,7 +24,7 @@ import gaian.svsa.ct.util.jpa.Transactional;
  * @author murakamiadmin
  *
  */
-public class MPComposicaoDAO implements Serializable {
+public class RDComposicaoDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;	
 	private Logger log = Logger.getLogger(PessoaDAO.class);
@@ -51,25 +51,7 @@ public class MPComposicaoDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
-		
-	@Transactional
-	public void salvarObservacao(ObsComposicaoFamiliar obsComposicaoFamiliar) throws NegocioException {
-		try {
-			manager.merge(obsComposicaoFamiliar);
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		}
-	}
+	
 	
 
 	public Pessoa buscarPeloCodigo(Long codigo) {
@@ -100,13 +82,13 @@ public class MPComposicaoDAO implements Serializable {
 		return query.getResultList();			
 	}
 	
-	public List<Prontuario> pesquisarExistente(String termo, Long tenantId) {
-		TypedQuery<Prontuario> q = manager.createQuery("Select p FROM Prontuario p  "
-				+ "INNER JOIN Familia f ON p.familia = f.codigo "
-				+ "INNER JOIN PessoaReferencia g ON p.familia.pessoaReferencia = g.codigo "				
+	public List<Denuncia> pesquisarExistente(String termo, Long tenantId) {
+		TypedQuery<Denuncia> q = manager.createQuery("Select p FROM Denuncia d  "
+				+ "INNER JOIN Familia f ON d.familia = f.codigo "
+				+ "INNER JOIN PessoaReferencia g ON d.familia.pessoaReferencia = g.codigo "				
 				+ "WHERE g.nome = :termo "
-				+ "and p.tenant_id = :tenantId "
-				+ "and p.excluido = :exc" , Prontuario.class);
+				+ "and d.tenant_id = :tenantId "
+				+ "and d.excluido = :exc" , Denuncia.class);
 		q.setParameter("tenantId", tenantId);
 		q.setParameter("termo", termo);
 		q.setParameter("exc", false);
@@ -133,7 +115,47 @@ public class MPComposicaoDAO implements Serializable {
 	}
 	
 	
-	
+	// trocaPessoa de Referencia
+	@Transactional
+	public void trocarPR(Familia familia, PessoaReferencia prAntiga, Pessoa prNova) throws NegocioException {
+		try {
+			
+			log.info("trocando pessoa referencia...3 para " + prNova.getCodigo());
+			
+			// altera para PessoaReferencia
+			final Query query = manager.createNativeQuery( "UPDATE Pessoa SET TIPO_PESSOA = 'PESSOA_REFERENCIA', "
+					+ "parentescoPessoaReferencia = 'RESPONSAVEL_FAMILIAR' WHERE codigo = :id" );
+			query.setParameter( "id", prNova.getCodigo() );	 
+            query.executeUpdate();
+            
+            // altera para Pessoa
+            final Query query2 = manager.createNativeQuery( "UPDATE Pessoa SET TIPO_PESSOA = 'Pessoa', "
+            		+ "parentescoPessoaReferencia = 'NAO_PARENTE' WHERE codigo = :id" );
+            query2.setParameter( "id", prAntiga.getCodigo() );
+            query2.executeUpdate();
+            
+            //Altera PessoaReferencia da Familia
+            final Query query3 = manager.createNativeQuery( "UPDATE Familia SET codigo_pessoa_referencia = :pr WHERE codigo = :id" );
+            query3.setParameter( "pr", prNova.getCodigo() );	 
+            query3.setParameter( "id", familia.getCodigo() );
+            query3.executeUpdate();
+			
+            log.info("trocado.");
+		
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}	
 	
 	
 	
@@ -174,33 +196,19 @@ public class MPComposicaoDAO implements Serializable {
 		return query.getResultList();
 	}
 	
-	public List<Pessoa> buscarTodosMembros(Prontuario prontuario, Long tenantId) {
-		String jpql = "from Pessoa p where p.familia.prontuario = :prontuario "
+	public List<Pessoa> buscarTodosMembros(Denuncia denuncia, Long tenantId) {
+		String jpql = "from Pessoa p where p.familia.denuncia = :denuncia "
 				+ "and p.tenant_id = :tenantId "
 				+ "and p.excluida = :exc";
 		
 		TypedQuery<Pessoa> query = manager.createQuery(jpql, Pessoa.class);		
 		query.setParameter("tenantId", tenantId);
-		query.setParameter("prontuario", prontuario);
+		query.setParameter("denuncia", denuncia);
 		query.setParameter("exc", false);
 		
 		return query.getResultList();
 	}
-	
-	public TipoDocumento buscarTipoDocumentoPeloCodigo(Long codigo) {
-		return manager.find(TipoDocumento.class, codigo);
-	}	
-	
-	public List<ObsComposicaoFamiliar> buscarTodasObservacoes(Prontuario prontuario, Long tenantId) {
-		String jpql = "from ObsComposicaoFamiliar o where o.prontuario = :prontuario "
-				+ "and o.tenant_id = :tenantId ";
 		
-		TypedQuery<ObsComposicaoFamiliar> query = manager.createQuery(jpql, ObsComposicaoFamiliar.class);
-		query.setParameter("tenantId", tenantId);
-		query.setParameter("prontuario", prontuario);
-		
-		return query.getResultList();
-	}		
 	
 	// para fins de testes unitários
 	public void setManager(EntityManager manager) {

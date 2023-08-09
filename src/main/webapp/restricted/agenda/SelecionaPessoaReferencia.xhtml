@@ -27,8 +27,7 @@
 			        <p:outputLabel for="parametro" value="Pesquisar por: "/>
 			        <p:selectOneRadio id="parametro" value="#{selecionaPessoaReferenciaBean.parametro}" unselectable="true">
 			            <f:selectItem itemLabel="Nome" itemValue="nome" />
-			            <f:selectItem itemLabel="Prontuário" itemValue="prontuario" />
-			            <f:selectItem itemLabel="Nome social" itemValue="nomeSocial" />
+			            <f:selectItem itemLabel="Denuncia" itemValue="denuncia" />
 			            <f:selectItem itemLabel="Endereço" itemValue="endereco" />
 			        </p:selectOneRadio>
 			        
@@ -49,22 +48,14 @@
 		    	emptyMessage="Nenhuma pessoa de referência encontrada." 
 		    	paginator="true" rows="10" paginatorPosition="bottom"
 		    	paginatorAlwaysVisible="true" scrollable="true" resizeMode="true"
-		    	rowStyleClass="#{pessoaRef.statusProntuario eq 'INATIVO' or pessoaRef.statusPessoa eq 'INATIVO'? 'inativo' : null}">
+		    	rowStyleClass="#{pessoaRef.statusDenuncia eq 'INATIVO' ? 'inativo' : null}">
 		    	
-				<p:column headerText="Código Prontuário" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoaRef.codigoProntuario}" />
-				</p:column>
+				<p:column headerText="Código Denúncia" style="width: 40px; text-align: center">
+					<h:outputText value="#{pessoaRef.codigoDenuncia}" />
+				</p:column>			
 				
-				<p:column headerText="Prontuário Físico" style="width: 40px; text-align: center">
-					<h:outputText value="#{pessoaRef.prontuarioFisico}" />
-				</p:column>				
-				
-    			<p:column headerText="Nome/Nome Social" style="width: 160px; text-align: center">
-					<h:outputText value="#{pessoaRef.nome} / #{pessoa.nomeSocial}" />
-				</p:column>
-				
-				<p:column headerText="Nome da Mãe" style="width: 120px; text-align: center">
-					<h:outputText value="#{pessoaRef.nomeMae}" />
+    			<p:column headerText="Nome" style="width: 160px; text-align: center">
+					<h:outputText value="#{pessoaRef.nome}" />
 				</p:column>
 				
 				<p:column headerText="Data de Nascimento" style="width: 50px; text-align: center">
@@ -83,7 +74,6 @@
 		    		 action="#{selecionaPessoaReferenciaBean.selecionarPessoaReferencia(pessoaRef)}" 
 		    		 process="@this"/>
 		    	</p:column>			
-		    		
 
 			</p:dataTable>	    	
     	</h:form>
