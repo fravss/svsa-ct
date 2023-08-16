@@ -83,8 +83,11 @@
 	    		
 	    		<p:column headerText="Idade" style="width: 5px; text-align: center">
 	    			<h:outputText value="#{membros.idade}" />
-	    		</p:column>	    		
-	    		
+	    		</p:column>	  
+	    		  		
+	    		<p:column headerText="Conselheiro Responsavel" style="width: 40px; text-align: center">
+	    			<h:outputText value="#{membros.conselheiroResponsavel.nome}" />
+	    		</p:column>	    
 	    		
 	    		<p:column exportable="false" id="coluna_Op" 
 	    			headerText="Operações" style="width: 60px; text-align: center">	    					    		
@@ -246,8 +249,18 @@
 				<p:panelGrid columns="2" id="pessoaPanelGrid" style="width: 100%" 
 					columnClasses="rotulo, campo" 
 					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
-	    			
-		    		<p:outputLabel value="Nome" for="nomeMembro"/>
+
+			<p:outputLabel value="Conselheiro Responsável" for="conselheiroResp" />
+			<h:panelGroup>
+				<p:selectOneMenu id="conselheiroResp"
+					value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.conselheiroResponsavel}">
+					<f:selectItem itemLabel="Selecione o conselheiro" />
+					<f:selectItems value="#{registrarDenunciaBean.rdComposicaoBean.conselheiros}"
+						var="conResp" itemLabel="#{conResp.nome}" itemValue="#{conResp}" />
+				</p:selectOneMenu>
+			</h:panelGroup>
+
+			<p:outputLabel value="Nome" for="nomeMembro"/>
 		    		<p:inputText id="nomeMembro" size="50" maxlength="80" 
 		    			value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
 		    			required="true" 

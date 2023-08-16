@@ -21,6 +21,7 @@ import gaian.svsa.ct.controller.LoginBean;
 import gaian.svsa.ct.modelo.Denuncia;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.enums.Grupo;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.service.DenunciaService;
 import gaian.svsa.ct.service.pdf.DenunciaPDFService;
@@ -179,6 +180,13 @@ private static final long serialVersionUID = 1L;
 		}
 		
 		log.info("PDF gerado!");
+	}
+	
+	public boolean isCoordenador() {
+		if(loginBean.getUsuario().getGrupo() == Grupo.COORDENADORES)
+			return true;
+		
+		return false;
 	}
 	
 	

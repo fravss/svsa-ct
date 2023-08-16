@@ -113,12 +113,16 @@ public class EnumUtil {
 		CODIGOS_PARENTESCO_MEMBROS = Arrays.asList(
 				Parentesco.GENITORA,
 				Parentesco.PAI,
+				Parentesco.GUARDIAO,
 				Parentesco.ENTEADO,
 				Parentesco.FILHO,
 				Parentesco.IRMAO,
 				Parentesco.NAO_PARENTE,
 				Parentesco.NETO,
-				Parentesco.OUTRO_PARENTE);
+				Parentesco.OUTRO_PARENTE,
+				Parentesco.AVÓ,
+				Parentesco.AVÔ
+				);
 		
 	}
 

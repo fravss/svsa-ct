@@ -28,6 +28,7 @@ import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.Pais;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
+import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.CorRaca;
 import gaian.svsa.ct.modelo.enums.EnumUtil;
@@ -45,6 +46,7 @@ import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.modelo.to.PerfilEtarioTO;
 
 import gaian.svsa.ct.service.RDComposicaoService;
+import gaian.svsa.ct.service.UsuarioService;
 import gaian.svsa.ct.service.PessoaService;
 import gaian.svsa.ct.service.rest.BuscaCEPService;
 import gaian.svsa.ct.service.rest.RestService;
@@ -77,6 +79,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private Pessoa pessoa;
 	private Pessoa pessoaNova;
 	private Long codigoPessoa;
+	private Unidade unidade;
 
 	private Pessoa pessoaSelecionada;	
 	
@@ -112,6 +115,8 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private List<FormaAcesso> formasAcesso;
 	private List<ProgramaSocial> programasSociais;
 	
+	private List<Usuario> conselheiros;
+	
 	@Inject
 	private RDComposicaoService composicaoService;
 	@Inject
@@ -126,6 +131,8 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private NotificacaoPDFService notificacaopdfService;
 	@Inject
 	private AtestadoPDFService atestadopdfService;
+	@Inject 
+	private UsuarioService usuarioService;
 	
 	@PostConstruct
 	public void inicializar() {
@@ -143,8 +150,7 @@ public class RDComposicaoFamiliarBean implements Serializable {
 			setAdministrativo(false);
 		}
 		
-			
-		
+		this.unidade = loginBean.getUsuario().getUnidade();
 		this.ufs = Arrays.asList(Uf.values());		
 		this.sexos = Arrays.asList(Sexo.values());
 		this.tiposPcD = Arrays.asList(TipoPcD.values());
@@ -155,7 +161,8 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		this.formasAcesso = Arrays.asList(FormaAcesso.values());
 		this.programasSociais = Arrays.asList(ProgramaSocial.values());
 		this.paises = this.pessoaService.buscarTodosPaises();
-
+		this.conselheiros = usuarioService.buscarConselheiros(unidade, loginBean.getTenantId());
+		
 		graficoPerfil = new PieChartModel();
 		
 		this.limpar();

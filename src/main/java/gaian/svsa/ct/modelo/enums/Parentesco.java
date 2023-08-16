@@ -12,5 +12,8 @@ public enum Parentesco {
 	NETO,
 	IRMAO,	
 	OUTRO_PARENTE,
-	NAO_PARENTE
+	NAO_PARENTE,
+	GUARDIAO,
+	AVÔ,
+	AVÓ 
 }

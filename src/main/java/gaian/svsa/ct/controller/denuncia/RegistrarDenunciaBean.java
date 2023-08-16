@@ -10,6 +10,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+
+import gaian.svsa.ct.modelo.enums.Grupo;
+
 import gaian.svsa.ct.modelo.enums.Uf;
 
 import gaian.svsa.ct.controller.LoginBean;
@@ -19,6 +23,7 @@ import gaian.svsa.ct.modelo.Familia;
 import gaian.svsa.ct.modelo.Pessoa;
 import gaian.svsa.ct.modelo.PessoaReferencia;
 import gaian.svsa.ct.modelo.Unidade;
+import gaian.svsa.ct.modelo.Usuario;
 import gaian.svsa.ct.modelo.enums.AgenteViolador;
 import gaian.svsa.ct.modelo.enums.DireitoViolado;
 import gaian.svsa.ct.modelo.enums.OrigemDenuncia;
@@ -29,6 +34,7 @@ import gaian.svsa.ct.modelo.enums.StatusRD;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.modelo.to.MunicipioTO;
 import gaian.svsa.ct.service.DenunciaService;
+import gaian.svsa.ct.service.UsuarioService;
 import gaian.svsa.ct.service.pdf.AtestadoPDFService;
 import gaian.svsa.ct.service.pdf.DenunciaPDFService;
 import gaian.svsa.ct.service.pdf.NotificacaoPDFService;
@@ -67,6 +73,9 @@ public class RegistrarDenunciaBean implements Serializable {
 	private List<OrigemDenuncia> origens;
 	private List<Sexo> sexos;
 	private List<MunicipioTO> municipioList;
+	
+	private List<Usuario> conselheiros;
+	
 	private boolean composicao = false;
 	
 	private Integer ano;
@@ -90,6 +99,8 @@ public class RegistrarDenunciaBean implements Serializable {
 	
 	@Inject
 	private LoginBean loginBean;
+	@Inject 
+	private UsuarioService usuarioService;
 	
 	@PostConstruct
 	public void inicializar()  {	
@@ -104,7 +115,9 @@ public class RegistrarDenunciaBean implements Serializable {
 				this.sexos = Arrays.asList(Sexo.values());
 				this.unidade = loginBean.getUsuario().getUnidade();
 				this.ufs = Arrays.asList(Uf.values());
+				this.conselheiros = usuarioService.buscarConselheiros(unidade, loginBean.getTenantId());
 				denuncias = denunciaService.buscarTodos(loginBean.getTenantId(), loginBean.getUsuario().getUnidade());
+				
 				limpar();
 			}
 		
@@ -214,7 +227,6 @@ public class RegistrarDenunciaBean implements Serializable {
 		return denuncias;
 	}
 
-
 	public List<String> buscarNomes(String query) {
         List<String> results = new ArrayList<>();
         
@@ -275,6 +287,13 @@ public class RegistrarDenunciaBean implements Serializable {
 	
 	public List<Pessoa> getMembros(){
 		return rdComposicaoBean.getPessoas();
+	}
+	
+	public boolean isCoordenador() {
+		if(loginBean.getUsuario().getGrupo() == Grupo.COORDENADORES)
+			return true;
+		
+		return false;
 	}
 }
 

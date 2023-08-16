@@ -109,6 +109,10 @@ public class Pessoa implements Cloneable, Serializable {
 	@ToString.Include
 	private Endereco endereco;
 	
+	@OneToOne
+	@JoinColumn(name="codigo_conselheiroResp")
+	private Usuario conselheiroResponsavel;
+	
 	@Transient
 	public int getIdade() {
 		int idade = 0;

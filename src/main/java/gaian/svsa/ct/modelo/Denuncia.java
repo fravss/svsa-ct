@@ -74,6 +74,8 @@ public class Denuncia implements Serializable {
 	
 	private Integer ano;
 	
+	private String rdFisico;
+	
 	@ToString.Include
 	private String relato;
 	
@@ -113,6 +115,10 @@ public class Denuncia implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="codigo_conselheiro")
 	private Usuario conselheiro;
+	
+	@OneToOne
+	@JoinColumn(name="codigo_conselheiroRef")
+	private Usuario conselheiroReferencia;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
