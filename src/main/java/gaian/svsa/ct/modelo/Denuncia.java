@@ -116,7 +116,7 @@ public class Denuncia implements Serializable {
 	@JoinColumn(name="codigo_conselheiro")
 	private Usuario conselheiro;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="codigo_conselheiroRef")
 	private Usuario conselheiroReferencia;
 	

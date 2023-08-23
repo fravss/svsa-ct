@@ -109,7 +109,7 @@ public class Pessoa implements Cloneable, Serializable {
 	@ToString.Include
 	private Endereco endereco;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="codigo_conselheiroResp")
 	private Usuario conselheiroResponsavel;
 	
