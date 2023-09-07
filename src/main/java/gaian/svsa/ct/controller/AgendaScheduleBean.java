@@ -15,8 +15,10 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
+import gaian.svsa.ct.modelo.AgendamentoFamiliar;
 import gaian.svsa.ct.modelo.Atendimento;
 import gaian.svsa.ct.modelo.enums.Role;
+import gaian.svsa.ct.service.AgendamentoFamiliarService;
 import gaian.svsa.ct.service.AgendamentoIndividualService;
 import gaian.svsa.ct.util.DateUtils;
 import lombok.Getter;
@@ -39,10 +41,13 @@ public class AgendaScheduleBean implements Serializable {
 	private ScheduleModel eventModel;
 	private ScheduleEvent<?> event = new DefaultScheduleEvent<>();
 	private List<Atendimento> listaAtendimentos = new ArrayList<>();
+	private List<AgendamentoFamiliar> familiares = new ArrayList<>();
 	
 		
 	@Inject
-	AgendamentoIndividualService atendimentoService;	
+	AgendamentoIndividualService atendimentoService;
+	@Inject
+	private AgendamentoFamiliarService familiarService;
 	@Inject
 	LoginBean loginBean;
     
@@ -52,10 +57,12 @@ public class AgendaScheduleBean implements Serializable {
     	
     	listaAtendimentos = atendimentoService.buscarAtendimentosAgendados(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
     	//log.info("Qde agendamentos ind: " + listaAtendimentos.size());
-    	
+    	familiares = familiarService.buscarAtendimentosAgendados(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
+
     	eventModel = new DefaultScheduleModel();
     	
     	carregarAgenda();
+    	carregarAgendaFamiliar();
     }
     
     private void carregarAgenda() {
@@ -104,6 +111,41 @@ public class AgendaScheduleBean implements Serializable {
     		}    		 		
     	}    	
     }
+    
+private void carregarAgendaFamiliar() {
+    	
+    	log.debug("Qde agendamentos familiar: " + familiares.size());
+    	
+    	for(AgendamentoFamiliar a : familiares) { 
+    		
+    		log.debug("hora fam db " + a.getDataAgendamento());
+    		
+    		if(a.getConselheiro() != null) {
+				log.debug("com tecnico");
+				event = DefaultScheduleEvent.builder()
+    					.title("[FAM] " + a.getPessoas().get(0).getNome())
+    					.startDate(DateUtils.asLocalDateTime(a.getDataAgendamento()))
+    					.endDate(DateUtils.asLocalDateTime(a.getDataAgendamento()))   
+    					.description("" + a.getConselheiro().getNome())
+    					.borderColor("green")
+    					.backgroundColor("green")
+    					.build(); 
+				eventModel.addEvent(event);  				
+			}
+			else {
+				log.debug("sem tecnico");    			
+				event = DefaultScheduleEvent.builder()
+    					.title("[FAM] " + a.getPessoas().get(0).getNome())
+    					.startDate(DateUtils.asLocalDateTime(a.getDataAgendamento()))
+    					.endDate(DateUtils.asLocalDateTime(a.getDataAgendamento()))   
+    					.borderColor("green")
+    					.backgroundColor("green")
+    					.build(); 
+				eventModel.addEvent(event);  
+			}
+    	}    	
+    }
+
     
    
 	

@@ -3,7 +3,8 @@
 
 	<submenu label="Agendamento" icon="pi pi-clock">	
 		<grupo value="ADMINISTRATIVOS"></grupo>
-		<menuitem value="Agendamento" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
+		<menuitem value="Agendamento Individualizado" outcome="/restricted/agenda/AgendamentoIndividual.xhtml"></menuitem>
+		<menuitem value="Agendamento Familiar" outcome="/restricted/agenda/AgendamentoFamiliar.xhtml"></menuitem>
 		<menuitem value="Pesquisar Pessoa(*)" outcome="/restricted/agenda/PesquisaPessoa.xhtml"></menuitem>	
 		<menuitem value="Ver Agenda" outcome="/restricted/agenda/AgendaSchedule.xhtml"></menuitem>
 		<menuitem value="Ver Calendario" outcome="/restricted/agenda/CalendarSchedule.xhtml"></menuitem>	
@@ -12,7 +13,8 @@
 	<submenu label="Atendimento" icon="pi pi-check-circle">	
 		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
-		<menuitem value="Atendimento" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
+		<menuitem value="Atendimento Individualizado" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
+		<menuitem value="Atendimento Familiar" outcome="/restricted/atendimento/RealizarAtendimentoFamiliar.xhtml"></menuitem>
 		<menuitem value="Atend. Recepção" outcome="/restricted/atendimento/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	
@@ -20,7 +22,10 @@
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>
 		<submenu2 label="Relatórios">
-			<menuitem2 value="Atendimentos" outcome="/restricted/atendimento/RelatorioAtendimentos.xhtml">
+			<menuitem2 value="Individualizado" outcome="/restricted/atendimento/RelatorioAtendimentos.xhtml">
+				<grupo value="ADMINISTRATIVOS"></grupo>
+			</menuitem2>
+			<menuitem2 value="Familiar" outcome="/restricted/atendimento/RelatorioAtendimentoFamiliar.xhtml">
 				<grupo value="ADMINISTRATIVOS"></grupo>
 			</menuitem2>
 			<menuitem2 value="Ações" outcome="/restricted/atendimento/RelatorioAcoes.xhtml">
