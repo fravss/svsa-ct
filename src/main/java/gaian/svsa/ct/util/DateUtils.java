@@ -89,6 +89,14 @@ public class DateUtils {
     	return asDate(asLocalDateTime(data).minusDays(numeroDias));
     }
     
+    // Dá o valor do dia atual.
+    public static Date getDia() {
+    	LocalDate data = LocalDate.now();
+    	Date date = DateUtils.asDate(LocalDate.of(data.getYear(), data.getMonthValue(), data.getDayOfMonth()));
+    	//logUtil.info("Dia: " + date);
+    	return date;
+    }
+    
     public static Date getDataIMesCorrente() {
 		LocalDate data = LocalDate.now();
 		Date date = DateUtils.asDate(LocalDate.of(data.getYear(), data.getMonthValue(), 1));
