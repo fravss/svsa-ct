@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import gaian.svsa.ct.modelo.Calendario;
 import gaian.svsa.ct.modelo.Unidade;
 import gaian.svsa.ct.modelo.Usuario;
+import gaian.svsa.ct.modelo.enums.StatusAtendimento;
 import gaian.svsa.ct.util.DateUtils;
 import gaian.svsa.ct.util.NegocioException;
 import gaian.svsa.ct.util.jpa.Transactional;
@@ -164,7 +165,10 @@ public class CalendarioDAO implements Serializable {
 	 */
 	public void verificaAgendaConselheiro(Date data, Usuario conselheiro, Long tenantId) throws NegocioException {	
 		
-		Long qde = manager.createQuery("SELECT count(a) FROM Atendimento a "				
+		Long qde, qdeFam = 0L;
+		
+		/* individual */	
+		qde = manager.createQuery("SELECT count(a) FROM Atendimento a "				
 				+ "WHERE a.dataAgendamento = :data "
 					+ "and a.conselheiro = :conselheiro "
 					+ "and a.tenant_id = :tenantId "
@@ -174,8 +178,23 @@ public class CalendarioDAO implements Serializable {
 		.setParameter("tenantId", tenantId)
 		.getSingleResult();
 		
-		log.info("Quantidade: "+qde);
-		if(qde > 0) {
+		log.info("verificando agend individual ......################### qde --> " + qde);
+		
+		/* familiar */
+		qdeFam = manager.createQuery("SELECT count(l) FROM AgendamentoFamiliar l "
+				+ "INNER JOIN l.pessoas r "				
+				+ "WHERE l.dataAgendamento = :data "
+				+ "and l.conselheiro = :conselheiro "
+				+ "and l.tenant_id = :tenantId "
+				+ "and l.statusAtendimento = :status ", Long.class)
+				.setParameter("data", data, TemporalType.TIMESTAMP)
+				.setParameter("status", StatusAtendimento.AGENDADO)
+				.setParameter("conselheiro", conselheiro)
+				.setParameter("tenantId", tenantId)
+				.getSingleResult();
+		log.info("verificando agend familiar ......################### qde --> " + qdeFam);
+		
+		if(qde + qdeFam > 0) {
 			throw new NegocioException("Já existe um agendamento para " + conselheiro.getNome() + " neste horário.");
 
 		}		

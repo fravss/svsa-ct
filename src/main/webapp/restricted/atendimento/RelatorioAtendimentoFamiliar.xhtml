@@ -1,0 +1,296 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Relatório Atendimento Familiar</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Relatório Atendimento Familiar</h1>
+    	<p:tooltip/>
+    	<h:form id="frmAtend">
+    	
+    		<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+	    	<p:spacer height="5px" /> 
+			
+			<p:toolbar id="toolbar">
+				<f:facet name="left">		    			
+	    			
+	    			<p:spacer width="5px" />
+				
+					<p:outputLabel value="Ano" for="anoRef"/>
+					<p:spacer width="5px" />   		
+		    		<p:selectOneMenu id="anoRef" value="#{relatorioAtendimentoFamiliarBean.ano}">
+		    			<f:selectItems value="#{relatorioAtendimentoFamiliarBean.anos}" var="ano"
+							itemLabel="#{ano}" itemValue="#{ano}"/>
+		    		</p:selectOneMenu>
+					
+					<p:spacer width="10px" />
+					
+					<p:outputLabel value="Mês de referência" for="mesRef"/>	 
+					<p:spacer width="5px" />   		
+		    		<p:selectOneMenu id="mesRef" value="#{relatorioAtendimentoFamiliarBean.mes}">
+		    			<f:selectItem itemLabel="Selecione o mês" />
+		    			<f:selectItems value="#{relatorioAtendimentoFamiliarBean.meses}" var="mes" 
+							itemLabel="#{mes}" itemValue="#{mes}"/>
+		    		</p:selectOneMenu>
+						
+					<p:spacer width="10px" />
+					
+					<p:outputLabel value="Cod. Aux. Atendimento" for="codigoAux"/>	 
+					<p:spacer width="5px" />   		
+		    		<p:selectOneMenu id="codigoAux" value="#{relatorioAtendimentoFamiliarBean.codigoAux}">
+		    			<f:selectItem itemLabel="Selecione o código auxiliar de atendimento" />
+		    			<f:selectItems value="#{relatorioAtendimentoFamiliarBean.codigosAux}" var="cod" 
+							itemLabel="#{cod}" itemValue="#{cod}"/>
+		    		</p:selectOneMenu>
+		    		
+		    		<p:spacer width="10px" />
+						
+					<p:commandButton title="Atendimentos" value="Consultar" icon="pi pi-search"	            		
+		            	actionListener="#{relatorioAtendimentoFamiliarBean.consultarAtendimentos}"
+		            	process="@this mesRef anoRef codigoAux"
+		            	update="atendTable toolbar  excelbt pdfbt">		            		            	
+	            	</p:commandButton>	
+	            	
+	            	<p:spacer width="10px" />	
+					
+					<p:commandButton title="Gráfico de Atendimento Familiar" value="Gráfico de Atendimento Familiar" icon="pi pi-chart-bar"
+						rendered="#{relatorioAtendimentoFamiliarBean.consultado}"	            		
+		            	actionListener="#{relatorioAtendimentoFamiliarBean.initGraficoAtendimentoFamiliar}"
+		            	oncomplete="PF('atendDialogWidgetVar').show()"
+		            	update="atendDialog toolbar"
+		            	process="@this">
+		            	<p:resetInput target="atendDialog" />		            	
+	            	</p:commandButton>		
+	            	
+	            	<p:spacer width="5px" />
+	            	
+	            	<p:commandButton id="excelbt" title="Exportar para Excel" icon="pi pi-file-excel"
+					value="Exportar para Excel" ajax="false" process="@this"
+					rendered="#{relatorioAtendimentoFamiliarBean.consultado}"
+					immediate="true">
+					<p:dataExporter type="xls" target="atendTable"
+						fileName="Relatório_Mensal" />
+					</p:commandButton>
+	
+					<p:commandButton id="pdfbt" title="Exportar para PDF" icon="pi pi-file-pdf"
+						value="Exportar para PDF" ajax="false" process="@this"
+						rendered="#{relatorioAtendimentoFamiliarBean.consultado}"
+						immediate="true">
+						<p:dataExporter type="pdf" target="atendTable"
+							fileName="Relatório_PDF" />
+					</p:commandButton>
+		            
+				</f:facet>
+			</p:toolbar>
+	    	
+	    	<p:dataTable id="atendTable" value="#{relatorioAtendimentoFamiliarBean.listaAtendimentoFamiliar}" var="atend"
+	    		style="margin-top: 20px" emptyMessage="Nenhum atendimento familiar." rows="10"
+	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom" rowsPerPageTemplate="10,15"
+	    		selectionMode="single" selection="#{relatorioAtendimentoFamiliarBean.agendamentoFamiliar}"
+		    	rowKey="#{atend.codigo}"> 
+			    		
+	    		<p:ajax event="rowSelect"/>				
+				<p:ajax event="rowUnselect"/>				
+	    		
+	    		<p:column headerText="Data Atendimento" style="width: 25px; text-align: center"
+		    		sortBy="#{atend.dataAtendimento}" >		    		
+		    		<h:outputText value="#{atend.dataAtendimento}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Codigo Denúncia" style="width: 25px; text-align: Center"
+	    			filterBy="#{atend.pessoaReferencia.familia.denuncia.codigo}" >
+	    			<h:outputText value="#{atend.pessoaReferencia.familia.denuncia.codigo}" />
+	    		</p:column> 
+	    		
+	    		<p:column headerText="Pessoas [Telefone]" style="width: 120px; text-align: left" exportable="false"	>			    		
+	    			<p:dataList id="pessoas1" value="#{atend.pessoas}" var="p" type="ordered">
+				       		#{p.nome}
+				    </p:dataList>			
+    			</p:column>
+	    		
+	    		<p:column headerText="Código Auxiliar de Atendimento" style="width: 60px; text-align: left"
+	    			filterBy="#{atend.codigoAuxiliar}" >
+	    			<h:outputText value="#{atend.codigoAuxiliar}" />
+	    		</p:column> 
+	    		
+				<p:column headerText="Conselheiro" style="width: 60px; text-align: left"
+					filterBy="#{atend.conselheiro.nome}" >
+					<h:outputText value="#{atend.conselheiro.nome}" />	
+    			</p:column>   	
+	    		
+	    		<p:column headerText="Agendador" style="width: 60px; text-align: left">
+	    			<h:outputText value="#{atend.agendador.nome}" />
+	    		</p:column>
+		    		
+	    		<p:column headerText="Operações" style="width: 20px; text-align: center" exportable="false">
+	    		
+	    		<p:commandButton icon="pi pi-pencil" title="Alterar"		    					    				
+		    				oncomplete="PF('atendGridWidgetVar').show();"
+		    				update="frmAtend:resumoPanelGrid" 
+							process="@this">
+						<f:setPropertyActionListener target="#{relatorioAtendimentoFamiliarBean.itemAlterar}" value="#{atend}" />
+					</p:commandButton>
+					
+		    		<p:commandButton icon="pi pi-trash" title="Excluir" 
+		    				rendered="#{relatorioAtendimentoFamiliarBean.coordenador}"		    				
+		    				onclick="PF('confirmacaoExclusao').show();"
+							process="@this">
+						<f:setPropertyActionListener target="#{relatorioAtendimentoFamiliarBean.itemExcluir}" value="#{atend}" />
+					</p:commandButton>	
+								    	
+			    	<p:commandButton 
+			    		update="frmAtend:detalheGrid" 
+	 						onclick="PF('detalheWidget').show()" 
+	 						title="Ver detalhe" 
+	 						icon="pi pi-info"
+	 						process="@this">
+	 						<f:setPropertyActionListener target="#{relatorioAtendimentoFamiliarBean.agendamentoFamiliar}" 
+							value="#{atend}" />			                
+	            	</p:commandButton>
+	            </p:column>	    	
+    		</p:dataTable>     			
+	    
+		    <p:dialog id="atendGrid" header="Atendimento" widgetVar="atendGridWidgetVar"
+				modal="true" resizable="true" closeOnEscape="true" 
+				showEffect="explode" hideEffect="explode" 
+				width="1000" height="600"
+				position="center top">						
+				       
+    			<p:growl id="atendGrowl" showDetail="true" />      			
+								
+						
+				<!--  Atendimento -->
+				<p:panelGrid columns="2" id="resumoPanelGrid" 					
+					columnClasses="rotulo, campo" 
+					style="max-height:600px;overflow:scroll">
+	    			
+					<p:outputLabel value="Membros" for="nomesAtendidos"/>	    		
+	    			<p:dataList id="nomesAtendidos" value="#{relatorioAtendimentoFamiliarBean.itemAlterar.pessoas}" var="p" type="ordered">
+				       		#{p.nome}
+				    </p:dataList>			
+
+					<p:outputLabel value="Código Auxiliar Atendimento" for="aux"/>
+	    			<h:outputText id="aux" value="#{relatorioAtendimentoFamiliarBean.itemAlterar.codigoAuxiliar}" />					
+		    		
+		    		<p:outputLabel value="Data Atendimento" for="dataAtendimento" /> 
+					<p:calendar 
+						readonly="#{!relatorioAtendimentoFamiliarBean.coordenador}"
+						id="dataAtendimento" size="30"	
+						required="true"											
+						value="#{relatorioAtendimentoFamiliarBean.itemAlterar.dataAtendimento}"
+						showOn="button"
+						pattern="dd/MM/yyyy HH:mm"
+						mask="99/99/9999 99:99"/> 
+										
+		    		<p:outputLabel value="Atendimento" for="editor"/>
+		    		<h:panelGroup>
+			    		<p:textEditor 
+			    			id="editor"  
+			    			widgetVar="editor" 
+			    			value="#{relatorioAtendimentoFamiliarBean.itemAlterar.resumoAtendimento}" 
+			    			height="300" 			    			
+			    			style="margin-bottom:10px">			    			
+					        <f:facet name="toolbar">
+					             <span class="ql-formats">
+					                <button class="ql-bold"></button>
+					                <button class="ql-italic"></button>
+					                <button class="ql-underline"></button>
+					                <button class="ql-strike"></button>
+					            </span>
+					            <span class="ql-formats">
+						            <button class="ql-clean" />
+						        </span>
+					            <span class="ql-formats">
+					                <select class="ql-font"></select>
+					                <select class="ql-size"></select>
+					            </span>
+					            <span class="ql-formats">
+						            <button class="ql-script" value="sub" />
+						            <button class="ql-script" value="super" />
+						        </span>						        
+						        <span class="ql-formats">
+						            <button class="ql-list" value="ordered" />
+						            <button class="ql-list" value="bullet" />
+						            <button class="ql-indent" value="-1" />
+						            <button class="ql-indent" value="+1" />
+						        </span>
+						        <span class="ql-formats">
+						            <button class="ql-direction" value="rtl" />
+						            <select class="ql-align" />
+						        </span>						        
+					        </f:facet>					           
+					    </p:textEditor>
+
+		    		</h:panelGroup>	
+    				
+		    		<h:outputLabel />		    		
+		    		
+					<p:commandButton icon="pi pi-save" id="salvarResumoButton" value="Salvar"  
+						title="Grava o resumo do atendimento" 
+						actionListener="#{relatorioAtendimentoFamiliarBean.alterar}"
+						update="resumoPanelGrid atendTable atendGrowl toolbar"
+						oncomplete="if (!args.validationFailed) PF('atendGridWidgetVar').hide()" 
+						process="atendGrid"/>		
+						
+						
+				</p:panelGrid>
+				
+			</p:dialog>	
+		    
+		    <!--  Exclusão definitiva do atendimento -->
+			
+			<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Ao excluir o atendimento não pode mais ser recuperado. Tem certeza que deseja excluir?"  
+	                header="Exclusão de atendimento" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		update="atendTable messages"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{relatorioAtendimentoFamiliarBean.excluir}"
+	        		process="@this"/>
+	    	</p:confirmDialog>	
+		    
+		    <p:dialog id="detalheDialog" header="Mostrar Detalhes" 
+		   		widgetVar="detalheWidget" 
+		   		modal="true" 
+		   		responsive="true"
+		   		resizable="true"
+		   		closeOnEscape="true" 
+				showEffect="explode" hideEffect="explode" 
+				style="max-height:600px;overflow:auto"
+				position="left top">
+		   		
+	            <p:panelGrid id="detalheGrid" columns="2" columnClasses="label,value">	            
+	                
+	                <h:outputLabel value="Resumo do atendimento: " style="font-weight:bold"/>
+                	<p:textEditor widgetVar="editor2" 
+		            	value="#{relatorioAtendimentoFamiliarBean.agendamentoFamiliar.resumoAtendimento}" 			    					    			
+			    		readonly="true"
+		            	toolbarVisible="false"> 
+	        		</p:textEditor>	               
+	            </p:panelGrid>
+    		</p:dialog>  
+    		
+    		<p:dialog id="atendDialog" header="Atendimentos" widgetVar="atendDialogWidgetVar"
+				modal="true" resizable="false" closeOnEscape="true">			
+        										
+				<p:chart type="pie" model="#{relatorioAtendimentoFamiliarBean.graficoAtendimentoFamiliar}"
+				style="width:600px;height:400px" />
+
+			</p:dialog>
+						
+	    		
+    	</h:form>
+    </ui:define>
+</ui:composition>
