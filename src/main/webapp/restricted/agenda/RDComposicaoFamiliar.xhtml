@@ -146,16 +146,6 @@
 						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
 						value="#{membros}" />
 					</p:commandButton>
-					
-					<p:commandButton id="showNotificacao" icon="pi pi-file-pdf" title="Gerar Notificação"
-						rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo 
-		    			and registrarDenunciaBean.rdComposicaoBean.unidadeDoUsuario}"
-						action="#{registrarDenunciaBean.rdComposicaoBean.showPDFNotificacao}"
-						process="showNotificacao" immediate="true" ajax="false"
-						update="frmPesquisa:addGrowl">
-						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
-						value="#{membros}" />
-					</p:commandButton>
 	            		            	
 	            	<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_4" title="Evolução" icon="pi pi-history"

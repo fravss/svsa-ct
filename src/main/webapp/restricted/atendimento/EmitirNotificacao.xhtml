@@ -1,0 +1,106 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Emitir Notificação</ui:define>
+    
+    <ui:define name="corpo">
+    
+    	<h1>Emitir Notificação</h1>
+     	<p:tooltip/>
+     	
+    	<h:form id="frmPesquisa" enctype="multipart/form-data">	
+    	
+    		<p:messages id="messages" showDetail="false" closable="true">
+    			<p:autoUpdate>true</p:autoUpdate>
+    		</p:messages>
+    			
+			<p:spacer height="20px"/>		
+			
+			<p:panelGrid columns="2" id="notificacaoGrid" 					
+					columnClasses="rotulo, campo" style="width: 100%" >  					
+				    		
+				<p:outputLabel value="Pesquisar Pessoa Cadastrada"/>
+				<p:commandButton icon="pi pi-plus" title="Adicionar uma pessoa" value="Pesquisar" 
+					disabled="#{emitirNotificacaoBean.pessoaSelecionada}"
+					actionListener="#{emitirNotificacaoBean.abrirDialogo}"
+				 	process="@this">
+				 	<p:ajax event="dialogReturn" listener="#{emitirNotificacaoBean.selecionarPessoa}" 
+				 		update="nomePessoaCadastrada nomePessoaSemCadastro"
+				 		process="@this"/>
+				</p:commandButton>
+				
+				<p:outputLabel value="Pessoa Cadastrada" for="nomePessoaCadastrada"/>
+				<h:outputText id="nomePessoaCadastrada" value="#{emitirNotificacaoBean.nomePessoaCadastrada}"/>
+					
+	    		<p:outputLabel value="Pessoa Sem Cadastro" for="nomePessoaSemCadastro"/>
+    			<p:inputText id="nomePessoaSemCadastro" size="60" maxlength="80" 
+    				disabled="#{emitirNotificacaoBean.pessoaSelecionada}"
+    				value="#{emitirNotificacaoBean.nomePessoaSemCadastro}">	
+    				<p:ajax event="change" process="@this" update="@this" />
+				</p:inputText>
+				
+				    			
+    			<p:outputLabel value="Endereço" for="endereço"/>
+    			<p:inputText id="endereço" size="80" maxlength="200" 
+    				value="#{emitirNotificacaoBean.endereco}">
+    			</p:inputText>
+    			
+    			<p:outputLabel value="Numero" for="numero"/>
+    			<p:inputText id="numero" size="10" maxlength="50" 
+    				value="#{emitirNotificacaoBean.numero}">
+    			</p:inputText>
+    			
+    			<p:outputLabel value="Bairro" for="bairro"/>
+    			<p:inputText id="bairro" size="60" maxlength="200" 
+    				value="#{emitirNotificacaoBean.bairro}">
+    			</p:inputText>
+				
+				<p:outputLabel value="Data de comparecimento" for="dataComparecimento"/>
+				<p:calendar id="dataComparecimento" size="30"
+					value="#{emitirNotificacaoBean.dataComparecimento}"
+					required="true"
+					validatorMessage="A Data de comparecimento é obigatória."
+					showOn="button" 
+					pattern="dd/MM/yyyy HH:mm"
+					mask="99/99/9999 99:99">						
+					<p:ajax event="change" immediate="true" process="@this" update="@this" />										
+				</p:calendar>	
+  
+				<p:outputLabel value="Motivo: " for="motivo"/>
+				<h:panelGroup>
+					<p:inputTextarea id="motivo" size="500" rows="3"
+						cols="70" style="height: 150px; overflow:auto;" maxlength="5000"
+						value="#{emitirNotificacaoBean.motivo}"
+						required="true"
+						validatorMessage="O Motivo é obigatório."
+						counter="displayMotivo"
+						counterTemplate="{0} caracteres restantes">
+					<p:ajax event="change" immediate="true" process="@this" update="@this" />
+					</p:inputTextarea>				
+					<h:outputText id="displayMotivo" />
+					<p:watermark for="motivo" value="Descrição do motivo" />
+				</h:panelGroup>
+		</p:panelGrid>
+			
+			<p:commandButton icon="pi pi-file" value="Emitir"
+				action="#{emitirNotificacaoBean.emitir}"
+				process="@this comprovanteGrid"
+				update="comprovanteGrid messages"
+				ajax="false"/>
+					
+			<p:commandButton icon="pi pi-trash" value="Limpar"
+				action="#{emitirNotificacaoBean.limpar}"
+				update="frmPesquisa"
+				process="@this"/>
+			
+			<p:spacer height="20px"/>
+
+		</h:form>
+    	
+    </ui:define>
+</ui:composition>

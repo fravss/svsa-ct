@@ -43,6 +43,7 @@ import gaian.svsa.ct.modelo.enums.TipoPcD;
 import gaian.svsa.ct.modelo.enums.Uf;
 import gaian.svsa.ct.modelo.to.EnderecoTO;
 import gaian.svsa.ct.modelo.to.MunicipioTO;
+import gaian.svsa.ct.modelo.to.NotificacaoTO;
 import gaian.svsa.ct.modelo.to.PerfilEtarioTO;
 
 import gaian.svsa.ct.service.RDComposicaoService;
@@ -116,6 +117,8 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private List<ProgramaSocial> programasSociais;
 	
 	private List<Usuario> conselheiros;
+	
+	private NotificacaoTO nto = new NotificacaoTO();
 	
 	@Inject
 	private RDComposicaoService composicaoService;
@@ -453,53 +456,6 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		log.info("PDF gerado!");
 	}
 	
-	//Notificação
-		public void showPDFNotificacao() {
-
-			try {
-				
-				FacesContext context = FacesContext.getCurrentInstance();
-				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-				response.setContentType("application/pdf");
-				response.setHeader("Content-disposition", "inline=filename=file.pdf");
-
-				// Creating a PdfWriter
-				log.info(pessoa);
-				log.info(loginBean.getUsuario().getTenant().getS3Key());
-				log.info(loginBean.getUsuario().getTenant().getSecretaria());
-				ByteArrayOutputStream baos = notificacaopdfService.generateStream(pessoa,
-						loginBean.getUsuario().getTenant().getS3Key(),
-						loginBean.getUsuario().getTenant().getSecretaria());
-						
-
-				// setting some response headers
-				response.setHeader("Expires", "0");
-				response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-				response.setHeader("Pragma", "public");
-				// setting the content type
-				response.setContentType("application/pdf");
-				// the contentlength
-				response.setContentLength(baos.size());
-				// write ByteArrayOutputStream to the ServletOutputStream
-				ServletOutputStream os = response.getOutputStream();
-
-				baos.writeTo(os);
-				os.flush();
-				os.close();
-				context.responseComplete();
-			} catch (NegocioException ne) {
-				ne.printStackTrace();
-				MessageUtil.erro(ne.getMessage());
-			}catch (IOException e) {
-				e.printStackTrace();
-				MessageUtil.erro("Problema na escrita do PDF.");
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				MessageUtil.erro("Problema na geração do PDF.");
-			}
-			
-			log.info("PDF gerado!");
-		} 
 	
 	public void consultaFaltas() {		
 		

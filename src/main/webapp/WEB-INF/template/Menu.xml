@@ -13,6 +13,9 @@
 	<submenu label="Atendimento" icon="pi pi-check-circle">	
 		<grupo value="ADMINISTRATIVOS"></grupo>	
 		<grupo value="TECNICOS"></grupo>
+		<menuitem value="Emitir Notificacao" outcome="/restricted/atendimento/EmitirNotificacao.xhtml">
+			<grupo value="ADMINISTRATIVOS"></grupo>
+		</menuitem>	
 		<menuitem value="Atendimento Individualizado" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
 		<menuitem value="Atendimento Familiar" outcome="/restricted/atendimento/RealizarAtendimentoFamiliar.xhtml"></menuitem>
 		<menuitem value="Atend. Recepção" outcome="/restricted/atendimento/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
