@@ -16,8 +16,8 @@
 		<menuitem value="Emitir Notificacao" outcome="/restricted/atendimento/EmitirNotificacao.xhtml">
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	
-		<menuitem value="Atendimento Individualizado" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
-		<menuitem value="Atendimento Familiar" outcome="/restricted/atendimento/RealizarAtendimentoFamiliar.xhtml"></menuitem>
+		<menuitem value="Atend. Individualizado" outcome="/restricted/atendimento/RealizarAtendimento.xhtml">
+		<menuitem value="Atend. Familiar" outcome="/restricted/atendimento/RealizarAtendimentoFamiliar.xhtml"></menuitem>
 		<menuitem value="Atend. Recepção" outcome="/restricted/atendimento/PesquisaAtendimentoRecepcao.xhtml"></menuitem>		
 			<grupo value="ADMINISTRATIVOS"></grupo>
 		</menuitem>	

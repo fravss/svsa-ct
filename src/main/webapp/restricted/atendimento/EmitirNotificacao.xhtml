@@ -13,7 +13,7 @@
     	<h1>Emitir Notificação</h1>
      	<p:tooltip/>
      	
-    	<h:form id="frmPesquisa" enctype="multipart/form-data">	
+    	<h:form id="frmPesquisa" enctype="multipart/form-data" target="_blank">	
     	
     		<p:messages id="messages" showDetail="false" closable="true">
     			<p:autoUpdate>true</p:autoUpdate>
@@ -73,7 +73,7 @@
   
 				<p:outputLabel value="Motivo: " for="motivo"/>
 				<h:panelGroup>
-					<p:inputTextarea id="motivo" size="500" rows="3"
+					<p:inputTextarea id="motivo" size="500" rows="5"
 						cols="70" style="height: 150px; overflow:auto;" maxlength="5000"
 						value="#{emitirNotificacaoBean.motivo}"
 						required="true"

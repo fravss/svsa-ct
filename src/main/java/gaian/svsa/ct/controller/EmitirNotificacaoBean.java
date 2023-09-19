@@ -166,14 +166,14 @@ public class EmitirNotificacaoBean implements Serializable {
 			nto.setUnidade(this.unidade);
 			nto.setTecnico(loginBean.getUsuario());
 	
-			log.info(nto.getNomeNotificacao());
-			log.info(nto.getDataComparecimento());
-			log.info(nto.getEndereco());
-			log.info(nto.getBairro());
-			log.info(nto.getNumero());
-			log.info(nto.getMotivo());
-			log.info(nto.getUnidade());		
-			log.info(nto.getTecnico());
+			log.debug(nto.getNomeNotificacao());
+			log.debug(nto.getDataComparecimento());
+			log.debug(nto.getEndereco());
+			log.debug(nto.getBairro());
+			log.debug(nto.getNumero());
+			log.debug(nto.getMotivo());
+			log.debug(nto.getUnidade());		
+			log.debug(nto.getTecnico());
 			
 			ByteArrayOutputStream baos = pdfService.generateStream(nto,
 					loginBean.getUsuario().getTenant().getS3Key(),
