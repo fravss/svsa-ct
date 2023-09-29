@@ -66,11 +66,9 @@
 		                    
 							<h:panelGrid id="terminar" columns="1" cellpadding="10" style="margin: 0 auto;">
 								<h:panelGroup id="panelGroup" rendered="#{loginBean.unidades ne null}">
-									<h:outputLabel for="unid" value="Unidade:" />
-									<p:selectOneMenu id="unid" placeholder="Unidade"
-										value="#{loginBean.unidadeTemp}" autoWidth="false"
-										validatorMessage="A unidade é obrigatória.">
-										<f:selectItem itemLabel="SOMENTE para entrar em outra unidade" />
+									<h:outputLabel for="unid" value="Unidade:   " />
+									<p:selectOneMenu id="unid"
+										value="#{loginBean.unidadeTemp}" autoWidth="false">
 										<f:selectItems value="#{loginBean.unidades}" var="unid"
 											itemLabel="#{unid.nome}" itemValue="#{unid}" />
 									</p:selectOneMenu>

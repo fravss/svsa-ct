@@ -148,7 +148,7 @@ public class LoginBean implements Serializable {
 					this.setUnidades(this.usuarioService.buscarUnidades(getTenantId()));					
 
 					log.info("unidade ORIGINAL do usuarioLogado (" + usuario.getNome() + ") : " + usuario.getUnidade().getNome());
-
+					this.unidadeTemp = usuario.getUnidade();
 					
 					MessageUtil.info("Bem vindo " + usuario.getNome() + "!");
 					loggedIn = true;					
