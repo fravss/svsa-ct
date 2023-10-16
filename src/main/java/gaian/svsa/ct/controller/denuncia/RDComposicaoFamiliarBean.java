@@ -81,6 +81,8 @@ public class RDComposicaoFamiliarBean implements Serializable {
 	private Pessoa pessoaNova;
 	private Long codigoPessoa;
 	private Unidade unidade;
+	
+	private List<Pessoa> responsaveis;
 
 	private Pessoa pessoaSelecionada;	
 	
@@ -178,6 +180,19 @@ public class RDComposicaoFamiliarBean implements Serializable {
 		}
 		else
 			MessageUtil.erro("É necessária a pessoa de referência.");
+	}
+	
+	public void membrosResponsaveis() {
+		this.responsaveis = composicaoService.buscarTodosMembros(this.pessoaReferencia, loginBean.getTenantId());
+		
+		List<Pessoa> pessoasARemover = new ArrayList<>();
+		
+		for(Pessoa r : responsaveis) {
+			if(r.getNome().equals(pessoa.getNome())) {
+				pessoasARemover.add(r);
+			}
+		}
+		responsaveis.removeAll(pessoasARemover);
 	}
 	
 		

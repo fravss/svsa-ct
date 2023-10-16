@@ -157,16 +157,6 @@ public class RDComposicaoDAO implements Serializable {
 		}
 	}	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public List<PessoaReferencia> todasPessoasReferencia(Long tenantId) {		
         return manager.createQuery("from PessoaReferencia p where p.excluida = :exc "
         		+ "and p.tenant_id = :tenantId ", PessoaReferencia.class)
@@ -208,7 +198,6 @@ public class RDComposicaoDAO implements Serializable {
 		
 		return query.getResultList();
 	}
-		
 	
 	// para fins de testes unitários
 	public void setManager(EntityManager manager) {

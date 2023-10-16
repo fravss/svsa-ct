@@ -84,7 +84,7 @@
 		        		process="@this">		        		
 		        		<f:setPropertyActionListener target="#{pesquisarDenunciaBean.denunciaSelecionada}" 
 							value="#{denuncia}" />
-					</p:commandButton>					
+					</p:commandButton>				
 					<p:commandButton icon="pi pi-thumbs-down" title="Inativar Denuncia"
 						rendered="#{(denuncia.status eq 'ATIVO') and pesquisarDenunciaBean.coordenador}"					
 						onclick="PF('confirmacaoInativacao').show();"
