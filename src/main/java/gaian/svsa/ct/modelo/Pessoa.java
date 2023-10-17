@@ -113,6 +113,10 @@ public class Pessoa implements Cloneable, Serializable {
 	@JoinColumn(name="codigo_conselheiroResp")
 	private Usuario conselheiroResponsavel;
 	
+	@ManyToOne
+	@JoinColumn (name="codigo_responsavel")
+	private Pessoa responsavel;
+	
 	@Transient
 	public int getIdade() {
 		int idade = 0;

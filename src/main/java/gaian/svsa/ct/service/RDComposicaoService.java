@@ -117,7 +117,6 @@ public class RDComposicaoService implements Serializable {
 		return composicaoDAO;
 	}
 
-	
 	public List<PessoaReferencia> pesquisar(String termoPesquisa, Unidade unidade, Long tenantId) {
 		return composicaoDAO.pesquisar(termoPesquisa, unidade, tenantId);
 	}

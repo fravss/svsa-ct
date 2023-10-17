@@ -61,7 +61,7 @@
 	    		selectionMode="single" selection="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" rowKey="#{membros.codigo}"> 
 			     		
 		    		<p:ajax event="rowSelect" process="membrosDataTable" update="membrosDataTable"/>
-					<p:ajax event="rowUnselect" process="membrosDataTable" update="membrosDataTable"/>/>
+					<p:ajax event="rowUnselect" process="membrosDataTable" update="membrosDataTable"/>
 	    		
 	    													    			    				    		
 	    		<p:column headerText="Código" style="width: 10px; text-align: center">	    		
@@ -87,7 +87,11 @@
 	    		  		
 	    		<p:column headerText="Conselheiro Responsavel" style="width: 40px; text-align: center">
 	    			<h:outputText value="#{membros.conselheiroResponsavel.nome}" />
-	    		</p:column>	    
+	    		</p:column>	
+	    		
+	    		<p:column headerText="Responsavel Legal" style="width: 40px; text-align: center">  
+	    		  	<h:outputText value="#{membros.responsavel.nome}" />
+	    		</p:column>
 	    		
 	    		<p:column exportable="false" id="coluna_Op" 
 	    			headerText="Operações" style="width: 60px; text-align: center">	    					    		
@@ -146,6 +150,17 @@
 						<f:setPropertyActionListener target="#{registrarDenunciaBean.rdComposicaoBean.pessoa}" 
 						value="#{membros}" />
 					</p:commandButton>
+					
+					<p:spacer width="2px" /> 
+	            	<p:commandButton id="bt_8" icon="pi pi-user" title="Adicionar Responsável"	
+		    			rendered="#{membros.codigo eq registrarDenunciaBean.rdComposicaoBean.pessoa.codigo
+		    			and (membros.parentesco eq 'FILHO' or membros.parentesco eq 'ENTEADO')}"
+		    			actionListener="#{registrarDenunciaBean.rdComposicaoBean.membrosResponsaveis}"
+		    			oncomplete="PF('responsavelDialogWidgetVar').show()"
+						update=":frmCadDenuncia:tab1:responsavelDialog" 
+		            	process="@this">
+		            	<p:resetInput target=":frmCadDenuncia:tab1:responsavelDialog" />   			            	
+					</p:commandButton>
 	            		            	
 	            	<p:spacer width="2px" /> 
 	            	<p:commandButton id="bt_4" title="Evolução" icon="pi pi-history"
@@ -172,8 +187,44 @@
 	    		</p:column>
 	 	    		
 		   	</p:dataTable>
-		   	
-		   	<p:confirmDialog id="confirmaTrocaDialog" 
+
+			<p:dialog id="responsavelDialog" header="Adicionar Responsavel"
+				widgetVar="responsavelDialogWidgetVar" modal="true" resizable="true"
+				closeOnEscape="true" showEffect="explode" hideEffect="explode"
+				style="max-height:600px;overflow:scroll" position="center top">
+		
+				<p:panelGrid id="respgrid" columns="2" style="width: 100%"
+					columnClasses="rotulo, campo"
+					rendered="#{registrarDenunciaBean.rdComposicaoBean.pessoa ne null}">
+		
+					<p:outputLabel value="Crianca Selecionada: " />
+					<h:outputLabel
+						value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.nome}"
+						style="font-weight:bold" />
+		
+					<p:outputLabel value="Responsável da Criança: "
+						for="responsavelCrianca" />
+					<p:selectOneMenu id="responsavelCrianca"
+						value="#{registrarDenunciaBean.rdComposicaoBean.pessoa.responsavel}"
+						required="true" validatorMessage="O Responsável é Obrigatório">
+						<f:selectItem itemLabel="Selecione o responsável da criança:" />
+						<f:selectItems
+							value="#{registrarDenunciaBean.rdComposicaoBean.responsaveis}"
+							var="resp" itemLabel="#{resp.nome}" itemValue="#{resp}" />
+						</p:selectOneMenu>
+					<p:outputLabel/>
+					
+					<p:commandButton icon="pi pi-save" id="salvarResponsavelButton"
+						value="Salvar"
+						actionListener="#{registrarDenunciaBean.rdComposicaoBean.salvarMembro}"
+						update="pessoaPanelGrid membrosDataTable pessoaMessages pessoaGrowl"
+						oncomplete="if (!args.validationFailed) PF('responsavelDialogWidgetVar').hide()"
+						process="responsavelDialog" />
+				</p:panelGrid>
+		
+			</p:dialog>
+
+	<p:confirmDialog id="confirmaTrocaDialog" 
 	   			widgetVar="confirmaTroca"
         		message="Confirma troca de Pessoa Responsável Será necessário ALTERAR o parentesco."  
                 header="Alteração de Pessoa de Referência" severity="alert"

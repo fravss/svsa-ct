@@ -95,12 +95,16 @@ public class DenunciaPDFService implements Serializable {
 		document.add(line1);
 
 		Paragraph line2 = new Paragraph("Nome do Responsável: " + denuncia.getFamilia().getPessoaReferencia().getNome()
-				+ "\nEndereço: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getEndereco()
-				+ "\nBairro: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getBairro()
-				+ "																		" + "Cidade: "
-				+ denuncia.getFamilia().getPessoaReferencia().getEndereco().getMunicipio() + "\nTelefone: "
-				+ denuncia.getFamilia().getPessoaReferencia().getTelefone());
-
+				+ "\n Conselheiro de Referência da Denuncia: " + denuncia.getConselheiroReferencia().getNome() 
+				+ "\n Endereço: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getEndereco() 
+				+ " Nº: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getNumero()
+				+ "\n Bairro: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getBairro()
+				+ "\n Complemento: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getComplemento()
+				+ "\n Referencia: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getReferencia()
+				+ "\n CEP: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getCep() 		
+				+ "\n Cidade: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getMunicipio() 
+				+ " UF: " + denuncia.getFamilia().getPessoaReferencia().getEndereco().getUf()
+				+ "\n Telefone: " + denuncia.getFamilia().getPessoaReferencia().getTelefone());	
 		line2.setFontSize(12);
 		line2.setFont(font);
 		line2.setTextAlignment(align);
@@ -134,14 +138,21 @@ public class DenunciaPDFService implements Serializable {
 				// Emissão Normal
 				Paragraph line4 = new Paragraph("Nome: " + p.getNome() + "\n" + "Data de Nascimento: "
 						+ DateUtils.parseDateToString(p.getDataNascimento()) + "\n Parentesco:" + p.getParentesco()
-						+ "\n" + "Telefone de contato: " + p.getTelefone());
+						+ "\n Telefone de contato: " + p.getTelefone() 
+						+ "\n Endereço: " + p.getEndereco().getEndereco() + " Nº: " + p.getEndereco().getNumero()
+						+ "\n Bairro: " + p.getEndereco().getBairro()
+						+ "\n Complemento: " + p.getEndereco().getComplemento()
+						+ "\n Referencia: " + p.getEndereco().getReferencia()
+						+ "\n CEP: " + p.getEndereco().getCep()
+						+ "\n Cidade: " + p.getEndereco().getMunicipio() + " UF: " + p.getEndereco().getUf());
 				line4.setFontSize(12);
 				line4.setFont(font);
 				line4.setTextAlignment(align);
 				document.add(line4);
 
-				// Condicional para não emitir o campo escola, série e periodo caso o valor de escola seja nulo.
-				// 
+				// Condicional para não emitir o campo escola, série e periodo caso o valor de
+				// escola seja nulo.
+				//
 				if (p.getEscola() != null) {
 					Paragraph line5 = new Paragraph(
 							"Escola: " + p.getEscola() + "\nSérie: " + p.getSerie() + "\nPeriodo: " + p.getPeriodo());
@@ -157,21 +168,44 @@ public class DenunciaPDFService implements Serializable {
 					line5.setTextAlignment(align);
 					document.add(line5);
 				}
-				// Linha que separa as pessoas
-				Paragraph line6 = new Paragraph("____________________________________________________________");
-				line6.setFontSize(14);
+
+				Paragraph line6 = new Paragraph(
+						"Conselheiro de Responsável da Pessoa: " + p.getConselheiroResponsavel().getNome());
+				line6.setFontSize(12);
 				line6.setFont(font);
 				line6.setTextAlignment(align);
 				document.add(line6);
+				
+			
+				if (p.getResponsavel() != null) {
+					Paragraph line9 = new Paragraph("Responsavel Legal da Criança: " + p.getResponsavel().getNome());
+					line9.setFontSize(12);
+					line9.setFont(font);
+					line9.setTextAlignment(align);
+					document.add(line9);
+				} else {
+					Paragraph line9 = new Paragraph();
+					line9.setFontSize(12);
+					line9.setFont(font);
+					line9.setTextAlignment(align);
+					document.add(line9);
+				}
+				// Linha que separa as pessoas
+				Paragraph line7 = new Paragraph("____________________________________________________________");
+				line7.setFontSize(14);
+				line7.setFont(font);
+				line7.setTextAlignment(align);
+				document.add(line7);
+
 			}
 
 		}
 		// Campo de relato da denuncia
-		Paragraph line7 = new Paragraph("Relato da Denuncia: " + denuncia.getRelato());
-		line7.setFontSize(12);
-		line7.setFont(font);
-		line7.setTextAlignment(align);
-		document.add(line7);
+		Paragraph line8 = new Paragraph("Relato da Denuncia: " + denuncia.getRelato());
+		line8.setFontSize(12);
+		line8.setFont(font);
+		line8.setTextAlignment(align);
+		document.add(line8);
 
 		document.close();
 	}
