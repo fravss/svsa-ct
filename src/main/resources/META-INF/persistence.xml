@@ -10,10 +10,10 @@
 		
 		<!-- ################ PRODUÇÃO  ###################-->
 							
-			<!-- SALTO svsa-ct 	
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://database-1.csmrh3howepe.us-east-1.rds.amazonaws.com/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
-			<property name="javax.persistence.jdbc.user" value="svsact"/>
-			<property name="javax.persistence.jdbc.password" value="Svsact;.22**"/>
+			<!-- SALTO GODADDY PRODUÇÃO 
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/svsact?autoReconnect=true&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="svsaapp"/>
+			<property name="javax.persistence.jdbc.password" value="aa18dd884C61_4244a487fc7D7ab012a"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		
 			-->
 		
