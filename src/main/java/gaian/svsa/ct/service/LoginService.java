@@ -52,15 +52,15 @@ public class LoginService implements Serializable {
 		 * Lê o Menu.xml
 		 */
 		NodeList subMenus = doc.getElementsByTagName("submenu");
-
+		log.info("submenus..." + subMenus);
 		/*
 		 * lê todos os subMenus e lê todos os menuItem de cada subMenu e monta o subMenu
 		 */
 		for (int i = 0; i < subMenus.getLength(); i++) {
-
+			log.info("ITERAÇÃO: " +i);
 			// pega um subMenu
 			Element subMenu = (Element) subMenus.item(i);
-
+			log.info("submenu é..." + subMenu);
 			// se o usuario tem permissão para acessar esse subMenu entra
 			if (temPermissao(user.getGrupo(), subMenu)) {
 				
@@ -223,9 +223,10 @@ public class LoginService implements Serializable {
 	private static boolean temPermissao(Grupo grupo, Element elemento) {
 		NodeList filhos = elemento.getElementsByTagName("grupo");
 		boolean temPermissao = false;
-
+		log.info("EM temPermissao: grupo " + grupo + "  elemento " + elemento);
 		for (int j = 0; j < filhos.getLength(); j++) {
 			Element grupoSubmenu = (Element) filhos.item(j);
+			log.info("Element grupoSubmenu = (Element) filhos.item(j); " + grupoSubmenu);
 
 			if (grupoSubmenu.getAttribute("value").equals(grupo.name())
 					// || (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS") &&

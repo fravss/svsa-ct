@@ -9,7 +9,12 @@
 	<ui:define name="titulo">Conselho Tutelar</ui:define>
 	
 	<ui:define name="corpo">
-	
+	 <h:form>
+            <p:commandButton value="Gerir Técnicos" 
+                             action="#{gerirTecnicosBean.navegarParaFuncionalidade}"
+                             icon="ui-icon-search" 
+                             ajax="false" />
+        </h:form>
 	
 	</ui:define>
 
