@@ -98,7 +98,7 @@ public class LoginBean implements Serializable {
 	
 	private Usuario isValidUser() throws NegocioException {
 
-		usuario = usuarioService.buscarPeloEmail(email);		
+		usuario = usuarioService.buscarPeloEmail(email);	
 		
 		if(usuario != null) {			
 
@@ -106,7 +106,7 @@ public class LoginBean implements Serializable {
 				throw new NegocioException("Usuario INATIVO!");
 			}
 			else {			
-				String pwDigitada = senha;					
+				String pwDigitada = senha;
 				String pwRecuperada = usuario.getSenha();
 				
 				if(!BCrypt.checkpw(pwDigitada, pwRecuperada)) {	

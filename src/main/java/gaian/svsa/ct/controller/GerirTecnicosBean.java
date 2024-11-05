@@ -7,24 +7,24 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.application.NavigationHandler;
-import org.apache.commons.codec.digest.DigestUtils;
-import lombok.Getter;
+//import javax.faces.application.NavigationHandler;
+//import org.apache.commons.codec.digest.DigestUtils;
+//import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
+//import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+//import com.auth0.jwt.JWT;
+//import com.auth0.jwt.algorithms.Algorithm;
 
 @Log4j
 @Named

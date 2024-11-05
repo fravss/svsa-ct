@@ -8,10 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
+//import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
-import gaian.svsa.ct.service.s3.AmazonS3Keys;
+//import gaian.svsa.ct.service.s3.AmazonS3Keys;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,8 +44,5 @@ public class Tenant implements Serializable {
 	
 	private String s3Key = null;
 	
-	@Transient
-	public String getUrlAnexo() {
-		return AmazonS3Keys.URL_S3_BUCKET + getS3Key();
-	}
+	
 }
