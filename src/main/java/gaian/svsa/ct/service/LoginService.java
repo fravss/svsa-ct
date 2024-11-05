@@ -94,8 +94,17 @@ public class LoginService implements Serializable {
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Senha", "#{loginBean.trocarSenha}");
 
 		modelo.getElements().add(subMenuNome);
-
+		
+		
 		DefaultMenuItem item = new DefaultMenuItem();
+		
+		item = new DefaultMenuItem();
+		item.setCommand("#{gerirTecnicosBean.navegarParaFuncionalidade}");
+		item.setValue("Gerir Técnicos");
+		item.setIcon("pi pi-search");
+		modelo.getElements().add(item);
+
+		item = new DefaultMenuItem();
 		item.setCommand("#{loginBean.sair}");
 		item.setValue("Sair");
 		item.setIcon("pi pi-fw pi-power-off");
@@ -155,8 +164,16 @@ public class LoginService implements Serializable {
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Senha", "#{loginBean.trocarSenha}");
 
 		modelo.getElements().add(subMenuNome);
-
+		
 		DefaultMenuItem item = new DefaultMenuItem();
+		
+		item = new DefaultMenuItem();
+		item.setCommand("#{gerirTecnicosBean.navegarParaFuncionalidade}");
+		item.setValue("Gerir Técnicos");
+		item.setIcon("pi pi-search");
+		modelo.getElements().add(item);
+
+		item = new DefaultMenuItem();
 		item.setCommand("#{loginBean.sair}");
 		item.setValue("Sair");
 		item.setIcon("pi pi-fw pi-power-off");
