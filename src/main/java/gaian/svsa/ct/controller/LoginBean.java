@@ -97,7 +97,7 @@ public class LoginBean implements Serializable {
 	}
 	
 	private Usuario isValidUser() throws NegocioException {
-		
+
 		usuario = usuarioService.buscarPeloEmail(email);		
 		
 		if(usuario != null) {			
@@ -109,7 +109,9 @@ public class LoginBean implements Serializable {
 				String pwDigitada = senha;					
 				String pwRecuperada = usuario.getSenha();
 				
-				if(!BCrypt.checkpw(pwDigitada, pwRecuperada)) {						
+				if(!BCrypt.checkpw(pwDigitada, pwRecuperada)) {	
+					log.info(pwDigitada + ' ' + pwRecuperada);
+					log.info(BCrypt.hashpw(senha, BCrypt.gensalt()));
 					throw new NegocioException("Senha inválida!");
 				}
 				
@@ -137,6 +139,7 @@ public class LoginBean implements Serializable {
 			HttpSession session = getSession(); // creates new empty session
 			
 			usuario = (Usuario)session.getAttribute("usuario");
+			log.info("oq é session? " + usuario);
 			
 			// se usuario não está na sessao = não está logado
 			if(usuario == null) {
@@ -222,12 +225,12 @@ public class LoginBean implements Serializable {
 					log.info("USUARIO: " + getUsuario().getNome());
 					
 					if(usuario.getGrupo() == Grupo.GESTORES) {
-						modeloMenu = loginService.montarMenuGestor(getUsuario());
+						 modeloMenu = loginService.montarMenuGestor(getUsuario());
 					}
 					else {
-						modeloMenu = loginService.montarMenu(getUsuario());
+						 modeloMenu = loginService.montarMenu(getUsuario());
 					}
-					modeloMenu = loginService.montarMenu(getUsuario());
+					 modeloMenu = loginService.montarMenu(getUsuario());
 				} catch (Exception e) {					
 					e.printStackTrace();
 				}
