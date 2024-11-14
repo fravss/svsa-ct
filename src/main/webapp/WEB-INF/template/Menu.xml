@@ -79,4 +79,5 @@
 		<menuitem value="Alterar Unidade" outcome="/restricted/unidade/AlterarUnidade.xhtml"></menuitem>
 		<menuitem value="Cadastro de Usuarios" outcome="/restricted/usuario/PesquisaUsuario.xhtml"></menuitem>
 	</submenu>
+	
 </menu>

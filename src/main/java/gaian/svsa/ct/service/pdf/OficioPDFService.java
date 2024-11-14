@@ -93,11 +93,11 @@ public class OficioPDFService implements Serializable {
 		/* 
 	     * Header 
 	     */
-		image(document, oficioEmitido.getConselheiro().getUnidade().getEndereco().getMunicipio(), s3Key);
+	    image(document, oficioEmitido.getConselheiro().getUnidade().getEndereco().getMunicipio(), s3Key);
 		headerOficio(document, oficioEmitido.getConselheiro().getUnidade().getNome(), oficioEmitido, secretaria);
 		//header(document, "Sistema Único de Assistência Social - SUAS");
 	
-		
+
 		// Body
 		Paragraph line = new Paragraph("\nOfício N° " + oficioEmitido.getNrOficioEmitido() + " - " + 
 				oficioEmitido.getConselheiro().getUnidade().getNome() + "\n " + 
@@ -146,10 +146,12 @@ public class OficioPDFService implements Serializable {
 			
 		//log.info("image.....");
 		try {
+			System.out.println("CHEGOIUUUUU");
 			//String imageFile = FacesContext.getCurrentInstance().getExternalContext().getRealPath(AppImages.PREF_SALTO);
 			log.info("image....." + s3Key);
-			URL url = new URL(s3Key);
-			ImageData data = ImageDataFactory.create(url);
+			//URL url = new URL("/imagens/prefeitura_salto_logo.png");
+			 ImageData data = ImageDataFactory.create("/resources/imagens/prefeitura_salto_logo.png");
+			 
 			// Creating an Image object 
 			Image img = new Image(data);
 			document.add(img);	

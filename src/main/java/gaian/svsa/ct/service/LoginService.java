@@ -82,7 +82,13 @@ public class LoginService implements Serializable {
 			}
 
 		}
-
+		
+		DefaultMenuItem gerirTecnicos = new DefaultMenuItem();
+		gerirTecnicos.setCommand("#{gerirTecnicosBean.navegarParaFuncionalidade}");
+		gerirTecnicos.setValue("Gerir Técnicos");
+		gerirTecnicos.setIcon("ui-icon-search");
+		modelo.getElements().add(gerirTecnicos);
+		
 		/*
 		 * Monta Menu do usuario
 		 */
