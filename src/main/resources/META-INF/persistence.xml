@@ -16,13 +16,13 @@
 			<property name="javax.persistence.jdbc.password" value="aa18dd884C61_4244a487fc7D7ab012a"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		
 			-->
-		
+		 
 			<!-- ################ DESENVOLVIMENTO  ################### -->
 							
 			<!-- SALTO svsa-ct 	-->
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="anaflavia01"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://svsa-db.cclxx7zo89ja.us-east-1.rds.amazonaws.com:3306/svsact?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="admin"/>
+			<property name="javax.persistence.jdbc.password" value="SenhaProjeto"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			
 			
