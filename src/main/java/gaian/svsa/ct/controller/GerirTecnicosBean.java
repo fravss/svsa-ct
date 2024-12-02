@@ -63,7 +63,7 @@ public class GerirTecnicosBean {
             HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
             response.addCookie(sessionCookie);
 
-            externalContext.redirect("http://localhost:8080/teste");
+            externalContext.redirect("http://44.200.193.155:8080/teste");
  
             FacesContext.getCurrentInstance().responseComplete();
 
