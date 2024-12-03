@@ -68,6 +68,7 @@ public class GerirTecnicosBean {
 			                 context.getExternalContext().getRequestServerName() + ":" +
 			                 context.getExternalContext().getRequestServerPort();
 			String redirectUrl = baseUrl + "/svsa-ep";
+			
 			context.getExternalContext().redirect(redirectUrl);
 
             FacesContext.getCurrentInstance().responseComplete();
