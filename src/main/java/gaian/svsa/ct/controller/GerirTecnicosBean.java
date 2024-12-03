@@ -63,7 +63,12 @@ public class GerirTecnicosBean {
             HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
             response.addCookie(sessionCookie);
 
-            externalContext.redirect("http://localhost:8080/teste");
+            FacesContext context = FacesContext.getCurrentInstance();
+			String baseUrl = context.getExternalContext().getRequestScheme() + "://" +
+			                 context.getExternalContext().getRequestServerName() + ":" +
+			                 context.getExternalContext().getRequestServerPort();
+			String redirectUrl = baseUrl + "/svsa-ep";
+			context.getExternalContext().redirect(redirectUrl);
  
             FacesContext.getCurrentInstance().responseComplete();
 
